@@ -41,8 +41,6 @@ function parsetable(){
     columns.each(function(){
       var thecolumn=$(this);
       
-      tablearray[index][ci]=thecolumn;
-      
       var colspan=1;
       if(thecolumn.attr("colspan")){colspan=parseInt(thecolumn.attr("colspan"),10);}
       
@@ -53,18 +51,27 @@ function parsetable(){
       while(cspi<colspan){
 	var rspi=0;
 	while(rspi<rowspan){
-	  tablearray[index+rspi][ci+cspi]="none"
+	  if(cspi==0 && rspi==0){}else{
+	  if(tablearray[index+rspi][ci+cspi]==""){
+	    tablearray[index+rspi][ci+cspi]="none"
+	  }else{
+	    console.log("warning, table array on rspi/cspi"+(index+rspi).toString()+"/"+(cs+cspi).toString()+" is not empty->"+tablearray[index+rspi][ci+cspi])
+	  }
+	  }
 	  rspi=rspi+1;
 	}
 	cspi=cspi+1;
       }
-      
+      if(thecolumn.children().length==0 && thecolumn.text()==""){
+      tablearray[index][ci]="none";
+      }else{
       tablearray[index][ci]=thecolumn;
+      }
       
       ci=ci+colspan;
       
       var nextci=ci+1;
-      while(nextci<columnlength && tablearray[index][nextci]=="none"){
+      while(nextci<columnlength && tablearray[index][ci]=="none"){
 	ci=nextci;
 	nextci=ci+1;
       }
@@ -118,7 +125,7 @@ function parsetable(){
 	coursearray.push(currentcourse);
       }
       currentcourse=
-      {name:tablearray[i][2].text(),
+      {code:tablearray[i][2].text(),
 	section:tablearray[i][9].text(),
 	title:tablearray[i][17].text(),
 	credithour:tablearray[i][26].text(),
@@ -129,10 +136,25 @@ function parsetable(){
     if(tablearray[i][28]!="none"){
       var starttime=parseInt(tablearray[i][34].text(),10);
       var endtime=parseInt(/^[^\d]*(\d+)[^\d]*$/.exec(tablearray[i][36].text())[1],10);
+      
+      if(starttime<8){
+	starttime=starttime+12;
+      }
+      
+      if(endtime<8){
+	endtime=endtime+12;
+      }
+      
+      /*
       if(tablearray[i][41].text()=="PM"){
 	starttime=starttime+12;
 	endtime=endtime+12;
       }
+      if(tablearray[i][41].text()=="AM"){
+	if(endtime<8){
+	  endtime=endtime+12;
+	}
+      }*/
       
       var venue=tablearray[i][46].text();
       
@@ -153,34 +175,12 @@ function parsetable(){
   
   //format data
   
-  var byday={
-    MON:makearray(10),
-    TUE:makearray(10),
-    WED:makearray(10),
-    THUR:makearray(10),
-    FRI:makearray(10),
-  }
+  var data=JSON.stringify({studentname:studentname,coursearray:coursearray});
   
-  for(course in coursearray){
-    for(schedule in course.schedule){
-      var start=schedule.starttime;
-      var end=schedule.endtime;
-      while(start<end){
-	byday[schedule.day][start-8]=course;
-	start=start+1;
-      }
-    }
-  }
-  
-  $.get("http://howtomakeafacebookapp.appspot.com/statuc/scheduleformatterpage.html",function(text){
-    var newwin=window.open();
-    var thehtml=text+
-    "<script>"+
-    "var coursearray="+JSON.stringify(coursearray)+";"+
-    "var byday="+JSON.stringify(byday)+";"+
-    "schedulepagehandler();"+
-    "</script>";
-    $(newwin).html(thehtml);
+  $.post("http://iiumschedule.appspot.com/scheduleformatter/",{data:data},function(response){
+     var thetoken=response;
+     var newwindow=window.open("http://iiumschedule.appspot.com/scheduleformatter/?token="+thetoken,"Scheduler",'width=400,height=200,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes');
   })
+  
   
 }

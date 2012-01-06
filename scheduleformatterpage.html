@@ -1,8 +1,157 @@
 <title>Basic AJAX page</title>
-<script>
-  function schedulepagehandler(){
-    alert("you have called the handler");
-    alert("coursearray->"+JSON.stringify(coursearray));
-    alert("byday->"+JSON.stringify(byday));
+<head>
+<style>
+  table{
+    border-collapse:collapse;
+    border:2px solid black;
   }
+  tr th{
+    border-bottom:2px solid black;
+  }
+  tr td{
+    border-bottom:1px solid black;
+  }
+</style>
+</head>
+<body>
+</body>
+<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js' ></script>
+
+<script type='text/javascript' src='http://iiumschedule.appspot.com/static/ejs_production.js' ></script>
+<script id="basicstyle" type="text/html">
+  <h2> <%= studentname %> SCHEDULE</h2>
+  <table>
+    <tr>
+      <th>Day</th>
+      <th>8 am</th>
+      <th>9 am</th>
+      <th>10 am</th>
+      <th>11 am</th>
+      <th>12 am</th>
+      <th>1 pm</th>
+      <th>2 pm</th>
+      <th>3 pm</th>
+      <th>4 pm</th>
+      <th>5 pm</th>
+    </tr>
+    <% for(key in schedule) {%>
+    <tr>
+      <td>
+	<%= key %>
+      </td>
+      <% for(var i=0;i<schedule[key].length;i=i+1){ %>
+      <td>
+	<% if(schedule[key][i].code){ %>
+	<%= schedule[key][i].code %>
+	<% }else{ %>
+	<%= schedule[key][i]%>
+	<% } %>
+      </td>
+      <% } %>
+    </tr>
+    <% } %>
+  </table>
+  <h3>Subject Name</h3>
+  <table>
+    <tr>
+      <th>Code</th>
+      <th>Section</th>
+      <th>Credit Hour</th>
+      <th>Name</th>
+    </tr>
+    <% for(var i=0;i<courselist.length;i=i+1){ %>
+      <tr>
+      <td>
+      <%= courselist[i].code %>
+      </td>
+      <td>
+      <%= courselist[i].section %>
+      </td>
+      <td>
+      <%= courselist[i].credithour %>
+      </td>
+      <td>
+      <%= courselist[i].title %>
+      </td>
+      </tr>
+    <% }%>
+  </table>
+</script>
+<script type='text/javascript'>
+  
+  
+  function makearray(length){
+    var thearray=new Array();
+    var i=0;
+    while(i<length){
+      thearray.push("");
+      i=i+1;
+    }
+    return thearray;
+  }
+  
+  function formatschedule(){
+    
+    var studentname=data.studentname;
+    var coursearray=data.coursearray;
+    
+    var byday={
+      MON:makearray(10),
+      TUE:makearray(10),
+      WED:makearray(10),
+      THUR:makearray(10),
+      FRI:makearray(10),
+    }
+    
+    var ci=0;
+    while(ci<coursearray.length){
+      var course=coursearray[ci];
+      var si=0;
+      while(si<course.schedule.length){
+	var schedule=course.schedule[si];
+	var start=schedule.start;
+	var end=schedule.end;
+	while(start<end){
+	  byday[schedule.day][start-8]=course;
+	  start=start+1;
+	}
+	si=si+1;
+      }
+      
+      ci=ci+1;
+    }
+    
+    function getScheduleText(course){
+	if(course==""){
+	  return {text:""};
+	}else{
+	  return {text:course.name};
+	}
+    }
+    
+    function formatschedule(){
+      var thereturn=new Array();
+      for(key in byday){
+	thereturn.push(
+	{
+	  day:key,
+	  ischedule:getScheduleText(byday[key]),
+	}
+	);
+      }
+      return thereturn;
+    }
+    
+    var thedata={
+      studentname:studentname,
+      schedule:byday,
+      courselist:coursearray,
+    }
+    
+    var thetext=(new EJS({text:$("#basicstyle").html()})).render(thedata);
+    
+    $('body').html(thetext);
+    
+  }
+  
 </script>
