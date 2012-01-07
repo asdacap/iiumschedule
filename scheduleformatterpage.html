@@ -8,6 +8,8 @@
 /* "#scheduletable .firstcolumn"="First Column" */
 /* "#scheduletable tr th"="Table Header" */
 /* "#scheduletable tr td.nonempty"="Non empty Table Cell" */
+/* "#scheduletable tr td.nonempty .code"="Code" */
+/* "#scheduletable tr td.nonempty .venue"="Venue" */
 /* "#scheduletable tr td.empty"="Empty Table Cell" */
 /* "#scheduletable tr td"="Table Data" */
 
@@ -134,6 +136,11 @@
 <script type='text/javascript'>
   
   function saveStyle(thestyle){
+    var theiframe=$('#previewiframe');
+    var newwindow=window.open('/static/dummy.html',"IIUM Schedule",'toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes');
+    theiframe.contents().find("#thestyle").html(thestyle);
+    newwindow.document.write(theiframe.contents().find('html').html());
+    newwindow.document.close();
   }
   
   function makearray(length){
