@@ -1,0 +1,5 @@
+cron:
+
+- description: delete old stored schedule
+  url: /cleanschedule
+  schedule: every 12 hour

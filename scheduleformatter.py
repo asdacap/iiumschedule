@@ -5,7 +5,7 @@ from google.appengine.ext.webapp import template
 from google.appengine.ext import db
 import hashlib
 import os
-from datetime import datetime
+from datetime import datetime,timedelta
 
 class SavedSchedule(db.Model):
     data=db.TextProperty()
@@ -30,5 +30,13 @@ class MainHandler(webapp.RequestHandler):
 	    self.response.headers.add_header("Access-Control-Allow-Origin","http://my.iium.edu.my")
 	    self.response.out.write(token)
 		
-application = webapp.WSGIApplication([('/scheduleformatter/', MainHandler)],
+class CleanSchedule(webapp.RequestHandler):
+	def get(self):
+	    nowtime=datetime.now()
+	    nowtime=nowtime-timedelta(hours=12)
+	    thelist=SavedSchedule.all().filter("createddate <",nowtime)
+	    db.delete(thelist)
+		
+application = webapp.WSGIApplication([('/scheduleformatter/', MainHandler),
+				      ('/cleanschedule',CleanSchedule),],
 				      debug=True)

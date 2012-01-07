@@ -8,10 +8,11 @@ handlers:
 
 - url: /static
   static_dir: static
-
-- url: /
-  script: main.application
+  
+- url: /cleanschedule
+  script: scheduleformatter.application
   secure: optional
+  login: admin
   
 - url: /scheduleformatter/
   script: scheduleformatter.application
