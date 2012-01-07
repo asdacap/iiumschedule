@@ -1,6 +1,21 @@
 <title>Basic AJAX page</title>
 <head>
-<style>
+<script id='defaultstyle' type='text/css'>
+/* "body"="Body" */
+/* "#title"="Title" */
+/* "#scheduletable"="Schedule Table" */
+/* "#scheduletable .timecell"="Time table header" */
+/* "#scheduletable .firstcolumn"="First Column" */
+/* "#scheduletable tr th"="Table Header" */
+/* "#scheduletable tr td.nonempty"="Non empty Table Cell" */
+/* "#scheduletable tr td.empty"="Empty Table Cell" */
+/* "#scheduletable tr td"="Table Data" */
+
+
+  .preview_container{
+	outline:black dotted 1px;
+  }
+
   table{
     border-collapse:collapse;
     border:2px solid black;
@@ -11,42 +26,80 @@
   tr td{
     border-bottom:1px solid black;
   }
+</script>
+<style>
+  
+  #previewiframe,#topdiv,#configiframe{
+    width:100%;
+  }
+  
+  #topdiv{
+    height:100px;
+  }
+  
+  #configiframe{
+    height:300px;
+  }
+  
+  #previewiframe{
+    height:100%;
+  }
 </style>
 </head>
 <body>
+<div id="topdiv">
+  <h1>Your Schedule is Ready!</h1>
+  <p>Now, it's a matter of which style you rather like.</p>
+</div>
+<iframe id='configiframe' src="/static/styler.html">
+</iframe>
+<iframe id='previewiframe' src="/static/dummy.html">
+</iframe>
 </body>
 <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js' ></script>
 
-<script type='text/javascript' src='http://iiumschedule.appspot.com/static/ejs_production.js' ></script>
+<script type='text/javascript' src='/static/ejs_production.js' ></script>
 <script id="basicstyle" type="text/html">
-  <h2> <%= studentname %> SCHEDULE</h2>
-  <table>
+  <head>
+  <style id='thestyle'></style>
+  </head>
+  <body>
+  <h2 id="title"> <%= studentname %> SCHEDULE</h2>
+  <table id='scheduletable'>
     <tr>
-      <th>Day</th>
-      <th>8 am</th>
-      <th>9 am</th>
-      <th>10 am</th>
-      <th>11 am</th>
-      <th>12 am</th>
-      <th>1 pm</th>
-      <th>2 pm</th>
-      <th>3 pm</th>
-      <th>4 pm</th>
-      <th>5 pm</th>
+      <th class='day firstcolumn'>Day</th>
+      <th class='timecell'>8 am</th>
+      <th class='timecell'>9 am</th>
+      <th class='timecell'>10 am</th>
+      <th class='timecell'>11 am</th>
+      <th class='timecell'>12 am</th>
+      <th class='timecell'>1 pm</th>
+      <th class='timecell'>2 pm</th>
+      <th class='timecell'>3 pm</th>
+      <th class='timecell'>4 pm</th>
+      <th class='timecell'>5 pm</th>
     </tr>
     <% for(key in schedule) {%>
     <tr>
-      <td>
+      <td class='day firstcolumn'>
 	<%= key %>
       </td>
       <% for(var i=0;i<schedule[key].length;i=i+1){ %>
-      <td>
-	<% if(schedule[key][i].code){ %>
-	<%= schedule[key][i].code %>
+	<% if(schedule[key][i].course){ %>
+	  <td class='nonempty' colspan='<%= schedule[key][i].duration %>'>
+	      <div class='code'>
+	      <%= schedule[key][i].course.code %>
+	      </div>
+	      <div class='venue'>
+	      <%= schedule[key][i].venue %>
+	      </div>
+	  </td>
+	<% }else if(schedule[key][i]=="none"){ %>
 	<% }else{ %>
-	<%= schedule[key][i]%>
+	  <td class='empty'>
+	      <%= schedule[key][i]%>
+	  </td>
 	<% } %>
-      </td>
       <% } %>
     </tr>
     <% } %>
@@ -76,9 +129,12 @@
       </tr>
     <% }%>
   </table>
+  </body>
 </script>
 <script type='text/javascript'>
   
+  function saveStyle(thestyle){
+  }
   
   function makearray(length){
     var thearray=new Array();
@@ -111,9 +167,16 @@
 	var schedule=course.schedule[si];
 	var start=schedule.start;
 	var end=schedule.end;
-	while(start<end){
-	  byday[schedule.day][start-8]=course;
-	  start=start+1;
+	var duration=end-start;
+	byday[schedule.day][start-8]={
+	  course:course,
+	  duration:duration,
+	  venue:course.schedule[si].venue,
+	  }
+	var i=1;
+	while(i<duration){
+	  byday[schedule.day][start-8+i]="none";
+	  i=i+1;
 	}
 	si=si+1;
       }
@@ -150,8 +213,14 @@
     
     var thetext=(new EJS({text:$("#basicstyle").html()})).render(thedata);
     
-    $('body').html(thetext);
+    var theiframe=$('#previewiframe')
     
+    theiframe.contents().find('html').html(thetext);
+    theiframe.contents().find("#thestyle").html($("#defaultstyle").html())
+    
+    $('#configiframe').load(function(){
+      document.getElementById('configiframe').contentWindow.parseCSS($("#defaultstyle").html(),theiframe);
+    });
   }
   
 </script>
