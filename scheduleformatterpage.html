@@ -78,6 +78,7 @@
     <li><a >Choose a theme</a></li>
     <li><a href='javascript:stylercsspage();'>Change CSS using Styler</a></li>
     <li><a href='javascript:manualcsspage();' >Change CSS manually</a></li>
+    <li><a href='javascript:changetemplatepage();' >(Advance) Change Template</a></li>
   </ul>
 </div>
 </td></tr>
@@ -94,7 +95,7 @@
 <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js' ></script>
 
 <script type='text/javascript' src='/static/ejs_production.js' ></script>
-<script id="basicstyle" type="text/html">
+<script id="scheduletemplate" type="text/html">
   <head>
   <style id='thestyle'></style>
   </head>
@@ -170,6 +171,8 @@
 </script>
 <script type='text/javascript'>
   
+  var currenttemplate;
+  
   function postpage(){
   }
   
@@ -178,16 +181,31 @@
       return theiframe.contents().find("#thestyle").html();
   }
   
+  function getcurrenttemplate(){
+      return $("#scheduletemplate").html();
+  }
+  
   function rerender(style){
       if(style==undefined){
 	style=getcurrentstyle();
       }
-      var thetext=(new EJS({text:$("#basicstyle").html()})).render(thedata);
+      var thetext=(new EJS({text:currenttemplate})).render(thedata);
     
       var theiframe=$('#previewiframe')
       
       theiframe.contents().find('html').html(thetext);
       theiframe.contents().find("#thestyle").html(style);
+  }
+  
+  function changetemplatepage(){
+    postpage();
+    $('#configiframe').bind('load',function(){
+       document.getElementById('configiframe').contentWindow.changetemplate(getcurrenttemplate());
+       $('#configiframe').unbind("load");
+       postpage=function(){
+       }
+    });
+    $("#configiframe").attr("src","/static/templateeditor.html");
   }
   
   function manualcsspage(){
@@ -196,7 +214,6 @@
        document.getElementById('configiframe').contentWindow.changeStyle(getcurrentstyle());
        $('#configiframe').unbind("load");
        postpage=function(){
-	document.getElementById('configiframe').contentWindow.savestyle();
        }
     });
     $("#configiframe").attr("src","/static/csseditor.html");
@@ -216,6 +233,11 @@
   
   function applyStyle(thestyle){
     rerender(thestyle);
+  }
+  
+  function applyTemplate(template){
+    currenttemplate=template;
+    rerender();
   }
   
   function saveStyle(thestyle){
@@ -305,6 +327,8 @@
       schedule:byday,
       courselist:coursearray,
     }
+    
+    currenttemplate=$("#scheduletemplate").html();
     
     rerender($("#defaultstyle").html());
     
