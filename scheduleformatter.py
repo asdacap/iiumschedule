@@ -17,6 +17,16 @@ class SavedSchedule(db.Model):
 
 class MainHandler(webapp.RequestHandler):
 	def get(self):
+	    dtype=self.request.get("dtype","unformatted")
+	    if(dtype=="completeschedule"):
+	      token=self.request.get("token",None)
+	      if(not token):
+		return
+	      else:
+		theinstance=SavedSchedule.get_by_key_name(token)
+		data=theinstance.data
+	      self.response.write(data)
+	      return
 	    self.response.headers.add_header("Access-Control-Allow-Origin","http://my.iium.edu.my")
 	    path = os.path.join(os.path.dirname(__file__), 'scheduleformatterpage.html')
 	    text=open(path).read()

@@ -31,32 +31,65 @@
 </script>
 <style>
   
-  #previewiframe,#topdiv,#configiframe{
+  #previewiframe,#topdiv,#configiframe,#mainlayout{
     width:100%;
   }
   
-  #topdiv{
-    height:100px;
+  #mainlayout{
+    margin:0;
+    padding:0;
   }
   
-  #configiframe{
+  #mainlayout td,#mainlayout tr{
+    margin:0;
+    padding:0;
+  }
+  
+  #topdiv{
+    height:50px;
+  }
+  
+  #configiframe,#configiframecontainer{
     height:300px;
   }
   
-  #previewiframe{
+  #previewiframe,#previewiframecontainer{
     height:100%;
   }
+  
+  #tabmenulist{
+    list-style-type:none;
+    display:inline;
+  }
+  
+  #tabmenulist li{
+    float:left;
+    margin-left:2em;
+  }
+  
 </style>
 </head>
 <body>
-<div id="topdiv">
-  <h1>Your Schedule is Ready!</h1>
-  <p>Now, it's a matter of which style you rather like.</p>
+<table id='mainlayout' style='height:100%;'>
+<tr><td id='topdiv'>
+<div>
+  <h3>Modify your Schedule</h3>
+  <ul id='tabmenulist'>
+    <li><a >Choose a theme</a></li>
+    <li><a href='javascript:stylercsspage();'>Change CSS using Styler</a></li>
+    <li><a href='javascript:manualcsspage();' >Change CSS manually</a></li>
+  </ul>
 </div>
-<iframe id='configiframe' src="/static/styler.html">
+</td></tr>
+<tr><td id='configiframecontainer'>
+<iframe id='configiframe' src='about:blank'>
 </iframe>
+</td></tr>
+<tr><td id='previewiframecontainer'>
 <iframe id='previewiframe' src="/static/dummy.html">
 </iframe>
+</td></tr>
+</table>
 </body>
 <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js' ></script>
 
@@ -66,6 +99,7 @@
   <style id='thestyle'></style>
   </head>
   <body>
+  <div id='maindiv'>
   <h2 id="title"> <%= studentname %> SCHEDULE</h2>
   <table id='scheduletable'>
     <tr>
@@ -131,16 +165,70 @@
       </tr>
     <% }%>
   </table>
+  </div>
   </body>
 </script>
 <script type='text/javascript'>
   
+  function postpage(){
+  }
+  
+  function getcurrentstyle(){
+      var theiframe=$('#previewiframe');
+      return theiframe.contents().find("#thestyle").html();
+  }
+  
+  function rerender(style){
+      if(style==undefined){
+	style=getcurrentstyle();
+      }
+      var thetext=(new EJS({text:$("#basicstyle").html()})).render(thedata);
+    
+      var theiframe=$('#previewiframe')
+      
+      theiframe.contents().find('html').html(thetext);
+      theiframe.contents().find("#thestyle").html(style);
+  }
+  
+  function manualcsspage(){
+    postpage();
+    $('#configiframe').bind('load',function(){
+       document.getElementById('configiframe').contentWindow.changeStyle(getcurrentstyle());
+       $('#configiframe').unbind("load");
+       postpage=function(){
+	document.getElementById('configiframe').contentWindow.savestyle();
+       }
+    });
+    $("#configiframe").attr("src","/static/csseditor.html");
+  }
+  
+  function stylercsspage(){
+    postpage();
+    $('#configiframe').bind('load',function(){
+      document.getElementById('configiframe').contentWindow.parseCSS(getcurrentstyle(),$('#previewiframe'));
+      $('#configiframe').unbind("load");
+      postpage=function(){
+	document.getElementById('configiframe').contentWindow.savestyle();
+      }
+    });
+    $("#configiframe").attr("src","/static/styler.html");
+  }
+  
+  function applyStyle(thestyle){
+    rerender(thestyle);
+  }
+  
   function saveStyle(thestyle){
     var theiframe=$('#previewiframe');
-    var newwindow=window.open('/static/dummy.html',"IIUM Schedule",'toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes');
-    theiframe.contents().find("#thestyle").html(thestyle);
-    newwindow.document.write(theiframe.contents().find('html').html());
-    newwindow.document.close();
+    
+    var data=theiframe.contents().find('html').html();
+  
+    $.post("http://iiumschedule.appspot.com/scheduleformatter/",{data:data},function(response){
+      var thetoken=response;
+      window.location="http://iiumschedule.appspot.com/scheduleformatter/?token="+thetoken+"&dtype=completeschedule"
+
+    })
+    
   }
   
   function makearray(length){
@@ -212,22 +300,15 @@
       return thereturn;
     }
     
-    var thedata={
+    thedata={
       studentname:studentname,
       schedule:byday,
       courselist:coursearray,
     }
     
-    var thetext=(new EJS({text:$("#basicstyle").html()})).render(thedata);
+    rerender($("#defaultstyle").html());
     
-    var theiframe=$('#previewiframe')
-    
-    theiframe.contents().find('html').html(thetext);
-    theiframe.contents().find("#thestyle").html($("#defaultstyle").html())
-    
-    $('#configiframe').load(function(){
-      document.getElementById('configiframe').contentWindow.parseCSS($("#defaultstyle").html(),theiframe);
-    });
+    stylercsspage();
   }
   
 </script>
