@@ -61,6 +61,7 @@ class ThemeHandler(webapp.RequestHandler):
 	      template=self.request.get("template")
 	      newtheme=Theme(key_name=themename)
 	      newtheme.name=themename
+	      newtheme.submitter=submitter
 	      newtheme.email=email
 	      newtheme.style=style
 	      newtheme.template=template

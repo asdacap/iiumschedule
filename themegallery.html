@@ -1,11 +1,19 @@
 <head>
+  
   <style>
     .themediv{
       margin: 1ex 1ex;
       border: 1px solid black;
-      cursor: hand;
+      background-color:white;
+      width:20ex;
+      float:left;
+      padding: 1ex;
+    }
+    .themediv p{
+      margin:0;
     }
   </style>
+  <link type="text/css" href="/static/global.css" rel="stylesheet"/>
   <script type='text/javascript' src='/static/js/jquery-1.7.1.min.js' ></script>
   <script type='application/javascript'>
     function submit(){
@@ -22,25 +30,26 @@
 	parent.applyTemplate(data.template);
       });
     }
-    /*
+    
     $(".themediv").click(function(){
       var theid=$(this).attr("id");
       var themename=theid.substring(6);
       themeselected(themename);
     });
-    */
+    
   </script>
   
 </head>
 <body>
-  <h3>Choose a theme</h3>
+  <h2>Choose a theme</h2>
   <div>
   {% for theme in themes %}
     <div class='themediv' id="theme-{{theme.name}}">
-      <h4><a href='javascript:themeselected("{{theme.name}}")'>{{theme.name}}</a></h4>
+      <h3><a href='javascript:themeselected("{{theme.name}}")'>{{theme.name}}</a></h3>
       <p>by {{ theme.submitter }}</p>
     </div>
   {% endfor %}
   </div>
+  <div style='clear:both;' />
   <p>Please contribute to the community of IIUM by <a href="javascript:submit()">submitting</a> your own design</p>
 </body>

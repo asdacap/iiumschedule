@@ -1,4 +1,4 @@
-<title>Basic AJAX page</title>
+<title>Automatic IIUM Schedule Formatter!</title>
 <head>
 <script id='defaultstyle' type='text/css'>
 /* "body"="Body" */
@@ -29,6 +29,7 @@
     border-bottom:1px solid black;
   }
 </script>
+<link type="text/css" href="/static/global.css" rel="stylesheet"/>
 <style>
   
   #previewiframe,#topdiv,#configiframe,#mainlayout{
@@ -79,6 +80,7 @@
     <li><a href='javascript:stylercsspage();'>Change CSS using Styler</a></li>
     <li><a href='javascript:manualcsspage();' >Change CSS manually</a></li>
     <li><a href='javascript:changetemplatepage();' >(Advance) Change Template</a></li>
+    <li><a href='javascript:saveStyle();' >Save</a></li>
   </ul>
 </div>
 </td></tr>
@@ -182,6 +184,9 @@
   }
   
   function getcurrenttemplate(){
+      if(currenttemplate!=undefined){
+	return currenttemplate;
+      }
       return $("#scheduletemplate").html();
   }
   
@@ -250,14 +255,15 @@
     rerender();
   }
   
-  function saveStyle(thestyle){
+  function saveStyle(){
+    console.log("Saving Style");
     var theiframe=$('#previewiframe');
     
     var data=theiframe.contents().find('html').html();
   
-    $.post("http://iiumschedule.appspot.com/scheduleformatter/",{data:data},function(response){
+    $.post(window.location.origin+"/scheduleformatter/",{data:data},function(response){
       var thetoken=response;
-      window.location="http://iiumschedule.appspot.com/scheduleformatter/?token="+thetoken+"&dtype=completeschedule"
+      var newwindow=window.open("/scheduleformatter/?token="+thetoken+"&dtype=completeschedule","Submit Theme",'width=400,height=200,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes');
 
     })
     
@@ -342,7 +348,7 @@
     
     rerender($("#defaultstyle").html());
     
-    stylercsspage();
+    themegallery();
   }
   
 </script>
