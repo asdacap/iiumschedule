@@ -377,7 +377,6 @@ $.widget('styler.StylerSlider',{
 //css handling
 
     $('#control_pane').tabs();
-    var preview_item='#preview_item';
     var current_selected='';
     var currentselector='';
     var changelog={};
@@ -430,7 +429,6 @@ $.widget('styler.StylerSlider',{
     }
     
     function modifycss(css,csstring,noview){
-      $(preview_item).css(css,csstring);
       if(inactive && !noview){
 	 return;
       }
