@@ -1,5 +1,5 @@
 application: iiumschedule
-version: 2
+version: 3
 runtime: python27
 api_version: 1
 threadsafe: yes
@@ -8,6 +8,7 @@ handlers:
 
 - url: /static
   static_dir: static
+  secure: optional
   
 - url: /cleanschedule
   script: scheduleformatter.application
@@ -15,5 +16,9 @@ handlers:
   login: admin
   
 - url: /scheduleformatter/
+  script: scheduleformatter.application
+  secure: optional
+  
+- url: /themegallery
   script: scheduleformatter.application
   secure: optional

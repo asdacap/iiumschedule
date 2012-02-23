@@ -1,0 +1,46 @@
+<head>
+  <style>
+    .themediv{
+      margin: 1ex 1ex;
+      border: 1px solid black;
+      cursor: hand;
+    }
+  </style>
+  <script type='text/javascript' src='/static/js/jquery-1.7.1.min.js' ></script>
+  <script type='application/javascript'>
+    function submit(){
+     var newwindow=window.open("/static/submittheme.html","Submit Theme",'width=400,height=200,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes');
+     $(newwindow).load(function(){
+      newwindow.$("textarea").html(parent.getcurrentstyle());
+      newwindow.$("textarea[name=template]").text(parent.getcurrenttemplate());
+     });
+    }
+    
+    function themeselected(themename){
+      $.getJSON("/themegallery?name="+themename,function(data){
+	parent.applyStyle(data.style);
+	parent.applyTemplate(data.template);
+      });
+    }
+    /*
+    $(".themediv").click(function(){
+      var theid=$(this).attr("id");
+      var themename=theid.substring(6);
+      themeselected(themename);
+    });
+    */
+  </script>
+  
+</head>
+<body>
+  <h3>Choose a theme</h3>
+  <div>
+  {% for theme in themes %}
+    <div class='themediv' id="theme-{{theme.name}}">
+      <h4><a href='javascript:themeselected("{{theme.name}}")'>{{theme.name}}</a></h4>
+      <p>by {{ theme.submitter }}</p>
+    </div>
+  {% endfor %}
+  </div>
+  <p>Please contribute to the community of IIUM by <a href="javascript:submit()">submitting</a> your own design</p>
+</body>

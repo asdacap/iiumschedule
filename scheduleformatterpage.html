@@ -75,7 +75,7 @@
 <div>
   <h3>Modify your Schedule</h3>
   <ul id='tabmenulist'>
-    <li><a >Choose a theme</a></li>
+    <li><a href='javascript:themegallery();'>Choose a theme</a></li>
     <li><a href='javascript:stylercsspage();'>Change CSS using Styler</a></li>
     <li><a href='javascript:manualcsspage();' >Change CSS manually</a></li>
     <li><a href='javascript:changetemplatepage();' >(Advance) Change Template</a></li>
@@ -92,7 +92,7 @@
 </td></tr>
 </table>
 </body>
-<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js' ></script>
+<script type='text/javascript' src='/static/js/jquery-1.7.1.min.js' ></script>
 
 <script type='text/javascript' src='/static/ejs_production.js' ></script>
 <script id="scheduletemplate" type="text/html">
@@ -206,6 +206,16 @@
        }
     });
     $("#configiframe").attr("src","/static/templateeditor.html");
+  }
+  
+  function themegallery(){
+    postpage();
+    $('#configiframe').bind('load',function(){
+       $('#configiframe').unbind("load");
+       postpage=function(){
+       }
+    });
+    $("#configiframe").attr("src","/themegallery");
   }
   
   function manualcsspage(){

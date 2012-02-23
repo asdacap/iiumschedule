@@ -1329,9 +1329,7 @@ $.widget('styler.StylerSlider',{
   
   function savestyle(){
     oldstyle=getnewcss();
-    
     parent.applyStyle(oldstyle);
-    
   }
   
   $('#savebutton').click(function(){

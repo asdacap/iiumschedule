@@ -1,0 +1,68 @@
+<head>
+  <style>
+  .labels{
+    width:10em;
+  }
+  
+  .inputs{
+    width:60em;
+  }
+  
+  .inputs textarea{
+    width:100%;
+    height:10em;
+  }
+  
+  .inputs input{
+    width:100%;
+  }
+  
+  </style>
+  <script>
+    $.ready(function(){
+      $("textarea[name=style]").html(parent.parent.getcurrentstyle());
+      $("textarea[name=template]").text(parent.parent.getcurrenttemplate());
+    });
+  </script>
+  <script type='text/javascript' src='/static/js/jquery-1.7.1.min.js' ></script>
+</head>
+<body>
+<h1>Submit Your Theme</h1>
+<form method="POST" action="/themegallery">
+
+  <table>
+  <tr><td class='labels'>
+  <label for='name'>Theme name:</label></td><td class='inputs'><input type='text' name='name'></input>
+  </td></tr>
+  <tr><td class='labels'>
+  <label for='submitter'>Your name:</label></td><td class='inputs'><input type='text' name='submitter'></input>
+  </td></tr>
+  <tr><td class='labels'>
+  <label for='email'>email:</label></td><td class='inputs'><input type='text' name='email'></input>
+  </td></tr>
+  <tr><td class='labels'>
+  <label for='style'>style:</label></td><td class='inputs'><textarea name='style'></textarea>
+  </td></tr>
+  <tr><td class='labels'>
+  <label for='template'>template</label></td><td class='inputs'><textarea name='template'></textarea>
+  </td></tr>
+  
+  <td></td><td>
+  <script type="text/javascript"
+     src="http://www.google.com/recaptcha/api/challenge?k=6LeLrMwSAAAAAG6IPJtnDRz3E4GtvytZqGXncyzB">
+  </script>
+  <noscript>
+     <iframe src="http://www.google.com/recaptcha/api/noscript?k=6LeLrMwSAAAAAG6IPJtnDRz3E4GtvytZqGXncyzB"
+         height="300" width="500" frameborder="0"></iframe><br>
+     <textarea name="recaptcha_challenge_field" rows="3" cols="40">
+     </textarea>
+     <input type="hidden" name="recaptcha_response_field"
+         value="manual_challenge">
+  </noscript>
+  </td>
+  
+  </table>
+  
+  <input name='submit' type='submit' value='submit'></input>
+</form>
+</body>
