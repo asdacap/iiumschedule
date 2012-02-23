@@ -11,13 +11,17 @@
   
   .inputs textarea{
     width:100%;
-    height:10em;
+    height:15em;
   }
   
   .inputs input{
     width:100%;
   }
-  
+  #midbody{
+    width:60em;
+    margin-left:auto;
+    margin-right:auto;
+  }
   </style>
   <script>
     $.ready(function(){
@@ -28,24 +32,25 @@
   <script type='text/javascript' src='/static/js/jquery-1.7.1.min.js' ></script>
 </head>
 <body>
+<div id='midbody'>
 <h1>Submit Your Theme</h1>
 <form method="POST" action="/themegallery">
-
+  <p>{{message}}</p>
   <table>
   <tr><td class='labels'>
-  <label for='name'>Theme name:</label></td><td class='inputs'><input type='text' name='name'></input>
+  <label for='name'>Theme name:</label></td><td class='inputs'><input type='text' name='name' value='{{name}}'></input>
   </td></tr>
   <tr><td class='labels'>
-  <label for='submitter'>Your name:</label></td><td class='inputs'><input type='text' name='submitter'></input>
+  <label for='submitter'>Your name:</label></td><td class='inputs'><input type='text' name='submitter' value='{{submitter}}'></input>
   </td></tr>
   <tr><td class='labels'>
-  <label for='email'>email:</label></td><td class='inputs'><input type='text' name='email'></input>
+  <label for='email'>email:</label></td><td class='inputs'><input type='text' name='email' value='{{email}}'></input>
   </td></tr>
   <tr><td class='labels'>
-  <label for='style'>style:</label></td><td class='inputs'><textarea name='style'></textarea>
+  <label for='style'>style:</label></td><td class='inputs'><textarea name='style'>{{style}}</textarea>
   </td></tr>
   <tr><td class='labels'>
-  <label for='template'>template</label></td><td class='inputs'><textarea name='template'></textarea>
+  <label for='template'>template</label></td><td class='inputs'><textarea name='template'>{{template}}</textarea>
   </td></tr>
   
   <td></td><td>
@@ -66,4 +71,5 @@
   
   <input name='submit' type='submit' value='submit'></input>
 </form>
+</div>
 </body>

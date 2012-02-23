@@ -17,7 +17,7 @@
   <script type='text/javascript' src='/static/js/jquery-1.7.1.min.js' ></script>
   <script type='application/javascript'>
     function submit(){
-     var newwindow=window.open("/static/submittheme.html","Submit Theme",'width=400,height=200,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes');
+     var newwindow=window.open("/themegallery?submit=1","Submit Theme",'width=400,height=200,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes');
      $(newwindow).load(function(){
       newwindow.$("textarea").html(parent.getcurrentstyle());
       newwindow.$("textarea[name=template]").text(parent.getcurrenttemplate());
