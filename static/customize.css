@@ -25,7 +25,7 @@
   #configiframecontainer{
     top:30px;
     bottom:0;
-    width:335px;
+    width:360px;
     position:absolute;
     left:0;
   }
@@ -48,7 +48,7 @@
     margin:0;
     padding:1px;
     position:absolute;
-    left:335px;
+    left:360px;
     right:0;
   }
   
