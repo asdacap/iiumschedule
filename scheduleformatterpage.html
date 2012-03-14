@@ -1,5 +1,37 @@
-<title>Automatic IIUM Schedule Formatter!</title>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <head>
+<title>Automatic IIUM Schedule Formatter!</title>
+<link type="text/css" href="/static/global.css" rel="stylesheet"/>
+<link type="text/css" href="/static/customize.css" rel="stylesheet"/>
+</head>
+
+<body>
+<div id='body'>
+<table id='mainlayout'>
+<tr><td colspan=2 id='topdiv'>
+<div>
+  <table id='tabmenulist'><tr>
+    <td><h3>AIIUMSF</h3></td>
+    <td><a href='javascript:themegallery();'>Theme Gallery</a></td>
+    <td><a href='javascript:stylercsspage();'>Styler</a></td>
+    <td><a href='javascript:manualcsspage();' >Edit CSS</a></td>
+    <td><a href='javascript:changetemplatepage();' >Edit Template</a></td>
+    <td style='width:auto;'></td>
+    <td id='savebutton'><a href='javascript:saveStyle();'>Save</a></td>
+  </tr></table>
+</div>
+</td></tr>
+<tr id='secondrow'><td id='configiframecontainer'>
+<iframe id='configiframe' src='about:blank'>
+</iframe></td>
+<td id='previewiframecontainer'>
+<iframe id='previewiframe' src="/static/dummy.html">
+</iframe>
+</td></tr>
+</table>
+</div>
+</body>
+
 <script id='defaultstyle' type='text/css'>
 /* "body"="Body" */
 /* "#title"="Title" */
@@ -29,73 +61,7 @@
     border-bottom:1px solid black;
   }
 </script>
-<link type="text/css" href="/static/global.css" rel="stylesheet"/>
-<style>
-  
-  #previewiframe,#topdiv,#configiframe,#mainlayout{
-    width:100%;
-  }
-  
-  #mainlayout{
-    margin:0;
-    padding:0;
-  }
-  
-  #mainlayout td,#mainlayout tr{
-    margin:0;
-    padding:0;
-  }
-  
-  #topdiv{
-    height:50px;
-  }
-  
-  #configiframe,#configiframecontainer{
-    height:300px;
-  }
-  
-  #previewiframe,#previewiframecontainer{
-    height:100%;
-  }
-  
-  #tabmenulist{
-    list-style-type:none;
-    display:inline;
-  }
-  
-  #tabmenulist li{
-    float:left;
-    margin-left:2em;
-  }
-  
-</style>
-</head>
-<body>
-<table id='mainlayout' style='height:100%;'>
-<tr><td id='topdiv'>
-<div>
-  <h3>Modify your Schedule</h3>
-  <ul id='tabmenulist'>
-    <li><a href='javascript:themegallery();'>Choose a theme</a></li>
-    <li><a href='javascript:stylercsspage();'>Change CSS using Styler</a></li>
-    <li><a href='javascript:manualcsspage();' >Change CSS manually</a></li>
-    <li><a href='javascript:changetemplatepage();' >(Advance) Change Template</a></li>
-    <li><a href='javascript:saveStyle();' >Save</a></li>
-  </ul>
-</div>
-</td></tr>
-<tr><td id='configiframecontainer'>
-<iframe id='configiframe' src='about:blank'>
-</iframe>
-</td></tr>
-<tr><td id='previewiframecontainer'>
-<iframe id='previewiframe' src="/static/dummy.html">
-</iframe>
-</td></tr>
-</table>
-</body>
 <script type='text/javascript' src='/static/js/jquery-1.7.1.min.js' ></script>
-
 <script type='text/javascript' src='/static/ejs_production.js' ></script>
 <script id="scheduletemplate" type="text/html">
   <head>

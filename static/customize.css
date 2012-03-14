@@ -1,0 +1,102 @@
+
+  #body{
+    position:absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+  }
+
+  #mainlayout{
+    display:block;
+    margin:0;
+    padding:0;
+    height:98%;
+    border-collapse:collapse;
+    width:100%;
+  }
+  
+  
+  #topdiv{
+    width:100%;
+    padding:0;
+  }
+  
+  #configiframecontainer{
+    top:30px;
+    bottom:0;
+    width:335px;
+    position:absolute;
+    left:0;
+  }
+  #configiframe{
+    border:0;
+    height:98%;
+    width:100%;
+  }
+  
+  
+  #previewiframe{
+    width:98%;
+    height:98%;
+    border:0;
+    border-left:1px solid #555;
+  }
+  #previewiframecontainer{
+    top:30px;
+    bottom:0;
+    margin:0;
+    padding:1px;
+    position:absolute;
+    left:335px;
+    right:0;
+  }
+  
+  #tabmenulist td{
+    display:inline-block;
+    width:140px;
+    float:left;
+    text-align:center;
+    vertical-align:middle;
+    background-color:#8888aa;
+    background-image:url("/static/bluebutton.png");
+    height:25px;
+    padding:0;
+    padding-top:5px;
+  }
+  
+  #tabmenulist{
+    border-collapse:collapse;
+    width:100%;
+  }
+  
+  #tabmenulist td a{
+    color:black;
+    text-decoration:none;
+    display:block;
+  }
+  
+  #tabmenulist h3{
+    float:right;
+    width:200px;
+  }
+  
+  #tabmenulist #savebutton{
+    display:block;
+    float:right;
+    background-color:#aa8888;
+    background-image:url("/static/redbutton.png");
+  }
+  
+  #topdiv>div{
+    background-image:url("/static/bluemenu.png");
+    background-repeat:repeat-x;
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+  }
+  #secondrow{
+    height:100%;
+  }
+  

@@ -29,35 +29,24 @@
 	height:200px;
       }
     
-      #preview_item{
-	border:1px solid blue;
-	margin:auto;
-	padding:0;
-      }
-      #preview_content{
-	border:1px dotted red;
-	padding:0;
-	margin:auto;
-	width:100%;
-	height:100%;
-      }
       #border_color_picker .colorpicker{
 	display:none;
       }
       
       .css_control_group{
 	float:left;
-	width:400px;
+	width:98%;
 	margin:1ex;
       }
       
       #control_pane_container{
-	overflow-y:scroll;
-	height:246px;
+	overflow-y:auto;
+	overflow-x:hidden;
       }
       
       #control_pane_container_container{
 	width:100%;
+	vertical-align:top;
       }
       
       #control_pane{
@@ -72,7 +61,7 @@
       }
       
       #control_row{
-	height:250px;
+	height:100%;
       }
       
       table tr{
@@ -85,7 +74,7 @@
       }
       
       input{
-	width:20em;
+	width:16em;
       }
       
       input.minmax{
@@ -139,6 +128,11 @@
   </head>
   <body>
   <table>
+  <tr style='height:1em;'>
+  <td colspan='2'>
+  <select name='selector_selector'><option>None</option></select><button style='float:right;' id='savebutton'>Save</button>
+  </td>
+  </tr>
   <tr class='ui-widget-content ui-widget' id='control_row'>
    <td id='control_pane_container_container'>
       <div id='control_pane_container'>
@@ -361,11 +355,6 @@
       </div>
       </div>
    </td>
-  </tr>
-  <tr style='height:1em;'>
-  <td colspan='2'>
-  <p><select name='selector_selector'><option>None</option></select><button style='float:right;' id='savebutton'>Save</button></p>
-  </td>
   </tr>
   </table>
   

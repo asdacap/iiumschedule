@@ -7,7 +7,8 @@ from google.appengine.ext import db
 import hashlib
 import os
 from datetime import datetime,timedelta
-import recaptcha.client as recapt
+import recaptcha.client.captcha as recapt
+recaptcha=recapt
 try:
   import JSON
 except ImportError:
@@ -17,7 +18,7 @@ DEFAULTDATA='''
 	      {"studentname":"FULANAH BINTI FUULAN","coursearray":[{"code":"IFF1454","section":"435","title":" COMPUTER HARDWARE AND TROUBLESHOOTING","credithour":"4","schedule":[{"day":"TUE","start":14,"end":16,"venue":"CS LAB E"},{"day":"THUR","start":10,"end":11,"venue":"CS LAB C"},{"day":"WED","start":11,"end":13,"venue":"ANNEX BUILDING AX205S"}]},{"code":"IFF1444","section":"405","title":"INTRODUCTION TO PROGRAMMING","credithour":"4","schedule":[{"day":"TUE","start":9,"end":11,"venue":"LY BUILDING LY024"},{"day":"FRI","start":10,"end":12,"venue":"ANNEX LAB COMP L5"},{"day":"WED","start":16,"end":17,"venue":"ANNEX LAB COMP L2"}]},{"code":"LQM1262","section":"401","title":" ELEMENTARY QURANIC LANGUAGE PART 2 (SCIENCES","credithour":"0","schedule":[{"day":"TUE","start":11,"end":13,"venue":" "},{"day":"MON","start":14,"end":16,"venue":" "},{"day":"THUR","start":16,"end":18,"venue":" "}]},{"code":"SFF1124","section":"411","title":"MATHEMATICS II","credithour":"4","schedule":[{"day":"WED","start":14,"end":16,"venue":"SMAWP2 S2120"},{"day":"MON","start":9,"end":11,"venue":"BLOCK E E122"},{"day":"FRI","start":9,"end":10,"venue":"SMAWP2 S2014"}]},{"code":"SHE1225","section":"405","title":"PHYSICS II","credithour":"5","schedule":[{"day":"TUE","start":16,"end":18,"venue":"ANNEX BUILDING AX206B"},{"day":"MON","start":11,"end":13,"venue":"SMAWP2 S2011"},{"day":"THUR","start":8,"end":10,"venue":"SMAWP2 S3124"}]}]};
 '''
 
-RECAPTCHA_KEY=""
+RECAPTCHA_KEY="6LeLrMwSAAAAABPhd2cea4eHthdl0e5HQZ1MmV58"
 DEBUG=True
 
 class SavedSchedule(db.Model):
@@ -67,7 +68,7 @@ class ThemeHandler(webapp.RequestHandler):
 		error=True
 		errormessage="You must enter a theme name"
 	    if(not error):
-	      recaptchallange=self.request.get("recaptcha_challange_field")
+	      recaptchallange=self.request.get("recaptcha_challenge_field")
 	    if(not error):
 	      recaptresponse=self.request.get("recaptcha_response_field")
 	    if(not error):
@@ -91,10 +92,10 @@ class ThemeHandler(webapp.RequestHandler):
 		error=True
 		errormessage="The template must not be empty"
 	    if(not DEBUG):
-	      validation=recaptcha.submit(recaptchallange,recaptresponse,RECAPTCHA_KEY)
+	      validation=recaptcha.submit(recaptchallange,recaptresponse,RECAPTCHA_KEY,self.request.remote_addr)
 	      if(not validation.is_valid):
 		error=True
-		errormessage="Please reenter the recaptcha."
+		errormessage="Please reenter the recaptcha."+str(validation.error_code)+" challange="+recaptchallange+" response="+recaptresponse
 	    if((DEBUG or validation.is_valid) and not error):
 	      newtheme=Theme(key_name=themename)
 	      newtheme.name=themename
