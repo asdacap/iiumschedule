@@ -77,8 +77,7 @@
   }
   
   #tabmenulist h3{
-    float:right;
-    width:200px;
+    margin-right:1em;
   }
   
   #tabmenulist #savebutton{
