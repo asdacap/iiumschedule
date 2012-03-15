@@ -210,11 +210,11 @@ function parsetable(){
       program:program
     });
   
+  makemessage("Saving schedule...please wait...");
   $.post("http://iiumschedule.appspot.com/scheduleformatter/",{data:data},function(response){
      var thetoken=response;
      makemessage("Done! Please click in <a target='_blank' href='http://iiumschedule.appspot.com/scheduleformatter/?token="+thetoken+"' >this link</a> to continue.",false);
   })
   
-  makemessage("Saving schedule...please wait...");
   
 }
