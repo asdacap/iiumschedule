@@ -176,10 +176,14 @@
       program:data.program,
     }
     
-    currenttemplate=$("#scheduletemplate").html();
+    $.get("/static/default.html",function(data){
+      currenttemplate=data;
+      rerender($("#defaultstyle").html());
+      $.get("/static/default.css",function(data){
+	rerender(data);
+	themegallery();
+      });
+    });
     
-    rerender($("#defaultstyle").html());
-    
-    themegallery();
   }
   

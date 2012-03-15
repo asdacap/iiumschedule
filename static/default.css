@@ -1,0 +1,27 @@
+/* "body"="Body" */
+/* "#title"="Title" */
+/* "#scheduletable"="Schedule Table" */
+/* "#scheduletable .timecell"="Time table header" */
+/* "#scheduletable .firstcolumn"="First Column" */
+/* "#scheduletable tr th"="Table Header" */
+/* "#scheduletable tr td.nonempty"="Non empty Table Cell" */
+/* "#scheduletable tr td.nonempty .code"="Code" */
+/* "#scheduletable tr td.nonempty .venue"="Venue" */
+/* "#scheduletable tr td.empty"="Empty Table Cell" */
+/* "#scheduletable tr td"="Table Data" */
+
+
+  .preview_container{
+	outline:black dotted 1px;
+  }
+
+  table{
+    border-collapse:collapse;
+    border:2px solid black;
+  }
+  tr th{
+    border-bottom:2px solid black;
+  }
+  tr td{
+    border-bottom:1px solid black;
+  }

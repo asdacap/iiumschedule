@@ -1,0 +1,73 @@
+
+  <head>
+  <style id='thestyle'></style>
+  </head>
+  <body>
+  <div id='maindiv'>
+  <h2 id="title"> <%= studentname %> SCHEDULE</h2>
+  <table id='scheduletable'>
+    <tr>
+      <th class='day firstcolumn'>Day</th>
+      <th class='timecell'>8 am</th>
+      <th class='timecell'>9 am</th>
+      <th class='timecell'>10 am</th>
+      <th class='timecell'>11 am</th>
+      <th class='timecell'>12 am</th>
+      <th class='timecell'>1 pm</th>
+      <th class='timecell'>2 pm</th>
+      <th class='timecell'>3 pm</th>
+      <th class='timecell'>4 pm</th>
+      <th class='timecell'>5 pm</th>
+    </tr>
+    <% for(key in schedule) {%>
+    <tr>
+      <td class='day firstcolumn'>
+	<%= key %>
+      </td>
+      <% for(var i=0;i<schedule[key].length;i=i+1){ %>
+	<% if(schedule[key][i].course){ %>
+	  <td class='nonempty' colspan='<%= schedule[key][i].duration %>'>
+	      <div class='code'>
+	      <%= schedule[key][i].course.code %>
+	      </div>
+	      <div class='venue'>
+	      <%= schedule[key][i].venue %>
+	      </div>
+	  </td>
+	<% }else if(schedule[key][i]=="none"){ %>
+	<% }else{ %>
+	  <td class='empty'>
+	      <%= schedule[key][i]%>
+	  </td>
+	<% } %>
+      <% } %>
+    </tr>
+    <% } %>
+  </table>
+  <h3>Subject Name</h3>
+  <table>
+    <tr>
+      <th>Code</th>
+      <th>Section</th>
+      <th>Credit Hour</th>
+      <th>Name</th>
+    </tr>
+    <% for(var i=0;i<courselist.length;i=i+1){ %>
+      <tr>
+      <td>
+      <%= courselist[i].code %>
+      </td>
+      <td>
+      <%= courselist[i].section %>
+      </td>
+      <td>
+      <%= courselist[i].credithour %>
+      </td>
+      <td>
+      <%= courselist[i].title %>
+      </td>
+      </tr>
+    <% }%>
+  </table>
+  </div>
+  </body>
