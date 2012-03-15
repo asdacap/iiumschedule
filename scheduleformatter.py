@@ -147,7 +147,11 @@ class MainHandler(webapp.RequestHandler):
 	    self.response.out.write(text)
 	def post(self):
 	    thedata=self.request.get("data")
-	    token=str(hashlib.md5(str(os.urandom(4))).hexdigest())
+	    customtoken=self.request.get("custom",False)
+	    if not customtoken:
+	      token=str(hashlib.md5(str(os.urandom(4))).hexdigest())
+	    else:
+	      token=self.request.get("ctoken")
 	    theschedule=SavedSchedule(key_name=token)
 	    theschedule.data=thedata
 	    theschedule.createddate=datetime.now()
@@ -162,7 +166,22 @@ class CleanSchedule(webapp.RequestHandler):
 	    thelist=SavedSchedule.all().filter("createddate <",nowtime)
 	    db.delete(thelist)
 		
+class ScheduleLoader(webapp.RequestHandler):
+	def get(self):
+	    token=self.request.get("ctoken")
+	    if(self.request.get("test")):
+	      theinstance=SavedSchedule.get_by_key_name(token)
+	      if(theinstance):
+		self.response.out.write("true")
+		return
+	      else:
+		self.response.out.write("false")
+		return
+	    path = os.path.join(os.path.dirname(__file__), 'scheduleloader.html')
+	    self.response.out.write(template.render(path,{"token":token}))
+		
 application = webapp.WSGIApplication([('/scheduleformatter/', MainHandler),
 				      ('/themegallery',ThemeHandler),
+				      ('/scheduleloader',ScheduleLoader),
 				      ('/cleanschedule',CleanSchedule),],
 				      debug=True)

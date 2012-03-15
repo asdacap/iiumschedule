@@ -1,0 +1,21 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<head>
+<title>Schedule Loader</title>
+<script type='text/javascript' src='/static/js/jquery-1.7.1.min.js' ></script>
+<script type='text/javascript'>
+  function test(){
+      $.get(window.location.origin+"/scheduleloader?ctoken={{token}}&test=1",function(reply){
+	if(reply=="true"){
+	  window.location=window.location.origin+"/scheduleformatter/?token={{token}}&dtype=completeschedule";
+	}else{
+	  setTimeout("test()",500);
+	  console.log("Reply on token {{token}} false");
+	}
+      });
+  }
+  test();
+</script>
+</head>
+
+<body>
+</body>

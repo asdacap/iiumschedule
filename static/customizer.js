@@ -5,6 +5,18 @@
   function postpage(){
   }
   
+  var rand = function() {
+    return Math.random().toString(36).substr(2); // remove `0.`
+  };
+
+  var token = function() {
+      return rand() + rand(); // to make it longer
+  };
+  
+  var ctoken=token();
+  $("#savebutton a").attr("href","/scheduleloader?ctoken="+ctoken);
+  $("#savebutton a").click(saveStyle);
+  
   function getcurrentstyle(){
       var theiframe=$('#previewiframe');
       return theiframe.contents().find("#thestyle").html();
@@ -82,16 +94,17 @@
     rerender();
   }
   
+  
   function saveStyle(){
     console.log("Saving Style");
     var theiframe=$('#previewiframe');
     
     var data=theiframe.contents().find('html').html();
   
-    $.post(window.location.origin+"/scheduleformatter/",{data:data},function(response){
-      var thetoken=response;
-      var newwindow=window.open("/scheduleformatter/?token="+thetoken+"&dtype=completeschedule","Submit Theme",'width=400,height=200,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes');
-
+    console.log("Posting schedule");
+    $.post(window.location.origin+"/scheduleformatter/",{data:data,custom:1,ctoken:ctoken},function(response){
+    
+      console.log("Schedule posted");
     })
     
   }
@@ -184,6 +197,8 @@
 	themegallery();
       });
     });
+    
+    
     
   }
   

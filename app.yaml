@@ -19,6 +19,10 @@ handlers:
   script: scheduleformatter.application
   secure: optional
   
+- url: /scheduleloader/?
+  script: scheduleformatter.application
+  secure: optional
+  
 - url: /themegallery
   script: scheduleformatter.application
   secure: optional
