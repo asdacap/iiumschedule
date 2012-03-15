@@ -18,7 +18,10 @@ function makearray(length){
   return thearray;
 }
 
-function makemessage(message,loading=true){
+function makemessage(message,loading){
+   if(loading==undefined){
+     loading=true;
+   }
    if(!$("#iiumschedulediv").length){
    }
    $("body").append("<div id='iiumschedulediv' style='width:100%;text-align:center;'></div>");
