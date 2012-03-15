@@ -18,8 +18,21 @@ function makearray(length){
   return thearray;
 }
 
+function makemessage(message,loading=true){
+   if(!$("#iiumschedulediv").length){
+   }
+   $("body").append("<div id='iiumschedulediv' style='width:100%;text-align:center;'></div>");
+   var poststring="";
+   if(loading){
+     poststring="</br><img src='http://iiumschedule.appspot.com/static/loading.gif'></img>";
+   }
+   $("#iiumschedulediv").html(message+poststring);
+    
+}
+
 function parsetable(){
    //parse table
+   makemessage("Parsing table, please wait...");
   
   var tablearray=new Array();
   
@@ -85,10 +98,21 @@ function parsetable(){
   
   var studentname=tablearray[8][10].text();
   if(studentname=="none"){
-    alert("Fail to find student name");
+    makemessage("Error! cannot find student name.",false)
     return;
   }
   console.log("Student name is->"+studentname)
+  
+  var matricplusic=tablearray[6][10].text();
+  var match=/(\d+)\s+IC/Passport No\.: (\d*)/.exec(matricplusic);
+  var matricnumber=match[1];
+  var icnumber=match[2];
+  var sessionplusprogram=tablearray[4][21].text();
+  match=/^Session : (\d+\/\d+)   Semester : (\d+)/.exec(sessionplusprogram);
+  var session=match[1];
+  var semester=match[2];
+  var program=tablearray[6][34].text();
+  var date=/^Printed by \d{6} on ([^,]),.+/.exec(tablearray[2][1].text())[1];
   
   var starttableindex=0;
   while(tablearray[starttableindex][1]=="none" || (tablearray[starttableindex][1].children("hr").length==0)){
@@ -175,12 +199,22 @@ function parsetable(){
   
   //format data
   
-  var data=JSON.stringify({studentname:studentname,coursearray:coursearray});
+  var data=JSON.stringify(
+    {
+      studentname:studentname,
+      coursearray:coursearray,
+      matricnumber:matricnumber,
+      ic:icnumber,
+      session:session,
+      semester:semester,
+      program:program
+    });
   
   $.post("http://iiumschedule.appspot.com/scheduleformatter/",{data:data},function(response){
      var thetoken=response;
-     var newwindow=window.open("http://iiumschedule.appspot.com/scheduleformatter/?token="+thetoken,"Scheduler",'width=400,height=200,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes');
+     makemessage("Done! Please click in <a target='_blank' href='http://iiumschedule.appspot.com/scheduleformatter/?token="+thetoken+"' >this link</a> to continue.",false);
   })
   
+  makemessage("Saving schedule...please wait...");
   
 }
