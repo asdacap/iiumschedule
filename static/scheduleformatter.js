@@ -23,14 +23,21 @@ function makemessage(message,loading){
      loading=true;
    }
    if(!$("#iiumschedulediv").length){
+      $("body").append("<div id='iiumschedulediv' style='width:100%;text-align:center;'></div>");
    }
-   $("body").append("<div id='iiumschedulediv' style='width:100%;text-align:center;'></div>");
    var poststring="";
    if(loading){
      poststring="</br><img src='http://iiumschedule.appspot.com/static/loading.gif'></img>";
    }
    $("#iiumschedulediv").html(message+poststring);
     
+}
+
+function fixstring(text){
+   console.log("Fix string->"+text);
+   result=text.replace(/([\x00-\x7F]|[\xC0-\xDF][\x80-\xBF]|[\xE0-\xEF][\x80-\xBF]{2}|[\xF0-\xF7][\x80-\xBF]{3})|./g, "$1");
+   console.log("Result->"+result);
+   return result
 }
 
 function parsetable(){
@@ -106,16 +113,22 @@ function parsetable(){
   }
   console.log("Student name is->"+studentname)
   
-  var matricplusic=tablearray[6][10].text();
-  var match=/(\d+)\s+IC/Passport No\.: (\d*)/.exec(matricplusic);
+  var matricplusic=fixstring(tablearray[6][10].text());
+  var matcher=/\s*(\d+)IC.PassportNo\.\:(\d*)\s*/;
+  var match=matcher.exec(matricplusic);
   var matricnumber=match[1];
   var icnumber=match[2];
-  var sessionplusprogram=tablearray[4][21].text();
-  match=/^Session : (\d+\/\d+)   Semester : (\d+)/.exec(sessionplusprogram);
+  var sessionplusprogram=fixstring(tablearray[4][21].text());
+  console.log(sessionplusprogram);
+  matcher=/Session\s*:\s*(\d+\/\d+)Semester\s*:\s*(\d+)/;
+  match=matcher.exec(sessionplusprogram);
   var session=match[1];
   var semester=match[2];
-  var program=tablearray[6][34].text();
-  var date=/^Printed by \d{6} on ([^,]),.+/.exec(tablearray[2][1].text())[1];
+  var program=fixstring(tablearray[6][43].text())
+  console.log(program);
+  matcher=/Printedby\d{6}on([^,]+),.+/;
+  var thedate=fixstring(tablearray[2][1].text());
+  var date=matcher.exec(thedate)[1];
   
   var starttableindex=0;
   while(tablearray[starttableindex][1]=="none" || (tablearray[starttableindex][1].children("hr").length==0)){
