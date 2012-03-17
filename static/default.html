@@ -9,7 +9,7 @@
   <table id='detailtable'>
     <tr>
       <td class='firstcolumn'>
-      Name = <%= studentname %><br />
+      Name = <%= studentname.toTitleCase() %><br />
       Matric Number = <%= matricnumber %><br />
       IC Number = <%= ic %><br />
       </td><td class='secondcolumn'>
@@ -80,7 +80,7 @@
       <%= courselist[i].credithour %>
       </td>
       <td>
-      <%= courselist[i].title %>
+      <%= courselist[i].title.toTitleCase() %>
       </td>
       </tr>
     <% }%>

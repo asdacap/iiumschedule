@@ -62,17 +62,17 @@ DEFAULTDATA='''
         "schedule" : [ { "day" : "TUE",
               "end" : 13,
               "start" : 11,
-              "venue" : " "
+              "venue" : "LY 013"
             },
             { "day" : "MON",
               "end" : 16,
               "start" : 14,
-              "venue" : " "
+              "venue" : "SMWP2 S2135"
             },
             { "day" : "THUR",
               "end" : 18,
               "start" : 16,
-              "venue" : " "
+              "venue" : "BLOCK E E014"
             }
           ],
         "section" : "401",
