@@ -308,9 +308,15 @@ class ScreenShot(webapp.RequestHandler):
 	    else:
 		self.response.out.write("<h1>Sorry Thumbnail is not avalable</h1>")
 		
+class MainPage(webapp.RequestHandler):
+	def get(self):
+	    path = os.path.join(os.path.dirname(__file__), 'mainpage.html')
+	    self.response.out.write(open(path).read())
+		
 application = webapp.WSGIApplication([('/scheduleformatter/', MainHandler),
 				      ('/themegallery',ThemeHandler),
 				      ('/scheduleloader',ScheduleLoader),
 				      ('/screenshot',ScreenShot),
-				      ('/cleanschedule',CleanSchedule),],
+				      ('/cleanschedule',CleanSchedule),
+				      ('/',MainPage),],
 				      debug=True)
