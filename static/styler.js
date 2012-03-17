@@ -274,11 +274,21 @@ $.widget('styler.StylerSlider',{
 	}
 	
 	var thepostfix=extractor.exec(thetext)[2];
-	var thenumber=extractor.exec(thetext)[1];
+	var thenumber=parseFloat(extractor.exec(thetext)[1]);
       
 	that.postfix(thepostfix);  
 	var min=parseInt(theminunit.val(),10)
 	var max=parseInt(themaxunit.val(),10)
+	
+	if(min>thenumber){
+	  theminunit.val(parseInt(thenumber,10));
+	  var min=parseInt(theminunit.val(),10)
+	}
+	if(max<thenumber){
+	  themaxunit.val(parseInt(thenumber,10));
+	  var max=parseInt(themaxunit.val(),10)
+	}
+	
 	var different=max-min;
 	var difval=parseFloat(thenumber)-parseFloat(min);
 	var percentage=difval*100/different
@@ -366,6 +376,16 @@ $.widget('styler.StylerSlider',{
       
       var min=parseInt(theminunit.val(),10)
       var max=parseInt(themaxunit.val(),10)
+      
+      if(min>thenumber){
+	theminunit.val(parseInt(thenumber,10));
+	var min=parseInt(theminunit.val(),10)
+      }
+      if(max<thenumber){
+	themaxunit.val(parseInt(thenumber,10));
+	var max=parseInt(themaxunit.val(),10)
+      }
+	
       var different=max-min;
       var difval=parseFloat(thenumber)-parseFloat(min);
       var percentage=difval*100/different
