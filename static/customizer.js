@@ -29,6 +29,12 @@
       return $("#scheduletemplate").html();
   }
   
+  function currentrendered(){
+      var theiframe=$('#previewiframe')
+      var thetext=theiframe.contents().find('html').html();
+      return thetext;
+  }
+  
   function rerender(style){
       if(style==undefined){
 	style=getcurrentstyle();

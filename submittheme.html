@@ -1,3 +1,4 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <head>
   <link type="text/css" href="/static/global.css" rel="stylesheet"/>
   <style>
@@ -23,12 +24,6 @@
     margin-right:auto;
   }
   </style>
-  <script>
-    $.ready(function(){
-      $("textarea[name=style]").html(parent.parent.getcurrentstyle());
-      $("textarea[name=template]").text(parent.parent.getcurrenttemplate());
-    });
-  </script>
   <script type='text/javascript' src='/static/js/jquery-1.7.1.min.js' ></script>
 </head>
 <body>
@@ -67,8 +62,8 @@
   </noscript>
   </td>
   
-  </table>
-  
+  </table> 
+  <textarea name='rendered' style='display:none;'>{{rendered}}</textarea>
   <input name='submit' type='submit' value='submit'></input>
 </form>
 </div>

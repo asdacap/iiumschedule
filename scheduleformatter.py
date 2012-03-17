@@ -131,7 +131,7 @@ DEFAULTDATA='''
 '''
 
 RECAPTCHA_KEY="6LeLrMwSAAAAABPhd2cea4eHthdl0e5HQZ1MmV58"
-DEBUG=True
+DEBUG=False
 
 class SavedSchedule(db.Model):
     data=db.TextProperty()
@@ -144,6 +144,7 @@ class Theme(db.Model):
     style=db.TextProperty()
     template=db.TextProperty()
     counter=db.IntegerProperty()
+    rendered=db.TextProperty()
     
 import re
     
@@ -175,6 +176,7 @@ class ThemeHandler(webapp.RequestHandler):
 	    template=self.request.get("template",None)
 	    style=self.request.get("style",None)
 	    email=self.request.get("email",None)
+	    rendered=self.request.get("rendered",None)
 	    if(not error):
 	      if(themename==None):
 		error=True
@@ -216,6 +218,7 @@ class ThemeHandler(webapp.RequestHandler):
 	      newtheme.style=style
 	      newtheme.template=template
 	      newtheme.counter=0
+	      newtheme.rendered=rendered
 	      newtheme.put()
 	      self.response.out.write(open(os.path.join(os.path.dirname(__file__), 'thankmessage.html')).read())
 	    elif(not error):
@@ -228,6 +231,7 @@ class ThemeHandler(webapp.RequestHandler):
 	      arg["style"]=style
 	      arg["template"]=template
 	      arg["message"]=errormessage
+	      arg["rendered"]=rendered
 	      path = os.path.join(os.path.dirname(__file__), 'submittheme.html')
 	      self.response.out.write(template2.render(path,arg))
 	      
@@ -292,8 +296,21 @@ class ScheduleLoader(webapp.RequestHandler):
 	    path = os.path.join(os.path.dirname(__file__), 'scheduleloader.html')
 	    self.response.out.write(template.render(path,{"token":token}))
 		
+class ScreenShot(webapp.RequestHandler):
+	def get(self):
+	    themename=self.request.get("themename",None)
+	    if(not themename):
+		self.response.out.write("No theme selected")
+		return
+	    themedata=Theme.get_by_key_name(themename)
+	    if(themedata.rendered):
+		self.response.out.write(themedata.rendered)
+	    else:
+		self.response.out.write("<h1>Sorry Thumbnail is not avalable</h1>")
+		
 application = webapp.WSGIApplication([('/scheduleformatter/', MainHandler),
 				      ('/themegallery',ThemeHandler),
 				      ('/scheduleloader',ScheduleLoader),
+				      ('/screenshot',ScreenShot),
 				      ('/cleanschedule',CleanSchedule),],
 				      debug=True)
