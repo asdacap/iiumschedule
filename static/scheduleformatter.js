@@ -1,3 +1,4 @@
+
 function startscheduler(){
   var e=document.createElement('script');
   e.src = 'http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js';
@@ -23,7 +24,7 @@ function makemessage(message,loading){
      loading=true;
    }
    if(!$("#iiumschedulediv").length){
-      $("body").append("<div id='iiumschedulediv' style='width:100%;text-align:center;'></div>");
+      $("body").append("<div id='iiumschedulediv' style='width:100%;text-align:center;margin-top:10px;'></div>");
    }
    var poststring="";
    if(loading){
@@ -39,6 +40,7 @@ function fixstring(text){
    console.log("Result->"+result);
    return result
 }
+
 
 function parsetable(){
    //parse table

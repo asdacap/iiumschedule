@@ -183,7 +183,7 @@
       schedule:byday,
       courselist:coursearray,
       matricnumber:data.matricnumber,
-      ic:data.icnumber,
+      ic:data.ic,
       session:data.session,
       semester:data.semester,
       program:data.program,

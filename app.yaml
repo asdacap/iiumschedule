@@ -26,3 +26,7 @@ handlers:
 - url: /themegallery
   script: scheduleformatter.application
   secure: optional
+  
+- url: /
+  script: scheduleformatter.application
+  secure: optional
