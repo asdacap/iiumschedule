@@ -2,19 +2,51 @@
   
   <style>
     .themediv{
+      position:relative;
       margin: 1ex 1ex;
       border: 1px solid black;
       background-color:white;
-      width:20ex;
       float:left;
       padding: 1ex;
     }
-    .themediv p{
-      margin:0;
+    .themediv h3{
+      font-size:80%;
+    }
+    .themediv .previewdiv{
+      border: 1px solid black;
+      border-radius:3px;
+      display:block;
+      width:12em;
+      height:8em;
+    }
+    .themediv .clicker{
+      z-index:10;
+      cursor:hand;
+      position:absolute;
+      width:12em;
+      height:8em;
     }
   </style>
   <link type="text/css" href="/static/global.css" rel="stylesheet"/>
   <script type='text/javascript' src='/static/js/jquery-1.7.1.min.js' ></script>
+  
+</head>
+<body>
+  <h2>Choose a theme</h2>
+  <div>
+  {% for theme in themes %}
+    <div class='themediv' id="theme-{{theme.name}}">
+      <h3><a href='javascript:themeselected("{{theme.name}}")'>{{theme.name}}</a> by {{ theme.submitter }}</h3>
+      <div class='clicker' click='clicker_click();'></div>
+      <div class='previewdiv'>
+	previewdiv
+      </div>
+    </div>
+  {% endfor %}
+  </div>
+  <div style='clear:both;' />
+  <p>Please contribute to the community of IIUM by <a href="javascript:submit()">submitting</a> your own design</p>
+</body>
   <script type='application/javascript'>
     function submit(){
      var newwindow=window.open("/themegallery?submit=1","Submit Theme",'width=400,height=200,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes');
@@ -37,19 +69,10 @@
       themeselected(themename);
     });
     
+    $("div.themediv div.clicker").click(function(){
+      var theid=$(this).parents(".themediv").attr("id");
+      var themename=theid.substring(6);
+      themeselected(themename);
+    });
+    
   </script>
-  
-</head>
-<body>
-  <h2>Choose a theme</h2>
-  <div>
-  {% for theme in themes %}
-    <div class='themediv' id="theme-{{theme.name}}">
-      <h3><a href='javascript:themeselected("{{theme.name}}")'>{{theme.name}}</a></h3>
-      <p>by {{ theme.submitter }}</p>
-    </div>
-  {% endfor %}
-  </div>
-  <div style='clear:both;' />
-  <p>Please contribute to the community of IIUM by <a href="javascript:submit()">submitting</a> your own design</p>
-</body>
