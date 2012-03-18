@@ -233,7 +233,7 @@ $.widget('styler.StylerSlider',{
 	  var min=parseInt(theminunit.val(),10);
 	  var max=parseInt(themaxunit.val(),10);
 	  var different=max-min;
-	  var currentvalue=min+different*(parseInt(theslider.slider('value'),10)/100)
+	  var currentvalue=min+different*(parseInt(theslider.slider('value'),10)/1000)
 	  var thetext=currentvalue+that.options.postfix;
 	  theinput.val(thetext);
 	  that._trigger('change',0,thetext);
@@ -243,7 +243,7 @@ $.widget('styler.StylerSlider',{
       themaxunit.change(sliderchange);
       
       theslider.slider($.extend({},{
-	max:100,
+	max:1000,
 	min:0,
 	step:0.1,
 	change:sliderchange,
@@ -277,21 +277,21 @@ $.widget('styler.StylerSlider',{
 	var thenumber=parseFloat(extractor.exec(thetext)[1]);
       
 	that.postfix(thepostfix);  
-	var min=parseInt(theminunit.val(),10)
-	var max=parseInt(themaxunit.val(),10)
+	var min=parseFloat(theminunit.val(),10)
+	var max=parseFloat(themaxunit.val(),10)
 	
 	if(min>thenumber){
-	  theminunit.val(parseInt(thenumber,10));
-	  var min=parseInt(theminunit.val(),10)
+	  theminunit.val(parseFloat(thenumber,10));
+	  var min=parseFloat(theminunit.val(),10)
 	}
 	if(max<thenumber){
-	  themaxunit.val(parseInt(thenumber,10));
-	  var max=parseInt(themaxunit.val(),10)
+	  themaxunit.val(parseFloat(thenumber,10));
+	  var max=parseFloat(themaxunit.val(),10)
 	}
 	
 	var different=max-min;
 	var difval=parseFloat(thenumber)-parseFloat(min);
-	var percentage=difval*100/different
+	var percentage=difval*1000/different
 	
 	theslider.slider('value',percentage);
 	
@@ -338,10 +338,16 @@ $.widget('styler.StylerSlider',{
 	}
       }
       
+      var theslider=$(this.element).children(".cssslider");
+      var theminunit=$(this.element).find('input.minunit');      
+      var themaxunit=$(this.element).find('input.maxunit');      
+      
+      var min=parseFloat(theminunit.val(),10)
+      var max=parseFloat(themaxunit.val(),10)
+      
       this.options.postfix=newpostfix;
       var theinput=$(this.element).find("[name="+this.options.cssprop+"]");
-      var theslider=$(this.element).children(".cssslider");
-      var thetext=theslider.slider('value')+this.options.postfix;
+      var thetext=((max-min)*theslider.slider('value')/1000+min)+this.options.postfix;
       theinput.val(thetext);
       if(!nounit && this.options.unitselector.length!=0){
 	var theunitselector=$(this.element).find('.unitselector');
@@ -367,28 +373,28 @@ $.widget('styler.StylerSlider',{
       }
       
       var thepostfix=extractor.exec(newval)[2];
-      var thenumber=parseInt(extractor.exec(newval)[1],10);
+      var thenumber=parseFloat(extractor.exec(newval)[1],10);
     
       this.postfix(thepostfix);
       var theslider=$(this.element).children(".cssslider");
       var theminunit=$(this.element).find('input.minunit');      
       var themaxunit=$(this.element).find('input.maxunit');      
       
-      var min=parseInt(theminunit.val(),10)
-      var max=parseInt(themaxunit.val(),10)
+      var min=parseFloat(theminunit.val(),10)
+      var max=parseFloat(themaxunit.val(),10)
       
       if(min>thenumber){
-	theminunit.val(parseInt(thenumber,10));
-	var min=parseInt(theminunit.val(),10)
+	theminunit.val(parseFloat(thenumber,10));
+	var min=parseFloat(theminunit.val(),10)
       }
       if(max<thenumber){
-	themaxunit.val(parseInt(thenumber,10));
-	var max=parseInt(themaxunit.val(),10)
+	themaxunit.val(parseFloat(thenumber,10));
+	var max=parseFloat(themaxunit.val(),10)
       }
 	
       var different=max-min;
       var difval=parseFloat(thenumber)-parseFloat(min);
-      var percentage=difval*100/different
+      var percentage=difval*1000/different
       
       theslider.slider('value',percentage);
     }
@@ -530,8 +536,12 @@ $.widget('styler.StylerSlider',{
 	  }
       });
       function handler(csstring){
+	console.log("color picker change to->"+csstring);
 	input.val(csstring);
-	input.ColorPickerSetColor(csstring);
+	if(csstring!="transparent"){
+	  input.ColorPickerSetColor(csstring);
+	}
+	$(input).css("background-color",csstring);
       }
       
       registercsshandler(cssprop,handler);

@@ -3,8 +3,6 @@
   <style>
     .themediv{
       position:relative;
-      margin: 1ex 1ex;
-      border: 1px solid black;
       background-color:white;
       float:left;
       padding: 1ex;
@@ -16,20 +14,20 @@
       border: 1px solid black;
       border-radius:3px;
       display:block;
-      width:12em;
-      height:8em;
+      width:202px;
+      height:152px;
     }
     .themediv .clicker{
       z-index:10;
       cursor:hand;
       position:absolute;
-      width:12em;
-      height:8em;
+      width:202px;
+      height:152px;
     }
   </style>
   <link type="text/css" href="/static/global.css" rel="stylesheet"/>
   <script type='text/javascript' src='/static/js/jquery-1.7.1.min.js' ></script>
-  
+  <script type="text/javascript" src="http://www.websnapr.com/js/websnapr.js"></script>
 </head>
 <body>
   <h2>Choose a theme</h2>
@@ -39,7 +37,7 @@
       <h3><a href='javascript:themeselected("{{theme.name}}")'>{{theme.name}}</a> by {{ theme.submitter }}</h3>
       <div class='clicker' click='clicker_click();'></div>
       <div class='previewdiv'>
-	previewdiv
+	<script type="text/javascript">wsr_snapshot('http://iiumschedule.appspot.com/screenshot?themename={{theme.name}}', 'xe55Qpu0ssL9', 'small');</script>
       </div>
     </div>
   {% endfor %}
