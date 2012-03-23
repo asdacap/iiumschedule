@@ -65,6 +65,10 @@
     padding-top:5px;
   }
   
+  #tabmenulist td:hover{
+    background-image:url("/static/darkbluebutton.png");
+  }
+  
   #tabmenulist{
     border-collapse:collapse;
     width:100%;
