@@ -35,7 +35,7 @@
       
       .css_control_group{
 	float:left;
-	width:98%;
+	width:100%;
 	margin:1ex;
       }
       
@@ -74,7 +74,7 @@
       }
       
       input{
-	width:16em;
+	width:16ex;
       }
       
       input.minmax{
@@ -143,13 +143,31 @@
       <div id='control_pane_container'>
       <div id='control_pane'>
       <ul>
+	<li><a href='#general_option'>General</a></li>
 	<li><a href='#sizing_option'>Sizing</a></li>
 	<li><a href='#border_option'>Border</a></li>
 	<li><a href='#shadow_option'>Shadow</a></li>
 	<li><a href='#background_option'>Background</a></li>
 	<li><a href='#font_option'>Font/Text</a></li>
       </ul>
+      <div id='general_option'>
+	  <p><label for='foreground_color'>ForegroundColor:</label><input name='foreground_color'></input></p>
+	  <p>Text-align:
+	    <select id='text_align'>
+	      <option>left</option>
+	      <option>right</option>
+	      <option>center</option>
+	      <option>justify</option>
+	      <option>inherit</option>
+	    </select>
+	  </p>
+	  <div id='background_opacity_slider'></div>
+      </div>
       <div id='sizing_option'>
+	<div class='css_control_group'>
+	  <div id='width_styler_slider'></div>
+	  <div id='height_styler_slider'></div>
+	</div>
 	<div class='css_control_group'>
 	  Margin:
 	  <div id='margin_controls'>
@@ -177,10 +195,6 @@
 	<div class='css_control_group'>
 	  <p><label for='padding_size'>Padding</label><input type='text' name='padding_size'/></p>
 	  <div id='padding_fourslider'></div>
-	</div>
-	<div class='css_control_group'>
-	  <div id='width_styler_slider'></div>
-	  <div id='height_styler_slider'></div>
 	</div>
       </div>
       <div id='border_option'>
@@ -256,7 +270,6 @@
 	</div>
 	<div class='css_control_group'>
 	  <p><label for='background_color'>Background Color</label><input name='background_color' /></p>
-	  <div id='background_opacity_slider'></div>
 	</div>
       </div>
       
@@ -318,15 +331,6 @@
 	  <p><div id='font_size'></div></p>
 	</div>
 	<div class='css_control_group'>
-	  <p>Text-align:
-	    <select id='text_align'>
-	      <option>left</option>
-	      <option>right</option>
-	      <option>center</option>
-	      <option>justify</option>
-	      <option>inherit</option>
-	    </select>
-	  </p>
 	  <p>Text-decoration:
 	    <select id='text_decoration'>
 	      <option>none</option>
@@ -350,7 +354,6 @@
 	</div>
 	
 	<div class='css_control_group'>
-	  <p><label for='foreground_color'>ForegroundColor:</label><input name='foreground_color'></input></p>
 	  <p><label for='text_shadow_color'>Text-shadow color:</label><input name='text_shadow_color'></input></p>
 	  <p><div id='text_shadow_h_offset'></div></p>
 	  <p><div id='text_shadow_v_offset'></div></p>
@@ -371,5 +374,5 @@
   </div>
   
   </body>
-  <script type="text/javascript" src="/static/styler.js"></script>
+  <script type="text/javascript" src="/static/styler.min.js"></script>
 </html>
