@@ -1,6 +1,11 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <head>
   <title>Automatic IIUM Schedule Formatter</title>
+  <meta property="og:title" content="Automatic IIUM Schedule Formatter"/>
+  <meta property="og:type" content="Automatic IIUM Schedule Formatter"/>
+  <meta property="og:url" content="http://iiumschedule.appspot.com/"/>
+  <meta property="og:image" content="http://iiumschedule.appspot.com/static/logo-med.png"/>
+  <meta property="fb:appid" content="207943475977546" />
   <style>
     body{
       background-color:#66a;
@@ -10,7 +15,7 @@
       padding:1em;
       margin-left:auto;
       margin-right:auto;
-      width:60em;
+      width:800px;
       font-family:arial;
       background-color:#aad;
     }
@@ -33,6 +38,28 @@
       text-align:center;
     }
   </style>
+  <div id="fb-root"></div>
+  <script>
+    window.fbAsyncInit = function() {
+      FB.init({
+	appId      : '207943475977546', // App ID
+	status     : true, // check login status
+	cookie     : true, // enable cookies to allow the server to access the session
+	xfbml      : true  // parse XFBML
+      });
+
+      // Additional initialization code here
+    };
+
+    // Load the SDK Asynchronously
+    (function(d){
+      var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement('script'); js.id = id; js.async = true;
+      js.src = "//connect.facebook.net/en_US/all.js";
+      ref.parentNode.insertBefore(js, ref);
+    }(document));
+  </script>
 </head>
 <body>
   <div id='toptitle' class='wrap'><h1>Automatic IIUM Schedule Formatter</h1></div>
@@ -100,6 +127,9 @@
   <li>
   Itu tak termasuk theme, lah. Theme akan kekal, sehingga mana saya nak delete theme tersebut.
   </ul>
-  Sebarang pertanyaan boleh contact saya kat asdacap@gmail.com
+  Sebarang pertanyaan boleh contact saya kat asdacap@gmail.com<br /><br />
+  
+  <div class="fb-like" data-href="http://iiumschedule.sppspot.com/" data-send="true" data-width="770" data-show-faces="true"></div>
   </div>
+  <div class="fb-comments" data-href="http://iiumschedule.appspot.com/" data-num-posts="3" data-width="770"></div>
 </body>

@@ -31,6 +31,10 @@ handlers:
   script: scheduleformatter.application
   secure: optional
   
+- url: /favicon.ico
+  static_files: static/logo-small.ico
+  upload: static/logo-small.ico
+  
 - url: /
   script: scheduleformatter.application
   secure: optional
