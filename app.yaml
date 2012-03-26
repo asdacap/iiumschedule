@@ -24,11 +24,11 @@ handlers:
   secure: optional
   
 - url: /screenshot
-  script: scheduleformatter.application
+  script: themehandler.application
   secure: optional
   
 - url: /themegallery
-  script: scheduleformatter.application
+  script: themehandler.application
   secure: optional
   
 - url: /favicon.ico
