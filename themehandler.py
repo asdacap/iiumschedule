@@ -111,9 +111,14 @@ class ScreenShot(webapp.RequestHandler):
 	def get(self):
 	    themename=self.request.get("themename",None)
 	    if(not themename):
+		self.response.set_status(404,"No theme selected.")
 		self.response.out.write("No theme selected")
 		return
 	    themedata=Theme.get_by_key_name(themename)
+	    if(not themedata):
+		self.response.set_status(404,"The theme '"+themename+"' does not exist.")
+		self.response.out.write("The theme '"+themename+"' does not exist.")
+		return
 	    if(themedata.rendered):
 		self.response.out.write(themedata.rendered)
 	    else:
