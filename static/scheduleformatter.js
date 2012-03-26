@@ -28,7 +28,7 @@ function makemessage(message,loading){
    }
    var poststring="";
    if(loading){
-     poststring="</br><img src='http://iiumschedule.appspot.com/static/loading.gif'></img>";
+     poststring="</br><img src='https://iiumschedule.appspot.com/static/loading.gif'></img>";
    }
    $("#iiumschedulediv").html(message+poststring);
     
@@ -229,9 +229,9 @@ function parsetable(){
     });
   
   makemessage("Saving schedule...please wait...");
-  $.post("http://iiumschedule.appspot.com/scheduleformatter/",{data:data},function(response){
+  $.post("https://iiumschedule.appspot.com/scheduleformatter/",{data:data},function(response){
      var thetoken=response;
-     makemessage("Done! Please click in <a target='_blank' href='http://iiumschedule.appspot.com/scheduleformatter/?token="+thetoken+"' >this link</a> to continue.",false);
+     makemessage("Done! Please click in <a target='_blank' href='https://iiumschedule.appspot.com/scheduleformatter/?token="+thetoken+"' >this link</a> to continue.",false);
   })
   
   
