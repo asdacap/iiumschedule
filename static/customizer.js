@@ -18,8 +18,11 @@
   $("#savebutton a").click(saveStyle);
   
   function getcurrentstyle(){
-      var theiframe=$('#previewiframe');
-      return theiframe.contents().find("#thestyle").html();
+      if(thedata.style==undefined){
+	var theiframe=$('#previewiframe');
+	thedata.style=theiframe.contents().find("#thestyle").html();
+      }
+      return thedata.style;
   }
   
   function getcurrenttemplate(){
@@ -35,16 +38,19 @@
       return thetext;
   }
   
+  function renderdata(data){
+      return (new EJS({text:currenttemplate})).render(data);
+  }
+  
   function rerender(style){
       if(style==undefined){
 	style=getcurrentstyle();
       }
+      thedata.style=style;
       var thetext=(new EJS({text:currenttemplate})).render(thedata);
-    
       var theiframe=$('#previewiframe')
       
       theiframe.contents().find('html').html(thetext);
-      theiframe.contents().find("#thestyle").html(style);
   }
   
   function changetemplatepage(){

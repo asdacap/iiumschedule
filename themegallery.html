@@ -49,9 +49,15 @@
     function submit(){
      var newwindow=window.open("/themegallery?submit=1","Submit Theme",'width=400,height=200,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes');
      $(newwindow).load(function(){
-      newwindow.$("textarea[name=style]").html(parent.getcurrentstyle());
+      var thestyle=parent.getcurrentstyle();
+      newwindow.$("textarea[name=style]").html(thestyle);
       newwindow.$("textarea[name=template]").text(parent.getcurrenttemplate());
-      newwindow.$("textarea[name=rendered]").text(parent.currentrendered());
+      $.get("/static/defaultdata",{},function(data){
+	var dataobj=JSON.parse(data);
+	dataobj.style=thestyle;
+	newwindow.$("textarea[name=rendered]").text(parent.renderdata(dataobj));
+      });
+      console.log("after sending get");
      });
     }
     
