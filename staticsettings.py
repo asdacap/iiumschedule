@@ -1,6 +1,6 @@
 
 RECAPTCHA_KEY="6LeLrMwSAAAAABPhd2cea4eHthdl0e5HQZ1MmV58"
-DEBUG=True
+DEBUG=False
 DEFAULTDATA='''
 { "coursearray" : [ { "code" : "IFF1454",
         "credithour" : "4",
