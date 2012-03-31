@@ -9,6 +9,10 @@ from google.appengine.ext import db
 import recaptcha.client.captcha as recapt
 recaptcha=recapt
 from staticsettings import RECAPTCHA_KEY,DEBUG
+try:
+  import JSON
+except ImportError:
+  import json as JSON
 
 
 class Theme(db.Model):
