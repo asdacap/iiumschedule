@@ -1,391 +1,123 @@
 <html>
-  <head>
-  <script type="text/javascript">
+    <head>
+        <script type="text/javascript">
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-21243240-7']);
+            _gaq.push(['_trackPageview']);
 
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-21243240-7']);
-  _gaq.push(['_trackPageview']);
+            (function() {
+                var ga = document.createElement('script');
+                ga.type = 'text/javascript';
+                ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(ga, s);
+            })();
 
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
+        </script>
 
-  </script>
-  
-  <link type="text/css" href="/static/css/custom-theme/jquery-ui-1.8.16.custom.css" rel="stylesheet"/>
-  <link rel="stylesheet" href="/static/colorpicker/css/colorpicker.css" type="text/css" />
-  <script src="http://cdn.jquerytools.org/1.2.6/jquery.tools.min.js"></script>
-  <script type='text/javascript' src='/static/js/jquery-1.7.1.min.js' ></script>
-  <script type="text/javascript" src="/static/js/jquery-ui-1.8.17.custom.min.js"></script>
-  <script type="text/javascript" src="/static/colorpicker/js/colorpicker.js"></script>
-    <title></title>
-    <meta content="">
-    <style id='in_iframe'>
-      .preview_container{
-	outline:black dotted 1px;
-      }
-    </style>
-    <style>
-      
-      body{
-	margin:0px;
-      }
-      
-      #container_container{
-	position:relative;
-	border:2px solid black;
-	margin:0;
-	padding:0;
-	width:200px;
-	height:200px;
-      }
-    
-      #border_color_picker .colorpicker{
-	display:none;
-      }
-      
-      .css_control_group{
-	float:left;
-	width:100%;
-	margin:1ex;
-      }
-      
-      #control_pane_container{
-	overflow-y:auto;
-	overflow-x:hidden;
-      }
-      
-      #control_pane_container_container{
-	width:100%;
-	vertical-align:top;
-      }
-      
-      #control_pane{
-	overflow:hidden;
-	min-height:265px;
-      }
-      
-      table{
-	overflow:hidden;
-	height:100%;
-	width:100%;
-      }
-      
-      #control_row{
-	height:100%;
-      }
-      
-      table tr{
-	width:100%;
-      }
-      
-      #targetiframe{
-	height:100%;
-	width:100%;
-      }
-      
-      input{
-	width:16ex;
-      }
-      
-      input.minmax{
-	width:8%;
-	border:0;
-	display:inline-block;
-	background:none;
-      }
-      
-      input.maxunit{
-	text-align:right;
-      }
-      
-      .cssslider{
-	width:80%;
-	display:inline-block;
-	margin:0 6px;
-      }
-      
-      .simple_overlay {
-	      
-	      /* must be initially hidden */
-	      display:none;
-	      
-	      /* place overlay on top of other elements */
-	      z-index:10000;
-	      
-	      /* styling */
-	      background-color:#333;
-	      
-	      width:675px;	
-	      min-height:200px;
-	      border:1px solid #666;
-	      
-	      text-align:center;
-	      
-	      /* CSS3 styling for latest browsers */
-	      -moz-box-shadow:0 0 90px 5px #000;
-	      -webkit-box-shadow: 0 0 90px #000;	
-	      color:#eee;
-	      font-size:300%;
-	  
-	  
-	      border-radius:50px;
-      }
-      
-      
-      
-      .simple_overlay>div{
-	  position:relative;
-	  top:45px;
-      }
+        <link type="text/css" href="/static/css/redmond/jquery-ui-1.8.20.custom.css" rel="stylesheet"/>
+        <link rel="stylesheet" href="/static/colorpicker/css/colorpicker.css" type="text/css" />
+        <script type="text/javascript" src="/static/js/jquery-1.7.2.min.js"></script>
+        <script type="text/javascript" src="/static/js/jquery.tools.min.js"></script>
+        <script type="text/javascript" src="/static/colorpicker/js/colorpicker.js"></script>
+        <script type="text/javascript" src="/static/js/jquery-ui-1.8.20.custom.min.js"></script>
+        <title></title>
+        <meta content="">
+        <style>
+            body {
+                margin: 0px;
+                font-size:10px;
+            }
 
-      
-    </style>
-  </head>
-  <body>
-  <table>
-  <tr style='height:1em;'>
-  <td colspan='2'>
-  <select name='selector_selector'><option>None</option></select><button style='float:right;' id='savebutton'>Save</button>
-  </td>
-  </tr>
-  <tr class='ui-widget-content ui-widget' id='control_row'>
-   <td id='control_pane_container_container'>
-      <div id='control_pane_container'>
-      <div id='control_pane'>
-      <ul>
-	<li><a href='#general_option'>General</a></li>
-	<li><a href='#sizing_option'>Sizing</a></li>
-	<li><a href='#border_option'>Border</a></li>
-	<li><a href='#shadow_option'>Shadow</a></li>
-	<li><a href='#background_option'>Background</a></li>
-	<li><a href='#font_option'>Font/Text</a></li>
-      </ul>
-      <div id='general_option'>
-	  <p><label for='foreground_color'>ForegroundColor:</label><input name='foreground_color'></input></p>
-	  <p>Text-align:
-	    <select id='text_align'>
-	      <option>left</option>
-	      <option>right</option>
-	      <option>center</option>
-	      <option>justify</option>
-	      <option>inherit</option>
-	    </select>
-	  </p>
-	  <div id='background_opacity_slider'></div>
-      </div>
-      <div id='sizing_option'>
-	<div class='css_control_group'>
-	  <div id='width_styler_slider'></div>
-	  <div id='height_styler_slider'></div>
-	</div>
-	<div class='css_control_group'>
-	  Margin:
-	  <div id='margin_controls'>
-	    <ul>
-	      <li><a href='#singlemargin'>All</a></li>
-	      <li><a href='#dualmargin'>Horizontal/Vertical</a></li>
-	      <li><a href='#allmargin'>Top/Right/Bottom/Left</a></li>
-	    </ul>
-	    <div id='singlemargin'>
-	      <div id='margin_all'></div>
-	    </div>
-	    <div id='dualmargin'>
-	      <div id='margin_horizontal'></div>
-	      <div id='margin_vertical'></div>
-	    </div>
-	    <div id='allmargin'>
-	      <div id='margin_top'></div>
-	      <div id='margin_right'></div>
-	      <div id='margin_bottom'></div>
-	      <div id='margin_left'></div>
-	    </div>
-	  </div>
-	  
-	</div>
-	<div class='css_control_group'>
-	  <p><label for='padding_size'>Padding</label><input type='text' name='padding_size'/></p>
-	  <div id='padding_fourslider'></div>
-	</div>
-      </div>
-      <div id='border_option'>
-      
-	<div class='css_control_group'>
-	  <p>border-style:<select id='border_style'>
-	  <option>none</option>
-	  <option>hidden</option>
-	  <option>dotted</option>
-	  <option>dashed</option>
-	  <option>solid</option>
-	  <option>double</option>
-	  <option>groove</option>
-	  <option>ridge</option>
-	  <option>inset</option>
-	  <option>outset</option>
-	  <option>inherit</option>
-	  </select></p>
-	  <p><label for='border_width'>Border</label><input type='text' name='border_width'/></p>
-	  <div id='border_width_fourslider'></div>
-	  <p>Color:
-	    <input id='border_color_input' style="background-color: #00ff00"> </input></p>
-	</div>
-	
-	<div class='css_control_group'>
-	  Border radius:
-	  <div id='border_radius_tabs'>
-	    <ul>
-	      <li><a href='#border_radius_all_tabs'>All</a></li>
-	      <li><a href='#border_radius_individual'>Individual</a></li>
-	    </ul>
-	    <div id='border_radius_all_tabs'>
-	      <div id='border_radius_all'></div>
-	    </div>
-	    <div id='border_radius_individual'>
-	      <div id='border_top_left_radius'></div>
-	      <div id='border_top_right_radius'></div>
-	      <div id='border_bottom_right_radius'></div>
-	      <div id='border_bottom_left_radius'></div>
-	    </div>
-	  </div>
-	</div>
-	
-      </div>
-      <div id='shadow_option'>
-      
-	<div class='css_control_group'>
-	  <p><label for='overall_shadow'>Overall shadow: </label><input name='overall_shadow'></input></p>
-	  <p>
-	  <label for='shadow_color'>Color</label><input name='shadow_color'></input>
-	  </p>
-	</div>
-	  
-	<div class='css_control_group'>
-	  <div id='shadow_horizontal_offset_slider'></div>
-	  <div id='shadow_vertical_offset_slider'></div>
-	</div>
-	  
-	<div class='css_control_group'>
-	  <div id='shadow_blur_distance_slider'></div>
-	  <div id='shadow_spread_distance_slider'></div>
-	  <p><label for='shadow_inset'>Inset</label><input type='checkbox' name='shadow_inset'></input></p>
-	</div>
-	  
-      </div>
-      <div id='background_option'>
-	 
-	<div class='css_control_group'>
-	  <p>Background-Image</p>
-	  <p><label for='background_image_url'>Url</label><input name='background_image_url' /></p>
-	  <p><label for='background_image_repeat_x'>Repeat-x</label><input type='checkbox' name='background_image_repeat_x' /></p>
-	  <p><label for='background_image_repeat_y'>Repeat-y</label><input type='checkbox' name='background_image_repeat_y' /></p>
-	</div>
-	<div class='css_control_group'>
-	  <p><label for='background_color'>Background Color</label><input name='background_color' /></p>
-	</div>
-      </div>
-      
-      <div id='font_option'>
-      
-	<div class='css_control_group'>
-	  <p>Font-family
-	    <select id='font_family'>
-	      <option>inherit</option>
-	      <option>Impact, Charcoal, sans-serif</option>
-	      <option>‘Palatino Linotype’, ‘Book Antiqua’, Palatino, serif</option>
-	      <option>Tahoma, Geneva, sans-serif</option>
-	      <option>Century Gothic, sans-serif</option>
-	      <option>‘Lucida Sans Unicode’, ‘Lucida Grande’, sans-serif</option>
-	      <option>‘Arial Black’, Gadget, sans-serif</option>
-	      <option>‘Times New Roman’, Times, serif</option>
-	      <option>‘Arial Narrow’, sans-serif</option>
-	      <option>Verdana, Geneva, sans-serif</option>
-	      <option>Copperplate Gothic Light, sans-serif</option>
-	      <option>‘Lucida Console’, Monaco, monospace</option>
-	      <option>Gill Sans / Gill Sans MT, sans-serif</option>
-	      <option>‘Trebuchet MS’, Helvetica, sans-serif</option>
-	      <option>‘Courier New’, Courier, monospace</option>
-	      <option>Arial, Helvetica, sans-serif</option>
-	      <option>Georgia, Serif</option>
-	      <option>"Comic Sans MS", cursive, sans-serif</option>
-	      <option>'Bookman Old Style', serif</option>
-	      <option>Garamond, serif</option>
-	      <option>Symbol, sans-serif</option>
-	      <option>Webdings, sans-serif</option>
-	      <option>Wingdings, 'Zapf Dingbats', sans-serif</option>
-	      <option>inherit</option>
-	    </select>
-	  </p>
-	  <p>Font-style:
-	    <select id='font_style'>
-	      <option>normal</option>
-	      <option>italic</option>
-	      <option>oblique</option>
-	      <option>inherit</option>
-	    </select>
-	  </p>
-	  <p>Font-variant:
-	    <select id='font_variant'>
-	      <option>normal</option>
-	      <option>small-caps</option>
-	      <option>inherit</option>
-	    </select>
-	  </p>
-	  <p>Font-weight:
-	    <select id='font_weight'>
-	      <option>normal</option>
-	      <option>bold</option>
-	      <option>bolder</option>
-	      <option>lighter</option>
-	      <option>inherit</option>
-	    </select>
-	  </p>
-	  <p><div id='font_size'></div></p>
-	</div>
-	<div class='css_control_group'>
-	  <p>Text-decoration:
-	    <select id='text_decoration'>
-	      <option>none</option>
-	      <option>underline</option>
-	      <option>overline</option>
-	      <option>line-through</option>
-	      <option>blink</option>
-	      <option>inherit</option>
-	    </select>
-	  </p>
-	  <p><div id='text_indent'></div></p>
-	  <p>Text-transform:
-	    <select id='text_transform'>
-	      <option>none</option>
-	      <option>capitalize</option>
-	      <option>uppercase</option>
-	      <option>lowercase</option>
-	      <option>inherit</option>
-	    </select>
-	  </p>
-	</div>
-	
-	<div class='css_control_group'>
-	  <p><label for='text_shadow_color'>Text-shadow color:</label><input name='text_shadow_color'></input></p>
-	  <p><div id='text_shadow_h_offset'></div></p>
-	  <p><div id='text_shadow_v_offset'></div></p>
-	  <p><div id='text_shadow_blur'></div></p>
-	</div>
-	
-      </div>
-      </div>
-   </td>
-  </tr>
-  </table>
-  
-  <div class='simple_overlay' id='savingoverlay'>
-    <div>
-    <img src='/static/loading.gif'></img><br />
-    <span>Saving your style...</span>
-    </div>
-  </div>
-  
-  </body>
-  <script type="text/javascript" src="/static/styler.min.js"></script>
+            #container_container {
+                position: relative;
+                border: 2px solid black;
+                margin: 0;
+                padding: 0;
+                width: 200px;
+                height: 200px;
+            }
+
+            #border_color_picker .colorpicker {
+                display: none;
+            }
+
+            .css_control_group {
+                width: 100%;
+                margin: 1ex;
+            }
+
+            #control_pane_container {
+                overflow-y: auto;
+                overflow-x: hidden;
+            }
+
+            #control_pane_container_container {
+                width: 100%;
+                vertical-align: top;
+            }
+
+            #control_pane {
+                overflow: hidden;
+                min-height: 265px;
+            }
+
+            table {
+                overflow: hidden;
+                height: 100%;
+                width: 100%;
+            }
+
+            #control_row {
+                height: 100%;
+            }
+
+            table tr {
+                width: 100%;
+            }
+
+            #targetiframe {
+                height: 100%;
+                width: 100%;
+            }
+
+            input.minmax {
+                width: 8%;
+                border: 0;
+                display: inline-block;
+                background: none;
+                margin:0;
+            }
+
+            input.maxunit {
+                text-align: right;
+            }
+            
+            input.sliderpreval{
+                width:6em;
+            }
+            
+            .cssslider {
+                width: 80%;
+                display: inline-block;
+            }
+            
+            .styler_control{
+		padding:3px;
+            }
+            .styler_group{
+		display:inline;
+            }
+            .styler_accordian_group{
+            }
+
+        </style>
+    </head>
+    <body>
+        <div id="mainbody">
+
+        </div>
+    </body>
+    <script type="text/javascript" src="/static/styler.js"></script>
 </html>

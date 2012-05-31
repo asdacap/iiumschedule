@@ -34,6 +34,9 @@
     height:98%;
     width:100%;
   }
+  #configiframecontainer.alternate{
+    width: 60%;
+  }
   
   
   #previewiframe{
@@ -50,6 +53,9 @@
     position:absolute;
     left:360px;
     right:0;
+  }
+  #previewiframecontainer.alternate{
+    left: 60%;
   }
   
   #tabmenulist td{
@@ -102,4 +108,9 @@
   #secondrow{
     height:100%;
   }
+#thirdrow td{
+    position:absolute;
+    bottom:0;
+    height:25px;
+}
   

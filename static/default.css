@@ -1,3 +1,38 @@
+/* layout
+
+{
+"Title":
+[{"type":"group","defaultprop":{"selector":"#title"},
+"controls":[
+{"css":"color"},
+{"css":"text"},
+{"css":"text-shadow","container":"accordion"},
+{"css":"margin"}
+]}],
+"Personal Detail":
+[{"type":"group","defaultprop":{"selector":"#detailtable"},
+"controls":[
+{"css":"color"},
+{"css":"text"},
+{"css":"padding"},
+{"css":"width"}
+]}],
+"Schedule Table":
+[{"type":"group","defaultprop":{"selector":"#scheduletable"},
+"controls":[
+{"css":"color"},
+{"css":"text"},
+{"css":"text-shadow","container":"accordion"},
+{"css":"padding"},
+{"css":"border-width"},
+{"css":"border-style"},
+{"css":"border-color"},
+{"css":"box-shadow","container":"accordion"}
+]}]
+}
+
+*/
+
 /* "#maindiv"="Body" */
 /* "#title"="Title" */
 /* "#scheduletable"="Schedule Table" */

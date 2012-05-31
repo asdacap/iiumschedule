@@ -4,6 +4,16 @@
   
   function postpage(){
   }
+
+  function togglealternate(){
+      if($("#previewiframecontainer").hasClass("alternate")){
+	  $("#expandbutton").text("Expand");
+      }else{
+	  $("#expandbutton").text("Shrink");
+      }
+      $("#previewiframecontainer").toggleClass("alternate");
+      $("#configiframecontainer").toggleClass("alternate");
+  }
   
   var rand = function() {
     return Math.random().toString(36).substr(2); // remove `0.`
