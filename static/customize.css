@@ -90,6 +90,13 @@
     margin-right:1em;
   }
   
+  #tabmenulist #savefbbutton{
+    display:block;
+    float:right;
+    background-color:#aa8888;
+    background-image:url("/static/redbutton.png");
+  }
+  
   #tabmenulist #savebutton{
     display:block;
     float:right;
@@ -105,12 +112,14 @@
     left:0;
     right:0;
   }
+  
   #secondrow{
     height:100%;
   }
-#thirdrow td{
+  
+  #thirdrow td{
     position:absolute;
     bottom:0;
     height:25px;
-}
+  }
   

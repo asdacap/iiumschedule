@@ -131,6 +131,22 @@
     
   }
   
+  function savetoFB(){
+    console.log("Saving style to fb.");
+    var theiframe=$('#previewiframe');
+    var data=theiframe.contents().find('html').html();
+    console.log("Posting schedule");
+    $.post(window.location.origin+"/scheduleformatter/",{data:data,custom:1,ctoken:ctoken},function(response){
+	window.location="https://www.facebook.com/dialog/oauth?"+
+			  "client_id=207943475977546"+
+			  "&redirect_uri="+encodeURIComponent("https://iiumschedule.appspot.com/onfacebook/reg/")+
+			  "&state="+ctoken
+    })
+  }
+  
+  function authenticateFB(){
+  }
+  
   function makearray(length){
     var thearray=new Array();
     var i=0;
