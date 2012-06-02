@@ -4,6 +4,10 @@ runtime: python27
 api_version: 1
 threadsafe: yes
 
+libraries:
+- name: PIL
+  version: "1.1.7"
+
 handlers:
 
 - url: /static

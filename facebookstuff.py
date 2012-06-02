@@ -13,6 +13,7 @@ import string
 from google.appengine.api import conversion
 import httplib
 import google.appengine.api.urlfetch as urlfetch
+from autocrop import autocrop_image
 
 FB_APP_ID='207943475977546'
 FB_CLIENT_SECRET='31ed0d30f91d2a64ab3c0620370b52f6'
@@ -24,7 +25,7 @@ class FbscheduleSchedule(db.Model):
     fb=db.StringProperty()
     token=db.StringProperty()
     data=db.BlobProperty()
-
+    
 detregex=re.compile(r'^/onfacebook/([^/]*?)/([^/]*?)/?$')
 def get_sched_detail(path):
     match=detregex.search(path)
@@ -101,6 +102,7 @@ class FacebookRegister(webapp.RequestHandler):
                 self.response.out.write("Conversion error")
                 return
             scheddata=result.assets[0].data
+            scheddata=autocrop_image(scheddata)
             
             newfbrecord=FbscheduleSchedule()
             newfbrecord.data=scheddata
