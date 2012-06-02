@@ -5,10 +5,12 @@ from google.appengine.ext.webapp import template
 from google.appengine.ext import db
 import re
 import urllib2
+import urllib
 import json
 import random
 from scheduleformatter import SavedSchedule
 import string
+from google.appengine.api import conversion
 
 FB_APP_ID='207943475977546'
 FB_CLIENT_SECRET='31ed0d30f91d2a64ab3c0620370b52f6'
@@ -19,7 +21,7 @@ def generate_token():
 class FbscheduleSchedule(db.Model):
     fb=db.StringProperty()
     token=db.StringProperty()
-    data=db.TextProperty()
+    data=db.BlobProperty()
 
 detregex=re.compile(r'^/onfacebook/([^/]*?)/([^/]*?)/?$')
 def get_sched_detail(path):
@@ -52,8 +54,8 @@ class MainHandler(webapp.RequestHandler):
         token=details[1]
         schedule=FbscheduleSchedule.all().filter("token =",token).filter("fb =",fbid).get()
         #what happen if it return None?
-        path = os.path.join(os.path.dirname(__file__), 'facebookschedule.html')
-        self.response.out.write(template.render(path,{"data":schedule.data}))
+        self.response.headers['Content-Type'] = "image/png"
+        self.response.out.write(schedule.data)
         return
 
 class FacebookRegister(webapp.RequestHandler):
@@ -89,12 +91,35 @@ class FacebookRegister(webapp.RequestHandler):
                 self.response.out.write("Sorry, an error occured. The schedule is no longer in the database.")
                 return
             scheddata=theschedule.data
+            
+            #convert data to picture.
+            htmldata=conversion.Asset("text/html",scheddata,"index.html")
+            converter=conversion.Conversion(htmldata,"image/png",image_width=2000,last_page=2)
+            result=conversion.convert(converter)
+            if(not result.assets):
+                self.response.out.write("Conversion error")
+                return
+            scheddata=result.assets[0].data
+            
             newfbrecord=FbscheduleSchedule()
             newfbrecord.data=scheddata
             newfbrecord.fb=data["id"]
             newfbrecord.token=generate_token()
             newfbrecord.put()
-            self.redirect("/onfacebook/%s/%s/"%(newfbrecord.fb,newfbrecord.token))
+            
+            #post picture to facebook
+            arg={}
+            arg["url"]="http://iiumschedule.appspot.com/onfacebook/%s/%s/"%(newfbrecord.fb,newfbrecord.token)
+            theurl=arg["url"]
+            arg["access_token"]=token
+            arg["message"]="Schedule generated at http://iiumschedule.appspot.com/"
+            arg=urllib.urlencode(arg)
+            try:
+                response=urllib2.urlopen("https://graph.facebook.com/"+str(newfbrecord.fb)+"/photos/",arg)
+            except urllib.HttpException as e:
+                self.response.out.write("Error->"+str(e))
+                self.response.out.write("The url="+theurl)
+            self.response.out.write(response.read())
 
 application = webapp.WSGIApplication([  ('^/onfacebook/reg/?',FacebookRegister),
                                         ('^/onfacebook/[^/]*?/[^/]*?/?', MainHandler),
