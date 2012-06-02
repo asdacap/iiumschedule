@@ -91,7 +91,6 @@ class FacebookRegister(webapp.RequestHandler):
                 self.response.out.write("Sorry, an error occured. The schedule is no longer in the database.")
                 return
             scheddata=theschedule.data
-            
             #convert data to picture.
             htmldata=conversion.Asset("text/html",scheddata,"index.html")
             converter=conversion.Conversion(htmldata,"image/png",image_width=2000,last_page=2)
@@ -116,10 +115,16 @@ class FacebookRegister(webapp.RequestHandler):
             arg=urllib.urlencode(arg)
             try:
                 response=urllib2.urlopen("https://graph.facebook.com/"+str(newfbrecord.fb)+"/photos/",arg)
+                response=response.read()
+                if(re.search(r'^{.*}$',response)):
+                    response=json.loads(response)
+                    theid=response['id']
+                    self.redirect("http://www.facebook.com/"+theid)
+                    return
+                self.response.out.write("Error->"+response)
             except urllib.HttpException as e:
                 self.response.out.write("Error->"+str(e))
                 self.response.out.write("The url="+theurl)
-            self.response.out.write(response.read())
 
 application = webapp.WSGIApplication([  ('^/onfacebook/reg/?',FacebookRegister),
                                         ('^/onfacebook/[^/]*?/[^/]*?/?', MainHandler),
