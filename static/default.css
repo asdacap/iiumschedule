@@ -45,10 +45,12 @@
 /* "#detailtable"="Personal Detail Table" */
 
  #maindiv{
- font-family:arial;
- width:800px;
- margin-left:auto;
- margin-right:auto;
+     zoom: 0.6; -moz-transform: scale(0.6); -moz-transform-origin: 0 0;
+     font-size:60%;
+     font-family:arial;
+     width:800px;
+     margin-left:auto;
+     margin-right:auto;
  }
  
  #detailtable{

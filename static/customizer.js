@@ -26,6 +26,12 @@
   var ctoken=token();
   $("#savebutton a").attr("href","/scheduleloader?ctoken="+ctoken);
   $("#savebutton a").click(saveStyle);
+  var fbtarget="https://www.facebook.com/dialog/oauth?"+
+			  "client_id=207943475977546"+
+			  "&redirect_uri="+encodeURIComponent("https://iiumschedule.appspot.com/onfacebook/reg/")+
+			  "&state="+ctoken
+  //$("#savebutton a").attr("href",fbtarget);
+  $("#savebutton a").click(savetoFB);
   
   function getcurrentstyle(){
       if(thedata.style==undefined){
