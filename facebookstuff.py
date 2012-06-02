@@ -11,6 +11,8 @@ import random
 from scheduleformatter import SavedSchedule
 import string
 from google.appengine.api import conversion
+import httplib
+import google.appengine.api.urlfetch as urlfetch
 
 FB_APP_ID='207943475977546'
 FB_CLIENT_SECRET='31ed0d30f91d2a64ab3c0620370b52f6'
@@ -114,15 +116,15 @@ class FacebookRegister(webapp.RequestHandler):
             arg["message"]="Schedule generated at http://iiumschedule.appspot.com/"
             arg=urllib.urlencode(arg)
             try:
-                response=urllib2.urlopen("https://graph.facebook.com/"+str(newfbrecord.fb)+"/photos/",arg)
-                response=response.read()
+                response=urlfetch.fetch("https://graph.facebook.com/"+str(newfbrecord.fb)+"/photos/",arg,method=urlfetch.POST,headers={'Content-Type': 'application/x-www-form-urlencoded'},deadline=20)
+                response=response.content
                 if(re.search(r'^{.*}$',response)):
                     response=json.loads(response)
                     theid=response['id']
-                    self.redirect("http://www.facebook.com/"+theid)
+                    self.redirect("http://www.facebook.com/"+str(theid))
                     return
                 self.response.out.write("Error->"+response)
-            except urllib.HttpException as e:
+            except httplib.HTTPException as e:
                 self.response.out.write("Error->"+str(e))
                 self.response.out.write("The url="+theurl)
 
