@@ -10,71 +10,179 @@
 {"css":"margin"}
 ]}],
 "Personal Detail":
-[{"type":"group","defaultprop":{"selector":"#detailtable"},
+[
+{"type":"accordion","title":"Show/Hide Details","controls":[
+{"builder":"checkbox","css":"display","option":{"unchecked":"table","checked":"none"},"selector":"#detailtable","name":"Hide Details"},
+{"builder":"checkbox","css":"display","option":{"unchecked":"inline","checked":"none"},"selector":"#desc-name","name":"Hide Name"},
+{"builder":"checkbox","css":"display","option":{"unchecked":"inline","checked":"none"},"selector":"#desc-matric","name":"Hide Matric Number"},
+{"builder":"checkbox","css":"display","option":{"unchecked":"inline","checked":"none"},"selector":"#desc-ic","name":"Hide IC Number"},
+{"builder":"checkbox","css":"display","option":{"unchecked":"inline","checked":"none"},"selector":"#desc-session","name":"Hide Session"},
+{"builder":"checkbox","css":"display","option":{"unchecked":"inline","checked":"none"},"selector":"#desc-semester","name":"Hide Semester"},
+{"builder":"checkbox","css":"display","option":{"unchecked":"inline","checked":"none"},"selector":"#desc-program","name":"Hide Program"}]},
+{"type":"group","defaultprop":{"selector":"#detailtable"},
 "controls":[
 {"css":"color"},
 {"css":"text"},
 {"css":"padding"},
 {"css":"width"}
-]}],
+]}
+],
 "Schedule Table":
 [{"type":"group","defaultprop":{"selector":"#scheduletable"},
 "controls":[
 {"css":"color"},
 {"css":"text"},
 {"css":"text-shadow","container":"accordion"},
-{"css":"padding"},
+{"css":"margin"},
 {"css":"border"},
 {"css":"box-shadow","container":"accordion"}
-]}]
+]},
+{"type":"group","title":"Time Header","defaultprop":{"selector":"#scheduletable th"},
+"controls":[
+{"css":"color"},
+{"css":"background-color"},
+{"css":"text"},
+{"css":"text-shadow","container":"accordion"},
+{"css":"width"},
+{"css":"border"},
+{"css":"box-shadow","container":"accordion"}
+]},
+{"type":"group","title":"Day Header","defaultprop":{"selector":"#scheduletable td.day"},
+"controls":[
+{"css":"color"},
+{"css":"background-color"},
+{"css":"text"},
+{"css":"text-shadow","container":"accordion"},
+{"css":"width"},
+{"css":"border"},
+{"css":"box-shadow","container":"accordion"}
+]}
+],
+"Table Cell":
+[{"type":"group","title":"Non Empty Cell","defaultprop":{"selector":"#scheduletable tr td.nonempty"},
+"controls":[
+{"css":"color"},
+{"css":"background-color"},
+{"css":"text"},
+{"css":"text-shadow","container":"accordion"},
+{"css":"border"},
+{"css":"box-shadow","container":"accordion"}
+]},
+{"type":"group","title":"Empty Cell","defaultprop":{"selector":"#scheduletable tr td.empty"},
+"controls":[
+{"css":"background-color"},
+{"css":"border"},
+{"css":"box-shadow","container":"accordion"}
+]},
+{"type":"accordion","title":"Code text","defaultprop":{"selector":"#scheduletable tr td.nonempty .code"},
+"controls":[
+{"css":"color"},
+{"css":"text"},
+{"css":"text-shadow","container":"accordion"}
+]},
+{"type":"accordion","title":"Venue text","defaultprop":{"selector":"#scheduletable tr td.nonempty .venue"},
+"controls":[
+{"css":"color"},
+{"css":"text"},
+{"css":"text-shadow","container":"accordion"}
+]}
+],
+"Course Table":[
+{"type":"group","defaultprop":{"selector":"#coursetablediv"},
+"controls":[
+{"name":"Hide Table",
+"builder":"checkbox",
+"css":"display",
+"option":{"checked":"none","unchecked":"block"}
+},
+{"css":"text-align"}]},
+{"type":"group","defaultprop":{"selector":"#coursetable"},
+"controls":[
+{"css":"text"},
+{"css":"text-shadow","container":"accordion"},
+{"css":"border"},
+{"css":"box-shadow","container":"accordion"},
+{"css":"width"}
+]},
+{"type":"accordion","title":"Header","defaultprop":{"selector":"#coursetable th"},
+"controls":[
+{"css":"background-color"},
+{"css":"color"},
+{"css":"text"},
+{"css":"text-shadow","container":"accordion"},
+{"css":"border"},
+{"css":"box-shadow","container":"accordion"}
+]},
+{"type":"accordion","title":"Code","defaultprop":{"selector":"#coursetable td.code"},
+"controls":[
+{"css":"background-color"},
+{"css":"color"},
+{"css":"text"},
+{"css":"text-shadow","container":"accordion"},
+{"css":"border"},
+{"css":"box-shadow","container":"accordion"}
+]},
+{"type":"accordion","title":"Section","defaultprop":{"selector":"#coursetable td.section"},
+"controls":[
+{"css":"background-color"},
+{"css":"color"},
+{"css":"text"},
+{"css":"text-shadow","container":"accordion"},
+{"css":"border"},
+{"css":"box-shadow","container":"accordion"}
+]},
+{"type":"accordion","title":"Credit Hour","defaultprop":{"selector":"#coursetable td.credithour"},
+"controls":[
+{"css":"background-color"},
+{"css":"color"},
+{"css":"text"},
+{"css":"text-shadow","container":"accordion"},
+{"css":"border"},
+{"css":"box-shadow","container":"accordion"}
+]},
+{"type":"accordion","title":"Course Name","defaultprop":{"selector":"#coursetable td.name"},
+"controls":[
+{"css":"background-color"},
+{"css":"color"},
+{"css":"text"},
+{"css":"text-shadow","container":"accordion"},
+{"css":"border"},
+{"css":"box-shadow","container":"accordion"}
+]}
+]
 }
 
 */
 
-/* "#maindiv"="Body" */
-/* "#title"="Title" */
-/* "#scheduletable"="Schedule Table" */
-/* "#scheduletable .timecell"="Time table header" */
-/* "#scheduletable .firstcolumn"="First Column" */
-/* "#scheduletable tr th"="Table Header" */
-/* "#scheduletable tr td.nonempty"="Non empty Table Cell" */
-/* "#scheduletable tr td.nonempty .code"="Code" */
-/* "#scheduletable tr td.nonempty .venue"="Venue" */
-/* "#scheduletable tr td.empty"="Empty Table Cell" */
-/* "#scheduletable tr td"="Table Data" */
-/* "#detailtable"="Personal Detail Table" */
-
- #maindiv{
-     zoom: 0.6; -moz-transform: scale(0.6); -moz-transform-origin: 0 0;
-     font-size:60%;
+#maindiv{
      font-family:arial;
-     width:800px;
+     max-width:680px;
      margin-left:auto;
      margin-right:auto;
  }
  
  #detailtable{
- font-size:80%;
- }
- 
- #detailtable .firstcolumn{
- padding-right:10em;
+    font-size:80%;
  }
  
  .preview_container{
-	outline:black dotted 1px;
+    outline:black dotted 1px;
  }
 
  #scheduletable,#coursetable{
- border-collapse:collapse;
- border:2px solid black;
+    border-collapse:collapse;
+    border:2px solid black;
  }
  #scheduletable tr th,#coursetable tr th{
- border-bottom:2px solid black;
+    border-bottom:2px solid black;
  }
  #scheduletable tr td,#coursetable tr td{
- border-bottom:1px solid black;
+    border-bottom:1px solid black;
  }
+ #coursetable{
+     display:inline-block;
+ }
+ 
 /*--CSS statement below is generated by Styler. Please do not remove this comment--*/
-#scheduletable tr td.empty{}#scheduletable .firstcolumn{}#scheduletable tr td.nonempty{text-align:center;border-width:1px;border-style:solid;}#scheduletable tr td.nonempty .venue{font-size:50%;}#scheduletable tr th{font-size:100%;width:80px;}#scheduletable .timecell{width:100px;}
+#scheduletable tr td.empty{background-color:#e8e8e8;}#scheduletable .firstcolumn{}#scheduletable tr td.nonempty{text-align:center;border-width:1px;border-style:solid;}#scheduletable tr td.nonempty .venue{font-size:50%;font-size:52.65%;}#scheduletable tr th{font-size:100%;width:80px;}#scheduletable .timecell{width:100px;}#title{text-align:center;font-family:‘Arial Black’, Gadget, sans-serif;text-transform:uppercase;font-size:255.9%;margin:10.100000000000001px 10.100000000000001px 10.100000000000001px 10.100000000000001px;font-weight:lighter;}#detailtable{width:100%;padding:0px 17.4% 0px 17.4%;text-transform:none;}#scheduletable td.day{background-color:#cacfe3;border-style:solid;border-width:1px 1px 1px 1px;}#scheduletable th{text-transform:uppercase;font-style:italic;font-weight:lighter;background-color:#c5c9d6;}#coursetablediv{text-align:center;}#coursetable{width:89.7%;}#coursetable th{background-color:#a0a6b8;}#coursetable td.code{color:#000000;background-color:#c1c6d9;border-width:1px 1px 1px 1px;border-style:solid;}#coursetable td.section{text-align:center;}#coursetable td.credithour{text-align:center;}
 /*--CSS statement above is generated by Styler. Please do not remove this comment--*/

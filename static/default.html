@@ -11,13 +11,13 @@
   <table id='detailtable'>
     <tr>
       <td class='firstcolumn'>
-      Name = <%= studentname.toTitleCase() %><br />
-      Matric Number = <%= matricnumber %><br />
-      IC Number = <%= ic %><br />
+      <span id='desc-name'>Name = <%= studentname.toTitleCase() %><br /></span>
+      <span id='desc-matric'>Matric Number = <%= matricnumber %><br /></span>
+      <span id='desc-ic'>IC Number = <%= ic %><br /></span>
       </td><td class='secondcolumn'>
-      Session = <%= session %><br />
-      Semester = <%= semester %><br />
-      Program = <%= program %><br />
+      <span id='desc-session'>Session = <%= session %><br /></span>
+      <span id='desc-semester'>Semester = <%= semester %><br /></span>
+      <span id='desc-program'>Program = <%= program %><br /></span>
       </td>
     </tr>
   </table>
@@ -62,7 +62,8 @@
     </tr>
     <% } %>
   </table>
-  <h3>Subject Name</h3>
+  <div id="coursetablediv">
+  <h3>Courses</h3>
   <table id='coursetable'>
     <tr>
       <th>Code</th>
@@ -72,21 +73,22 @@
     </tr>
     <% for(var i=0;i<courselist.length;i=i+1){ %>
       <tr>
-      <td>
+      <td class='code'>
       <%= courselist[i].code %>
       </td>
-      <td>
+      <td class='section'>
       <%= courselist[i].section %>
       </td>
-      <td>
+      <td class='credithour'>
       <%= courselist[i].credithour %>
       </td>
-      <td>
+      <td class='name'>
       <%= courselist[i].title.toTitleCase() %>
       </td>
       </tr>
     <% }%>
   </table>
+  </div>
   <span style='font-size:50%;float:right;margin-top:1ex;'>Generated at http://iiumschedule.appspot.com </span>
   </div>
   </body>
