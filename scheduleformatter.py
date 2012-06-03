@@ -87,4 +87,4 @@ application = webapp.WSGIApplication([('/scheduleformatter/', MainHandler),
 				      ('/scheduleloader',ScheduleLoader),
 				      ('/cleanschedule',CleanSchedule),
 				      ('/',MainPage),],
-				      debug=True)
+				      debug=False)
