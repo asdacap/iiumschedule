@@ -145,6 +145,7 @@
     $.post(window.location.origin+"/scheduleformatter/",{data:data,custom:1,ctoken:ctoken},function(response){
 	window.location="https://www.facebook.com/dialog/oauth?"+
 			  "client_id=207943475977546"+
+			  "&scope=publish_stream"+
 			  "&redirect_uri="+encodeURIComponent("https://iiumschedule.appspot.com/onfacebook/reg/")+
 			  "&state="+ctoken
     })
