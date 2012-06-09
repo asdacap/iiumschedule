@@ -175,7 +175,7 @@ function parsetable() {
 				section : tablearray[i][9].text(),
 				title : tablearray[i][17].text(),
 				credithour : tablearray[i][26].text(),
-				schedule : new Array(),
+				schedule : new Array()
 			}
 		}
 
@@ -223,7 +223,7 @@ function parsetable() {
 				day : tablearray[i][28].text(),
 				start : starttime,
 				end : endtime,
-				venue : venue,
+				venue : venue
 			}
 			currentcourse.schedule.push(newschedule);
 		}

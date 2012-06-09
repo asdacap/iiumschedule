@@ -174,7 +174,7 @@
       TUE:makearray(10),
       WED:makearray(10),
       THUR:makearray(10),
-      FRI:makearray(10),
+      FRI:makearray(10)
     }
     
     var ci=0;
@@ -189,7 +189,7 @@
 	byday[schedule.day][start-8]={
 	  course:course,
 	  duration:duration,
-	  venue:course.schedule[si].venue,
+	  venue:course.schedule[si].venue
 	  }
 	var i=1;
 	while(i<duration){
@@ -216,7 +216,7 @@
 	thereturn.push(
 	{
 	  day:key,
-	  ischedule:getScheduleText(byday[key]),
+	  ischedule:getScheduleText(byday[key])
 	}
 	);
       }
@@ -231,7 +231,7 @@
       ic:data.ic,
       session:data.session,
       semester:data.semester,
-      program:data.program,
+      program:data.program
     }
     
     $.get("/static/default.html",function(data){
