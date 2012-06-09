@@ -181,8 +181,27 @@ function parsetable() {
 
 		if (tablearray[i][28] != "none") {
 			var starttime = parseInt(tablearray[i][34].text(), 10);
-			var endtime = parseInt(/^[^\d]*(\d+)[^\d]*$/.exec(tablearray[i][36]
-					.text())[1], 10);
+			
+			var parseendtime=/^[^\d]*(\d+)[^\d]*$/.exec(tablearray[i][36].text());
+			if(!parseendtime){
+				console.log("Warning, end time for "+tablearray[i][2].text()+" miraculously missing. Using column 35");
+				if(tablearray[i][35]){
+					parseendtime=/^[^\d]*(\d+)[^\d]*$/.exec(tablearray[i][35].text());
+				}
+			}
+			if(!parseendtime){
+				console.log("Still nothing. Using column 37");
+				if(tablearray[i][37]){
+					parseendtime=/^[^\d]*(\d+)[^\d]*$/.exec(tablearray[i][37].text());
+				}
+			}
+			var endtime;
+			if(!parseendtime){
+				console.log("Still missing. Lets just say it use 1 hour.");
+				endtime = starttime+1;
+			}else{
+				endtime = parseInt(parseendtime[1], 10);
+			}
 
 			if (starttime < 8) {
 				starttime = starttime + 12;
