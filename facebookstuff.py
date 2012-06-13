@@ -25,7 +25,7 @@ class FbscheduleSchedule(db.Model):
     fb=db.StringProperty()
     token=db.StringProperty()
     data=db.BlobProperty()
-    
+
 detregex=re.compile(r'^/onfacebook/([^/]*?)/([^/]*?)/?$')
 def get_sched_detail(path):
     match=detregex.search(path)
@@ -103,13 +103,13 @@ class FacebookRegister(webapp.RequestHandler):
                 return
             scheddata=result.assets[0].data
             scheddata=autocrop_image(scheddata)
-            
+
             newfbrecord=FbscheduleSchedule()
             newfbrecord.data=scheddata
             newfbrecord.fb=data["id"]
             newfbrecord.token=generate_token()
             newfbrecord.put()
-            
+
             #post picture to facebook
             arg={}
             arg["url"]="http://iiumschedule.appspot.com/onfacebook/%s/%s/"%(newfbrecord.fb,newfbrecord.token)

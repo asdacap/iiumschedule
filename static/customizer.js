@@ -34,8 +34,8 @@ if(!window.location.origin){
 			  "client_id=207943475977546"+
 			  "&redirect_uri="+encodeURIComponent("https://iiumschedule.appspot.com/onfacebook/reg/")+
 			  "&state="+ctoken
-  //$("#savebutton a").attr("href",fbtarget);
-  $("#savebutton a").click(savetoFB);
+  $("#savefbbutton a").attr("href","/scheduleloader?facebook=1&ctoken="+ctoken);
+  $("#savefbbutton a").click(savetoFB);
   
   function getcurrentstyle(){
       if(thedata.style==undefined){
@@ -135,7 +135,6 @@ if(!window.location.origin){
   
     console.log("Posting schedule");
     $.post(window.location.origin+"/scheduleformatter/",{data:data,custom:1,ctoken:ctoken},function(response){
-    
       console.log("Schedule posted");
     })
     
@@ -147,11 +146,7 @@ if(!window.location.origin){
     var data=theiframe.contents().find('html').html();
     console.log("Posting schedule");
     $.post(window.location.origin+"/scheduleformatter/",{data:data,custom:1,ctoken:ctoken},function(response){
-	window.location="https://www.facebook.com/dialog/oauth?"+
-			  "client_id=207943475977546"+
-			  "&scope=publish_stream"+
-			  "&redirect_uri="+encodeURIComponent("https://iiumschedule.appspot.com/onfacebook/reg/")+
-			  "&state="+ctoken
+    	console.log("save to facebook")
     })
   }
   
