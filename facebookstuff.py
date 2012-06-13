@@ -10,6 +10,7 @@ import json
 import random
 from scheduleformatter import SavedSchedule
 import string
+from datetime import datetime,timedelta
 from google.appengine.api import conversion
 import httplib
 import google.appengine.api.urlfetch as urlfetch
@@ -25,6 +26,7 @@ class FbscheduleSchedule(db.Model):
     fb=db.StringProperty()
     token=db.StringProperty()
     data=db.BlobProperty()
+    createddate=db.DateTimeProperty()
 
 detregex=re.compile(r'^/onfacebook/([^/]*?)/([^/]*?)/?$')
 def get_sched_detail(path):
@@ -108,6 +110,7 @@ class FacebookRegister(webapp.RequestHandler):
             newfbrecord.data=scheddata
             newfbrecord.fb=data["id"]
             newfbrecord.token=generate_token()
+            newfbrecord.createddate=datetime.now()
             newfbrecord.put()
 
             #post picture to facebook
@@ -129,8 +132,16 @@ class FacebookRegister(webapp.RequestHandler):
             except httplib.HTTPException as e:
                 self.response.out.write("Error->"+str(e))
                 self.response.out.write("The url="+theurl)
+                
+class CleanSchedule(webapp.RequestHandler):
+    def get(self):
+        nowtime=datetime.now()
+        nowtime=nowtime-timedelta(hours=12)
+        thelist=FbscheduleSchedule.all().filter("createddate <",nowtime)
+        db.delete(thelist)
 
 application = webapp.WSGIApplication([  ('^/onfacebook/reg/?',FacebookRegister),
+                                        ('/onfacebook/clean/',CleanSchedule),
                                         ('^/onfacebook/[^/]*?/[^/]*?/?', MainHandler),
                                       ],
                                       debug=True)
