@@ -1,6 +1,10 @@
-
+if(!window.location.origin){
+	window.location.origin=window.location.protocol + "//" + window.location.host;
+}
   
   var currenttemplate;
+  
+  
   
   function postpage(){
   }

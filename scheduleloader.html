@@ -4,6 +4,9 @@
 <script type='text/javascript' src='/static/js/jquery-1.7.2.min.js' ></script>
 <script type='text/javascript'>
   function test(){
+      if(!window.location.origin){
+          window.location.origin=window.location.protocol + "//" + window.location.host;
+      }
       $.get(window.location.origin+"/scheduleloader?ctoken={{token}}&test=1",function(reply){
 	if(reply=="true"){
 	  window.location=window.location.origin+"/scheduleformatter/?token={{token}}&dtype=completeschedule";
