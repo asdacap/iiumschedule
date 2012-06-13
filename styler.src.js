@@ -10,7 +10,8 @@ $.widget('styler.StylerSlider',{
 		unitselector : [],
 		registercss : true,
 		label: true,
-		sliderops : {}
+		sliderops : {},
+		decimalpoint:2
 	},
 	_create : function() {
 		var that = this;
@@ -64,7 +65,8 @@ $.widget('styler.StylerSlider',{
 			var different = max - min;
 			var currentvalue = min
 					+ different
-					* (parseInt(theslider.slider('value'), 10) / 1000)
+					* (parseInt(theslider.slider('value'), 10) / 1000);
+			currentvalue=currentvalue.toFixed(that.options.decimalpoint);
 			var thetext = currentvalue + that.options.postfix;
 			theinput.val(thetext);
 			that._trigger('change', 0, thetext);
@@ -260,13 +262,16 @@ $.widget('styler.StylerSlider',{
 	}
 });
 
+function initbuilders(){
+
 function radiobuilder(theval){
 	function builder(selector,cssproperty,option){
 		var values=theval;
 		if(option && option.values){
 			$.extend(values,option.values);
 		}
-		var uid=selector.replace(" ","_")+cssproperty.replace(" ","_");
+		_counter=_counter+1;
+		var uid=selector.replace(" ","_")+cssproperty.replace(" ","_")+_counter.toString();
 		var container=$("<div id='"+uid+"' style='inline-block'>");
 		for(var index in values){
 			var value=values[index];
@@ -275,7 +280,7 @@ function radiobuilder(theval){
 			radiobutton.attr("id",chid);
 			radiobutton.attr("value",value);
 			radiobutton.attr("type","radio");
-			radiobutton.attr("name",cssproperty.replace(" ","_"));
+			radiobutton.attr("name",uid+"radio");
 			var label=$("<label>");
 			label.text(value);
 			label.attr("for",chid);
@@ -287,10 +292,19 @@ function radiobuilder(theval){
 			modifycss(selector,cssproperty, $(this).val());
 		});
 		function handler(csstring) {
-			console.log("Radio change->" + cssproperty);
 			var theinput=container.find("input[value="+csstring+"]");
-			theinput.attr("checked", "checked");
-			theinput.button("refresh");
+			
+			if(theinput.length==0){
+				console.log("Warning, trying to set unknown value to input->"+csstring);
+				return;
+			}
+			
+			container.find("input[checked=checked]").attr("checked","false");
+			container.find("input")[0].checked=true;
+			var theinput=container.find("input[value="+csstring+"]");
+			theinput.attr("checked", true);
+			$(theinput).button("refresh");
+			$(container).buttonset("refresh");
 		}
 		registercsshandler(selector,cssproperty, handler);
 		return container;
@@ -298,7 +312,6 @@ function radiobuilder(theval){
 	return builder;
 }
 
-var _counter=0;
 function foursliderbuilder(defoption){
 	function thebuilder(selector,css,prefoption){
 		var option={
@@ -941,7 +954,7 @@ function backgroundrepeatbuilder(selector,cssprop,option){
 }
 
 function backgroundurlbuilder(selector,cssproperty){
-	var backgroundimageurlinput=$("<br /><input style='width:100%;'>");
+	var backgroundimageurlinput=$("<input style='width:100%;'>");
 	var extractor = /url\((.*)\)/;
 	$(backgroundimageurlinput).change(function() {
 		var theurl = backgroundimageurlinput.val();
@@ -959,9 +972,11 @@ function backgroundurlbuilder(selector,cssproperty){
 		}
 	}
 	registercsshandler(selector,cssproperty, handler);
-	return backgroundimageurlinput;
+	
+	var container=$("<div>");
+	container.append(backgroundimageurlinput);
+	return container;
 }
-
 function sliderbuilder(defoption){
 	function innerbuilder(selector,cssprop,option){
 		var predefoption={
@@ -985,7 +1000,135 @@ function sliderbuilder(defoption){
 	return innerbuilder;
 }
 
-var predefcustomcss={
+function backgroundsizebuilder(selector,cssprop,option){
+	var slideroption={
+			cssprop : cssprop,
+			selector : selector,
+			registercss : false,
+			label:false,
+			unitselector : [ {
+				name : "Percent",
+				postfix : "%"
+			}, {
+				name : "Pixel",
+				postfix : "px"
+			} ]
+		};
+	
+	var height="100%";
+	var width="100%";
+	var state="custom";
+	
+	_counter=_counter+1;
+	var uid="background_size"+_counter;
+	var radiobutton=$("<div></div>");
+	
+	var radid="radio_"+uid+"_custom";
+	radiobutton.append("<input id='"+radid+"' type='radio' name='radio_"+uid+"' value='custom'/><label for='"+radid+"'>custom</label>");
+	var radid="radio_"+uid+"_cover";
+	radiobutton.append("<input id='"+radid+"' type='radio' name='radio_"+uid+"' value='cover'/><label for='"+radid+"'>cover</label>");
+	var radid="radio_"+uid+"_contain";
+	radiobutton.append("<input id='"+radid+"' type='radio' name='radio_"+uid+"' value='contain'/><label for='"+radid+"'>contain</label>");
+	$(radiobutton).buttonset();
+	
+	var customcontainer=$("<div>")
+	function enablecustom(){
+		console.log("custom enabled");
+		customcontainer.find("div").removeAttr("disabled");
+		customcontainer.find("input").removeAttr("disabled");
+	}
+	
+	function disablecustom(){
+		console.log("custom disabled");
+		customcontainer.find("div").attr("disabled","disabled");
+		customcontainer.find("input").attr("disabled","disabled");
+	}
+	
+	
+	$(radiobutton).find("input[type=radio]").change(function(){
+		var thevalue=$(this).val();
+		if(thevalue=="custom"){
+			enablecustom();
+		}else{
+			disablecustom();
+		}
+		state=thevalue;
+		reapply();
+	});
+	
+	function get_cssstring(){
+		if(state=="custom"){
+			return height+" "+width;
+		}
+		return state;
+	}
+	
+	function reapply(){
+		modifycss(selector, cssprop, get_cssstring());
+	}
+	
+	var heightslider=$("<div>");
+	$(heightslider).StylerSlider($.extend({},slideroption,{
+		change:function(event,csstring){
+			height=csstring;
+			reapply();
+		}
+	}));
+	
+	var widthslider=$("<div>");
+	$(widthslider).StylerSlider($.extend({},slideroption,{
+		change:function(event,csstring){
+			width=csstring;
+			reapply();
+		}
+	}));
+	
+	function reapplytocontrol(){
+		if(state=="custom"){
+			enablecustom();
+		}else{
+			disablecustom();
+		}
+		$(heightslider).StylerSlider('string',height);
+		$(widthslider).StylerSlider('string',width);
+		$(radiobutton).find("input[type=radio]").attr("checked","");
+		$(radiobutton).find("input[type=radio][value="+state+"]").attr("checked","checked");
+		$(radiobutton).buttonset("refresh");
+	}
+	
+	function handler(css){
+		var theex=/\s*([^\s]+)\s+([^\s]+)\s*/;
+		var match=theex.exec(css);
+		if(match){
+			height=match[1];
+			width=match[2];
+			state="custom";
+			reapplytocontrol();
+		}else{
+			state=css;
+			reapplytocontrol();
+		}
+	}
+	
+	registercsshandler(selector, cssprop, handler);
+	
+	var container=$("<div>");
+	container.append(radiobutton);
+	
+	customcontainer.append("<span>height:</span>")
+	.append(heightslider)
+	.append("<span>width:</span>")
+	.append(widthslider)
+	.append("<br />");
+	
+	container.append(customcontainer);
+	
+	disablecustom();
+	
+	return container;
+}
+
+predefcustomcss={
   "text":{type:"accordion",
 	    "title":"text",
 	    "controls":[
@@ -1007,10 +1150,10 @@ var predefcustomcss={
 	 }
 };
 
-var nolabel=["text","border"]
-var nobr=["checkbox","colourbuilder"]
+nolabel=["text","border"]
+nobr=["checkbox","colourbuilder"]
 
-var predefbuilders={
+predefbuilders={
 		"border-color":colourbuilder,
 		"border-width":foursliderbuilder({postfix:"px",min:0,max:20}),
 		"border-style":selectionbuilder(["none","hidden","dotted","dashed","solid","double","groove","ridge","inset","outset","inherit"]),
@@ -1021,7 +1164,10 @@ var predefbuilders={
 		"border-bottom-right-radius":sliderbuilder({min:0,max:100,postfix:"px"}),
 		"box-shadow":boxshadowbuilder,
 		"background-color":colourbuilder,
+		"background-attachment":radiobuilder(["inherit","scroll","fixed"]),
+		"background-origin":radiobuilder(["padding-box","border-box","content-box"]),
 		"background-image":backgroundurlbuilder,
+		"background-size":backgroundsizebuilder,
 		"background-repeat":backgroundrepeatbuilder,
 		"color":colourbuilder,
 		"margin":foursliderbuilder({postfix:"px"}),
@@ -1049,13 +1195,18 @@ var predefbuilders={
 		"text-shadow":textshadowbuilder
 		};
 
-var builders={
+builders={
 		"checkbox":checkbox,
 		"color":colourbuilder,
 		"slider":sliderbuilder({}),
 		"fourslider":foursliderbuilder({}),
-		"radio":radiobuilder({})
+		"radio":radiobuilder({}),
+		"backgroundurlbuilder":backgroundurlbuilder
+}	
+
 }
+var _counter=0;
+initbuilders();
 //------------------------end builders definition-----------------------------
 
 var thehandlers = {};
@@ -1074,6 +1225,7 @@ var defaultvalues = {
 	"background-color" : "transparent",
 	"background-image" : "none",
 	"background-repeat" : "repeat",
+	"background-size" : "auto auto",
 	"margin-top" : "0",
 	"margin-right" : "0",
 	"margin-bottom" : "0",
@@ -1135,6 +1287,9 @@ function registercsshandler(selector,css, thefunction) {
 	if(!thehandlers[selector]){
 		thehandlers[selector]={};
 	}
+	if(thehandlers[selector][css]){
+		console.log("for some reason, this handler already exist->"+selector+" css->"+css);
+	}
 	thehandlers[selector][css] = thefunction;
 }
 
@@ -1194,7 +1349,7 @@ function reverse_css(){
 function getnewcss() {
 
 	var preappend = "/*--CSS statement below is generated by Styler. Please do not remove this comment--*/";
-	var newgenerated = preappend;
+	var newgenerated = preappend+"\n";
 	var endappend = "\n/*--CSS statement above is generated by Styler. Please do not remove this comment--*/";
 	var newstyle = oldstyle
 	// new generetor.....................
@@ -1240,7 +1395,7 @@ function getnewcss() {
 							newgroup = newgroup.replace(theregex, prefix
 									+ propertytext);
 						} else {
-							newgroup = newgroup + propertytext;
+							newgroup = newgroup + propertytext +"\n";
 						}
 					}
 				}
@@ -1250,12 +1405,12 @@ function getnewcss() {
 				generatedportion = generatedportion.replace(oldgroup, newgroup);
 
 			} else {
-				var newgroup = selector + "{";
+				var newgroup = "\n"+selector + "{\n";
 				var properties = changelog[selector];
 				for ( var property in properties) {
 					if (properties.hasOwnProperty(property)) {
 						var propertytext = property + ":"
-								+ properties[property] + ";";
+								+ properties[property] + ";\n";
 						newgroup = newgroup + propertytext;
 					}
 				}
@@ -1271,12 +1426,12 @@ function getnewcss() {
 
 	} else {
 		for ( var selector in changelog) {
-			var newgroup = selector + "{";
+			var newgroup = "\n"+selector + "{\n";
 			var properties = changelog[selector];
 			for ( var property in properties) {
 				if (properties.hasOwnProperty(property)) {
 					var propertytext = property + ":" + properties[property]
-							+ ";";
+							+ ";\n";
 					newgroup = newgroup + propertytext;
 				}
 			}
@@ -1307,12 +1462,12 @@ function extract_properties() {
 	var commentfinder=/\/\*[\s\S]*?\*\//mg;
 	var nocomment=cssbase+oldstyle.replace(commentfinder,"\n");
 	//then find it
-	var propertyextracter = new RegExp( "\s*([^}]+)\s*{([^{}]*)}", 'mg');
+	var propertyextracter = new RegExp( "\s*([^}]+?)\s*{([^{}]*)}", 'mg');
 	var match;
 	while(match=propertyextracter.exec(nocomment)){
 		var selector=$.trim(match[1]);
 		var properties=match[2];
-		var propertyextracter2g = /([^:;]+):([^:;]*)\;/g;
+		var propertyextracter2g = /([^:;]+):([^:;]*|[^:;]*\([^;]*\))[^:;]*\;/g;
 		var propmatch;
 		while(propmatch=propertyextracter2g.exec(properties)){
 			var css=$.trim(propmatch[1]);
