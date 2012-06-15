@@ -39,6 +39,9 @@ class MainHandler(webapp.RequestHandler):
             data=DEFAULTDATA
         else:
             theinstance=SavedSchedule.get_by_key_name(token)
+            if(theinstance==None):
+                self.response.out.write("Sorry, the requested schedule is no longer in the database. You should save it on your computer earlier.")
+                return
             data=theinstance.data
           
         text=text+r"<script>var data="+data+";formatschedule();</script>"
