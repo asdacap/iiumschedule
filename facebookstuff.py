@@ -68,7 +68,7 @@ class FacebookRegister(webapp.RequestHandler):
         state=self.request.get("state")
         if(self.request.get("error",None)):
             path = os.path.join(os.path.dirname(__file__), 'errorfacebookauth.html')
-            self.response.out.write(template.render(path,{"token":state,"message":self.request.response.out.get("error_description")}))
+            self.response.out.write(template.render(path,{"token":state,"message":self.request.out.get("error_description")}))
             return
         code=self.request.get("code")
         requesturl="https://graph.facebook.com/oauth/access_token?client_id="+FB_APP_ID+\
