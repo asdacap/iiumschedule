@@ -235,7 +235,6 @@ if(!window.location.origin){
     
     $.get("/static/default.html",function(data){
       currenttemplate=data;
-      rerender($("#defaultstyle").html());
       $.get("/static/default.css",function(data){
 	rerender(data);
 	themegallery();
