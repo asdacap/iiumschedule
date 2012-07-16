@@ -30,12 +30,6 @@ if(!window.location.origin){
   var ctoken=token();
   $("#savebutton a").attr("href","/scheduleloader?ctoken="+ctoken);
   $("#savebutton a").click(saveStyle);
-  var fbtarget="https://www.facebook.com/dialog/oauth?"+
-			  "client_id=207943475977546"+
-			  "&redirect_uri="+encodeURIComponent("https://iiumschedule.appspot.com/onfacebook/reg/")+
-			  "&state="+ctoken
-  $("#savefbbutton a").attr("href","/scheduleloader?facebook=1&ctoken="+ctoken);
-  $("#savefbbutton a").click(savetoFB);
   
   function getcurrentstyle(){
       if(thedata.style==undefined){
@@ -138,19 +132,6 @@ if(!window.location.origin){
       console.log("Schedule posted");
     })
     
-  }
-  
-  function savetoFB(){
-    console.log("Saving style to fb.");
-    var theiframe=$('#previewiframe');
-    var data=theiframe.contents().find('html').html();
-    console.log("Posting schedule");
-    $.post(window.location.origin+"/scheduleformatter/",{data:data,custom:1,ctoken:ctoken},function(response){
-    	console.log("save to facebook")
-    })
-  }
-  
-  function authenticateFB(){
   }
   
   function makearray(length){

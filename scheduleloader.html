@@ -1,5 +1,68 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <head>
+<style>
+body{
+  background-color:#e1f7f5;
+  background-image:url("/static/mainback.png");
+  background-repeat:repeat-x;
+  font-family:Arial;
+}
+    
+#messagediv{
+    display:none;
+    margin:0;
+    padding:0;
+}
+
+#messagediv .left{
+    height:100%;
+    width:30%;
+    text-align:left;
+    vertical-align:top;
+}
+
+#messagediv .left .container{
+    margin:1em;
+    padding: 0 1em 1em 1em;
+    background-color:#EFF;
+    border-radius:50px;
+    border:solid #EFF 1px;
+    box-shadow:0 0 3px 0 #00fbff;
+}
+
+#messagediv .right{
+    overflow: hidden;
+    height:100%;
+}
+
+#previewiframe{
+    background-color:white;
+}
+
+body,#messagediv table,#maindiv>div,#previewiframe{
+    width:99.8%;
+    height:99.8%;
+    margin:0;
+    padding:0;
+}
+
+#maindiv{
+    text-align:center;
+    vertical-align:middle;
+    display:table-cell;
+    margin:0;
+    padding:0;
+    position: absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+}
+
+#loadingdiv{
+    text-align:center;
+}
+</style>
 <title>Schedule Loader</title>
 <script type='text/javascript' src='/static/js/jquery-1.7.2.min.js' ></script>
 <script type="text/javascript">
@@ -21,19 +84,78 @@
           window.location.origin=window.location.protocol + "//" + window.location.host;
       }
       $.get(window.location.origin+"/scheduleloader?ctoken={{token}}&test=1",function(reply){
-	if(reply=="true"){
-	  window.location=window.location.origin+"/scheduleformatter/?token={{token}}&dtype=completeschedule";
-	}else{
-	  setTimeout("test()",500);
-	  console.log("Reply on token {{token}} false");
-	}
+    	if(reply=="true"){
+    	    $("#loadingdiv").slideUp(1000);
+    	    $("#messagediv").slideDown(1000);
+    	    $("#previewiframe").attr("src",window.location.origin+"/scheduleformatter/?token={{token}}&dtype=completeschedule");
+    	    $("#facebooklink").attr("href","https://www.facebook.com/dialog/oauth?"+
+              "client_id=207943475977546"+
+              "&scope=publish_stream"+
+              "&redirect_uri="+encodeURIComponent("https://iiumschedule.appspot.com/onfacebook/reg/")+
+              "&state={{token}}");
+            //window.location=window.location.origin+"/scheduleformatter/?token={{token}}&dtype=completeschedule";
+    	}else{
+    	  setTimeout("test()",500);
+    	  console.log("Reply on token {{token}} false");
+    	}
       });
   }
   test();
 </script>
+  <div id="fb-root"></div>
+  <script>
+    window.fbAsyncInit = function() {
+      FB.init({
+	appId      : '207943475977546', // App ID
+	channelUrl : 'http://iiumschedule.appspot.com/static/fbchannel.html',
+	status     : true, // check login status
+	cookie     : true, // enable cookies to allow the server to access the session
+	xfbml      : true  // parse XFBML
+      });
+
+      // Additional initialization code here
+    };
+
+    // Load the SDK Asynchronously
+    (function(d){
+      var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement('script'); js.id = id; js.async = true;
+      js.src = "//connect.facebook.net/en_US/all.js";
+      ref.parentNode.insertBefore(js, ref);
+    }(document));
+  </script>
 </head>
 
 <body>
+<div id='maindiv'>
+<div id='loadingdiv'>
 <h1>Loading...</h1>
 <p>tunggu sat na...</p>
+</div>
+<div id='messagediv'>
+    <table>
+        <tr>
+            <td class='left'> 
+                <div class='container'>
+                <h1>Your Schedule is ready.</h1>
+                <h2><a target="_blank" href="/scheduleformatter/?token={{token}}&dtype=completeschedule">Open in another page.</a></h2>
+                Open the schedule in another page. Then you can save the schedule, print it, etc...<br />The link given is only available temporarily. Please save your schedule somewhere else.
+                <h2><a target="_blank" id='facebooklink' href="">Save in Facebook</a></h2>
+                This link will open another tab to a facebook app that will save the schedule in your facebook as a photo. <br /><strong>WARNING:May not render correctly.</strong>
+                <br />
+                <h3>By the way</h3>
+                Please support this website by clicking the like button below. Thank you.
+                <div class="fb-like" data-href="http://iiumschedule.appspot.com/" data-send="true" data-width="770" data-show-faces="true"></div>
+                </div>
+            </td>
+            <td class='right'> 
+                <iframe id='previewiframe' src='about:blank'>
+                </iframe>
+            </td>
+        </tr>
+    
+    </table>
+</div>
+</div>
 </body>
