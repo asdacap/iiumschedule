@@ -1058,7 +1058,7 @@ function backgroundsizebuilder(selector,cssprop,option){
 	
 	function get_cssstring(){
 		if(state=="custom"){
-			return height+" "+width;
+			return width+" "+height;
 		}
 		return state;
 	}
@@ -1100,8 +1100,8 @@ function backgroundsizebuilder(selector,cssprop,option){
 		var theex=/\s*([^\s]+)\s+([^\s]+)\s*/;
 		var match=theex.exec(css);
 		if(match){
-			height=match[1];
-			width=match[2];
+			height=match[2];
+			width=match[1];
 			state="custom";
 			reapplytocontrol();
 		}else{
@@ -1137,7 +1137,19 @@ predefcustomcss={
 	      {"css":"text-align"},
 	      {"css":"font-style"},
 	      {"css":"font-weight"},
+	      {"css":"text-decoration"},
 	      {"css":"text-transform"}
+	    ]
+	 },
+  "background":{type:"accordion",
+	    "title":"background",
+	    "controls":[
+	      {"css":"background-color"},
+	      {"css":"background-attachment"},
+	      {"css":"background-origin"},
+	      {"css":"background-image"},
+	      {"css":"background-size"},
+	      {"css":"background-repeat"}
 	    ]
 	 },
   "border":{type:"accordion",
@@ -1150,7 +1162,7 @@ predefcustomcss={
 	 }
 };
 
-nolabel=["text","border"]
+nolabel=["text","border","background"]
 nobr=["checkbox","colourbuilder"]
 
 predefbuilders={
@@ -1584,9 +1596,10 @@ function buildlayout(thestringlayout){
 		var layout=JSON.parse(thestringlayout);
 	}catch(e){
 		console.log("Invalid layout->"+e.toString());
-		mainbody.append("<h4>Invalid layout->"+e.toString()+"</h4>");
-		return;
+		
+		return $("<h4>Invalid layout->"+e.toString()+"</h4>");
 	}
+	var tempdiv=$("<div>");
 	var tabmenu=$("<ul>");
 	for( page in layout){
 		var newid="tab-"+page.replace(" ","_");
@@ -1596,31 +1609,32 @@ function buildlayout(thestringlayout){
 		for( property in properties){
 			thediv.append(buildcontrol(properties[property]));
 		}
-		mainbody.append(thediv);
+		tempdiv.append(thediv);
 	}
-	mainbody.prepend(tabmenu);
-	$(mainbody).tabs();
+	tempdiv.prepend(tabmenu);
+	$(tempdiv).tabs();
+	return tempdiv;
+}
+
+var matches;
+var asyncstuff=function(){
+	if(matches){
+		var thething=buildlayout(matches[1]);
+		mainbody.html(thething);
+		reset_all();
+		extract_properties();
+	}else{
+		mainbody.html("<h3>No valid styler layout found.</h3>The css does not contain Styler layout description. Therefore styler is not available.");
+	}
+	inactive = false;
 }
 
 function parseOldStyle() {
 	inactive = true;
-	
+	mainbody.html("<h3>parsing...</h3>Please wait");
 	var layoutfinder=/\/\*\s*layout\s*\n([^*]*)\n\*\//mg;
-	var matches;
-	var counter=0;
-	while(matches = layoutfinder.exec(oldstyle)){
-		buildlayout(matches[1]);
-		counter=counter+1;
-	}
-	reset_all();
-	cssbase="";
-	extract_properties();
-	
-	if(counter==0){
-		
-	}
-	
-	inactive = false;
+	matches = layoutfinder.exec(oldstyle);
+	setTimeout("asyncstuff();",100);
 }
 
 var previewiframe;
