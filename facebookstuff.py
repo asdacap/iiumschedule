@@ -124,7 +124,11 @@ class FacebookRegister(webapp.RequestHandler):
                 response=urlfetch.fetch("https://graph.facebook.com/"+str(newfbrecord.fb)+"/photos/",arg,method=urlfetch.POST,headers={'Content-Type': 'application/x-www-form-urlencoded'},deadline=20)
                 response=response.content
                 if(re.search(r'^{.*}$',response)):
+                    oldtext=response
                     response=json.loads(response)
+                    if(not hasattr(response,"id")):
+                        self.response.out.write("Error->"+oldtext+"\n The image url is <a href='%s'>%s</a>"%(theurl,theurl));
+                        return
                     theid=response['id']
                     self.redirect("http://www.facebook.com/"+str(theid))
                     return
