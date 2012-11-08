@@ -1,18 +1,19 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
     <head>
 
         <link type="text/css" href="/static/css/redmond/jquery-ui-1.8.20.custom.css" rel="stylesheet"/>
-        <link rel="stylesheet" href="/static/colorpicker/css/colorpicker.css" type="text/css" />
+        <link type="text/css" href="/static/styler.css" rel="stylesheet"/>
+        <link type="text/css" href="/static/colorpicker/colorpicker.css" rel="stylesheet"/>
         <script type="text/javascript" src="/static/js/jquery-1.7.2.min.js"></script>
         <script type="text/javascript" src="/static/js/jquery.tools.min.js"></script>
-        <script type="text/javascript" src="/static/colorpicker/js/colorpicker.js"></script>
         <script type="text/javascript" src="/static/js/jquery-ui-1.8.20.custom.min.js"></script>
         <title></title>
         <meta content="">
         <style>
             body {
                 margin: 0px;
-                font-size:10px;
+                font-size: 10px;
             }
 
             #container_container {
@@ -65,44 +66,6 @@
                 width: 100%;
             }
 
-            input.minmax {
-                width: 8%;
-                max-width:4ex;
-                border: 0;
-                display: inline-block;
-                background: none;
-                margin:0;
-                text-align:right;
-            }
-
-            input.maxunit {
-                text-align:left;
-            }
-            
-            input.sliderpreval{
-                width:6em;
-            }
-            
-            .cssslider {
-                min-width: 80%;
-                max-width: 95%;
-                display: inline-block;
-                margin:0 1ex;
-            }
-            
-            .styler_control{
-            }
-            .styler_group{
-		        display:inline-block;
-		        width:99%;
-                padding: 1ex;
-            }
-            .styler_group h3{
-                margin:0;
-            }
-            .styler_accordian_group{
-            }
-
         </style>
     </head>
     <body>
@@ -110,5 +73,437 @@
 
         </div>
     </body>
+    <script type="text/javascript" src="/static/colorpicker/colorpicker.js"></script>
     <script type="text/javascript" src="/static/styler.js"></script>
+    <script>
+        function parseCSS(css, iframe) {
+            var predeflayout = {
+                "Title" : {
+                    "type" : "emptygroup",
+                    "defaultprop" : {
+                        "selector" : "#title"
+                    },
+                    "controls" : [{
+                        "css" : "color"
+                    }, {
+                        "css" : "text",
+                        "container":"accordion"
+                    }, {
+                        "css" : "text-shadow",
+                        "container":"accordion"
+                    }, {
+                        "css" : "margin",
+                        "container":"accordion"
+                    }]
+                },
+                "Personal Detail" : {
+                    "controls" : [
+                    {
+                        "type" : "group",
+                        "defaultprop" : {
+                            "selector" : "#detailtable"
+                        },
+                        "controls" : [{
+                            "css" : "color"
+                        }, {
+                            "css" : "width"
+                        }, {
+                            "css" : "text",
+                            "container" : "accordion"
+                        }, {
+                            "css" : "padding",
+                            "container" : "accordion"
+                        }]
+                    },
+                    {
+                        "name" : "Show/Hide Details",
+                        "type" : "accordion",
+                        "controls" : [{
+                            "builder" : "checkbox",
+                            "css" : "display",
+                            "unchecked" : "table",
+                            "checked" : "none",
+                            "selector" : "#detailtable",
+                            "name" : "Hide Details"
+                        }, {
+                            "builder" : "checkbox",
+                            "css" : "display",
+                            "unchecked" : "table",
+                            "checked" : "none",
+                            "selector" : "#desc-name",
+                            "name" : "Hide Name"
+                        }, {
+                            "builder" : "checkbox",
+                            "css" : "display",
+                            "unchecked" : "table",
+                            "checked" : "none",
+                            "selector" : "#desc-matric",
+                            "name" : "Hide Matric Number"
+                        }, {
+                            "builder" : "checkbox",
+                            "css" : "display",
+                            "unchecked" : "table",
+                            "checked" : "none",
+                            "selector" : "#desc-ic",
+                            "name" : "Hide IC Number"
+                        }, {
+                            "builder" : "checkbox",
+                            "css" : "display",
+                            "unchecked" : "table",
+                            "checked" : "none",
+                            "selector" : "#desc-session",
+                            "name" : "Hide Session"
+                        }, {
+                            "builder" : "checkbox",
+                            "css" : "display",
+                            "unchecked" : "table",
+                            "checked" : "none",
+                            "selector" : "#desc-semester",
+                            "name" : "Hide Semester"
+                        }, {
+                            "builder" : "checkbox",
+                            "css" : "display",
+                            "unchecked" : "table",
+                            "checked" : "none",
+                            "selector" : "#desc-program",
+                            "name" : "Hide Program"
+                        }]
+                    } ]
+                },
+                "Schedule Table" : {
+                    "controls" : [{
+                        "type" : "group",
+                        "defaultprop" : {
+                            "selector" : "#scheduletable"
+                        },
+                        "controls" : [{
+                            "css" : "color"
+                        }, {
+                            "css" : "width"
+                        }, {
+                            "css" : "text",
+                            "container" : "accordion"
+                        }, {
+                            "css" : "text-shadow",
+                            "container" : "accordion"
+                        }, {
+                            "css" : "margin",
+                            "container" : "accordion"
+                        }, {
+                            "css" : "border",
+                            "container" : "accordion"
+                        }, {
+                            "css" : "box-shadow",
+                            "container" : "accordion"
+                        }]
+                    }, {
+                        "type" : "group",
+                        "name" : "Time Header",
+                        "defaultprop" : {
+                            "selector" : "#scheduletable th"
+                        },
+                        "controls" : [{
+                            "css" : "color"
+                        }, {
+                            "css" : "width"
+                        }, {
+                            "css" : "background-color"
+                        }, {
+                            "css" : "text",
+                            "container" : "accordion"
+                        }, {
+                            "css" : "text-shadow",
+                            "container" : "accordion"
+                        }, {
+                            "css" : "border",
+                            "container" : "accordion"
+                        }, {
+                            "css" : "box-shadow",
+                            "container" : "accordion"
+                        }]
+                    }, {
+                        "type" : "group",
+                        "name" : "Day Header",
+                        "defaultprop" : {
+                            "selector" : "#scheduletable td.day"
+                        },
+                        "controls" : [{
+                            "css" : "color"
+                        }, {
+                            "css" : "width"
+                        }, {
+                            "css" : "background-color"
+                        }, {
+                            "css" : "text",
+                            "container" : "accordion"
+                        }, {
+                            "css" : "text-shadow",
+                            "container" : "accordion"
+                        }, {
+                            "css" : "border",
+                            "container" : "accordion"
+                        }, {
+                            "css" : "box-shadow",
+                            "container" : "accordion"
+                        }]
+                    }]
+                },
+                "Table Cell" : {
+                    "controls" : [
+                        {
+                            "type" : "accordion",
+                            "name" : "General",
+                            "defaultprop" : {
+                            "selector" : "#scheduletable tr td",
+                            },
+                            "controls":[
+                                {
+                                    "css":"color",
+                                    "container" : "accordion"
+                                },{
+                                    "css":"text",
+                                    "container" : "accordion"
+                                },{
+                                    "css":"margin",
+                                    "container" : "accordion"
+                                },{
+                                    "css":"padding",
+                                    "container" : "accordion"
+                                },{
+                                    "css":"border",
+                                    "container" : "accordion"
+                                }
+                            ]  
+                        }, {
+                        "type" : "group",
+                        "name" : "Non Empty Cell",
+                        "defaultprop" : {
+                            "selector" : "#scheduletable tr td.nonempty"
+                        },
+                        "controls" : [{
+                            "css" : "color"
+                        }, {
+                            "css" : "background-color"
+                        }, {
+                            "css" : "text",
+                            "container" : "accordion"
+                        }, {
+                            "type" : "accordion",
+                            "name" : "Venue text",
+                            "defaultprop" : {
+                                "selector" : "#scheduletable tr td.nonempty .venue"
+                            },
+                            "controls" : [{
+                                "css" : "color"
+                            }, {
+                                "css" : "text"
+                            }, {
+                                "css" : "text-shadow",
+                                "container" : "accordion"
+                            }]
+                        }, {
+                            "type" : "accordion",
+                            "name" : "Code text",
+                            "defaultprop" : {
+                                "selector" : "#scheduletable tr td.nonempty .code"
+                            },
+                            "controls" : [{
+                                "css" : "color"
+                            }, {
+                                "css" : "text"
+                            }, {
+                                "css" : "text-shadow",
+                                "container" : "accordion"
+                            }]
+                        }, {
+                            "css" : "text-shadow",
+                            "container" : "accordion"
+                        }, {
+                            "css" : "border",
+                            "container" : "accordion"
+                        }, {
+                            "css" : "box-shadow",
+                            "container" : "accordion"
+                        }]
+                    }, {
+                        "type" : "group",
+                        "name" : "Empty Cell",
+                        "defaultprop" : {
+                            "selector" : "#scheduletable tr td.empty"
+                        },
+                        "controls" : [{
+                            "css" : "background-color"
+                        }, {
+                            "css" : "border",
+                            "container" : "accordion"
+                        }, {
+                            "css" : "padding",
+                            "container" : "accordion"
+                        }, {
+                            "css" : "box-shadow",
+                            "container" : "accordion"
+                        }]
+                    }]
+                },
+                "Course Table" : {
+                    "controls" : [{
+                        "type" : "group",
+                        "defaultprop" : {
+                            "selector" : "#coursetablediv"
+                        },
+                        "controls" : [{
+                            "name" : "Hide Table",
+                            "builder" : "checkbox",
+                            "css" : "display",
+                            "option" : {
+                                "checked" : "none",
+                                "unchecked" : "block"
+                            }
+                        }, {
+                            "css" : "text-align"
+                        }]
+                    }, {
+                            "css" : "width",
+                            "selector" : "#coursetablecont"
+                    },{
+                        "type" : "accordion",
+                        "name" : "general",
+                        "defaultprop" : {
+                            "selector" : "#coursetable"
+                        },
+                        "controls" : [{
+                            "css" : "text",
+                            "container" : "accordion"
+                        }, {
+                            "css" : "text-shadow",
+                            "container" : "accordion"
+                        }, {
+                            "css" : "border",
+                            "container" : "accordion"
+                        }, {
+                            "css" : "box-shadow",
+                            "container" : "accordion"
+                        }]
+                    }, {
+                        "type" : "accordion",
+                        "name" : "Header",
+                        "defaultprop" : {
+                            "selector" : "#coursetable th"
+                        },
+                        "controls" : [{
+                            "css" : "background-color"
+                        }, {
+                            "css" : "color"
+                        }, {
+                            "css" : "text"
+                        }, {
+                            "css" : "text-shadow",
+                            "container" : "accordion"
+                        }, {
+                            "css" : "border"
+                        }, {
+                            "css" : "box-shadow",
+                            "container" : "accordion"
+                        }]
+                    }, {
+                        "type" : "accordion",
+                        "name" : "Code",
+                        "defaultprop" : {
+                            "selector" : "#coursetable td.code"
+                        },
+                        "controls" : [{
+                            "css" : "background-color"
+                        }, {
+                            "css" : "color"
+                        }, {
+                            "css" : "text"
+                        }, {
+                            "css" : "text-shadow",
+                            "container" : "accordion"
+                        }, {
+                            "css" : "border"
+                        }, {
+                            "css" : "box-shadow",
+                            "container" : "accordion"
+                        }]
+                    }, {
+                        "type" : "accordion",
+                        "name" : "Section",
+                        "defaultprop" : {
+                            "selector" : "#coursetable td.section"
+                        },
+                        "controls" : [{
+                            "css" : "background-color"
+                        }, {
+                            "css" : "color"
+                        }, {
+                            "css" : "text"
+                        }, {
+                            "css" : "text-shadow",
+                            "container" : "accordion"
+                        }, {
+                            "css" : "border"
+                        }, {
+                            "css" : "box-shadow",
+                            "container" : "accordion"
+                        }]
+                    }, {
+                        "type" : "accordion",
+                        "name" : "Credit Hour",
+                        "defaultprop" : {
+                            "selector" : "#coursetable td.credithour"
+                        },
+                        "controls" : [{
+                            "css" : "background-color"
+                        }, {
+                            "css" : "color"
+                        }, {
+                            "css" : "text"
+                        }, {
+                            "css" : "text-shadow",
+                            "container" : "accordion"
+                        }, {
+                            "css" : "border"
+                        }, {
+                            "css" : "box-shadow",
+                            "container" : "accordion"
+                        }]
+                    }, {
+                        "type" : "accordion",
+                        "name" : "Course Name",
+                        "defaultprop" : {
+                            "selector" : "#coursetable td.name"
+                        },
+                        "controls" : [{
+                            "css" : "background-color"
+                        }, {
+                            "css" : "color"
+                        }, {
+                            "css" : "text"
+                        }, {
+                            "css" : "text-shadow",
+                            "container" : "accordion"
+                        }, {
+                            "css" : "border"
+                        }, {
+                            "css" : "box-shadow",
+                            "container" : "accordion"
+                        }]
+                    }]
+                }
+            };
+            stylerobj = Styler({
+                css : css,
+                container : $("#mainbody"),
+                iframe : iframe,
+                predeflayout : predeflayout,
+                preparse : true
+            });
+        }
+
+        function savestyle() {
+            var newcss = stylerobj.getNewCss(true);
+            parent.applyStyle(newcss);
+        }
+    </script>
 </html>
