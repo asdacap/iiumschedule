@@ -620,7 +620,9 @@ function Styler(args){
 		};
 		var inputdata={};
 		for(inputid in colorinputs){
-			inputdata[inputid]=colorinputs[inputid].color;
+			if(colorinputs[inputid].color!=""){
+				inputdata[inputid]=colorinputs[inputid].color;
+			}
 		}
 		palettedata.inputs=inputdata;
 		
