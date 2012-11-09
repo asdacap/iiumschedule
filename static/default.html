@@ -7,7 +7,7 @@
   <body>
   <div id='maindiv'>
   <h2 id="title"> <%= studentname.toTitleCase() %>'s Schedule</h2>
-  <div>
+  <div id='detailtablecont'>
   <table id='detailtable'>
     <tr>
       <td class='firstcolumn'>
@@ -23,19 +23,20 @@
   </table>
   </div>
   <br />
+  <div id='scheduletablecont'>
   <table id='scheduletable'>
     <tr>
-      <th class='day firstcolumn'>Day</th>
-      <th class='timecell'>8 am</th>
-      <th class='timecell'>9 am</th>
-      <th class='timecell'>10 am</th>
-      <th class='timecell'>11 am</th>
-      <th class='timecell'>12 pm</th>
-      <th class='timecell'>1 pm</th>
-      <th class='timecell'>2 pm</th>
-      <th class='timecell'>3 pm</th>
-      <th class='timecell'>4 pm</th>
-      <th class='timecell'>5 pm</th>
+      <td class='day timecell'>Day</td>
+      <td class='timecell'>8 am</td>
+      <td class='timecell'>9 am</td>
+      <td class='timecell'>10 am</td>
+      <td class='timecell'>11 am</td>
+      <td class='timecell'>12 pm</td>
+      <td class='timecell'>1 pm</td>
+      <td class='timecell'>2 pm</td>
+      <td class='timecell'>3 pm</td>
+      <td class='timecell'>4 pm</td>
+      <td class='timecell'>5 pm</td>
     </tr>
     <% for(key in schedule) {%>
     <tr>
@@ -62,6 +63,7 @@
     </tr>
     <% } %>
   </table>
+  </div>
   <div id="coursetablediv">
   <h3>Courses</h3>
   <div id="coursetablecont">

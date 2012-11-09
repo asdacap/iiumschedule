@@ -78,6 +78,22 @@
     <script>
         function parseCSS(css, iframe) {
             var predeflayout = {
+                "General":{
+                    "defaultprop":{
+                        "selector":"#maindiv"
+                    },
+                    "controls":[
+                        {
+                            "css":"color"
+                        }, {
+                            "css":"text",
+                            "container":"accordion"
+                        }, {
+                            "css":"background",
+                            "container":"accordion"
+                        }
+                    ]
+                },
                 "Title" : {
                     "type" : "emptygroup",
                     "defaultprop" : {
@@ -107,6 +123,10 @@
                             "css" : "color"
                         }, {
                             "css" : "width"
+                        }, {
+                            "css" : "text-align",
+                            "name" : "Alignment",
+                            "selector" : "#detailtablecont"
                         }, {
                             "css" : "text",
                             "container" : "accordion"
@@ -181,6 +201,10 @@
                         }, {
                             "css" : "width"
                         }, {
+                            "css" : "text-align",
+                            "name" : "Alignment",
+                            "selector" : "#scheduletablecont"
+                        }, {
                             "css" : "text",
                             "container" : "accordion"
                         }, {
@@ -200,16 +224,21 @@
                         "type" : "group",
                         "name" : "Time Header",
                         "defaultprop" : {
-                            "selector" : "#scheduletable th"
+                            "selector" : "#scheduletable tr td.timecell"
                         },
                         "controls" : [{
                             "css" : "color"
                         }, {
                             "css" : "width"
                         }, {
+                            "css" : "height"
+                        }, {
                             "css" : "background-color"
                         }, {
                             "css" : "text",
+                            "container" : "accordion"
+                        }, {
+                            "css" : "padding",
                             "container" : "accordion"
                         }, {
                             "css" : "text-shadow",
@@ -237,6 +266,9 @@
                             "css" : "text",
                             "container" : "accordion"
                         }, {
+                            "css" : "padding",
+                            "container" : "accordion"
+                        }, {
                             "css" : "text-shadow",
                             "container" : "accordion"
                         }, {
@@ -259,7 +291,10 @@
                             "controls":[
                                 {
                                     "css":"color",
-                                    "container" : "accordion"
+                                },{
+                                    "css":"width"
+                                },{
+                                    "css":"height"
                                 },{
                                     "css":"text",
                                     "container" : "accordion"
@@ -360,7 +395,8 @@
                                 "unchecked" : "block"
                             }
                         }, {
-                            "css" : "text-align"
+                            "css" : "text-align",
+                            "name" : "Alignment"
                         }]
                     }, {
                             "css" : "width",
@@ -492,12 +528,21 @@
                     }]
                 }
             };
+            
+            var palette={
+                "Background":"#FFFFFF",
+                "Table Header":"#FFA840",
+                "Empty Table Cell":"#64AAD0",
+                "Table Cell":"#3c9dd0"
+            }
+            
             stylerobj = Styler({
                 css : css,
                 container : $("#mainbody"),
                 iframe : iframe,
                 predeflayout : predeflayout,
-                preparse : true
+                preparse : true,
+                palette:palette
             });
         }
 

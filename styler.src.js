@@ -653,8 +653,8 @@ function Styler(args){
 	
 	function changePaletteColor(colorname,value){
 		palette[colorname]=value;
-		palettediv.find("input[colorname="+colorname+"]").val(value);
-		palettediv.find("input[colorname="+colorname+"]").css("background-color",value);
+		palettediv.find("input[colorname='"+colorname+"']").val(value);
+		palettediv.find("input[colorname='"+colorname+"']").css("background-color",value);
 		for(var inputid in colorinputs){
 			if(colorinputs[inputid].color==colorname){
 				colorinputs[inputid].input.val(value);

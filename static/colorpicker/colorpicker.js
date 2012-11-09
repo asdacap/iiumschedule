@@ -96,6 +96,9 @@ function initColorChooser(){
             maininput.val(text);
             maininput.css("background-color",text);
             inputchanging=true;
+            if(inputid){
+            	
+            }
             maininput.change();
             inputchanging=false;
         }
@@ -349,6 +352,13 @@ function initColorChooser(){
     drawloop();
     
     maincanvas.bind('mousedown',function(e){
+    	
+    	function removeCPLink(){
+    		if(inputid && stylerobj){
+    			stylerobj.setInputColor(inputid,"")
+    		}
+    	}
+    	
         var offset=maincanvas.offset();
         var x = e.pageX - offset.left;
         var y = e.pageY - offset.top;
@@ -368,6 +378,7 @@ function initColorChooser(){
             updateHueData();
             draw();
             updateInput();
+            removeCPLink();
         }
         
         var radius=Math.sqrt(mx*mx+my*my);
@@ -403,6 +414,7 @@ function initColorChooser(){
                 lightness=100-y;
                 draw();
                 updateInput();
+                removeCPLink();
             }
             
             modify(x-50,y-50);
@@ -449,6 +461,7 @@ function initColorChooser(){
                 opacity=x/190;
                 opacity=roundNumber(opacity,3);
                 updateInput();
+                removeCPLink();
             }
             
             modifyo(x-5,y-205);
@@ -492,8 +505,10 @@ function initColorChooser(){
     function hide(){
         maincontainer.slideUp(removePalette());
         $("body").unbind("click",hide);
-        maininput.unbind("change",mainInputChange);
-        maininput=false;
+        if(maininput){
+	        maininput.unbind("change",mainInputChange);
+	        maininput=false;
+        }
         inputid=undefined;
         stylerobj=undefined;
     }
@@ -531,6 +546,7 @@ function initColorChooser(){
     	for(palettename in palettecolors){
     		var palettecontainer=$("<div class='paletteitem'>");
     		var previewbox=$("<div class='paletteitembox'>");
+    		previewbox.attr("title",palettename);
     		if(palettename==currentcolor){
     			palettecontainer.toggleClass("selected");
     		}
