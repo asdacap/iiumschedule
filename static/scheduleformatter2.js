@@ -37,6 +37,45 @@ function fixstring(text) {
 	return result
 }
 
+function error(e){
+	globerr=e;
+	if(!$("#iiumschedulediv").length){
+		$("body").append("<div id='iiumschedulediv' style='width:100%;text-align:center;margin-top:10px;'></div>");
+	}
+	var maindiv=$("#iiumschedulediv");
+	maindiv.html("");
+	maindiv.append("<h3>Error detected...</h3>");
+	maindiv.append("<p>Sorry, an error occur. Would you be so kind to send me some data to help fix this bug? <br /> WARNING: this WILL include your CRS</p>");
+	var button=$("<button>Ok</button>");
+	maindiv.append(button);
+	maindiv.append("<span>(If not ok, just close this window)</span>");
+	button.click(function(){
+		var container=$("<div class='tempanimcont'>");
+		maindiv.children().wrap(container);
+		maindiv.find(".tempanimcont").slideUp(1000,function(){
+			maindiv.find(".tempanimcont").remove();
+		});
+		var theform=$("<form>");
+		theform.attr("method","POST");
+		theform.attr("action","https://iiumschedule.appspot.com/error");
+		theform.append("<label for='submitter'>Your Name</label><input type='text' name='submitter' value=''></input><br />");
+		theform.append("<label for='add'>Anything else to add? Description maybe?</label><br /><textarea cols='30' rows='5' name='add'>Insert complain here</textarea><br />");
+		theform.append("<label for='error'>Error Description</label><input type='text' name='error' value='"+e.toString()+"'></input><br />");
+		theform.append("<label for='html'>HTML data</label><br /><textarea cols='30' rows='5' name='html'></textarea><br />");
+		theform.find("textarea[name=html]").val($("body").html());
+		theform.append("<input name='submit' type='submit' value='submit'></input>");
+		maindiv.append(theform);
+	});
+}
+
+function start(){
+	try{
+		parsetable();
+	}catch(e){
+		error(e);
+	}
+}
+
 function parsetable() {
 	// parse table
 	makemessage("Parsing table, please wait...");

@@ -18,6 +18,12 @@ class SavedSchedule(db.Model):
     data=db.TextProperty()
     createddate=db.DateTimeProperty()
     
+class ErrorLog(db.Model):
+    submitter=db.StringProperty()
+    html=db.TextProperty()
+    error=db.TextProperty()
+    additionalinfo=db.TextProperty()
+    
 class MainHandler(webapp.RequestHandler):
     def get(self):
         dtype=self.request.get("dtype","unformatted")
@@ -85,6 +91,19 @@ class ScheduleLoader(webapp.RequestHandler):
             path = os.path.join(os.path.dirname(__file__), 'scheduleloader.html')
         self.response.out.write(template.render(path,{"token":token}))
             
+class ErrorHandler(webapp.RequestHandler):
+    def post(self):
+        submitter=self.request.get("submitter")
+        html=self.request.get("html")
+        additionaldata=self.request.get("add")
+        newrecord=ErrorLog()
+        newrecord.submitter=submitter
+        newrecord.html=html
+        newrecord.error=self.request.get("error")
+        newrecord.additionalinfo=additionaldata
+        newrecord.put()
+        self.response.out.write("Thank you for submitting a bug report. I will take some time before I read this error, and take more time before I fix it. So... just be patient.")
+            
 class MainPage(webapp.RequestHandler):
     def get(self):
         path = os.path.join(os.path.dirname(__file__), 'mainpage.html')
@@ -92,6 +111,7 @@ class MainPage(webapp.RequestHandler):
             
 application = webapp.WSGIApplication([('/scheduleformatter/', MainHandler),
                                       ('/scheduleloader',ScheduleLoader),
+                                      ('/error',ErrorHandler),
                                       ('/cleanschedule',CleanSchedule),
                                       ('/',MainPage),],
                                       debug=False)
