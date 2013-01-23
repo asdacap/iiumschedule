@@ -120,7 +120,7 @@ function parsetable() {
 						} else {
 							console.log("warning, table array on rspi/cspi"
 									+ (index + rspi).toString() + "/"
-									+ (cs + cspi).toString()
+									+ (ci + cspi).toString()
 									+ " is not empty->"
 									+ tablearray[index + rspi][ci + cspi])
 						}
@@ -169,108 +169,243 @@ function parsetable() {
 	var semester = match[2];
 	var program = fixstring(tablearray[6][43].text())
 	console.log(program);
-	matcher = /Printedby\d{6}on([^,]+),.+/;
-	var thedate = fixstring(tablearray[2][1].text());
-	var date = matcher.exec(thedate)[1];
+	var printedby= fixstring(tablearray[2][1].text());
+	var cfsmatcher = /Printedby\d{6}on([^,]+),.+/;
+	var maincampusmatcher = /Printedby\d{7}on([^,]+),.+/;
+    var cfsmatch=cfsmatcher.exec(printedby);
+    var maincampusmatch=maincampusmatcher.exec(printedby);
+    if(cfsmatch){
+        makemessage("Looks like a cfs slip.");
+	    var date = cfsmatch[1];
+        var scheduletype="CFS";
+        var starttableindex = 0;
+        while (tablearray[starttableindex][1] == "none"
+                || (tablearray[starttableindex][1].children("hr").length == 0)) {
+            if (starttableindex >= tablearray.length) {
+                alert("Fail to find start table index");
+                return;
+            }
+            starttableindex = starttableindex + 1;
+        }
 
-	var starttableindex = 0;
-	while (tablearray[starttableindex][1] == "none"
-			|| (tablearray[starttableindex][1].children("hr").length == 0)) {
-		if (starttableindex >= tablearray.length) {
-			alert("Fail to find start table index");
-			return;
-		}
-		starttableindex = starttableindex + 1;
-	}
+        console.log("starttableindex->" + starttableindex.toString())
 
-	console.log("starttableindex->" + starttableindex.toString())
+        var endtableindex = starttableindex;
+        while (tablearray[endtableindex][20] == "none"
+                || tablearray[endtableindex][20].text() != "Total") {
+            if (endtableindex >= tablearray.length) {
+                alert("Fail to find end table index");
+                return;
+            }
 
-	var endtableindex = starttableindex;
-	while (tablearray[endtableindex][20] == "none"
-			|| tablearray[endtableindex][20].text() != "Total") {
-		if (endtableindex >= tablearray.length) {
-			alert("Fail to find end table index");
-			return;
-		}
+            endtableindex = endtableindex + 1;
+        }
 
-		endtableindex = endtableindex + 1;
-	}
+        console.log("endtableindex->" + endtableindex.toString())
 
-	console.log("endtableindex->" + endtableindex.toString())
+        var coursearray = new Array();
+        var currentcourse = 0;
 
-	var coursearray = new Array();
-	var currentcourse = 0;
+        var i = starttableindex + 1;
+        while (i < endtableindex) {
 
-	var i = starttableindex + 1;
-	while (i < endtableindex) {
+            if (tablearray[i][2] != "none") {
+                if (currentcourse != 0) {
+                    console.log("Schedule found->" + JSON.stringify(currentcourse));
+                    coursearray.push(currentcourse);
+                }
+                currentcourse = {
+                    code : tablearray[i][2].text(),
+                    section : tablearray[i][9].text(),
+                    title : tablearray[i][17].text(),
+                    credithour : tablearray[i][26].text(),
+                    schedule : new Array()
+                }
+            }
 
-		if (tablearray[i][2] != "none") {
-			if (currentcourse != 0) {
-				console.log("Schedule found->" + JSON.stringify(currentcourse));
-				coursearray.push(currentcourse);
-			}
-			currentcourse = {
-				code : tablearray[i][2].text(),
-				section : tablearray[i][9].text(),
-				title : tablearray[i][17].text(),
-				credithour : tablearray[i][26].text(),
-				schedule : new Array()
-			}
-		}
+            if (tablearray[i][28] != "none") {
+                var starttime = parseInt(tablearray[i][34].text(), 10);
+                
+                var parseendtime=/^[^\d]*(\d+)[^\d]*$/.exec(tablearray[i][36].text());
+                if(!parseendtime){
+                    console.log("Warning, end time for "+tablearray[i][2].text()+" miraculously missing. Using column 35");
+                    if(tablearray[i][35]){
+                        parseendtime=/^[^\d]*(\d+)[^\d]*$/.exec(tablearray[i][35].text());
+                    }
+                }
+                if(!parseendtime){
+                    console.log("Still nothing. Using column 37");
+                    if(tablearray[i][37]){
+                        parseendtime=/^[^\d]*(\d+)[^\d]*$/.exec(tablearray[i][37].text());
+                    }
+                }
+                var endtime;
+                if(!parseendtime){
+                    console.log("Still missing. Lets just say it use 1 hour.");
+                    endtime = starttime+1;
+                }else{
+                    endtime = parseInt(parseendtime[1], 10);
+                }
 
-		if (tablearray[i][28] != "none") {
-			var starttime = parseInt(tablearray[i][34].text(), 10);
-			
-			var parseendtime=/^[^\d]*(\d+)[^\d]*$/.exec(tablearray[i][36].text());
-			if(!parseendtime){
-				console.log("Warning, end time for "+tablearray[i][2].text()+" miraculously missing. Using column 35");
-				if(tablearray[i][35]){
-					parseendtime=/^[^\d]*(\d+)[^\d]*$/.exec(tablearray[i][35].text());
-				}
-			}
-			if(!parseendtime){
-				console.log("Still nothing. Using column 37");
-				if(tablearray[i][37]){
-					parseendtime=/^[^\d]*(\d+)[^\d]*$/.exec(tablearray[i][37].text());
-				}
-			}
-			var endtime;
-			if(!parseendtime){
-				console.log("Still missing. Lets just say it use 1 hour.");
-				endtime = starttime+1;
-			}else{
-				endtime = parseInt(parseendtime[1], 10);
-			}
+                if (starttime < 8) {
+                    starttime = starttime + 12;
+                }
 
-			if (starttime < 8) {
-				starttime = starttime + 12;
-			}
+                if (endtime < 8) {
+                    endtime = endtime + 12;
+                }
 
-			if (endtime < 8) {
-				endtime = endtime + 12;
-			}
+                /*
+                 * if(tablearray[i][41].text()=="PM"){ starttime=starttime+12;
+                 * endtime=endtime+12; } if(tablearray[i][41].text()=="AM"){
+                 * if(endtime<8){ endtime=endtime+12; } }
+                 */
 
-			/*
-			 * if(tablearray[i][41].text()=="PM"){ starttime=starttime+12;
-			 * endtime=endtime+12; } if(tablearray[i][41].text()=="AM"){
-			 * if(endtime<8){ endtime=endtime+12; } }
-			 */
+                var venue = tablearray[i][46].text();
 
-			var venue = tablearray[i][46].text();
+                var newschedule = {
+                    day : tablearray[i][28].text(),
+                    start : starttime,
+                    end : endtime,
+                    venue : venue
+                }
+                currentcourse.schedule.push(newschedule);
+            }
 
-			var newschedule = {
-				day : tablearray[i][28].text(),
-				start : starttime,
-				end : endtime,
-				venue : venue
-			}
-			currentcourse.schedule.push(newschedule);
-		}
+            i = i + 1;
+        }
+        console.log("Schedule found->" + JSON.stringify(currentcourse));
+        coursearray.push(currentcourse);
+    }else if(maincampusmatch){
+        makemessage("Looks like a main campus slip.");
+	    var date = maincampusmatch[1];
+        var scheduletype="MAINCAMPUS";
+        var starttableindex = 0;
+        while (tablearray[starttableindex][1] == "none"
+                || (tablearray[starttableindex][1].children("hr").length == 0)) {
+            if (starttableindex >= tablearray.length) {
+                alert("Fail to find start table index");
+                return;
+            }
+            starttableindex = starttableindex + 1;
+        }
 
-		i = i + 1;
-	}
-	console.log("Schedule found->" + JSON.stringify(currentcourse));
-	coursearray.push(currentcourse);
+        console.log("starttableindex->" + starttableindex.toString())
+
+        var endtableindex = starttableindex;
+        while (tablearray[endtableindex][20] == "none"
+                || tablearray[endtableindex][20].text() != "Total") {
+            if (endtableindex >= tablearray.length) {
+                alert("Fail to find end table index");
+                return;
+            }
+
+            endtableindex = endtableindex + 1;
+        }
+
+        console.log("endtableindex->" + endtableindex.toString())
+
+        var coursearray = new Array();
+        var currentcourse = 0;
+
+        var i = starttableindex + 1;
+        while (i < endtableindex) {
+
+            if (tablearray[i][2] != "none") {
+                if (currentcourse != 0) {
+                    console.log("Schedule found->" + JSON.stringify(currentcourse));
+                    coursearray.push(currentcourse);
+                }
+                currentcourse = {
+                    code : tablearray[i][2].text(),
+                    section : tablearray[i][9].text(),
+                    title : tablearray[i][17].text(),
+                    credithour : tablearray[i][26].text(),
+                    schedule : new Array()
+                }
+            }
+
+            if (tablearray[i][28] != "none") {
+                var starttime = parseInt(tablearray[i][34].text(), 10);
+                
+                var parseendtime=/^\D*([0-9\.]+)\D*$/.exec(tablearray[i][36].text());
+                if(!parseendtime){
+                    console.log("Warning, end time for "+tablearray[i][2].text()+" miraculously missing. Using column 35");
+                    if(tablearray[i][35]){
+                        parseendtime=/^[^\d]*(\d+)[^\d]*$/.exec(tablearray[i][35].text());
+                    }
+                }
+                if(!parseendtime){
+                    console.log("Still nothing. Using column 37");
+                    if(tablearray[i][37]){
+                        parseendtime=/^[^\d]*(\d+)[^\d]*$/.exec(tablearray[i][37].text());
+                    }
+                }
+                var endtime;
+                if(!parseendtime){
+                    console.log("Still missing. Lets just say it use 1 hour.");
+                    endtime = starttime+1;
+                }else{
+                    endtime = parseInt(parseendtime[1], 10);
+                }
+
+                if(tablearray[i][41].text()=="PM"){ starttime=starttime+12;
+                endtime=endtime+12; } 
+
+                var venue = tablearray[i][46].text();
+                
+                var rawday=tablearray[i][28].text();
+                if(/\s*(MON|TUE|WED|THUR|FRI)\s*/.exec(rawday)){
+                    var day=rawday;
+                    var newschedule = {
+                        day : day,
+                        start : starttime,
+                        end : endtime,
+                        venue : venue
+                    }
+                    currentcourse.schedule.push(newschedule);
+                }else{
+                    var execed=/\s*((M|T|W|TH|F))\s*-\s*((M|T|W|TH|F))\s*/.exec(rawday);
+                    if(execed){
+                        function make_long(d){
+                            if(d=='M')return "MON";
+                            if(d=='T')return "TUE";
+                            if(d=='W')return "WED";
+                            if(d=='TH')return "THUR";
+                            if(d=='F')return "FRI";
+                            throw "Unknown day ->"+d;
+                        }
+                        var d1=make_long(execed[1]);
+                        var newschedule = {
+                            day : d1,
+                            start : starttime,
+                            end : endtime,
+                            venue : venue
+                        }
+                        currentcourse.schedule.push(newschedule);
+                        var d2=make_long(execed[2]);
+                        var newschedule = {
+                            day : d2,
+                            start : starttime,
+                            end : endtime,
+                            venue : venue
+                        }
+                        currentcourse.schedule.push(newschedule);
+                    }else{
+                        throw "Unknown day format ->"+rawday;
+                    }
+                }
+                
+            }
+
+            i = i + 1;
+        }
+        console.log("Schedule found->" + JSON.stringify(currentcourse));
+        coursearray.push(currentcourse);
+    }else{
+        throw "Unknown Schedule Type, match string -> "+printedby;
+    }
+
 
 	// format data
 
@@ -281,7 +416,8 @@ function parsetable() {
 		ic : icnumber,
 		session : session,
 		semester : semester,
-		program : program
+		program : program,
+        scheduletype:scheduletype
 	});
 
 	makemessage("Saving schedule...please wait...");
