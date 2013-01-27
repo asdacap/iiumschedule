@@ -326,7 +326,7 @@ function parsetable() {
             }
 
             if (tablearray[i][28] != "none") {
-                var starttime = parseInt(tablearray[i][34].text(), 10);
+                var starttime = parseFloat(tablearray[i][34].text(), 10);
                 
                 var parseendtime=/^\D*([0-9\.]+)\D*$/.exec(tablearray[i][36].text());
                 if(!parseendtime){
@@ -346,7 +346,7 @@ function parsetable() {
                     console.log("Still missing. Lets just say it use 1 hour.");
                     endtime = starttime+1;
                 }else{
-                    endtime = parseInt(parseendtime[1], 10);
+                    endtime = parseFloat(parseendtime[1], 10);
                 }
 
                 if(tablearray[i][41].text()=="PM"){ starttime=starttime+12;
