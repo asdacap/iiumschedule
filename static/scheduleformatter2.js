@@ -420,20 +420,27 @@ function parsetable() {
         scheduletype:scheduletype
 	});
 
+
 	makemessage("Saving schedule...please wait...");
-	$
-			.post(
-					"https://iiumschedule.appspot.com/scheduleformatter/",
-					{
-						data : data
-					},
-					function(response) {
-						var thetoken = response;
-						makemessage(
-								"Done! Please click <a target='_blank' href='https://iiumschedule.appspot.com/scheduleformatter/?token="
-										+ thetoken
-										+ "' >this link</a> to continue.",
-								false);
-					})
+	$.ajax({
+	 url:"https://iiumschedule.appspot.com/scheduleformatter/",
+     method:"POST",
+     data:{data : data},
+	 success:function(response) {
+        var thetoken = response;
+        makemessage(
+        "Done! Please click <a target='_blank' href='https://iiumschedule.appspot.com/scheduleformatter/?token="
+                    + thetoken
+                    + "' >this link</a> to continue.",
+        false);
+        },
+     error:function(err,textstatus,errthrown){
+        makemessage(
+            "Error saving schedule ->"+textstatus+" . The server may be down. Please try again later.",
+            false
+        );
+     }
+    });
+
 
 }
