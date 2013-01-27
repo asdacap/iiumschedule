@@ -27,38 +27,52 @@
   <table id='scheduletable'>
     <tr>
       <td class='timecell'>Day</td>
-      <td class='timecell'>8 am</td>
-      <td class='timecell'>9 am</td>
-      <td class='timecell'>10 am</td>
-      <td class='timecell'>11 am</td>
-      <td class='timecell'>12 pm</td>
-      <td class='timecell'>1 pm</td>
-      <td class='timecell'>2 pm</td>
-      <td class='timecell'>3 pm</td>
-      <td class='timecell'>4 pm</td>
-      <td class='timecell'>5 pm</td>
+      <% 
+        for(var i=0;i<(actualendhour-actualstarthour);i++){
+      %>
+      <td class='timecell' colspan='12'><% 
+      var thetime=i+actualstarthour; 
+      var dtime=thetime;
+      if(thetime>12){
+          dtime=(dtime-12).toString()+" pm";
+      }else{
+          dtime=dtime.toString()+" am";
+      }
+      %><%= dtime %></td>
+      <% } %>
     </tr>
-    <% for(key in schedule) {%>
+    <% for(key in byfiveminute) {%>
     <tr>
       <td class='day firstcolumn'>
 	<%= key %>
       </td>
-      <% for(var i=0;i<schedule[key].length;i=i+1){ %>
-	<% if(schedule[key][i].course){ %>
-	  <td class='nonempty' colspan='<%= schedule[key][i].duration %>'>
+      <% for(var i=0;i<byfiveminute[key].length;i=i+1){ %>
+	<% if(byfiveminute[key][i].course){ %>
+	  <td class='nonempty' colspan='<%= byfiveminute[key][i].duration %>'>
 	      <div class='code'>
-	      <%= schedule[key][i].course.code %>
+	      <%= byfiveminute[key][i].course.code %>
 	      </div>
 	      <div class='venue'>
-	      <%= schedule[key][i].venue %>
+	      <%= byfiveminute[key][i].venue %>
 	      </div>
 	  </td>
-	<% }else if(schedule[key][i]=="none"){ %>
-	<% }else{ %>
-	  <td class='empty'>
-	      <%= schedule[key][i]%>
+	<% }else if(byfiveminute[key][i]=="none"){ %>
+	<% }else{ 
+        var howmuch=1;
+        var ci=i+1;
+        while(ci<byfiveminute[key].length){
+            if(byfiveminute[key][ci]!=""){
+                break;
+            }else{
+                howmuch+=1;
+            }
+            ci=ci+1;
+        }
+        %>
+	  <td class='empty' colspan='<%= howmuch %>'>
+	      <%= byfiveminute[key][i]%>
 	  </td>
-	<% } %>
+	<% i=i+howmuch-1} %>
       <% } %>
     </tr>
     <% } %>

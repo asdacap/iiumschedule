@@ -166,14 +166,60 @@ function formatschedule() {
 
 	var studentname = data.studentname;
 	var coursearray = data.coursearray;
+	
+    var starthour=8;
+    var actualstarthour=20;
+    var actualendhour=8;
+    var i=0;
+    while(i<coursearray.length){
+        var i2=0;
+        var ccourse=coursearray[i];
+        while(i2<ccourse.schedule.length){
+            var sched=ccourse.schedule[i2];
+            var start=Math.floor(sched.start);
+            if(start<actualstarthour){
+                actualstarthour=start;
+            }
+            var end=Math.floor(sched.end);
+            if(end>actualendhour){
+                actualendhour=end;
+            }
+            i2=i2+1;
+        }
+        i=i+1;
+    }
+    
+    var startfminute=actualstarthour*12;
+	var endfminute=actualendhour*12;
+
+	var hournum=14;
+    var actualhournum=actualendhour-actualstarthour;
+    var fiveminutenum=actualhournum*12;
+
 
 	var byday = {
-		MON : makearray(10),
-		TUE : makearray(10),
-		WED : makearray(10),
-		THUR : makearray(10),
-		FRI : makearray(10)
+		MON : makearray(hournum),
+		TUE : makearray(hournum),
+		WED : makearray(hournum),
+		THUR : makearray(hournum),
+		FRI : makearray(hournum)
 	}
+
+	var scaledbyday = {
+		MON : makearray(actualhournum),
+		TUE : makearray(actualhournum),
+		WED : makearray(actualhournum),
+		THUR : makearray(actualhournum),
+		FRI : makearray(actualhournum)
+	}
+
+    var byfiveminute={
+		MON : makearray(fiveminutenum),
+		TUE : makearray(fiveminutenum),
+		WED : makearray(fiveminutenum),
+		THUR : makearray(fiveminutenum),
+		FRI : makearray(fiveminutenum)
+    }
 
 	var ci = 0;
 	while (ci < coursearray.length) {
@@ -183,17 +229,46 @@ function formatschedule() {
 			var schedule = course.schedule[si];
 			var start = schedule.start;
 			var end = schedule.end;
-			var duration = end - start;
-			byday[schedule.day][start - 8] = {
+            var starth=Math.floor(start);
+            var startm=start-starth;
+            startm=Math.floor(startm*100/5);
+            startm=startm+starth*12;
+            var endh=Math.floor(end);
+            var endm=end-endh;
+            endm=Math.floor(endm*100/5);
+            endm=endm+endh*12;
+
+			var durationh = endh - starth;
+			byday[schedule.day][starth - starthour] = {
 				course : course,
-				duration : duration,
+				duration : durationh,
 				venue : course.schedule[si].venue
 			}
+            scaledbyday[schedule.day][starth - actualstarthour] = {
+				course : course,
+				duration : durationh,
+				venue : course.schedule[si].venue
+			}
+
 			var i = 1;
-			while (i < duration) {
-				byday[schedule.day][start - 8 + i] = "none";
+			while (i < durationh) {
+				byday[schedule.day][start - starthour + i] = "none";
+				scaledbyday[schedule.day][start - actualstarthour + i] = "none";
 				i = i + 1;
 			}
+
+            var durationm = endm - startm;
+            byfiveminute[schedule.day][startm - startfminute] ={
+                course : course,
+                duration : durationm,
+                venue : course.schedule[si].venue
+            }
+            i = 1;
+            while(i<durationm){
+                byfiveminute[schedule.day][startm - startfminute + i] = "none";
+                i=i+1;
+            }
+
 			si = si + 1;
 		}
 
@@ -226,6 +301,10 @@ function formatschedule() {
 	thedata = {
 		studentname : studentname,
 		schedule : byday,
+        scaledday : scaledbyday,
+        byfiveminute : byfiveminute,
+        actualstarthour : actualstarthour,
+        actualendhour : actualendhour,
 		courselist : coursearray,
 		matricnumber : data.matricnumber,
 		ic : data.ic,
