@@ -10,7 +10,8 @@ function makearray(length) {
 	return thearray;
 }
 
-function makemessage(message, loading) {
+function makemessage(message, loading) {	
+	console.log("Message ->"+message.toString());
 	if (loading == undefined) {
 		loading = true;
 	}
@@ -24,7 +25,7 @@ function makemessage(message, loading) {
 		poststring = "</br><img src='https://iiumschedule.appspot.com/static/loading.gif'></img>";
 	}
 	$("#iiumschedulediv").html(message + poststring);
-
+      
 }
 
 function fixstring(text) {
@@ -365,7 +366,7 @@ function parsetable() {
                     }
                     currentcourse.schedule.push(newschedule);
                 }else{
-                    var execed=/\s*((M|T|W|TH|F))\s*-\s*((M|T|W|TH|F))\s*/.exec(rawday);
+                    var execed=/\s*(M|TH|W|T|F)\s*-\s*(M|TH|W|T|F)\s*/.exec(rawday);
                     if(execed){
                         function make_long(d){
                             if(d=='M')return "MON";
@@ -384,7 +385,7 @@ function parsetable() {
                         }
                         currentcourse.schedule.push(newschedule);
                         var d2=make_long(execed[2]);
-                        var newschedule = {
+                        newschedule = {
                             day : d2,
                             start : starttime,
                             end : endtime,
@@ -424,7 +425,7 @@ function parsetable() {
 	makemessage("Saving schedule...please wait...");
 	$.ajax({
 	 url:"https://iiumschedule.appspot.com/scheduleformatter/",
-     method:"POST",
+     type:"POST",
      data:{data : data},
 	 success:function(response) {
         var thetoken = response;
