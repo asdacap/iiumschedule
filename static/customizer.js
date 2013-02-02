@@ -202,7 +202,8 @@ function formatschedule() {
 		TUE : makearray(hournum),
 		WED : makearray(hournum),
 		THUR : makearray(hournum),
-		FRI : makearray(hournum)
+		FRI : makearray(hournum),
+		SAT : makearray(hournum)
 	}
 
 	var scaledbyday = {
@@ -210,7 +211,8 @@ function formatschedule() {
 		TUE : makearray(actualhournum),
 		WED : makearray(actualhournum),
 		THUR : makearray(actualhournum),
-		FRI : makearray(actualhournum)
+		FRI : makearray(actualhournum),
+		SAT : makearray(actualhournum)
 	}
 
     var byfiveminute={
@@ -218,7 +220,8 @@ function formatschedule() {
 		TUE : makearray(fiveminutenum),
 		WED : makearray(fiveminutenum),
 		THUR : makearray(fiveminutenum),
-		FRI : makearray(fiveminutenum)
+		FRI : makearray(fiveminutenum),
+		SAT : makearray(fiveminutenum)
     }
 
 	var ci = 0;

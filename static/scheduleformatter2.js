@@ -356,7 +356,7 @@ function parsetable() {
                 var venue = tablearray[i][46].text();
                 
                 var rawday=tablearray[i][28].text();
-                if(/\s*(MON|TUE|WED|THUR|FRI)\s*/.exec(rawday)){
+                if(/\s*(MON|TUE|WED|THUR|FRI|SAT|SUN)\s*/.exec(rawday)){
                     var day=rawday;
                     var newschedule = {
                         day : day,
@@ -366,7 +366,7 @@ function parsetable() {
                     }
                     currentcourse.schedule.push(newschedule);
                 }else{
-                    var execed=/\s*(M|TH|W|T|F)\s*-\s*(M|TH|W|T|F)\s*/.exec(rawday);
+                    var execed=/\s*(M|TH|W|T|F|SN|S)\s*-\s*(M|TH|W|T|F|SN|S)\s*/.exec(rawday);
                     if(execed){
                         function make_long(d){
                             if(d=='M')return "MON";
@@ -374,6 +374,8 @@ function parsetable() {
                             if(d=='W')return "WED";
                             if(d=='TH')return "THUR";
                             if(d=='F')return "FRI";
+                            if(d=='SN')return "SUN";
+                            if(d=='S')return "SAT";
                             throw "Unknown day ->"+d;
                         }
                         var d1=make_long(execed[1]);
