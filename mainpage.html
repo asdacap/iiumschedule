@@ -85,96 +85,86 @@
   <div class='wrap'>
   <div id='toptitle' ><img style='display:inline-block;' src='/static/logo-small.png'></img><h1>Automatic IIUM Schedule Formatter</h1></div>
   
-  <br />
-  Assalamualaikum semua! Apa khabar!  Adakah kamu seorang pelajar CFS IIUM? Tak? Habis, kamu buat apa kat sini? Pergi kat <a href='http://www.facebook.com'>Facebook</a>.
-  Jika kamu seorang pelajar IIUM, kamu pasti tau yang IIUM menggunakan CRS(Course Registration Slip) untuk pendaftaran kelas. Dan dalam slip tu tertulislah segala kelas anda beserta tempat dan waktunya.
-  <br />
+  Assalamualaikum, are you an International Islamic University Malaysia student? If you are, then you knew that IIUM use a CRS (Course Registration Slip) or a Confirmation Slip to show the class schedule.
   <img class='screenshot' style='margin-left:auto;margin-right:auto;display:block;' src='/static/mainpage/crs.jpg'></img>
-  <br />
-  Tetapi, CRS diformat dalam format yang menyusahkan anda untuk periksa 'esok ada kelas apa?'. Yakni, dia tak susun mengikut hari. So, berdasarkan kelecehan itu dan kemalasan saya, maka muncullah Automatic IIUM Schedule Formatter.
-  So, basically, apa yang website ini buat ialah ia tukar CRS macam kat atas nie, kepada jadual macam kat bawah nie.
+  But, the CRS is formatted in a way that make it cumbersome to see which class do you have on a particular day. That is, it does not arrange it in day-to-day basis. And so, due to my lazyness to reformat the schedule manually, I had make a website called Automatic IIUM Schedule Formatter. Basically, what this website does is that it reformat your CRS/Confirmation Slip into a schedule like this:
   <img class='screenshot' style='margin-left:auto;margin-right:auto;display:block;width:66%;height:66%;' src='/static/mainpage/after.jpg'></img>
-  Of course, rekaan jadual tidak terhad kepada yang macam di atas sahaja. Kamu boleh customize jadual kamu mengikut cita rasa.
+  Of course, the design is not limited as the above only. You can customize your schedule according to your taste.
   <img class='screenshot' style='float:right;width:30%;margin:1em;margin-right:0;' src='/static/mainpage/showgallery.jpg'></img>
   <img class='screenshot' src='/static/mainpage/showstyler.jpg'></img>
-  Automatic IIUM Schedule Formatter juga mempunyai theme gallery yang membolehkan kamu untuk mengubah gaya jadual kamu tanpa banyak pengetahuan tentang CSS atau EJS template.
-  Tetapi buat masa ini, tak ada banyak theme, so kalau kamu design yang bagus, tolong-tolonglah submit design anda
+  Automatic IIUM Schedule Formatter also has a theme gallery that allow you to change the style of your schedule without much knowledge about CSS or EJS template. But for now, not many themes are available, so If you are great at designing, feel free to submit your design.
   <img class='screenshot' src='/static/mainpage/submit.jpg'></img>
-  <h2>Cara menggunakan AISF</h2>
-  <h3>Untuk browser berasaskan webkit (Chrome atau Safari):</h3>
+  <h2>Instruction</h2>
+  <h3>For webkit based browser (Chrome or Safari):</h3>
   <div>
   <ol>
-  <li>Copy SETIAP SATU HURUF code kat bawah nie:<br />
+  <li>Copy EVERY SINGLE CHARACTER below:<br />
   <pre style='word-wrap:break-word;'><code>javascript:(function(){var e=document.createElement('script');e.src = 'https://iiumschedule.appspot.com/static/scheduleformatter.js';e.type='text/javascript';e.addEventListener('load',function(){startscheduler()} );document.getElementsByTagName('head')[0].appendChild(e);})();</code></pre>
   </li>
-  <li>Bukak korang punye Course Registration Slip (CRS) kat <a href="http://my.iium.edu.my/" target="_blank_">myiium</a>.</li>
-  <li>Paste code tadi kat url bar dan PASTIKAN IA DIMULAKAN DENGAN 'javascript:'<div class="separator" style="clear: both; text-align: center;">
+  <li>Open your Course Registration Slip (CRS)/Confirmation Slip at <a href="http://my.iium.edu.my/" target="_blank_">myiium</a>. Please make sure that you open the CRS on a new tab.</li>
+  <li>Paste the code, and MAKE SURE IT START WITH 'javascript:'<div class="separator" style="clear: both; text-align: center;">
   <a href="http://3.bp.blogspot.com/-QFuUim02BmM/Twb86TNGQlI/AAAAAAAAANE/JnFSZ_6jrog/s1600/Selection_018.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="124" src="http://3.bp.blogspot.com/-QFuUim02BmM/Twb86TNGQlI/AAAAAAAAANE/JnFSZ_6jrog/s640/Selection_018.png" width="640" /></a></div>
-  <strong>Untuk Chrome: Google Chrome secara automatically akan hilangkan "javascript:" dihadapan kod diatas. Saya rekemen kamu copy tanpa "javascript:", kemudian tulis "javascript:" secara manual di url dan paste selebihnya.</strong>
+  <strong>For Chrome: Google Chrome will automatically erase the "javascript:" portion of the code above. I recommend that you copy the code without "javascript:" and then type "javascript:" manually, then paste the rest of the code.</strong>
   </li>
-  <li>Tunggu sat... nanti kat bawah korang akan jumpa. "Saving your schedule...". Dan kemudian dia kata "Done! Please click this link.". Korang pon click la link tersebut.</li>
+  <li>Wait... you will get a message saying "Saving your schedule...". Then it will say "Done! Please click this link.". So click the link.</li>
   </ol>
   <div>
   <br /></div>
   </div>
   <div>
-  <h3>Untuk Firefox:</h3>
+  <h3>For Firefox:</h3>
   <ol>
   <li>Right click link&nbsp;<a href="javascript:(function(){var e=document.createElement('script');e.src = 'https://iiumschedule.appspot.com/static/scheduleformatter.js';e.type='text/javascript';e.addEventListener('load',function(){startscheduler()} );document.getElementsByTagName('head')[0].appendChild(e);})();">Automatic IIUM Schedule Formatter</a>.</li>
   <li>Click "bookmark this link".</li>
-  <li>Bukak korang punye Course Registration Slip(CRS)&nbsp;kat&nbsp;<a href="http://my.iium.edu.my/" target="_blank_">myiium</a>.</li>
-  <li>Click firefox punye bookmark menu dan click bookmark yang korang baru buat tadi.</li>
-  <li>Tunggu sat... nanti kat bawah korang akan jumpa. "Saving your schedule...". Dan kemudian dia kata "Done! Please click this link.". Korang pon click la link tersebut.</li>
+  <li>Open your CRS as in the Google Chrome step <a href="http://my.iium.edu.my/" target="_blank_">here</a>.</li>
+  <li>Click firefox bookmark menu, and click the bookmark that you had recently make.</li>
+  <li>Wait... you will get a message saying "Saving your schedule...". Then it will say "Done! Please click this link.". So click the link.</li>
   </ol>
-  <h3>Pastu?</h3>
-  <p>Link tersebut akan membuka satu page macam kat bawah ini yang membolehkan anda untuk customize jadual anda.</p>
+  <h3>Next</h3>
+  <p>The link will open another page that allow you to customize your schedule.</p>
   <img src="/static/mainpage/afterbig.jpeg" style="width:800px"></img>
   <ul>
       <li>
-          <h4>Pilih Theme</h4>
-          <p>Kamu boleh pilih beberapa theme yang sudah siap walaupun ianya tak banyak mana dan tak cantik. So, in case kalau kamu telah berjaya untuk menghias jadual kamu secantik-cantiknya, silalah submit theme kamu menggunakan link yang diberi</p>
-          <p>Tips: Kalau kamu sudah ter-merosakkan theme jadual anda, kamu boleh reset semula menggunakan theme "default".</p>
-          <a href='http://pagepeeker.com/' target='_blank'>Thumbshots by PagePeeker</a>
+          <h4>Choose Theme</h4>
+          <p>
+          You can choose several pre-made theme allthough it is not much and not really... pretty. So, in case if you had succeded in creating awesome design, please submit your design using the link given.
+          <p>Tips: If you had mess up your schedule, you can reset by using the theme "default" of refresh the page</p>
       </li>
       <li>
-          <h4>Pakai Styler untuk menghias jadual anda</h4>
-          <p>AIIUMSF dilengkapi dengan sistem (yang saya panggil)"Styler" yang membolehkan anda untuk mengubah font, kedudukan, warna, shadow dan pelbagai ciri-ciri jadual anda tanpa banyak pengetahuan tentang css atau html. Saya cadangkan jika kamu cuma nak tukar warna, terus pakai tab "Color" yang sudah mempunyai senarai warna. Kalau nak ubah dengan lebih mendalam, silalah menjelajah tab-tab yang lain.</p>
-          <p>Tips: Kamu boleh hide personal info kamu di Styler(butang biru kat atas bertulis "Styler"), tab "Personal Detail"->"Show/Hide Details".</p>
+          <h4>Use Styler to design your schedule</h4>
+          <p>AIIUMSF is equipped with a system (that I call) "Styler" that allow you to change font, alignment, color, shadow and other characteristic of your schedule without much knowledge about CSS or HTML. I suggest that if you are only interested in changing the color, just use the "Color" tab which already has some predefined color.  
+          <p>Tips: You can hide your personal detail in Styler using the tab "Personal Detail"->"Show/Hide Details". </p>
       </li>
       <li>
           <h4>Edit CSS/Template(For Advanced user only)</h4>
-          <p>AIIUMSF secara ringkasnya menjana satu HTML page mengandungi jadual anda. Styler hanyalah satu alat untuk mengubah CSS. Jika anda tak tahu apa itu CSS atau HTML, bolehlah anda hiraukan sahaja page ini. Bagi webmaster-webmaster yang mahukan kawalan penuh, bolehlah edit CSS dan Template secara manual. Cuma berhati-hati dengan comment yang dijana Styler kat dalam css.</p>
-              
+          <p>AIIUMSF basically generate an HTML page containing your schedule. An EJS template determine the html layout. Styler is just a tool to modify the CSS. If you do not know what is CSS or HTML, you can just ignore this section. For webmasters that want extra control, you can edit the CSS and EJS Template manually. Just be carefull with the comment's generated by Styler in the CSS.</p>
              </li>
   </ul>
-  <h3>Menyimpan jadual</h3>
-  <p>Untuk simpan jadual, tekan butan "save" di bahagian atas kanan screen. Satu screen baru akan keluar mengatakan bahawa jadual anda sudah tersedia. Screen itu akan ada dua link, yang pertama ialah link ke jadual anda, yang kedua ialah link untuk save ke Facebook. Namun, link untuk save ke Facebook tidak sepatutnya digunakan atas masalah teknikal dan saya biarkan sahaja link tersebut sebab saya pemalas.</p>
+  <h3>Saving Your Schedule</h3>
+  <p>To save your schedule, just click on the "save" button at the top right of the page. A new page will appear saying that your schedule is ready. The page has two link, the first one is a link to your schedule. The second one is a a link to save your schedule as an image on Facebook. Unfortunately, the link to save it on Facebook is no longer functioning due to a technical problem that I can't fix. I just leave it there because I am a lazy person.</p>
   
   <h2>Disclamier</h2>
   <ul>
   <li>
-  Mula-mula sekali, saya nak cakap yang pembikinan website ini tidak ada kena mengena dengan pihak IIUM. Use at your own risk. Walaupun bukannya ada risk apa pon.
+  First of all, I would like to say the the creation of this website has no connection with IIUM. Use at your own risk, allthough as far as I can tell, there are no risk whatsoever.
   </li>
   <li><strong>
-  KEPADA PENGGUNA MAIN CAMPUS IIUM: Penggunaan terhadap CRS pelajar Main Campus di Gombak/Kuantan baru sahaja di programkan. Pelajar digalakkan untuk mencuba program ini dan menghantar bug report jika mengalami sebarang masalah. Dan theme-theme lama kemungkinan besar tidak akan berfungsi sepenuhnya. Anda digalakkan untuk men-senikan jadual anda dengan menggunakan Styler dan publish theme anda untuk kegunaan ramai.</strong>
+  FOR MAIN CAMPUS IIUM USER: The use on Main Campus Student's Confirmation Slip had only recently been implemented and therefore are in testing phase. Student are encourage to test the schedule and send a bug report if you encounter any error or difficulties. Students are encourage to design your schedule using Styler and publish them for public use.</strong>
   </li>
   <li>
-  Sesiapa yang terer komputer akan perasan yang saya dengan teknik ini, anda akan melakukan javascript injection terhadap page IIUM. Kenapa perlu begitu? Asalnya saya ingat nak save aje, pastu parse, tapi rupanya tak boleh. Nampaknya IIUM Portal ada sistem security yang kuat sikit, so kena ada sikit hacking.
+  Whoever that is little computer savvy will notice that using this technique, you are using a Javascript Injection Attack to IIUM page. Why do you need to do so? Originally, I would prefer If you could just save the CRS and upload it to this website. Unfortunately IIUM portal security is a little bit cumbersome and therefore some hacking is required.
   </li>
   <li>
-  Bagi yang tak faham bahasa komputer, senang cakap, kalau ada sapa-sapa suruh korang buat macam nie, dan sumber code itu meragukan, macam "Facebook Unlike button", atau "Win an Ipad 2!", JANGAN BUAT APA YANG DISURUH. Basically, ia menyuruh anda untuk menjalankan javascript dari sumber yang tak dikenali dan kemungkinan javascript tersebut mengandungi virus, dan akhirnya muncullah virus di Facebook.
+  For those who are not exactly "fluent" in this computer stuff, in simple word, If there are any particular person who asked you to do thing like this, and the source of the page is doubtful like "Facebook Unlike button" or "Win an Ipad 4!", DONT DO WHAT IT ASK YOU TO DO. Basically, it asked you to run some javascript from unknown sources and probably the javascript contain viruses and that is why there are virus on Facebook.
   </li>
   <li>
-  Bagi sesiapa yang terer komputer dan berminat untuk mengetahui bagaimana program ini berfungsi, silalah lakukan 'reverse engineer' terhadap code tersebut yang mana tidak di 'minified' pun. Kecuali untuk Styler.js yang mana juga digunakan di project saya yang lain iaitu <a href='http://yagregator.com'>YourAgregator</a>
+  For those who are interested on how does the program works, you are welcomed to reverse engineer the code, except for styler.js which is used on my other project that is <a href='http://yagregator.com'>YourAgregator</a>
   </li>
   <li>
-  Dan by the way, disebabkan pelbagai cross-domain scripting restriction, saya telah mengambil jalan mudah dengan menyimpan jadual anda di server terlebih dahulu. So, ya saya boleh tahu jadual anda kalau saya tahu nama anda dan saya berminat untuk mengetahuinya.
-  Tapi jangan risau, server akan automatically delete jadual anda selewat-lewatnya dalam 48 jam. So, lepas korang buat jadual, korang cuma ada 24 jam untuk save jadual anda. Lepas 24jam, ada kemungkinan link yang diberi untuk jadual anda tidak boleh digunakan lagi.
+  And by the way, because of various cross-domain scripting restriction, I have decided to take the easy way by tomporarily saving the schedule on the server. So, yes I can know you schedule if I know your name and I am interested in it. But no worry, the server will automatically delete your schedule at least in 48 hour. So, after you submitted your schedule, you  only have 24 hours to save you schedule. After 24 hour, there is a possibility that the link given will not work anymore. 
   </li>
-  <li>
-  Itu tak termasuk theme, lah. Theme akan kekal, sehingga mana saya nak delete theme tersebut.
-  </ul>
-  Sebarang pertanyaan boleh contact saya kat asdacap@gmail.com dan sebelum anda pergi tolonglah like page ini (mungkin ada confirm link pasal facebook tak percayakan page ni) dan juga bolehlah comment di bawah. <br /><br />
+  For any question, you can contact me at asdacap@gmail.com . And before you go, please like this page, and you can comment below.
+    <br /><br />
   
   <div class="fb-like" data-href="http://iiumschedule.appspot.com/" data-send="true" data-width="770" data-show-faces="true"></div>
   </div>
