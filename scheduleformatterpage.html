@@ -17,36 +17,21 @@
 
 </script>
 </head>
-
 <body>
-<div id='body'>
-<table id='mainlayout'>
-<tr><td colspan=2 id='topdiv'>
-<div>
-  <table id='tabmenulist'><tr>
-    <td><h3>AIIUMSF</h3></td>
-    <td><a href='javascript:themegallery();'>Theme Gallery</a></td>
-    <td><a href='javascript:settingspage();'>Settings</a></td>
-    <td><a href='javascript:stylercsspage();'>Styler</a></td>
-    <td><a href='javascript:manualcsspage();' >Edit CSS</a></td>
-    <td><a href='javascript:changetemplatepage();' >Edit Template</a></td>
-    <td style='width:auto;'></td>
-    <td id='savebutton'><a target='_blank' href='javascript:saveStyle();' title='Save temporarily in another page. You should save that page in your computer.' target='_blank'>Save</a></td>
-  </tr></table>
-</div>
-</td></tr>
-<tr id='secondrow'><td id='configiframecontainer'>
-<iframe id='configiframe' src='/static/loading.html'>
-</iframe></td>
-<td id='previewiframecontainer'>
-<iframe id='previewiframe' src="/static/dummy.html">
-</iframe>
-</td></tr>
-<tr id='thirdrow'><td><button id='expandbutton' onclick="togglealternate();">Expand</button></td></tr>
-</table>
-</div>
+<table id='tabmenulist'><tr>
+<td class="title"><h3>AIIUMSF</h3></td>
+<td><a href='javascript:themegallery();'>Theme Gallery</a></td>
+<td><a href='javascript:settingspage();'>Settings</a></td>
+<td><a href='javascript:stylercsspage();'>Styler</a></td>
+<td><a href='javascript:manualcsspage();' >Edit CSS</a></td>
+<td><a href='javascript:changetemplatepage();' >Edit Template</a></td>
+<td style='width:auto;'></td>
+<td id='savebutton'><a target='_blank' href='javascript:saveStyle();' title='Save temporarily in another page. You should save that page in your computer.' target='_blank'>Save</a></td>
+</tr></table>
+<iframe id='previewiframe' src="/static/dummy.html" ></iframe>
+<iframe id='configiframe' src="/static/loading.html" ></iframe>
+<button id='expandbutton' onclick="togglealternate();">Expand</button>
 </body>
-
 <script type='text/javascript' src='/static/js/jquery-1.7.2.min.js' ></script>
 <script type='text/javascript' src='/static/ejs_production.js' ></script>
 <script id="scheduletemplate" type="text/html" src='/static/default.html'>

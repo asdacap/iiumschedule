@@ -1,118 +1,103 @@
-
-  #body{
+  html,body{
+      margin:0;
+      padding:0;
+  }
+  body{
     position:absolute;
     top:0;
     bottom:0;
     left:0;
     right:0;
+    font-family:Trebuchet MS;
   }
 
-  #mainlayout{
-    display:block;
-    margin:0;
-    padding:0;
-    height:99.5%;
+  #tabmenulist{
+    position:relative;
+    z-index:10;
     border-collapse:collapse;
+    background-image:url("/static/backtexture.jpg");
     width:100%;
-  }
-  
-  
-  #topdiv{
-    width:100%;
-    padding:0;
-  }
-  
-  #configiframecontainer{
-    top:30px;
-    bottom:0;
-    width:360px;
-    position:absolute;
-    left:0;
+    height:40px;
+    box-shadow:0 2px 2px 0 grey;
   }
   #configiframe{
     border:0;
-    height:99.5%;
-    width:100%;
+    position:absolute;
+    top:0px;
+    height:100%;
+    left:0;
+    width:30%;
+    padding-top:40px;
+    padding-bottom:20px;
+    box-sizing:border-box;
   }
-  #configiframecontainer.alternate{
+  #configiframe.alternate{
     width: 60%;
   }
-  
-  
+  #expandbutton{
+    position:absolute;
+    bottom:0;
+    left:0;
+  }
   #previewiframe{
-    width:99.5%;
-    height:99.5%;
+    position:absolute;
+    top:0px;
+    width:69%;
+    height:100%;
+    padding-top:40px;
+    right:0;
     border:0;
     border-left:1px solid #555;
+    box-sizing:border-box;
   }
-  #previewiframecontainer{
-    top:30px;
-    bottom:0;
-    margin:0;
-    padding:1px;
-    position:absolute;
-    left:360px;
-    right:0;
-  }
-  #previewiframecontainer.alternate{
-    left: 60%;
+  #previewiframe.alternate{
+    width:39%;
   }
   
   #tabmenulist td{
     display:inline-block;
-    width:140px;
+    font-weight:bold;
+    font-size:20px;
+    text-shadow:1px 1px 4px #444;
     float:left;
     text-align:center;
     vertical-align:middle;
-    background-color:#8888aa;
-    background-image:url("/static/bluebutton.png");
     height:25px;
-    padding:0;
-    padding-top:5px;
+    padding:0 1ex;
+    padding-top:7px;
+    padding-bottom:8px;
+  }
+
+  #tabmenulist td.title{
+    padding-top:7px;
   }
   
   #tabmenulist td:hover{
-    background-image:url("/static/darkbluebutton.png");
+    background-color:rgba(50,50,50,0.5);
   }
   
-  #tabmenulist{
-    border-collapse:collapse;
-    width:100%;
+  #tabmenulist td.title:hover{
+    background:transparent;
   }
-  
+
   #tabmenulist td a{
-    color:black;
+    color:white;
     text-decoration:none;
     display:block;
   }
   
   #tabmenulist h3{
-    margin-right:1em;
+    margin: 0 1em;
+    text-shadow:0 0 3px grey;
   }
   
   #tabmenulist #savebutton{
     display:block;
     float:right;
-    background-color:#aa8888;
-    background-image:url("/static/redbutton.png");
+    width:150px;
+    background-color:rgba(50,50,50,0.3);
   }
-  
-  #topdiv>div{
-    background-image:url("/static/bluemenu.png");
-    background-repeat:repeat-x;
-    position:absolute;
-    top:0;
-    left:0;
-    right:0;
-  }
-  
-  #secondrow{
-    height:100%;
-  }
-  
-  #thirdrow td{
-    position:absolute;
-    bottom:0;
-    height:25px;
+  #tabmenulist #savebutton:hover{
+    background-color:rgba(200,50,50,0.7);
   }
   

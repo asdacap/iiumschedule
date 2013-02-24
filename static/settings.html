@@ -1,0 +1,58 @@
+<html>
+  <head>
+    <script type='text/javascript' src='/static/js/jquery-1.7.2.min.js' ></script>
+    <title></title>
+    <style>
+        body{
+            font-family:arial;
+        }
+        .heading{
+            font-size:120%;
+            font-weight:bold;
+        }
+    </style>
+    <script>
+        function reload_setting(){
+            var csetting=parent.currentsettings;
+            var sday=csetting.show_day;
+            sday.MON && $("input[name=day_monday]").prop("checked",true);
+            sday.TUE && $("input[name=day_tuesday]").prop("checked",true);
+            sday.WED && $("input[name=day_wednesday]").prop("checked",true);
+            sday.THUR && $("input[name=day_thursday]").prop("checked",true);
+            sday.FRI && $("input[name=day_friday]").prop("checked",true);
+            sday.SAT && $("input[name=day_saturday]").prop("checked",true);
+            sday.SUN && $("input[name=day_sunday]").prop("checked",true);
+        }
+        function save_settings(){
+            var oursetting={show_day:{}};
+            oursetting.show_day.MON=$("input[name=day_monday]").prop("checked");
+            oursetting.show_day.TUE=$("input[name=day_tuesday]").prop("checked");
+            oursetting.show_day.WED=$("input[name=day_wednesday]").prop("checked");
+            oursetting.show_day.THUR=$("input[name=day_thursday]").prop("checked");
+            oursetting.show_day.FRI=$("input[name=day_friday]").prop("checked");
+            oursetting.show_day.SAT=$("input[name=day_saturday]").prop("checked");
+            oursetting.show_day.SUN=$("input[name=day_sunday]").prop("checked");
+            $.extend(parent.currentsettings,oursetting);
+            parent.rerender();
+        }
+        $(document).ready(function(){
+            reload_setting();
+            $("input").change(save_settings);
+        });
+    </script>
+  </head>
+  <body>
+    <h2>Settings</h2>
+    <span class="heading">Show Days:</span>
+    <table>
+        <tr><td>Monday:</td><td><input type="checkbox" name="day_monday"/></td></tr>
+        <tr><td>Tuesday:</td><td><input type="checkbox" name="day_tuesday"/></td></tr>
+        <tr><td>Wednesday:</td><td><input type="checkbox" name="day_wednesday"/></td></tr>
+        <tr><td>Thursday:</td><td><input type="checkbox" name="day_thursday"/></td></tr>
+        <tr><td>Friday:</td><td><input type="checkbox" name="day_friday"/></td></tr>
+        <tr><td>Saturday:</td><td><input type="checkbox" name="day_saturday"/></td></tr>
+        <tr><td>Sunday:</td><td><input type="checkbox" name="day_sunday"/></td></tr>
+    </table>
+    <br />
+  </body>
+</html>

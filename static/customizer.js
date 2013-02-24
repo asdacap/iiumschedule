@@ -20,13 +20,13 @@ function postpage() {
 }
 
 function togglealternate() {
-	if ($("#previewiframecontainer").hasClass("alternate")) {
+	if ($("#previewiframe").hasClass("alternate")) {
 		$("#expandbutton").text("Expand");
 	} else {
 		$("#expandbutton").text("Shrink");
 	}
-	$("#previewiframecontainer").toggleClass("alternate");
-	$("#configiframecontainer").toggleClass("alternate");
+	$("#previewiframe").toggleClass("alternate");
+	$("#configiframe").toggleClass("alternate");
 }
 
 var rand = function() {
