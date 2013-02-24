@@ -41,7 +41,9 @@
       %><%= dtime %></td>
       <% } %>
     </tr>
-    <% for(key in byfiveminute) {%>
+    <% for(key in byfiveminute) {
+        if(settings.show_day[key]==false)continue;
+        %>
     <tr>
       <td class='day firstcolumn'>
 	<%= key %>

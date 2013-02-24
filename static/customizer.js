@@ -4,6 +4,17 @@ if (!window.location.origin) {
 }
 
 var currenttemplate;
+var currentsettings={
+    show_day:{
+        MON:true,
+        TUE:true,
+        WED:true,
+        THUR:true,
+        FRI:true,
+        SAT:true,
+        SUN:false
+    }
+};
 
 function postpage() {
 }
@@ -63,7 +74,8 @@ function rerender(style) {
 	}
 	thedata.style = style;
 	var thetext = (new EJS({
-		text : currenttemplate
+		text : currenttemplate,
+        settings : currentsettings
 	})).render(thedata);
 	var theiframe = $('#previewiframe')
 
@@ -92,6 +104,12 @@ function themegallery() {
 		}
 	});
 	$("#configiframe").attr("src", "/themegallery");
+}
+
+function settingspage(){
+    postpage();
+    postpage=function(){}
+	$("#configiframe").attr("src", "/static/settings.html");
 }
 
 function manualcsspage() {
@@ -203,7 +221,8 @@ function formatschedule() {
 		WED : makearray(hournum),
 		THUR : makearray(hournum),
 		FRI : makearray(hournum),
-		SAT : makearray(hournum)
+		SAT : makearray(hournum),
+		SUN : makearray(hournum)
 	}
 
 	var scaledbyday = {
@@ -212,7 +231,8 @@ function formatschedule() {
 		WED : makearray(actualhournum),
 		THUR : makearray(actualhournum),
 		FRI : makearray(actualhournum),
-		SAT : makearray(actualhournum)
+		SAT : makearray(actualhournum),
+		SUN : makearray(actualhournum)
 	}
 
     var byfiveminute={
@@ -221,7 +241,8 @@ function formatschedule() {
 		WED : makearray(fiveminutenum),
 		THUR : makearray(fiveminutenum),
 		FRI : makearray(fiveminutenum),
-		SAT : makearray(fiveminutenum)
+		SAT : makearray(fiveminutenum),
+		SUN : makearray(fiveminutenum)
     }
 
 	var ci = 0;
@@ -313,6 +334,7 @@ function formatschedule() {
 		ic : data.ic,
 		session : data.session,
 		semester : data.semester,
+        settings:currentsettings,
 		program : data.program
 	}
 
