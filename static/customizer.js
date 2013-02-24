@@ -13,7 +13,8 @@ var currentsettings={
         FRI:true,
         SAT:true,
         SUN:false
-    }
+    },
+    fixminutealign:true
 };
 
 function postpage() {
@@ -199,6 +200,9 @@ function formatschedule() {
                 actualstarthour=start;
             }
             var end=Math.floor(sched.end);
+            if(sched.end>end){
+                end+=1;
+            }
             if(end>actualendhour){
                 actualendhour=end;
             }
@@ -255,11 +259,11 @@ function formatschedule() {
 			var end = schedule.end;
             var starth=Math.floor(start);
             var startm=start-starth;
-            startm=Math.floor(startm*100/5);
+            startm=Math.round(startm*100/5);
             startm=startm+starth*12;
             var endh=Math.floor(end);
             var endm=end-endh;
-            endm=Math.floor(endm*100/5);
+            endm=Math.round(endm*100/5);
             endm=endm+endh*12;
 
 			var durationh = endh - starth;

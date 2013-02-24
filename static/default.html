@@ -78,6 +78,14 @@
       <% } %>
     </tr>
     <% } %>
+    <% if(settings.fixminutealign){ %>
+    <tr class='fixminutealign'>
+      <td></td>
+      <% for(var i=0; i<actualendhour-actualstarthour;i=i+1){ %>
+      <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+      <% } %>
+    </tr>
+    <% } %>
   </table>
   </div>
   <div id="coursetablediv">

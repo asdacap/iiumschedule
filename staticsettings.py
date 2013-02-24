@@ -68,7 +68,7 @@ DEFAULTDATA='''
       { "code" : "SFF1124",
         "credithour" : "4",
         "schedule" : [ { "day" : "WED",
-              "end" : 16,
+              "end" : 16.4,
               "start" : 14,
               "venue" : "SMAWP2 S2120"
             },
@@ -90,11 +90,11 @@ DEFAULTDATA='''
         "credithour" : "5",
         "schedule" : [ { "day" : "TUE",
               "end" : 18,
-              "start" : 16,
+              "start" : 16.3,
               "venue" : "ANNEX BUILDING AX206B"
             },
             { "day" : "MON",
-              "end" : 13,
+              "end" : 13.2,
               "start" : 11,
               "venue" : "SMAWP2 S2011"
             },
@@ -115,4 +115,11 @@ DEFAULTDATA='''
   "semester" : "3",
   "session" : "2011/2012",
 }
+'''
+
+
+
+
+DEFAULTDATA='''
+{"studentname":"MUHD AMIRUL ASHRAF BIN  MOHAMAD FAUZI","coursearray":[{"code":"CCHB 1012","section":"26","title":"STUDY CIRCLE 2 (BROTHER)","credithour":".5","schedule":[{"day":"SAT","start":8,"end":10,"venue":"MOSQUE LEVEL3"}]},{"code":"CSC 1100","section":"2","title":"ELEMENTS OF PROGRAMMING","credithour":"3","schedule":[{"day":"MON","start":14,"end":15.2,"venue":"ICT TEACH LAB 6 LEVEL"},{"day":"WED","start":14,"end":15.2,"venue":"ICT TEACH LAB 6 LEVEL"}]},{"code":"CSC 1700","section":"4","title":"DISCRETE MATHEMATICS","credithour":"3","schedule":[{"day":"TUE","start":11.3,"end":12.5,"venue":"ICT LR 11 LEVEL 2C"},{"day":"THUR","start":11.3,"end":12.5,"venue":"ICT LR 11 LEVEL 2C"}]},{"code":"INFO 1102","section":"3","title":"DATABASE SYSTEMS I","credithour":"3","schedule":[{"day":"TUE","start":14,"end":15.2,"venue":"ICT TEACH LAB 3 LEVEL"},{"day":"THUR","start":14,"end":15.2,"venue":"ICT TEACH LAB 3 LEVEL"}]},{"code":"LM 2026","section":"10","title":" BAHASA MELAYU KERJAYA (SAINS DAN TEKNOLOGI)","credithour":"2","schedule":[{"day":"MON","start":11,"end":12.5,"venue":"HSC TR 8 1.41"},{"day":"WED","start":11,"end":12.5,"venue":"HSC TR 8 1.41"}]},{"code":"MGT 2010","section":"1","title":" PRINCIPLES AND PRACTICE OF MANAGEMENT","credithour":"3","schedule":[{"day":"MON","start":8.3,"end":9.5,"venue":"ECONS LT1 LEVEL 1"},{"day":"WED","start":8.3,"end":9.5,"venue":"ECONS LT1 LEVEL 1"}]},{"code":"UNGS 2030","section":"17","title":"THE ISLAMIC WORLDVIEW","credithour":"3","schedule":[{"day":"TUE","start":8.3,"end":9.5,"venue":"ICT LR 11 LEVEL 2C"},{"day":"THUR","start":8.3,"end":9.5,"venue":"ICT LR 11 LEVEL 2C"}]}],"matricnumber":"1229237","ic":"930108025885","session":"2012/2013","semester":"2","program":"ICT","scheduletype":"MAINCAMPUS"} 
 '''

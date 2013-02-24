@@ -22,6 +22,7 @@
             sday.FRI && $("input[name=day_friday]").prop("checked",true);
             sday.SAT && $("input[name=day_saturday]").prop("checked",true);
             sday.SUN && $("input[name=day_sunday]").prop("checked",true);
+            csetting.fixminutealign && $("input[name=fixminutealign]").prop("checked",true);
         }
         function save_settings(){
             var oursetting={show_day:{}};
@@ -32,6 +33,7 @@
             oursetting.show_day.FRI=$("input[name=day_friday]").prop("checked");
             oursetting.show_day.SAT=$("input[name=day_saturday]").prop("checked");
             oursetting.show_day.SUN=$("input[name=day_sunday]").prop("checked");
+            oursetting.fixminutealign=$("input[name=fixminutealign]").prop("checked");
             $.extend(parent.currentsettings,oursetting);
             parent.rerender();
         }
@@ -54,5 +56,8 @@
         <tr><td>Sunday:</td><td><input type="checkbox" name="day_sunday"/></td></tr>
     </table>
     <br />
+    <span class="heading">Tweaks</span><br />
+    Fix minute align:<input type="checkbox" name="fixminutealign"/><br />
+    Minute alignment may not be correct. Fortunately there are way to fix it. Unfortunately there are side effect in which some style cannot be applied correctly.
   </body>
 </html>

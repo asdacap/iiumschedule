@@ -121,3 +121,7 @@ padding:1.20px 7.10px 1.20px 7.10px;
     }
 }
 */
+
+#scheduletable tr.fixminutealign td{
+height:0px;
+}
