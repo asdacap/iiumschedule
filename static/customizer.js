@@ -14,7 +14,9 @@ var currentsettings={
         SAT:true,
         SUN:false
     },
-    fixminutealign:true
+    fixminutealign:true,
+    showpersonalinfo:true,
+    showcoursetable:true
 };
 
 function postpage() {

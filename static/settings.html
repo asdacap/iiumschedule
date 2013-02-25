@@ -22,7 +22,12 @@
             sday.FRI && $("input[name=day_friday]").prop("checked",true);
             sday.SAT && $("input[name=day_saturday]").prop("checked",true);
             sday.SUN && $("input[name=day_sunday]").prop("checked",true);
-            csetting.fixminutealign && $("input[name=fixminutealign]").prop("checked",true);
+            function samename(name){
+                csetting[name] && $("input[name="+name+"]").prop("checked",true);
+            }
+            samename("fixminutealign");
+            samename("showpersonalinfo");
+            samename("showcoursetable");
         }
         function save_settings(){
             var oursetting={show_day:{}};
@@ -33,7 +38,12 @@
             oursetting.show_day.FRI=$("input[name=day_friday]").prop("checked");
             oursetting.show_day.SAT=$("input[name=day_saturday]").prop("checked");
             oursetting.show_day.SUN=$("input[name=day_sunday]").prop("checked");
-            oursetting.fixminutealign=$("input[name=fixminutealign]").prop("checked");
+            function samename(name){
+                oursetting[name]=$("input[name="+name+"]").prop("checked");
+            }
+            samename("fixminutealign");
+            samename("showpersonalinfo");
+            samename("showcoursetable");
             $.extend(parent.currentsettings,oursetting);
             parent.rerender();
         }
@@ -45,6 +55,10 @@
   </head>
   <body>
     <h2>Settings</h2>
+    <span class="heading">Display:</span><br />
+    Show personal info : <input type="checkbox" name="showpersonalinfo" /><br />
+    Show course table : <input type="checkbox" name="showcoursetable" /><br />
+    <br />
     <span class="heading">Show Days:</span>
     <table>
         <tr><td>Monday:</td><td><input type="checkbox" name="day_monday"/></td></tr>
