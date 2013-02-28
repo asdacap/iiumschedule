@@ -2,9 +2,9 @@
 <head>
 <style>
 body{
-  background-color:#e1f7f5;
-  background-image:url("/static/mainback.png");
-  background-repeat:repeat-x;
+  background-color:#eee;
+  background-image:url("/static/lighterbacktexture.jpg");
+  background-repeat:repeat-x repeat-y;
   font-family:Arial;
 }
     
@@ -23,11 +23,9 @@ body{
 
 #messagediv .left .container{
     margin:1em;
-    padding: 0 1em 1em 1em;
-    background-color:#EFF;
-    border-radius:50px;
-    border:solid #EFF 1px;
-    box-shadow:0 0 3px 0 #00fbff;
+    padding: 0.2em 1em 1em 1em;
+    background-color:#FFF;
+    box-shadow:0 0 7px 2px grey;
     width:400px;
 }
 
@@ -142,11 +140,10 @@ body,#messagediv table,#maindiv>div,#previewiframe{
                 <h1>Your Schedule is ready.</h1>
                 <h2><a target="_blank" href="/scheduleformatter/?token={{token}}&dtype=completeschedule">Open in another page.</a></h2>
                 Open the schedule in another page. Then you can save the schedule, print it, etc...<br />The link given is only available temporarily. Please save your schedule somewhere else.
-                <h2><a target="_blank" id='facebooklink' href="">Save in Facebook</a></h2>
-                This link will open another tab to a facebook app that will save the schedule in your facebook as a photo. <br /><strong>WARNING: Due to some deprecation on Google App Engine, this service has been known to not suppose to work as from about june 2012. We are very sorry for this problem. And we simply cannot fix it because we do not have any money to change server.<br />WARNING:May not render correctly.</strong>
                 <br />
-                <h3>By the way</h3>
-                Please support this website by clicking the like button below. Thank you.
+                <h3>By the way...</h3>
+                Please support this website by clicking the like button below. And also, spread the news about this website. Thank you.
+                <div style="height:20px;"></div>
                 <div class="fb-like" data-href="http://iiumschedule.appspot.com/" data-send="true" data-width="770" data-show-faces="true"></div>
                 </div>
             </td>
