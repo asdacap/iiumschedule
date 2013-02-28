@@ -35,6 +35,10 @@ handlers:
   script: themehandler.application
   secure: optional
   
+- url: /defaultdata 
+  script: themehandler.application
+  secure: optional
+
 - url: /themegallery
   script: themehandler.application
   secure: optional

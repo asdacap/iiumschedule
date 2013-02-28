@@ -8,7 +8,7 @@ import re
 from google.appengine.ext import db
 import recaptcha.client.captcha as recapt
 recaptcha=recapt
-from staticsettings import RECAPTCHA_KEY,DEBUG
+from staticsettings import RECAPTCHA_KEY,DEBUG,DEFAULTDATA
 try:
   import JSON
 except ImportError:
@@ -19,8 +19,7 @@ class Theme(db.Model):
     name=db.StringProperty()
     submitter=db.StringProperty()
     email=db.StringProperty()
-    style=db.TextProperty()
-    template=db.TextProperty()
+    data=db.TextProperty()
     counter=db.IntegerProperty()
     rendered=db.TextProperty()
     
@@ -36,8 +35,7 @@ class ThemeHandler(webapp.RequestHandler):
 	      thedict["name"]=themedata.name
 	      thedict["submitter"]=themedata.submitter
 	      thedict["email"]=themedata.email
-	      thedict["style"]=themedata.style
-	      thedict["template"]=themedata.template
+	      thedict["data"]=JSON.loads(themedata.data)
 	      self.response.out.write(JSON.dumps(thedict))
 	    else:
 	      themelist=Theme.all()
@@ -50,7 +48,7 @@ class ThemeHandler(webapp.RequestHandler):
 	    themename=self.request.get("name")
 	    submitter=self.request.get("submitter",None)
 	    template=self.request.get("template",None)
-	    style=self.request.get("style",None)
+	    data=self.request.get("data",None)
 	    email=self.request.get("email",None)
 	    rendered=self.request.get("rendered",None)
 	    if(not error):
@@ -74,13 +72,9 @@ class ThemeHandler(webapp.RequestHandler):
 		errormessage="Please enter a valid email address"
 		
 	    if(not error):
-	      if(style==None or style==""):
+	      if(data==None or data==""):
 		error=True
-		errormessage="The style must not be empty"
-	    if(not error):
-	      if(template==None or style==""):
-		error=True
-		errormessage="The template must not be empty"
+		errormessage="The no data found"
 	    if(not DEBUG):
 	      validation=recaptcha.submit(recaptchallange,recaptresponse,RECAPTCHA_KEY,self.request.remote_addr)
 	      if(not validation.is_valid):
@@ -91,8 +85,7 @@ class ThemeHandler(webapp.RequestHandler):
 	      newtheme.name=themename
 	      newtheme.submitter=submitter
 	      newtheme.email=email
-	      newtheme.style=style
-	      newtheme.template=template
+	      newtheme.data=data
 	      newtheme.counter=0
 	      newtheme.rendered=rendered
 	      newtheme.put()
@@ -104,8 +97,7 @@ class ThemeHandler(webapp.RequestHandler):
 	      arg["name"]=themename
 	      arg["submitter"]=submitter
 	      arg["email"]=email
-	      arg["style"]=style
-	      arg["template"]=template
+	      arg["data"]=data
 	      arg["message"]=errormessage
 	      arg["rendered"]=rendered
 	      path = os.path.join(os.path.dirname(__file__), 'submittheme.html')
@@ -128,8 +120,13 @@ class ScreenShot(webapp.RequestHandler):
 	    else:
 		self.response.out.write("<h1>Sorry Thumbnail is not avalable</h1>")
 		
+class DefaultData(webapp.RequestHandler):
+    def get(self):
+        self.response.out.write(DEFAULTDATA)
+
 application = webapp.WSGIApplication([
 				      ('/themegallery',ThemeHandler),
 				      ('/screenshot',ScreenShot),
+                      ('/defaultdata',DefaultData),
 				      ],
 				      debug=True)

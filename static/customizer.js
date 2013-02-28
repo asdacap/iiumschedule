@@ -4,6 +4,7 @@ if (!window.location.origin) {
 }
 
 var currenttemplate;
+var parsed_data;
 var currentsettings={
     show_day:{
         MON:true,
@@ -45,11 +46,11 @@ $("#savebutton a").attr("href", "/scheduleloader?ctoken=" + ctoken);
 $("#savebutton a").click(saveStyle);
 
 function getcurrentstyle() {
-	if (thedata.style == undefined) {
+	if (parsed_data.style == undefined) {
 		var theiframe = $('#previewiframe');
-		thedata.style = theiframe.contents().find("#thestyle").html();
+		parsed_data.style = theiframe.contents().find("#thestyle").html();
 	}
-	return thedata.style;
+	return parsed_data.style;
 }
 
 function getcurrenttemplate() {
@@ -66,20 +67,22 @@ function currentrendered() {
 }
 
 function renderdata(data) {
-	return (new EJS({
-		text : currenttemplate
-	})).render(data);
+    var cdata=data;
+    if(cdata==undefined){
+        cdata=parsed_data;
+    }
+
+    return (new EJS({
+		text : currenttemplate,
+	})).render(cdata);
 }
 
 function rerender(style) {
 	if (style == undefined) {
 		style = getcurrentstyle();
 	}
-	thedata.style = style;
-	var thetext = (new EJS({
-		text : currenttemplate,
-        settings : currentsettings
-	})).render(thedata);
+	parsed_data.style = style;
+	var thetext = renderdata(parsed_data);
 	var theiframe = $('#previewiframe')
 
 	theiframe.contents().find('html').html(thetext);
@@ -183,8 +186,8 @@ function makearray(length) {
 	return thearray;
 }
 
-function formatschedule() {
-
+//convert data gathered from crs into data that can be used by template
+function convert_data(data){
 	var studentname = data.studentname;
 	var coursearray = data.coursearray;
 	
@@ -328,7 +331,7 @@ function formatschedule() {
 		return thereturn;
 	}
 
-	thedata = {
+	var thedata = {
 		studentname : studentname,
 		schedule : byday,
         scaledday : scaledbyday,
@@ -340,13 +343,20 @@ function formatschedule() {
 		ic : data.ic,
 		session : data.session,
 		semester : data.semester,
-        settings:currentsettings,
 		program : data.program
 	}
+    return thedata;
+}
+
+function formatschedule() {
+
+    window.parsed_data=convert_data(data);
+    parsed_data.settings=currentsettings;
 
 	$.get("/static/default.html", function(data) {
 		currenttemplate = data;
 		$.get("/static/default.css", function(data) {
+            parsed_data.style=data;
 			rerender(data);
 			//stylercsspage();
 			themegallery();
