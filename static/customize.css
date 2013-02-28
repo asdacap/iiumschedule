@@ -28,8 +28,11 @@
     left:0;
     width:30%;
     padding-top:40px;
-    padding-bottom:20px;
+    padding-bottom:30px;
     box-sizing:border-box;
+    box-shadow:2px 0 3px 1px grey;
+    -moz-box-sizing:border-box;
+    -webkit-box-sizing:border-box;
   }
   #configiframe.alternate{
     width: 60%;
@@ -47,8 +50,9 @@
     padding-top:40px;
     right:0;
     border:0;
-    border-left:1px solid #555;
     box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    -webkit-box-sizing:border-box;
   }
   #previewiframe.alternate{
     width:39%;

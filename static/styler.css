@@ -24,6 +24,7 @@ input.sliderpreval{
 }
 
 .styler_control{
+    margin-bottom:10px;
 }
 .styler_group{
 	display:inline-block;
@@ -76,4 +77,35 @@ div.mainloading{
 .stylercolortab{
     background-image:url("/static/colorpicker/colortabback.png");
     background-size:100% 100%;
+}
+
+.addcolor{
+    border:1px solid grey;
+    padding:1ex;
+    margin-top:1ex;
+}
+
+.addcolor div{
+    margin-bottom:1ex;
+}
+
+.addcolorgallery{
+    border:1px solid grey;
+    padding:1ex;
+    margin-top:1ex;
+}
+
+.addcolorgallery div{
+    margin-bottom:1ex;
+}
+
+.removecolor{
+    display:inline-block;
+    width:23px;
+    height:25px;
+    cursor:pointer;
+    background-image:url("remove_color.png");
+    background-repeat:no-repeat;
+    background-position:center center;
+    vertical-align:top;
 }
