@@ -448,7 +448,8 @@ function parsetable() {
         makemessage(
         "Done! Please click <a target='_blank' href='https://iiumschedule.appspot.com/scheduleformatter/?token="
                     + thetoken
-                    + "' >this link</a> to continue.",
+                    + "' >this link</a> to continue.<br />"+
+        "Or, <a href='javascript:error(\"Voluntary Error Report\")'>Click here</a> to report incorrect result or simply to comments and stuff.",
         false);
         },
      error:function(err,textstatus,errthrown){
