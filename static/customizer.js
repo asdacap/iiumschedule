@@ -364,3 +364,13 @@ function formatschedule() {
 	});
 
 }
+
+
+$("#tabmenulist td > a").click(function(){
+    var thetd=$(this).parent();
+    if(thetd.attr("id")=="savebutton"){
+        return;
+    }
+    $("#tabmenulist td.selected").toggleClass("selected");
+    thetd.addClass("selected");
+});

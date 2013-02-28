@@ -77,6 +77,10 @@
   #tabmenulist td.title{
     padding-top:7px;
   }
+
+  #tabmenulist td.selected{
+    background-color:rgba(50,50,50,0.5);
+  }
   
   #tabmenulist td:hover{
     background-color:rgba(50,50,50,0.5);
