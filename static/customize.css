@@ -27,12 +27,14 @@
     height:100%;
     left:0;
     width:30%;
-    padding-top:40px;
+    padding:10px;
+    padding-top:48px;
     padding-bottom:30px;
     box-sizing:border-box;
     box-shadow:2px 0 3px 1px grey;
     -moz-box-sizing:border-box;
     -webkit-box-sizing:border-box;
+    background-color:#f7f7f7;
   }
   #configiframe.alternate{
     width: 60%;

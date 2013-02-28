@@ -40,8 +40,8 @@ text-align:center;
 text-align:center;
 }
 #detailtable{
-width:57.70%;
-text-align:center;
+width:60.60%;
+text-align:left;
 }
 #scheduletable tr td.nonempty .venue{
 font-size:8.82px;
@@ -74,7 +74,7 @@ background-color:#c4c4c4;
 #scheduletable{
 border-color:#000000;
 border-style:solid;
-border-width:3.10px 3.10px 3.10px 3.10px;
+border-width:2.00px 2.00px 2.00px 2.00px;
 box-shadow: 0.00px 0.00px 7.44px 2.46px #grey;
 }
 #scheduletable tr td.nonempty .code{
@@ -132,6 +132,18 @@ padding:1.20px 7.10px 1.20px 7.10px;
                 "Table Cell": "#ffffff",
                 "Courses Cell": "#ffffff"
             }
+        },
+        {
+            "name": "More Color",
+            "colors": {
+                "Background": "#ffffff",
+                "Table Header": "#ffa840",
+                "Table Column Header": "#fcd19e",
+                "Table Border": "#ffffff",
+                "Empty Table Cell": "#b3d3e5",
+                "Table Cell": "#f2f2f2",
+                "Courses Cell": "#ffffff"
+            }
         }
     ],
     "inputs": {
@@ -150,5 +162,9 @@ padding:1.20px 7.10px 1.20px 7.10px;
     }
 }
 */
+
+
+
+
 
 
