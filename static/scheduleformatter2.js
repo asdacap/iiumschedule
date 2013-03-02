@@ -45,8 +45,13 @@ function error(e){
 	}
 	var maindiv=$("#iiumschedulediv");
 	maindiv.html("");
-	maindiv.append("<h3>Error detected...</h3>");
-	maindiv.append("<p>Sorry, an error occur. Would you be so kind to send me some data to help fix this bug? <br /> WARNING: this WILL include your CRS</p>");
+    if(e=="Voluntary Error Report"){
+        maindiv.append("<h3>Reports...</h3>");
+        maindiv.append("<p>Please click ok to continue <br /> WARNING: By default, this WILL include your CRS. To exclude your CRS, after you click ok, empty the section 'HTML Data'</p>");
+    }else{
+        maindiv.append("<h3>Error detected...</h3>");
+        maindiv.append("<p>Sorry, an error occur. Would you be so kind to send me some data to help fix this bug? <br /> WARNING: this WILL include your CRS</p>");
+    }
 	var button=$("<button>Ok</button>");
 	maindiv.append(button);
 	maindiv.append("<span>(If not ok, just close this window)</span>");
