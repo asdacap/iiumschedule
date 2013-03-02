@@ -34,11 +34,6 @@ DEFAULTDATA='''
               "end" : 12,
               "start" : 10,
               "venue" : "ANNEX LAB COMP L5"
-            },
-            { "day" : "WED",
-              "end" : 17,
-              "start" : 16,
-              "venue" : "ANNEX LAB COMP L2"
             }
           ],
         "section" : "405",
