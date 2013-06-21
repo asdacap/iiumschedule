@@ -75,11 +75,16 @@ function error(e){
 }
 
 function start(){
-	try{
-		parsetable();
-	}catch(e){
-		error(e);
-	}
+    if($("#TB_window iframe").length){
+        //Inject in iframe
+        $("#TB_window iframe")[0].contentWindow.eval("(function(){var e=document.createElement('script');e.src = 'https://iiumschedule.appspot.com/static/scheduleformatter.js';e.type='text/javascript';e.addEventListener('load',function(){startscheduler()} );document.getElementsByTagName('head')[0].appendChild(e);})();");
+    }else{
+        try{
+            parsetable();
+        }catch(e){
+            error(e);
+        }
+    }
 }
 
 function parsetable() {
