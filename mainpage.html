@@ -87,43 +87,34 @@
   <div class='wrap'>
   <div id='toptitle' ><img style='display:inline-block;' src='/static/logo-small.png'></img><h1>Automatic IIUM Schedule Formatter</h1></div>
   
-  Assalamualaikum, are you an International Islamic University Malaysia student? If you are, then you knew that IIUM use a CRS (Course Registration Slip) or a Confirmation Slip to show the class schedule.
+  <p>Assalamualaikum, are you an International Islamic University Malaysia student? If you are, then you knew that IIUM use a CRS (Course Registration Slip) or a Confirmation Slip to show the class schedule.</p>
   <img class='screenshot' style='margin-left:auto;margin-right:auto;display:block;' src='/static/mainpage/crs.jpg'></img>
-  But, the CRS is formatted in a way that make it cumbersome to see which class do you have on a particular day. That is, it does not arrange it in day-to-day basis. And so, due to my lazyness to reformat the schedule manually, I had make a website called Automatic IIUM Schedule Formatter. Basically, what this website does is that it reformat your CRS/Confirmation Slip into a schedule like this:
+  <p>But, the CRS is formatted in a way that make it cumbersome to see which class do you have on a particular day. That is, it does not arrange it in day-to-day basis. And so, due to my lazyness to reformat the schedule manually, I made a webapp called Automatic IIUM Schedule Formatter. Basically, what this website does is, it reformat your CRS/Confirmation Slip into a schedule like this:</p>
   <img class='screenshot' style='margin-left:auto;margin-right:auto;display:block;width:66%;height:66%;' src='/static/mainpage/after.jpg'></img>
-  Of course, the design is not limited as the above only. You can customize your schedule according to your taste.
+  <p>Of course, the design is not limited as the above only. You can customize your schedule according to your taste.</p>
   <img class='screenshot' style='margin-left:auto;margin-right:auto;display:block;'  src='/static/mainpage/showstyler.jpg'></img>
-  Automatic IIUM Schedule Formatter also has a theme gallery that allow you to change the style of your schedule without much knowledge about CSS or EJS template. But for now, not many themes are available, so If you are great at designing, feel free to submit your design.
+  <p>Automatic IIUM Schedule Formatter also has a theme gallery that allow you to change the style of your schedule without much knowledge about CSS or EJS template. Although currently there is only one design available. Feel free to submit your own design.</p>
   <img class='screenshot' style='margin-left:auto;margin-right:auto;display:block;'  src='/static/mainpage/submit.jpg'></img>
   <h2>Instruction</h2>
-  <h3>For webkit based browser (Chrome or Safari):</h3>
-  <div>
   <ol>
-  <li>Copy EVERY SINGLE CHARACTER below:<br />
-  <pre style='word-wrap:break-word;'><code>javascript:(function(){var e=document.createElement('script');e.src = 'https://iiumschedule.appspot.com/static/scheduleformatter.js';e.type='text/javascript';e.addEventListener('load',function(){startscheduler()} );document.getElementsByTagName('head')[0].appendChild(e);})();</code></pre>
+  <li>
+    For Google Chrome user, make sure your bookmark bar is visible (Shift+Ctrl+B), then drag the link below to your bookmark bar.
+    <br />For Firefox user, you can just right click and then select "bookmark this link".
+  <br /><div style="text-align:center;margin:1ex auto;"><a href="javascript:(function(){var e=document.createElement('script');e.src = 'https://iiumschedule.appspot.com/static/scheduleformatter.js';e.type='text/javascript';e.addEventListener('load',function(){startscheduler()} );document.getElementsByTagName('head')[0].appendChild(e);})();">Automatic IIUM Schedule Formatter</a></div>
+  
   </li>
-  <li>Open your Course Registration Slip (CRS)/Confirmation Slip at <a href="http://my.iium.edu.my/" target="_blank_">myiium</a>. Please make sure that you open the CRS/Confirmation Slip <strong>on a new tab.</strong></li>
-  <li>Paste the code, and MAKE SURE IT START WITH 'javascript:'<div class="separator" style="clear: both; text-align: center;">
-  <a href="http://3.bp.blogspot.com/-QFuUim02BmM/Twb86TNGQlI/AAAAAAAAANE/JnFSZ_6jrog/s1600/Selection_018.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="124" src="http://3.bp.blogspot.com/-QFuUim02BmM/Twb86TNGQlI/AAAAAAAAANE/JnFSZ_6jrog/s640/Selection_018.png" width="640" /></a></div>
-  <strong>For Chrome: Google Chrome will automatically erase the "javascript:" portion of the code above. I recommend that you copy the code without "javascript:" and then type "javascript:" manually, then paste the rest of the code.</strong>
+  <li>Open your Course Registration Slip (CRS)/Confirmation Slip at <a href="http://my.iium.edu.my/" target="_blank_">myiium</a></li>
+  <li>Click on the bookmark that you had recently make. If you are using firefox, the bookmark may be in your menu.
+  <img class="screenshot" style="margin:1ex auto;display:block;" src="/static/mainpage/clickbookmark.png"></img>
   </li>
-  <li>Wait... you will get a message saying "Saving your schedule...". Then it will say "Done! Please click this link.". So click the link.</li>
-  </ol>
-  <div>
-  <br /></div>
-  </div>
-  <div>
-  <h3>For Firefox:</h3>
-  <ol>
-  <li>Right click link&nbsp;<a href="javascript:(function(){var e=document.createElement('script');e.src = 'https://iiumschedule.appspot.com/static/scheduleformatter.js';e.type='text/javascript';e.addEventListener('load',function(){startscheduler()} );document.getElementsByTagName('head')[0].appendChild(e);})();">Automatic IIUM Schedule Formatter</a>.</li>
-  <li>Click "bookmark this link".</li>
-  <li>Open your CRS as in the Google Chrome step <a href="http://my.iium.edu.my/" target="_blank_">here</a>.</li>
-  <li>Click firefox bookmark menu, and click the bookmark that you had recently make.</li>
-  <li>Wait... you will get a message saying "Saving your schedule...". Then it will say "Done! Please click this link.". So click the link.</li>
+  <li>Wait for a few second... a message will appear saying "Saving your schedule...". Then it will say "Done! Please click this link."
+  <img class="screenshot" style="margin:1ex auto;display:block;" src="/static/mainpage/clicklink.png"></img>
+  </li>
+  <li>Click that link and another page will open. If the page does not open your schedule, try refreshing.</li>
   </ol>
   <h3>Next</h3>
   <p>The link will open another page that allow you to customize your schedule.</p>
-  <img src="/static/mainpage/afterbig.jpeg" style="width:800px"></img>
+  <img class="screenshot" src="/static/mainpage/afterbig.jpeg" style="width:800px"></img>
   <ul>
       <li>
           <h4>Choose Theme</h4>
@@ -146,7 +137,7 @@
              </li>
   </ul>
   <h3>Saving Your Schedule</h3>
-  <p>To save your schedule, just click on the "save" button at the top right of the page. A new page will appear saying that your schedule is ready. The page is simply a loader, left from the previous version that enable you to save it as an image on facebook.</p>
+  <p>To save your schedule, just click on the "save" button at the top right of the page. A new page will appear saying that your schedule is ready.</p>
   
   <h2>Disclamier</h2>
   <ul>
@@ -157,22 +148,17 @@
   For main campus user , a little tweak has been used to align the minute correctly. Unfortunately the tweaks work by adding another row to the table. The row has zero height (in theory), but this will cause the bottom border of the table to be a bit thicker. You can disable the tweak in the settings page.
   </li>
   <li>
-  Whoever that is little computer savvy will notice that using this technique, you are using a Javascript Injection Attack to IIUM page. Why do you need to do so? Originally, I would prefer If you could just save the CRS and upload it to this website. Unfortunately IIUM portal security is a little bit cumbersome and therefore some hacking is required.
-  </li>
-  <li>
-  For those who are not exactly "fluent" in this computer stuff, in simple word, If there are any particular person who asked you to do thing like this, and the source of the page is doubtful like "Facebook Unlike button" or "Win an Ipad 4!", DONT DO WHAT IT ASK YOU TO DO. Basically, it asked you to run some javascript from unknown sources and probably the javascript contain viruses and that is why there are virus on Facebook.
-  </li>
-  <li>
   For those who are interested on how does the program works, you are welcomed to reverse engineer the code, except for styler.js which is used on my other project that is <a href='http://yagregator.com'>YourAgregator</a>
   </li>
   <li>
-  And by the way, because of various cross-domain scripting restriction, I have decided to take the easy way by tomporarily saving the schedule on the server. So, yes I can know you schedule if I know your name and I am interested in it. But no worry, the server will automatically delete your schedule at least in 48 hour. So, after you submitted your schedule, you  only have 24 hours to save you schedule. After 24 hour, there is a possibility that the link given will not work anymore. 
+  And by the way, because of various cross-domain scripting restriction, I have decided to take the easy way by tomporarily saving the schedule on the server. So, yes I can view you schedule if I know your name and I am interested in it. But no worry, the server will automatically delete your schedule at least in 48 hour. So, after you submitted your schedule, you  only have 24 hours to save you schedule. After 24 hour, there is a possibility that the link given will not work anymore. After 48 hour, your schedule had already been deleted from the server.
   </li>
+  </ul>
   For any question, you can contact me at asdacap@gmail.com . And before you go, please <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=iiumschedule.appspot.com">share this page</a>, and you can comment below for further questions.
     <br /><br />
   
   <div class="fb-like" data-href="http://iiumschedule.appspot.com/" data-send="true" data-width="770" data-show-faces="true"></div>
-  </div>
   <div class="fb-comments" data-href="http://iiumschedule.appspot.com/" data-num-posts="3" data-width="770"></div>
+  </div>
 </body>
 </html>
