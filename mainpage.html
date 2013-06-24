@@ -148,7 +148,10 @@
   For main campus user , a little tweak has been used to align the minute correctly. Unfortunately the tweaks work by adding another row to the table. The row has zero height (in theory), but this will cause the bottom border of the table to be a bit thicker. You can disable the tweak in the settings page.
   </li>
   <li>
-  For those who are interested on how does the program works, you are welcomed to reverse engineer the code, except for styler.js which is used on my other project that is <a href='http://yagregator.com'>YourAgregator</a>
+  Also for main campus user, short sem Confirmation Slip has another format to describe the day for the schedule (the one like "TWTH" or "THF". The current code implimentation to parse that is in BETA state and does not support saturday and sunday. However if you encounter any error, please consider sending a bug report as that will help the development greatly.
+  </li>
+  <li>
+  For those who are interested on how does the program works, you are welcomed to reverse engineer the code, except for styler.js which is used on my other project that is <a href='http://yagregator.com'>YourAgregator</a>. Basically this is a bookmarklets, which load another scripts which then scan the schedule and reformat it in the Styler.
   </li>
   <li>
   And by the way, because of various cross-domain scripting restriction, I have decided to take the easy way by tomporarily saving the schedule on the server. So, yes I can view you schedule if I know your name and I am interested in it. But no worry, the server will automatically delete your schedule at least in 48 hour. So, after you submitted your schedule, you  only have 24 hours to save you schedule. After 24 hour, there is a possibility that the link given will not work anymore. After 48 hour, your schedule had already been deleted from the server.

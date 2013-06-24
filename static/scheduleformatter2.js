@@ -389,38 +389,57 @@ function parsetable() {
                         venue : venue
                     }
                     currentcourse.schedule.push(newschedule);
-                }else{
+                }else if(/\s*(M|TH|W|T|F|SN|S)\s*-\s*(M|TH|W|T|F|SN|S)\s*/.exec(rawday)){
                     var execed=/\s*(M|TH|W|T|F|SN|S)\s*-\s*(M|TH|W|T|F|SN|S)\s*/.exec(rawday);
-                    if(execed){
-                        function make_long(d){
-                            if(d=='M')return "MON";
-                            if(d=='T')return "TUE";
-                            if(d=='W')return "WED";
-                            if(d=='TH')return "THUR";
-                            if(d=='F')return "FRI";
-                            if(d=='SN')return "SUN";
-                            if(d=='S')return "SAT";
-                            throw "Unknown day ->"+d;
-                        }
-                        var d1=make_long(execed[1]);
-                        var newschedule = {
-                            day : d1,
-                            start : starttime,
-                            end : endtime,
-                            venue : venue
-                        }
-                        currentcourse.schedule.push(newschedule);
-                        var d2=make_long(execed[2]);
-                        newschedule = {
-                            day : d2,
-                            start : starttime,
-                            end : endtime,
-                            venue : venue
-                        }
-                        currentcourse.schedule.push(newschedule);
-                    }else{
-                        throw "Unknown day format ->"+rawday;
+                    function make_long(d){
+                        if(d=='M')return "MON";
+                        if(d=='T')return "TUE";
+                        if(d=='W')return "WED";
+                        if(d=='TH')return "THUR";
+                        if(d=='F')return "FRI";
+                        if(d=='SN')return "SUN";
+                        if(d=='S')return "SAT";
+                        throw "Unknown day ->"+d;
                     }
+                    var d1=make_long(execed[1]);
+                    var newschedule = {
+                        day : d1,
+                        start : starttime,
+                        end : endtime,
+                        venue : venue
+                    }
+                    currentcourse.schedule.push(newschedule);
+                    var d2=make_long(execed[2]);
+                    newschedule = {
+                        day : d2,
+                        start : starttime,
+                        end : endtime,
+                        venue : venue
+                    }
+                    currentcourse.schedule.push(newschedule);
+                }else if("MTWTHF".indexOf(rawday)!=-1){
+                    var idx="MTWTHF".indexOf(rawday);
+                    var length=rawday.length;
+                    if(rawday.indexOf("TH")!=-1){
+                        length--;
+                    }
+                    if(rawday=="F"){
+                        idx-=1;
+                    }
+                    var dayidx=["MON","TUE","WED","THUR","FRI"];
+                    var i2=idx;
+                    while(i2<idx+length){
+                        var newschedule = {
+                            day : dayidx[i2],
+                            start : starttime,
+                            end : endtime,
+                            venue : venue
+                        }
+                        currentcourse.schedule.push(newschedule);
+                        i2++;
+                    }
+                }else{
+                    throw "Unknown day format ->"+rawday;
                 }
                 
             }
