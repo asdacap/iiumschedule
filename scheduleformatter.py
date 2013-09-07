@@ -17,13 +17,13 @@ from staticsettings import DEFAULTDATA
 class SavedSchedule(db.Model):
     data=db.TextProperty()
     createddate=db.DateTimeProperty()
-    
+
 class ErrorLog(db.Model):
     submitter=db.StringProperty()
     html=db.TextProperty()
     error=db.TextProperty()
     additionalinfo=db.TextProperty()
-    
+
 class MainHandler(webapp.RequestHandler):
     def get(self):
         dtype=self.request.get("dtype","unformatted")
@@ -33,13 +33,16 @@ class MainHandler(webapp.RequestHandler):
                 return
             else:
                 theinstance=SavedSchedule.get_by_key_name(token)
+                if(theinstance==None):
+                    self.response.out.write("Sorry, the requested schedule is no longer in the database. You should save it on your computer earlier.")
+                    return
                 data=theinstance.data
             self.response.write(data)
             return
         self.response.headers.add_header("Access-Control-Allow-Origin","http://my.iium.edu.my")
         path = os.path.join(os.path.dirname(__file__), 'scheduleformatterpage.html')
         text=open(path).read()
-        
+
         token=self.request.get("token",None)
         if(not token):
             data=DEFAULTDATA
@@ -49,7 +52,7 @@ class MainHandler(webapp.RequestHandler):
                 self.response.out.write("Sorry, the requested schedule is no longer in the database. You should save it on your computer earlier.")
                 return
             data=theinstance.data
-          
+
         text=text+r"<script>var data="+data+";formatschedule();</script>"
         self.response.out.write(text)
     def post(self):
@@ -65,14 +68,14 @@ class MainHandler(webapp.RequestHandler):
         theschedule.put()
         self.response.headers.add_header("Access-Control-Allow-Origin","http://my.iium.edu.my")
         self.response.out.write(token)
-            
+
 class CleanSchedule(webapp.RequestHandler):
     def get(self):
         nowtime=datetime.now()
         nowtime=nowtime-timedelta(hours=12)
         thelist=SavedSchedule.all().filter("createddate <",nowtime)
         db.delete(thelist)
-            
+
 class ScheduleLoader(webapp.RequestHandler):
     def get(self):
         token=self.request.get("ctoken")
@@ -90,7 +93,7 @@ class ScheduleLoader(webapp.RequestHandler):
         else:
             path = os.path.join(os.path.dirname(__file__), 'scheduleloader.html')
         self.response.out.write(template.render(path,{"token":token}))
-            
+
 class ErrorHandler(webapp.RequestHandler):
     def post(self):
         submitter=self.request.get("submitter")
@@ -103,12 +106,12 @@ class ErrorHandler(webapp.RequestHandler):
         newrecord.additionalinfo=additionaldata
         newrecord.put()
         self.response.out.write("Thank you for submitting a bug report. I will take some time before I read this error, and take more time before I fix it. So... just be patient.")
-            
+
 class MainPage(webapp.RequestHandler):
     def get(self):
         path = os.path.join(os.path.dirname(__file__), 'mainpage.html')
         self.response.out.write(open(path).read())
-            
+
 application = webapp.WSGIApplication([('/scheduleformatter/', MainHandler),
                                       ('/scheduleloader',ScheduleLoader),
                                       ('/error',ErrorHandler),
