@@ -96,9 +96,21 @@ function parsetable() {
             $("body").append("<div id='iiumschedulediv' style='width:100%;text-align:center;margin-top:10px;'></div>");
         }
         var maindiv=$("#iiumschedulediv");
+        maindiv.html('');
         maindiv.append("<h3>Wrong Usage</h3>");
         maindiv.append("Please use the code on the CRS/<a target='_blank' href='/phpaps/run_rep_list.php?rep_key=confslip1&keepThis=true&TB_iframe=true&height=630&width=900'>Confirmation Slip</a> page.");
         maindiv.append("<br />Not on the main portal page.");
+        return;
+    }
+    
+    if($('form input[value=confslip1]').length){
+        if(!$("#iiumschedulediv").length){
+            $("body").append("<div id='iiumschedulediv' style='width:100%;text-align:center;margin-top:10px;'></div>");
+        }
+        var maindiv=$("#iiumschedulediv");
+        maindiv.html('');
+        maindiv.append("<h3>Wrong Usage</h3>");
+        maindiv.append("Please select a session first");
         return;
     }
 
