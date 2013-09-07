@@ -38,14 +38,14 @@ function fixstring(text) {
 	return result
 }
 
-function error(e){
+function error(e,vol){
 	globerr=e;
 	if(!$("#iiumschedulediv").length){
 		$("body").append("<div id='iiumschedulediv' style='width:100%;text-align:center;margin-top:10px;'></div>");
 	}
 	var maindiv=$("#iiumschedulediv");
 	maindiv.html("");
-    if(e=="Voluntary Error Report"){
+    if(vol!=undefined){
         maindiv.append("<h3>Reports...</h3>");
         maindiv.append("<p>Please click ok to continue <br /> WARNING: By default, this WILL include your CRS. To exclude your CRS, after you click ok, empty the section 'HTML Data'</p>");
     }else{
@@ -91,29 +91,30 @@ function parsetable() {
 
     makemessage("Validating path");
 
+    if(window.location.host=="prereg.iium.edu.my"){
+        makemessage("<h3>Wrong Usage</h3>Please use the code on the CRS/Confirmation Slip page from MyIIUM, not from prereg slip.",false);
+        return;
+    }
+
     if(/^\/portal\/page\/portal\//.exec(window.location.pathname)){
-        if(!$("#iiumschedulediv").length){
-            $("body").append("<div id='iiumschedulediv' style='width:100%;text-align:center;margin-top:10px;'></div>");
-        }
-        var maindiv=$("#iiumschedulediv");
-        maindiv.html('');
-        maindiv.append("<h3>Wrong Usage</h3>");
-        maindiv.append("Please use the code on the CRS/<a target='_blank' href='/phpaps/run_rep_list.php?rep_key=confslip1&keepThis=true&TB_iframe=true&height=630&width=900'>Confirmation Slip</a> page.");
-        maindiv.append("<br />Not on the main portal page.");
+        makemessage("<h3>Wrong Usage</h3>Please use the code on the CRS/<a target='_blank' href='/phpaps/run_rep_list.php?rep_key=confslip1&keepThis=true&TB_iframe=true&height=630&width=900'>Confirmation Slip</a> page.<br />Not on the main portal page.",false);
         return;
     }
     
     if($('form input[value=confslip1]').length){
-        if(!$("#iiumschedulediv").length){
-            $("body").append("<div id='iiumschedulediv' style='width:100%;text-align:center;margin-top:10px;'></div>");
-        }
-        var maindiv=$("#iiumschedulediv");
-        maindiv.html('');
-        maindiv.append("<h3>Wrong Usage</h3>");
-        maindiv.append("Please select a session first");
+        makemessage("<h3>Wrong Usage</h3>Please select a session first",false);
         return;
     }
 
+    if(!$("body table").length || !$("body table").find('tr').length){
+        makemessage("Error, no table found. Are you sure this is the schedule?<br>If you are, please <a href='javascript:error(\"Voluntary Error Report\",1)'>send an error report</a> so that I can fix thi.",false);
+        return;
+    }
+
+    if($('body table').length!=1){
+        makemessage("Error, page unrecognized. Are you sure this is the schedule?<br>If you are, please <a href='javascript:error(\"Voluntary Error Report\",1)'>send an error report</a> so that I can fix this.",false);
+        return;
+    }
 	// parse table
 	makemessage("Parsing table, please wait...");
 
@@ -490,7 +491,7 @@ function parsetable() {
         "Done! Please click <a target='_blank' href='https://iiumschedule.appspot.com/scheduleformatter/?token="
                     + thetoken
                     + "' >this link</a> to continue.<br />"+
-        "Or, <a href='javascript:error(\"Voluntary Error Report\")'>Click here</a> to report incorrect result or simply to comments and stuff.",
+        "Or, <a href='javascript:error(\"Voluntary Error Report\",1)'>Click here</a> to report incorrect result or simply to comments and stuff.",
         false);
         },
      error:function(err,textstatus,errthrown){
