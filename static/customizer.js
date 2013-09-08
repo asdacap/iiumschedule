@@ -17,7 +17,17 @@ var currentsettings={
     },
     fixminutealign:true,
     showpersonalinfo:true,
-    showcoursetable:true
+    showcoursetable:true,
+    showfulldayname:false
+};
+var day_name={
+    MON:'monday',
+    TUE:'tuesday',
+    WED:'wednesday',
+    THUR:'thursday',
+    FRI:'friday',
+    SAT:'saturday',
+    SUN:'sunday'
 };
 
 function postpage() {

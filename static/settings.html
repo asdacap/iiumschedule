@@ -28,6 +28,7 @@
             samename("fixminutealign");
             samename("showpersonalinfo");
             samename("showcoursetable");
+            samename("showfulldayname");
         }
         function save_settings(){
             var oursetting={show_day:{}};
@@ -44,6 +45,7 @@
             samename("fixminutealign");
             samename("showpersonalinfo");
             samename("showcoursetable");
+            samename("showfulldayname");
             $.extend(parent.currentsettings,oursetting);
             parent.rerender();
         }
@@ -58,6 +60,7 @@
     <span class="heading">Display:</span><br />
     Show personal info : <input type="checkbox" name="showpersonalinfo" /><br />
     Show course table : <input type="checkbox" name="showcoursetable" /><br />
+    Show day in full instead of partial : <input type="checkbox" name="showfulldayname" /><br />
     <br />
     <span class="heading">Show Days:</span>
     <table>

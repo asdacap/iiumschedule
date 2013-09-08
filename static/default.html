@@ -48,7 +48,11 @@
         %>
     <tr>
       <td class='day firstcolumn'>
-	<%= key %>
+    <% if(settings.showfulldayname){ %>
+	<%= day_name[key] %>
+    <% }else{ %>
+	<%= key.toLowerCase() %>
+    <% } %>
       </td>
       <% for(var i=0;i<byfiveminute[key].length;i=i+1){ %>
 	<% if(byfiveminute[key][i].course){ %>
