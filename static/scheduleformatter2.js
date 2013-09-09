@@ -387,7 +387,7 @@ function parsetable() {
                     endtime = parseFloat(parseendtime[1], 10);
                 }
 
-                if(tablearray[i][41].text()=="PM"){ starttime=starttime+12;
+                if(tablearray[i][41].text()=="PM" && starttime<12 && endtime<12){ starttime=starttime+12;
                 endtime=endtime+12; } 
 
                 var venue = tablearray[i][46].text();
