@@ -56,6 +56,7 @@ background-color:#ffffff;
 #scheduletable td.day{
 padding:0.00px 0.00px 0.00px 14.40px;
 background-color:#c4c4c4;
+text-transform:uppercase;
 }
 #coursetablediv{
 text-align:center;
