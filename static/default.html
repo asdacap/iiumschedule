@@ -37,6 +37,8 @@
       var dtime=thetime;
       if(thetime>12){
           dtime=(dtime-12).toString()+" pm";
+      }else if(thetime==12){
+          dtime=dtime.toString()+" pm";
       }else{
           dtime=dtime.toString()+" am";
       }
