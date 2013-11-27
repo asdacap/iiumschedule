@@ -15,7 +15,7 @@ handlers:
   secure: optional
   
 - url: /cleanschedule
-  script: scheduleformatter.application
+  script: admincontroller.application
   secure: optional
   login: admin
   
@@ -34,6 +34,11 @@ handlers:
 - url: /screenshot
   script: themehandler.application
   secure: optional
+
+- url: /admin
+  script: admincontroller.application
+  secure: optional
+  login: admin
   
 - url: /defaultdata 
   script: themehandler.application

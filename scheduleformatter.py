@@ -69,13 +69,6 @@ class MainHandler(webapp.RequestHandler):
         self.response.headers.add_header("Access-Control-Allow-Origin","http://my.iium.edu.my")
         self.response.out.write(token)
 
-class CleanSchedule(webapp.RequestHandler):
-    def get(self):
-        nowtime=datetime.now()
-        nowtime=nowtime-timedelta(hours=12)
-        thelist=SavedSchedule.all().filter("createddate <",nowtime)
-        db.delete(thelist)
-
 class ScheduleLoader(webapp.RequestHandler):
     def get(self):
         token=self.request.get("ctoken")
@@ -115,6 +108,5 @@ class MainPage(webapp.RequestHandler):
 application = webapp.WSGIApplication([('/scheduleformatter/', MainHandler),
                                       ('/scheduleloader',ScheduleLoader),
                                       ('/error',ErrorHandler),
-                                      ('/cleanschedule',CleanSchedule),
                                       ('/',MainPage),],
                                       debug=False)
