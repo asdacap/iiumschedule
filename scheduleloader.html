@@ -87,11 +87,6 @@ body,#messagediv table,#maindiv>div,#previewiframe{
     	    $("#loadingdiv").slideUp(1000);
     	    $("#messagediv").slideDown(1000);
     	    $("#previewiframe").attr("src",window.location.origin+"/scheduleformatter/?token={{token}}&dtype=completeschedule");
-    	    $("#facebooklink").attr("href","https://www.facebook.com/dialog/oauth?"+
-              "client_id=207943475977546"+
-              "&scope=publish_stream"+
-              "&redirect_uri="+encodeURIComponent("https://iiumschedule.appspot.com/onfacebook/reg/")+
-              "&state={{token}}");
             //window.location=window.location.origin+"/scheduleformatter/?token={{token}}&dtype=completeschedule";
     	}else{
     	  setTimeout("test()",500);
@@ -142,7 +137,7 @@ body,#messagediv table,#maindiv>div,#previewiframe{
                 Open the schedule in another page. Then you can save the schedule, print it, etc...<br />The link given is only available temporarily. Please save your schedule somewhere else.
                 <br />
                 <h3>By the way...</h3>
-                Please support this website by clicking the like button below. And also, <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=iiumschedule.appspot.com">Share this on facebook</a>. Thank you.
+                Please support this website by clicking the like button below. Thank you.
                 <div style="height:20px;"></div>
                 <div class="fb-like" data-href="http://iiumschedule.appspot.com/" data-send="true" data-width="770" data-show-faces="true"></div>
                 </div>

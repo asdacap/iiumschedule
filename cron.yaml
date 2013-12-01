@@ -1,8 +1,4 @@
 cron:
-
-- description: delete old stored facebook schedule image
-  url: /onfacebook/clean/
-  schedule: every 12 hours
   
 - description: delete old stored schedule
   url: /cleanschedule

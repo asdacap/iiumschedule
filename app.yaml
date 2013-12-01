@@ -48,10 +48,6 @@ handlers:
   script: themehandler.application
   secure: optional
   
-- url: /onfacebook/.*
-  script: facebookstuff.application
-  secure: optional
-  
 - url: /favicon.ico
   static_files: static/logo-small.ico
   upload: static/logo-small.ico
