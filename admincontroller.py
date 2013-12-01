@@ -1,7 +1,4 @@
 from google.appengine.ext import webapp
-from google.appengine.ext.webapp import util
-import os
-from google.appengine.ext.webapp import template
 from google.appengine.ext import db
 import hashlib
 import os
@@ -11,22 +8,31 @@ try:
     import JSON
 except ImportError:
     import json as JSON
-from staticsettings import DEFAULTDATA
 from scheduleformatter import SavedSchedule
 
-class CleanSchedule(webapp.RequestHandler):
-    def get(self):
-        nowtime=datetime.now()
-        nowtime=nowtime-timedelta(hours=12)
-        thelist=SavedSchedule.all().filter("createddate <",nowtime)
-        db.delete(thelist)
+from flask import Flask, render_template, request
+import json
 
-class MainPage(webapp.RequestHandler):
-    def get(self):
-        path = os.path.join(os.path.dirname(__file__), 'adminpage.html')
-        self.response.out.write(open(path).read())
+app = Flask(__name__)
 
-application = webapp.WSGIApplication([
-                                      ('/cleanschedule',CleanSchedule),
-                                      ('/admin/?',MainPage),],
-                                      debug=False)
+@app.route('/cleanschedule/')
+def cleanschedule():
+    nowtime=datetime.now()
+    nowtime=nowtime-timedelta(hours=12)
+    thelist=SavedSchedule.all().filter("createddate <",nowtime)
+    db.delete(thelist)
+
+@app.route('/admin/')
+def adminmainpage():
+    return render_template( 'adminpage.html')
+
+@app.route('/admin/upload_section_data/',methods=['GET','POST'])
+def update_section_data():
+    message="Upload the section data"
+    if(request.method=='POST'):
+        if(request.files['secdata'].filename!=''):
+            obj=json.load(request.files['secdata'])
+            message="File Uploaded "+json.dumps(obj)
+        else:
+            message="Pick a file"
+    return render_template( 'upload_section.html', message=message )
