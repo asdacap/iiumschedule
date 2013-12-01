@@ -12,17 +12,8 @@ try:
 except ImportError:
     import json as JSON
 from staticsettings import DEFAULTDATA
+from models import SavedSchedule, ErrorLog
 
-
-class SavedSchedule(db.Model):
-    data=db.TextProperty()
-    createddate=db.DateTimeProperty()
-
-class ErrorLog(db.Model):
-    submitter=db.StringProperty()
-    html=db.TextProperty()
-    error=db.TextProperty()
-    additionalinfo=db.TextProperty()
 
 class MainHandler(webapp.RequestHandler):
     def get(self):

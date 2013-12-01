@@ -8,7 +8,7 @@ try:
     import JSON
 except ImportError:
     import json as JSON
-from scheduleformatter import SavedSchedule
+from models import SavedSchedule
 
 from flask import Flask, render_template, request
 import json
