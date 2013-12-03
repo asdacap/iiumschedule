@@ -27,15 +27,18 @@ def adminmainpage():
 
 def update_subject_data(session,sem,stype,kuly,code,data):
     update=False;
+    insert=False
+
     query=list(SubjectData.query(SubjectData.code==code).fetch(1))
     if(len(query)):
         obj=query[0]
-        obj.coursetype=stype
-        obj.title=data['title']
-        obj.credit=float(data['credit'])
-        obj.kuliyyah=kuly
-        obj.put()
-        update=True
+        if(obj.coursetype!=stype or obj.title != data['title'] or obj.creadit!=float(data['credit']) or obj.kuliyyah!=kuly):
+            obj.coursetype=stype
+            obj.title=data['title']
+            obj.credit=float(data['credit'])
+            obj.kuliyyah=kuly
+            obj.put()
+            update=True
     else:
         obj=SubjectData()
         obj.code=code
@@ -44,14 +47,18 @@ def update_subject_data(session,sem,stype,kuly,code,data):
         obj.credit=float(data['credit'])
         obj.kuliyyah=kuly
         obj.put()
+        insert=True
 
     sectionupdate=False
+    sectioninsert=False
+
     query=list(SectionData.query(SectionData.session==session,SectionData.semester==int(sem),SectionData.code==code).fetch(1))
     if(len(query)):
         obj=query[0]
-        obj.sectiondata=data['sections']
-        obj.put()
-        sectionupdate=True
+        if(obj.sectiondata!=data['sections']):
+            obj.sectiondata=data['sections']
+            obj.put()
+            sectionupdate=True
     else:
         obj=SectionData()
         obj.session=session
@@ -59,8 +66,9 @@ def update_subject_data(session,sem,stype,kuly,code,data):
         obj.code=code
         obj.sectiondata=data['sections']
         obj.put()
+        sectioninsert=True
 
-    logging.info("On subject %s using %s. %s section data %s. "%(code,update and 'update' or 'add',len(data['sections'].keys()),sectionupdate and 'updated' or 'added'))
+    logging.info("On subject %s using %s. %s section data %s. "%(code,update and 'update' or ( insert and 'add' or 'nothing') ,len(data['sections'].keys()),sectionupdate and 'updated' or ( sectioninsert and 'added' or 'nothing') ))
 
 
 @app.route('/admin/upload_section_data/',methods=['GET','POST'])
@@ -95,3 +103,10 @@ def update_section_data():
             else:
                 message="Pick a file"
     return render_template( 'upload_section.html', message=message )
+
+@app.route('/admin/remove_all_section_data/')
+def remove_section_data():
+    query=SectionData.query()
+    for sd in query:
+        sd.key.delete()
+    return 'Done'
