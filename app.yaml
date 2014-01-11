@@ -20,7 +20,7 @@ handlers:
   secure: optional
   
 - url: /cleanschedule
-  script: admincontroller.application
+  script: admincontroller.app
   secure: optional
   login: admin
   
