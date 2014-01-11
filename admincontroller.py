@@ -32,7 +32,7 @@ def update_subject_data(session,sem,stype,kuly,code,data):
     query=list(SubjectData.query(SubjectData.code==code).fetch(1))
     if(len(query)):
         obj=query[0]
-        if(obj.coursetype!=stype or obj.title != data['title'] or obj.creadit!=float(data['credit']) or obj.kuliyyah!=kuly):
+        if(obj.coursetype!=stype or obj.title != data['title'] or obj.credit!=float(data['credit']) or obj.kuliyyah!=kuly):
             obj.coursetype=stype
             obj.title=data['title']
             obj.credit=float(data['credit'])
