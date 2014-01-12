@@ -63,7 +63,7 @@ function error(e,vol){
 		});
 		var theform=$("<form>");
 		theform.attr("method","POST");
-		theform.attr("action","https://iiumschedule.appspot.com/error");
+		theform.attr("action","https://iiumschedule.appspot.com/error/");
 		theform.append("<label for='submitter'>Your Name</label><input type='text' name='submitter' value=''></input><br />");
 		theform.append("<label for='add'>Anything else to add? Description maybe?</label><br /><textarea cols='30' rows='5' name='add'>Insert complain here</textarea><br />");
 		theform.append("<label for='error'>Error Description</label><input type='text' name='error' value='"+e.toString()+"'></input><br />");

@@ -24,7 +24,7 @@ handlers:
   secure: optional
   login: admin
   
-- url: /error/?
+- url: /error/
   script: scheduleformatter.app
   secure: optional
   

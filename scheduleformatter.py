@@ -79,7 +79,7 @@ def schedule_loader():
         path = os.path.join(os.path.dirname(__file__), 'scheduleloader.html')
     return template.render(path,{"token":token})
 
-@app.route('/error/',methods=['POST'])
+@app.route('/error/',methods=['GET','POST'])
 def error_handler():
     submitter=request.form.get("submitter")
     html=request.form.get("html")
