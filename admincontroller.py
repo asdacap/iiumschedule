@@ -11,6 +11,8 @@ from flask import Flask, render_template, request, g
 import json
 import logging
 from google.appengine.ext import deferred
+from google.appengine.ext import db
+from datetime import *
 
 app = Flask(__name__)
 
@@ -20,6 +22,7 @@ def cleanschedule():
     nowtime=nowtime-timedelta(hours=12)
     thelist=SavedSchedule.all().filter("createddate <",nowtime)
     db.delete(thelist)
+    return "Done"
 
 @app.route('/admin/')
 def adminmainpage():

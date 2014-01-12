@@ -14,90 +14,86 @@ except ImportError:
 from staticsettings import DEFAULTDATA
 from models import SavedSchedule, ErrorLog
 
+from flask import Flask, render_template, request, g
+import logging
 
-class MainHandler(webapp.RequestHandler):
-    def get(self):
-        dtype=self.request.get("dtype","unformatted")
+app= Flask(__name__)
+
+@app.route('/scheduleformatter/',methods=['GET','POST'])
+def schedule_formatter():
+    if(request.method=='GET'):
+        dtype=request.args.get("dtype","unformatted")
         if(dtype=="completeschedule"):
-            token=self.request.get("token",None)
+            token=request.args.get("token",None)
             if(not token):
                 return
             else:
                 theinstance=SavedSchedule.get_by_key_name(token)
                 if(theinstance==None):
-                    self.response.out.write("Sorry, the requested schedule is no longer in the database. You should save it on your computer earlier.")
-                    return
+                    return "Sorry, the requested schedule is no longer in the database. You should save it on your computer earlier."
                 data=theinstance.data
-            self.response.write(data)
+                return data
             return
-        self.response.headers.add_header("Access-Control-Allow-Origin","http://my.iium.edu.my")
         path = os.path.join(os.path.dirname(__file__), 'scheduleformatterpage.html')
         text=open(path).read()
 
-        token=self.request.get("token",None)
+        token=request.args.get("token",None)
         if(not token):
             data=DEFAULTDATA
         else:
             theinstance=SavedSchedule.get_by_key_name(token)
             if(theinstance==None):
-                self.response.out.write("Sorry, the requested schedule is no longer in the database. You should save it on your computer earlier.")
-                return
+                return "Sorry, the requested schedule is no longer in the database. You should save it on your computer earlier."
             data=theinstance.data
 
+        header={"Access-Control-Allow-Origin":"http://my.iium.edu.my"}
         text=text+r"<script>var data="+data+";formatschedule();</script>"
-        self.response.out.write(text)
-    def post(self):
-        thedata=self.request.get("data")
-        customtoken=self.request.get("custom",False)
+        return text,200,header
+    else:
+        thedata=request.form.get("data")
+        customtoken=request.form.get("custom",False)
         if not customtoken:
             token=str(hashlib.md5(str(os.urandom(4))).hexdigest())
         else:
-            token=self.request.get("ctoken")
+            token=request.form.get("ctoken")
         theschedule=SavedSchedule(key_name=token)
         theschedule.data=thedata
         theschedule.createddate=datetime.now()
         theschedule.put()
-        self.response.headers.add_header("Access-Control-Allow-Origin","http://my.iium.edu.my")
-        self.response.out.write(token)
+        header={"Access-Control-Allow-Origin":"http://my.iium.edu.my"}
+        return token,200,header
 
-class ScheduleLoader(webapp.RequestHandler):
-    def get(self):
-        token=self.request.get("ctoken")
-        isfacebook=self.request.get("facebook",False)
-        if(self.request.get("test")):
-            theinstance=SavedSchedule.get_by_key_name(token)
-            if(theinstance):
-                self.response.out.write("true")
-                return
-            else:
-                self.response.out.write("false")
-                return
-        if(isfacebook):
-            path = os.path.join(os.path.dirname(__file__), 'facebookloader.html')
+@app.route('/scheduleloader/')
+def schedule_loader():
+    token=request.args.get("ctoken")
+    isfacebook=request.args.get("facebook",False)
+    if(request.args.get("test")):
+        theinstance=SavedSchedule.get_by_key_name(token)
+        if(theinstance):
+            return "true"
         else:
-            path = os.path.join(os.path.dirname(__file__), 'scheduleloader.html')
-        self.response.out.write(template.render(path,{"token":token}))
+            return "false"
+    if(isfacebook):
+        path = os.path.join(os.path.dirname(__file__), 'facebookloader.html')
+    else:
+        path = os.path.join(os.path.dirname(__file__), 'scheduleloader.html')
+    return template.render(path,{"token":token})
 
-class ErrorHandler(webapp.RequestHandler):
-    def post(self):
-        submitter=self.request.get("submitter")
-        html=self.request.get("html")
-        additionaldata=self.request.get("add")
-        newrecord=ErrorLog()
-        newrecord.submitter=submitter
-        newrecord.html=html
-        newrecord.error=self.request.get("error")
-        newrecord.additionalinfo=additionaldata
-        newrecord.put()
-        self.response.out.write("Thank you for submitting a bug report. I will take some time before I read this error, and take more time before I fix it. So... just be patient.")
+@app.route('/error/',methods=['POST'])
+def error_handler():
+    submitter=request.form.get("submitter")
+    html=request.form.get("html")
+    additionaldata=request.form.get("add")
+    newrecord=ErrorLog()
+    newrecord.submitter=submitter
+    newrecord.html=html
+    newrecord.error=request.form.get("error")
+    newrecord.additionalinfo=additionaldata
+    newrecord.put()
+    return "Thank you for submitting a bug report. I will take some time before I read this error, and take more time before I fix it. So... just be patient."
 
-class MainPage(webapp.RequestHandler):
-    def get(self):
-        path = os.path.join(os.path.dirname(__file__), 'mainpage.html')
-        self.response.out.write(open(path).read())
+@app.route('/')
+def main():
+    path = os.path.join(os.path.dirname(__file__), 'mainpage.html')
+    return open(path).read()
 
-application = webapp.WSGIApplication([('/scheduleformatter/', MainHandler),
-                                      ('/scheduleloader',ScheduleLoader),
-                                      ('/error',ErrorHandler),
-                                      ('/',MainPage),],
-                                      debug=False)

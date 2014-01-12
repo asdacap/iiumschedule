@@ -19,21 +19,21 @@ handlers:
   static_dir: static
   secure: optional
   
-- url: /cleanschedule
+- url: /cleanschedule/
   script: admincontroller.app
   secure: optional
   login: admin
   
-- url: /error
-  script: scheduleformatter.application
+- url: /error/?
+  script: scheduleformatter.app
   secure: optional
   
 - url: /scheduleformatter/
-  script: scheduleformatter.application
+  script: scheduleformatter.app
   secure: optional
   
 - url: /scheduleloader/?
-  script: scheduleformatter.application
+  script: scheduleformatter.app
   secure: optional
   
 - url: /screenshot
@@ -58,5 +58,5 @@ handlers:
   upload: static/logo-small.ico
   
 - url: /
-  script: scheduleformatter.application
+  script: scheduleformatter.app
   secure: optional
