@@ -10,11 +10,9 @@ from models import SavedSchedule,SubjectData,SectionData
 from flask import Flask, render_template, request, g
 import json
 import logging
-from google.appengine.ext import deferred
-from google.appengine.ext import db
 from datetime import *
 
-app = Flask(__name__)
+from bootstrap import app,db
 
 @app.route('/cleanschedule/')
 def cleanschedule():
@@ -27,6 +25,12 @@ def cleanschedule():
 @app.route('/admin/')
 def adminmainpage():
     return render_template( 'adminpage.html')
+
+@app.route('/admin/reset_db/')
+def reset_db():
+    db.drop_all()
+    db.create_all()
+    return "Done"
 
 def update_subject_data(session,sem,stype,kuly,code,data):
     update=False;
@@ -97,12 +101,11 @@ def update_section_data():
                             stype='PG'
                         for kuly in results[sem][rstype]:
                             for code in results[sem][rstype][kuly]:
-                                deferred.defer(update_subject_data,session,sem,stype,kuly,code,results[sem][rstype][kuly][code])
-                                #update_subject_data(session,sem,stype,kuly,code,results[sem][rstype][kuly][code])
+                                update_subject_data(session,sem,stype,kuly,code,results[sem][rstype][kuly][code])
                                 g.counter+=1
 
 
-                message="File Uploaded. %s deferred task created. "%g.counter
+                message="File Uploaded. %s session data added/updated. "%g.counter
             else:
                 message="Pick a file"
     return render_template( 'upload_section.html', message=message )

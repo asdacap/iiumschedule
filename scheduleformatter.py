@@ -1,8 +1,3 @@
-from google.appengine.ext import webapp
-from google.appengine.ext.webapp import util
-import os
-from google.appengine.ext.webapp import template
-from google.appengine.ext import db
 import hashlib
 import os
 from datetime import datetime,timedelta
@@ -16,8 +11,7 @@ from models import SavedSchedule, ErrorLog
 
 from flask import Flask, render_template, request, g
 import logging
-
-app= Flask(__name__)
+from bootstrap import app
 
 @app.route('/scheduleformatter/',methods=['GET','POST'])
 def schedule_formatter():
@@ -56,7 +50,7 @@ def schedule_formatter():
             token=str(hashlib.md5(str(os.urandom(4))).hexdigest())
         else:
             token=request.form.get("ctoken")
-        theschedule=SavedSchedule(key_name=token)
+        theschedule=SavedSchedule(token=token)
         theschedule.data=thedata
         theschedule.createddate=datetime.now()
         theschedule.put()
@@ -74,10 +68,10 @@ def schedule_loader():
         else:
             return "false"
     if(isfacebook):
-        path = os.path.join(os.path.dirname(__file__), 'facebookloader.html')
+        path = 'facebookloader.html'
     else:
-        path = os.path.join(os.path.dirname(__file__), 'scheduleloader.html')
-    return template.render(path,{"token":token})
+        path = 'scheduleloader.html'
+    return render_template(path,token=token)
 
 @app.route('/error/',methods=['GET','POST'])
 def error_handler():

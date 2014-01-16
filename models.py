@@ -1,24 +1,57 @@
-from google.appengine.ext import ndb, db
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column,Text,DateTime,Integer,String,Float,ForeignKey
+from sqlalchemy.orm import relationship, backref
 
-class SavedSchedule(db.Model):
-    data=db.TextProperty()
-    createddate=db.DateTimeProperty()
+from bootstrap import db
+DBBase=db.Model
+class CMethods(object):
 
-class ErrorLog(db.Model):
-    submitter=db.StringProperty()
-    html=db.TextProperty()
-    error=db.TextProperty()
-    additionalinfo=db.TextProperty()
+    @classmethod
+    def get_by_key_name(cls,key):
+        return db.session.query(cls).get(key)
 
-class SubjectData(ndb.Model):
-    code=ndb.StringProperty(required=True)
-    title=ndb.StringProperty(required=True)
-    credit=ndb.FloatProperty(required=True)
-    coursetype=ndb.StringProperty(required=True,choices=['UG','PG'])
-    kuliyyah=ndb.StringProperty(required=True)
+    def put(self):
+        db.session.add(self)
+        db.session.commit()
 
-class SectionData(ndb.Model):
-    session=ndb.StringProperty(required=True)
-    semester=ndb.IntegerProperty(required=True)
-    code=ndb.StringProperty(required=True)
-    sectiondata=ndb.JsonProperty(required=True)
+
+class SavedSchedule(DBBase,CMethods):
+    __tablename__='savedschedules'
+
+    token=Column(String(150),primary_key=True)
+    data=Column(Text)
+    createddate=Column(DateTime)
+
+class ErrorLog(DBBase,CMethods):
+    __tablename__='errorlogs'
+
+    id = Column(Integer, primary_key=True)
+    submitter=Column(String(200))
+    html=Column(Text)
+    error=Column(Text)
+    additionalinfo=Column(Text)
+    created_at=Column(DateTime)
+
+class SubjectData(DBBase,CMethods):
+    __tablename__='subjectdatas'
+
+    code=Column(String(20),primary_key=True)
+    title=Column(String(200))
+    credit=Column(Float)
+    coursetype=Column(String(200))
+    kuliyyah=Column(String(200))
+    session=Column(String(200))
+    semester=Column(Integer)
+
+class SectionData(DBBase,CMethods):
+    __tablename__='sectiondatas'
+
+    id = Column(Integer, primary_key=True)
+    sectionno = Column(Integer)
+    code=Column(String(20),ForeignKey('subjectdatas.code'))
+    lecturer=Column(String(200))
+    venue=Column(String(200))
+    day=Column(String(200))
+    time=Column(String(200))
+
+    subject=relationship("SubjectData",backref=backref('sections',cascade="all, delete-orphan"))
