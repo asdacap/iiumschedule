@@ -22,7 +22,7 @@ function startscheduler(){
 	document.getElementsByTagName('head')[0].appendChild(e); 
 	  
 	e=document.createElement('script');
-	e.src = 'http://iiumschedule.appspot.com/static/scheduleformatter2.js';
+	e.src = 'http://iiumschedule.asdacap.com/static/scheduleformatter2.js';
 	e.type='text/javascript';
 	e.addEventListener('load', res_add_counter )
 	document.getElementsByTagName('head')[0].appendChild(e); 

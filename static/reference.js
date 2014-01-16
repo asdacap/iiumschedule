@@ -1,1 +1,1 @@
-javascript:(function(){var e=document.createElement('script');e.src = 'http://2.iiumschedule.appspot.com/static/scheduleformatter.js';e.type='text/javascript';e.addEventListener('load',function(){startscheduler()} );document.getElementsByTagName('head')[0].appendChild(e);})();
+javascript:(function(){var e=document.createElement('script');e.src = 'http://2.iiumschedule.asdacap.com/static/scheduleformatter.js';e.type='text/javascript';e.addEventListener('load',function(){startscheduler()} );document.getElementsByTagName('head')[0].appendChild(e);})();
