@@ -1,4 +1,4 @@
-
+DB_CONN='sqlite:///testdb.db'
 RECAPTCHA_KEY="6LeLrMwSAAAAABPhd2cea4eHthdl0e5HQZ1MmV58"
 DEBUG=False
 DEFAULTDATA='''

@@ -10,9 +10,10 @@ if server_lib_dir not in sys.path:
 
 from flask import Flask, render_template, request, g
 from flask_sqlalchemy import SQLAlchemy
+from staticsettings import DB_CONN
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///testdb.db'
+app.config['SQLALCHEMY_DATABASE_URI']=DB_CONN
 
 db = SQLAlchemy(app)
 
