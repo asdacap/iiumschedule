@@ -22,7 +22,7 @@ function makemessage(message, loading) {
 	}
 	var poststring = "";
 	if (loading) {
-		poststring = "</br><img src='https://iiumschedule.asdacap.com/static/loading.gif'></img>";
+		poststring = "</br><img src='http://iiumschedule.asdacap.com/static/loading.gif'></img>";
 	}
 	$("#iiumschedulediv").html(message + poststring);
       
@@ -63,7 +63,7 @@ function error(e,vol){
 		});
 		var theform=$("<form>");
 		theform.attr("method","POST");
-		theform.attr("action","https://iiumschedule.asdacap.com/error/");
+		theform.attr("action","http://iiumschedule.asdacap.com/error/");
 		theform.append("<label for='submitter'>Your Name</label><input type='text' name='submitter' value=''></input><br />");
 		theform.append("<label for='add'>Anything else to add? Description maybe?</label><br /><textarea cols='30' rows='5' name='add'>Insert complain here</textarea><br />");
 		theform.append("<label for='error'>Error Description</label><input type='text' name='error' value='"+e.toString()+"'></input><br />");
@@ -77,7 +77,7 @@ function error(e,vol){
 function start(){
     if($("#TB_window iframe").length){
         //Inject in iframe
-        $("#TB_window iframe")[0].contentWindow.eval("(function(){var e=document.createElement('script');e.src = 'https://iiumschedule.asdacap.com/static/scheduleformatter.js';e.type='text/javascript';e.addEventListener('load',function(){startscheduler()} );document.getElementsByTagName('head')[0].appendChild(e);})();");
+        $("#TB_window iframe")[0].contentWindow.eval("(function(){var e=document.createElement('script');e.src = 'http://iiumschedule.asdacap.com/static/scheduleformatter.js';e.type='text/javascript';e.addEventListener('load',function(){startscheduler()} );document.getElementsByTagName('head')[0].appendChild(e);})();");
     }else{
         try{
             parsetable();
@@ -482,13 +482,13 @@ function parsetable() {
 
 	makemessage("Saving schedule...please wait...");
 	$.ajax({
-	 url:"https://iiumschedule.asdacap.com/scheduleformatter/",
+	 url:"http://iiumschedule.asdacap.com/scheduleformatter/",
      type:"POST",
      data:{data : data},
 	 success:function(response) {
         var thetoken = response;
         makemessage(
-        "Done! Please click <a target='_blank' href='https://iiumschedule.asdacap.com/scheduleformatter/?token="
+        "Done! Please click <a target='_blank' href='http://iiumschedule.asdacap.com/scheduleformatter/?token="
                     + thetoken
                     + "' >this link</a> to continue.<br />"+
         "Or, <a href='javascript:error(\"Voluntary Error Report\",1)'>Click here</a> to report incorrect result or simply to comments and stuff.",
