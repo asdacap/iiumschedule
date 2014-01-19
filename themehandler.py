@@ -2,7 +2,7 @@ import os
 import re
 import recaptcha.client.captcha as recapt
 recaptcha=recapt
-from staticsettings import RECAPTCHA_KEY,DEBUG,DEFAULTDATA
+from staticsettings import RECAPTCHA_KEY,RECAPTCHA_PUBLIC_KEY,DEBUG,DEFAULTDATA
 try:
     import JSON
 except ImportError:
@@ -15,7 +15,10 @@ from models import Theme
 
 def list_themes():
     if(request.args.get("submit",None)):
-        return render_template('submittheme.html')
+        arg={}
+        arg["RECAPTCHA_PUBLIC_KEY"]=RECAPTCHA_PUBLIC_KEY
+        arg["RECAPTCHA_KEY"]=RECAPTCHA_KEY
+        return render_template('submittheme.html',**arg)
     elif(request.args.get("name",None)):
         themename=request.args("name")
         themedata=Theme.get_by_key_name(themename)
@@ -75,8 +78,6 @@ def save_theme():
             error=True
             errormessage="Please reenter the recaptcha."+str(validation.error_code)+" challange="+recaptchallange+" response="+recaptresponse
 
-    logging.warning("Result is "+str((DEBUG or validation.is_valid) and not error))
-
     if((DEBUG or validation.is_valid) and not error):
         newtheme=Theme()
         newtheme.name=themename
@@ -97,6 +98,8 @@ def save_theme():
         arg["data"]=data
         arg["message"]=errormessage
         arg["rendered"]=rendered
+        arg["RECAPTCHA_PUBLIC_KEY"]=RECAPTCHA_PUBLIC_KEY
+        arg["RECAPTCHA_KEY"]=RECAPTCHA_KEY
         return render_template('submittheme.html',**arg)
 
 @app.route('/themegallery/',methods=['GET','POST'])

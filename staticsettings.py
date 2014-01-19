@@ -1,5 +1,6 @@
-DB_CONN='sqlite:///testdb.db'
-RECAPTCHA_KEY="6LeLrMwSAAAAABPhd2cea4eHthdl0e5HQZ1MmV58"
+DB_CONN='postgresql://iiumschedule:iiumschedule@localhost/iiumschedule'
+RECAPTCHA_PUBLIC_KEY="6LcfOu0SAAAAAKeyYcuC36_U3yEd_TBK8rlmpCIg"
+RECAPTCHA_KEY="6LcfOu0SAAAAABQw2aAP0FePvDrA6X9JN8bG2hMB"
 DEBUG=True
 LOGIN_USERNAME='iiumschedule'
 LOGIN_PASSWORD='admin'
