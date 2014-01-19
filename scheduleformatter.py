@@ -28,7 +28,8 @@ def schedule_formatter():
                 data=theinstance.data
                 return data
             return
-        return render_template('scheduleformatterpage.html')
+
+        text=render_template('scheduleformatterpage.html')
 
         token=request.args.get("token",None)
         if(not token):
