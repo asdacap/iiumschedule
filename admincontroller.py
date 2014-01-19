@@ -70,8 +70,8 @@ def update_subject_data(session,sem,stype,kuly,code,data):
     update=False
     insert=False
 
-    try:
-        obj=SubjectData.query.filter(SubjectData.code==code).filter(SubjectData.session==session).filter(SubjectData.semester==sem).one()
+    obj=SubjectData.get_subject_data(code,session,sem)
+    if(obj!=None):
         if(obj.coursetype==stype and
             obj.title==data['title'] and
             obj.credit==float(data['credit']) and
@@ -88,7 +88,7 @@ def update_subject_data(session,sem,stype,kuly,code,data):
             obj.semester=sem
             obj.put()
             update=True
-    except sqlalchemy.orm.exc.NoResultFound, e:
+    else:
         obj=SubjectData()
         obj.code=code
         obj.coursetype=stype
@@ -131,6 +131,20 @@ def update_subject_data(session,sem,stype,kuly,code,data):
 
     logging.info("On subject %s using %s. %s section data %s. "%(code,update and 'update' or ( insert and 'add' or 'nothing') ,len(data['sections'].keys()),sectionupdate and 'updated' or ( sectioninsert and 'added' or 'nothing') ))
 
+def update_subject_data_bulk(obj,session):
+    results=obj['results']
+
+    for sem in results:
+        for rstype in results[sem]:
+            if(rstype=='<'):
+                stype='UG'
+            else:
+                stype='PG'
+            for kuly in results[sem][rstype]:
+                for code in results[sem][rstype][kuly]:
+                    update_subject_data(session,sem,stype,kuly,code,results[sem][rstype][kuly][code])
+                    g.counter+=1
+
 
 @app.route('/admin/upload_section_data/',methods=['GET','POST'])
 @login_required
@@ -146,19 +160,7 @@ def update_section_data():
             if(request.files['secdata'].filename!=''):
                 obj=json.load(request.files['secdata'])
 
-                results=obj['results']
-
-                for sem in results:
-                    for rstype in results[sem]:
-                        if(rstype=='<'):
-                            stype='UG'
-                        else:
-                            stype='PG'
-                        for kuly in results[sem][rstype]:
-                            for code in results[sem][rstype][kuly]:
-                                update_subject_data(session,sem,stype,kuly,code,results[sem][rstype][kuly][code])
-                                g.counter+=1
-
+                update_subject_data_bulk(obj,session)
 
                 message="File Uploaded. %s session data added/updated. "%g.counter
             else:
