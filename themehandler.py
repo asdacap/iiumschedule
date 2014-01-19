@@ -20,8 +20,10 @@ def list_themes():
         arg["RECAPTCHA_KEY"]=RECAPTCHA_KEY
         return render_template('submittheme.html',**arg)
     elif(request.args.get("name",None)):
-        themename=request.args("name")
+        themename=request.args.get("name")
         themedata=Theme.get_by_key_name(themename)
+        if(themedata==None):
+            return 'Theme not found',404
         thedict=dict()
         thedict["name"]=themedata.name
         thedict["submitter"]=themedata.submitter
