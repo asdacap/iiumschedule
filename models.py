@@ -14,6 +14,11 @@ class CMethods(object):
         db.session.add(self)
         db.session.commit()
 
+    @classmethod
+    def all(cls):
+        return db.session.query(cls)
+
+
 
 class SavedSchedule(DBBase,CMethods):
     __tablename__='savedschedules'
@@ -55,3 +60,13 @@ class SectionData(DBBase,CMethods):
     time=Column(String(200))
 
     subject=relationship("SubjectData",backref=backref('sections',cascade="all, delete-orphan"))
+
+class Theme(DBBase,CMethods):
+    __tablename__='themes'
+
+    name=Column(String(250),primary_key=True)
+    submitter=Column(String(250))
+    email=Column(String(250))
+    data=Column(Text)
+    counter=Column(Integer)
+    rendered=Column(Text)

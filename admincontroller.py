@@ -59,6 +59,12 @@ def reset_db():
     db.create_all()
     return "Done"
 
+@app.route('/admin/create_db/')
+@login_required
+def create_db():
+    db.create_all()
+    return "Done"
+
 def update_subject_data(session,sem,stype,kuly,code,data):
     update=False;
     insert=False
