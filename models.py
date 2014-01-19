@@ -2,8 +2,10 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column,Text,DateTime,Integer,String,Float,ForeignKey
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.schema import UniqueConstraint
+import sqlalchemy.orm.exc
+import json
 
-from bootstrap import db
+from bootstrap import db,app
 DBBase=db.Model
 class CMethods(object):
 
@@ -27,6 +29,27 @@ class SavedSchedule(DBBase,CMethods):
     token=Column(String(150),primary_key=True)
     data=Column(Text)
     createddate=Column(DateTime)
+
+    def post_process(self):
+        #add section data
+        obj=json.loads(self.data)
+        for s in obj['coursearray']:
+            s['lecturer']=''
+
+        if(obj['scheduletype']!='MAINCAMPUS'):
+            #we have no data other than main campus data but we still need to format it
+            self.data=json.dumps(obj)
+            return
+
+        for s in obj['coursearray']:
+            sectiondata=SectionData.get_section_data(s['code'],obj['session'],obj['semester'],s['section'])
+            if(sectiondata==None):
+                app.logger.warning('Warning, no section data for %s session %s semester %s section %s'%(s['code'],obj['session'],obj['semester'],s['section']))
+            else:
+                s['lecturer']=sectiondata.lecturer
+
+        self.data=json.dumps(obj)
+
 
 class ErrorLog(DBBase,CMethods):
     __tablename__='errorlogs'
@@ -53,6 +76,13 @@ class SubjectData(DBBase,CMethods):
     session=Column(String(200))
     semester=Column(Integer)
 
+    @classmethod
+    def get_subject_data(cls,code,session,semester):
+        try:
+            return cls.query.filter(cls.code==code).filter(cls.semester==semester).filter(cls.session==session).one()
+        except sqlalchemy.orm.exc.NoResultFound:
+            return None
+
 class SectionData(DBBase,CMethods):
     __tablename__='sectiondatas'
     __table_args__= (
@@ -68,6 +98,17 @@ class SectionData(DBBase,CMethods):
     time=Column(String(200))
 
     subject=relationship(SubjectData,backref=backref('sections',cascade="all, delete-orphan"))
+
+    @classmethod
+    def get_section_data(cls,code,session,semester,section):
+        subject=SubjectData.get_subject_data(code,session,semester)
+        if(subject==None):
+            return None
+        try:
+            return cls.query.filter(cls.subject==subject).filter(cls.sectionno==section).one()
+        except sqlalchemy.orm.exc.NoResultFound:
+            return None
+
 
 class Theme(DBBase,CMethods):
     __tablename__='themes'

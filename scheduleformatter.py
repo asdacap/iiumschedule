@@ -53,6 +53,8 @@ def schedule_formatter():
         theschedule=SavedSchedule(token=token)
         theschedule.data=thedata
         theschedule.createddate=datetime.now()
+        if(request.form.get("no_post_process","0")!="1"):
+            theschedule.post_process()
         theschedule.put()
         header={"Access-Control-Allow-Origin":"http://my.iium.edu.my"}
         return token,200,header

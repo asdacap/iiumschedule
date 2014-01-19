@@ -179,6 +179,7 @@ function saveStyle() {
 	$.post(window.location.origin + "/scheduleformatter/", {
 		data : data,
 		custom : 1,
+        no_post_process : 1,
 		ctoken : ctoken
 	}, function(response) {
 		console.log("Schedule posted");
