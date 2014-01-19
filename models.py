@@ -4,6 +4,7 @@ from sqlalchemy.orm import relationship, backref
 from sqlalchemy.schema import UniqueConstraint
 import sqlalchemy.orm.exc
 import json
+import re
 
 from bootstrap import db,app
 DBBase=db.Model
@@ -32,6 +33,7 @@ class SavedSchedule(DBBase,CMethods):
 
     def post_process(self):
         #add section data
+        self.data=self.data.replace(unichr(160)," ")
         obj=json.loads(self.data)
         for s in obj['coursearray']:
             s['lecturer']=''

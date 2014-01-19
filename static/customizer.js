@@ -18,7 +18,14 @@ var currentsettings={
     fixminutealign:true,
     showpersonalinfo:true,
     showcoursetable:true,
-    showfulldayname:false
+    showfulldayname:false,
+    coursetable:{
+        code:true,
+        section:true,
+        credit:true,
+        name:true,
+        lecturer:true
+    }
 };
 var day_name={
     MON:'monday',

@@ -26,6 +26,7 @@ DEFAULTDATA='''
             }
           ],
         "section" : "435",
+        "lecturer" : "Some lecturer",
         "title" : " COMPUTER HARDWARE AND TROUBLESHOOTING"
       },
       { "code" : "IFF1444",
@@ -42,6 +43,7 @@ DEFAULTDATA='''
             }
           ],
         "section" : "405",
+        "lecturer" : "Some lecturer",
         "title" : "INTRODUCTION TO PROGRAMMING"
       },
       { "code" : "LQM1262",
@@ -63,6 +65,7 @@ DEFAULTDATA='''
             }
           ],
         "section" : "401",
+        "lecturer" : "Some lecturer",
         "title" : " ELEMENTARY QURANIC LANGUAGE PART 2 (SCIENCES"
       },
       { "code" : "SFF1124",
@@ -84,6 +87,7 @@ DEFAULTDATA='''
             }
           ],
         "section" : "411",
+        "lecturer" : "Some lecturer",
         "title" : "MATHEMATICS II"
       },
       { "code" : "SHE1225",
@@ -105,6 +109,7 @@ DEFAULTDATA='''
             }
           ],
         "section" : "405",
+        "lecturer" : "Some lecturer",
         "title" : "PHYSICS II"
       }
     ],
