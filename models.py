@@ -1,6 +1,7 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column,Text,DateTime,Integer,String,Float,ForeignKey
 from sqlalchemy.orm import relationship, backref
+from sqlalchemy.schema import UniqueConstraint
 
 from bootstrap import db
 DBBase=db.Model
@@ -39,8 +40,12 @@ class ErrorLog(DBBase,CMethods):
 
 class SubjectData(DBBase,CMethods):
     __tablename__='subjectdatas'
+    __table_args__= (
+        UniqueConstraint('code','session','semester'),
+    )
 
-    code=Column(String(20),primary_key=True)
+    id = Column(Integer, primary_key=True)
+    code=Column(String(20))
     title=Column(String(200))
     credit=Column(Float)
     coursetype=Column(String(200))
@@ -50,16 +55,19 @@ class SubjectData(DBBase,CMethods):
 
 class SectionData(DBBase,CMethods):
     __tablename__='sectiondatas'
+    __table_args__= (
+        UniqueConstraint('subject_id','sectionno'),
+    )
 
     id = Column(Integer, primary_key=True)
+    subject_id=Column(Integer,ForeignKey('subjectdatas.id'))
     sectionno = Column(Integer)
-    code=Column(String(20),ForeignKey('subjectdatas.code'))
     lecturer=Column(String(200))
     venue=Column(String(200))
     day=Column(String(200))
     time=Column(String(200))
 
-    subject=relationship("SubjectData",backref=backref('sections',cascade="all, delete-orphan"))
+    subject=relationship(SubjectData,backref=backref('sections',cascade="all, delete-orphan"))
 
 class Theme(DBBase,CMethods):
     __tablename__='themes'

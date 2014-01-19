@@ -6,6 +6,7 @@ from functools import wraps
 from flask import Flask, render_template, request, g, session, redirect, url_for
 import json
 import logging
+import sqlalchemy.orm.exc
 from datetime import *
 
 from bootstrap import app,db
@@ -66,47 +67,67 @@ def create_db():
     return "Done"
 
 def update_subject_data(session,sem,stype,kuly,code,data):
-    update=False;
+    update=False
     insert=False
 
-    query=list(SubjectData.query(SubjectData.code==code).fetch(1))
-    if(len(query)):
-        obj=query[0]
-        if(obj.coursetype!=stype or obj.title != data['title'] or obj.credit!=float(data['credit']) or obj.kuliyyah!=kuly):
+    try:
+        obj=SubjectData.query.filter(SubjectData.code==code).filter(SubjectData.session==session).filter(SubjectData.semester==sem).one()
+        if(obj.coursetype==stype and
+            obj.title==data['title'] and
+            obj.credit==float(data['credit']) and
+            obj.kuliyyah==kuly and
+            obj.session==session and
+            obj.semester==sem):
+            pass
+        else:
             obj.coursetype=stype
             obj.title=data['title']
             obj.credit=float(data['credit'])
             obj.kuliyyah=kuly
+            obj.session=session
+            obj.semester=sem
             obj.put()
             update=True
-    else:
+    except sqlalchemy.orm.exc.NoResultFound, e:
         obj=SubjectData()
         obj.code=code
         obj.coursetype=stype
         obj.title=data['title']
         obj.credit=float(data['credit'])
         obj.kuliyyah=kuly
+        obj.session=session
+        obj.semester=sem
         obj.put()
         insert=True
 
     sectionupdate=False
     sectioninsert=False
 
-    query=list(SectionData.query(SectionData.session==session,SectionData.semester==int(sem),SectionData.code==code).fetch(1))
-    if(len(query)):
-        obj=query[0]
-        if(obj.sectiondata!=data['sections']):
-            obj.sectiondata=data['sections']
-            obj.put()
-            sectionupdate=True
-    else:
-        obj=SectionData()
-        obj.session=session
-        obj.semester=int(sem)
-        obj.code=code
-        obj.sectiondata=data['sections']
-        obj.put()
-        sectioninsert=True
+
+    for section in data['sections']:
+        val=data['sections'][section]
+        try:
+            sdata=SectionData.query.filter(SectionData.subject==obj).filter(SectionData.sectionno==section).one()
+            if(sdata.lecturer==val['lecturer'] and
+                sdata.venue==val['venue'] and
+                sdata.day==val['day'] and
+                sdata.time==val['time']):
+                pass
+            else:
+                sdata.lecturer=val['lecturer']
+                sdata.venue=val['venue']
+                sdata.day=val['day']
+                sdata.time=val['time']
+                sdata.put()
+        except sqlalchemy.orm.exc.NoResultFound, e:
+            sdata=SectionData()
+            sdata.subject=obj
+            sdata.sectionno=section
+            sdata.lecturer=val['lecturer']
+            sdata.venue=val['venue']
+            sdata.day=val['day']
+            sdata.time=val['time']
+            sdata.put()
 
     logging.info("On subject %s using %s. %s section data %s. "%(code,update and 'update' or ( insert and 'add' or 'nothing') ,len(data['sections'].keys()),sectionupdate and 'updated' or ( sectioninsert and 'added' or 'nothing') ))
 
