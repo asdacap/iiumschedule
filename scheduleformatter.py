@@ -28,8 +28,7 @@ def schedule_formatter():
                 data=theinstance.data
                 return data
             return
-        path = os.path.join(os.path.dirname(__file__), 'scheduleformatterpage.html')
-        text=open(path).read()
+        return render_template('scheduleformatterpage.html')
 
         token=request.args.get("token",None)
         if(not token):
@@ -88,6 +87,5 @@ def error_handler():
 
 @app.route('/')
 def main():
-    path = os.path.join(os.path.dirname(__file__), 'mainpage.html')
-    return open(path).read()
+    return render_template('mainpage.html')
 
