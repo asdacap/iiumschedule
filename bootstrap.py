@@ -18,3 +18,9 @@ app.config['SECRET_KEY']=SESSION_SECRET
 
 db = SQLAlchemy(app)
 
+import logging
+hdlr = logging.FileHandler(os.path.dirname(os.path.realpath(__file__))+'/iiumschedule.log')
+formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
+hdlr.setFormatter(formatter)
+app.logger.addHandler(hdlr)
+
