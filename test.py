@@ -7,9 +7,11 @@ import bootstrap
 import unittest
 import json
 import flask
+import datetime
 
 import models
 import admincontroller
+import mantainance
 
 class IIUMSchedulTestCase(unittest.TestCase):
 
@@ -66,6 +68,25 @@ class IIUMSchedulTestCase(unittest.TestCase):
             assert models.SubjectData.get_subject_data("CSC 4902","2013/2014",1)!=None
             assert models.SectionData.get_section_data("INFO 4501","2013/2014",1,2).lecturer=="ASSOC.PROF.DR. MOHAMAD FAUZAN BIN NOORDIN"
 
+    def testCleanSchedule(self):
+
+        schedule=models.SavedSchedule()
+        schedule.data="random data"
+        schedule.token="token1"
+        schedule.createddate=datetime.datetime.now()
+        schedule.put()
+
+        schedule=models.SavedSchedule()
+        schedule.data="random data"
+        schedule.token="token2"
+        schedule.createddate=datetime.datetime.now()-datetime.timedelta(hours=30)
+        schedule.put()
+
+        mantainance.cleanschedule()
+
+        assert models.SavedSchedule.get_by_key_name("token1") != None
+
+        assert models.SavedSchedule.get_by_key_name("token2") == None
 
 if __name__ == '__main__':
     unittest.main()

@@ -38,16 +38,6 @@ def login(next=None):
             return redirect(next)
     return render_template('login.html')
 
-
-@app.route('/cleanschedule/')
-@login_required
-def cleanschedule():
-    nowtime=datetime.now()
-    nowtime=nowtime-timedelta(hours=12)
-    thelist=SavedSchedule.all().filter("createddate <",nowtime)
-    db.delete(thelist)
-    return "Done"
-
 @app.route('/admin/')
 @login_required
 def adminmainpage():
