@@ -1,16 +1,17 @@
-<!DOCTYPE html>
-<html>
-<head>
-</head>
-<body>
-<h1>Login Page</h1>
-<form method="POST" action="">
-    <label for="username">Username:</label>
-    <input type="text" name="username"></input>
-    <br />
-    <label for="password">Password:</label>
-    <input type="password" name="password"></input>
-    <br />
-    <input type="submit" value="Submit"></input>
-</form>
-</body>
+{% extends 'adminbase.html' %}
+{% block content %}
+<div class="row">
+    <div class="col-md-offset-3 col-md-6">
+        <h1>Login Page</h1>
+        <form method="POST" action="">
+            <label for="username">Username:</label>
+            <input type="text" name="username" class="form-control"></input>
+            <br />
+            <label for="password">Password:</label>
+            <input type="password" name="password" class="form-control"></input>
+            <br />
+            <input class="btn medium btn-primary" type="submit" value="Submit"></input>
+        </form>
+    </div>
+</div>
+{% endblock %}

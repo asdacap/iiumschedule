@@ -1,8 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-</head>
-<body>
+{% extends 'adminbase.html' %}
+{% block content %}
 <h1>Admin Interface</h1>
 <h2>Tasks</h2>
 <ul>
@@ -12,5 +9,4 @@
     <li><a target="_blank" href="/admin/reset_db/">Reset DB</a></li>
     <li><a target="_blank" href="/admin/logout/">Logout</a></li>
 </ul>
-</body>
-</html>
+{% endblock %}
