@@ -111,6 +111,7 @@ class IIUMSchedulTestCase(unittest.TestCase):
             assert 'The submitter' in res.data
 
             res=self.app.get(flask.url_for('show_error',id=models.ErrorLog.query.all()[0].id))
+            assert '<h1>Some stuff</h1>' in res.data
             assert cgi.escape( '<h1>Some stuff</h1>' ) in res.data
 
             res=self.app.get(flask.url_for('delete_error',id=models.ErrorLog.query.all()[0].id))

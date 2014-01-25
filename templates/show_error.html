@@ -17,6 +17,10 @@
     <dt>HTML data</dt>
     <dd>{{error.html}}</dd>
 </dl>
+<h4>Unescaped Data</h4>
+<div style="border:1px solid black;">
+{{error.html|safe}}
+</div>
 <a class="btn btn-default" href="{{url_for('error_report')}}">Back</a>
 <a class="btn btn-danger" href="{{url_for('delete_error',id=error.id)}}">Delete</a>
 {% endblock %}
