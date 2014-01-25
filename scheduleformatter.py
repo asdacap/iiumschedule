@@ -77,16 +77,19 @@ def schedule_loader():
 
 @app.route('/error/',methods=['GET','POST'])
 def error_handler():
-    submitter=request.form.get("submitter")
-    html=request.form.get("html")
-    additionaldata=request.form.get("add")
-    newrecord=ErrorLog()
-    newrecord.submitter=submitter
-    newrecord.html=html
-    newrecord.error=request.form.get("error")
-    newrecord.additionalinfo=additionaldata
-    newrecord.put()
-    return "Thank you for submitting a bug report. I will take some time before I read this error, and take more time before I fix it. So... just be patient."
+    if(request.method=='POST'):
+        submitter=request.form.get("submitter")
+        html=request.form.get("html")
+        additionaldata=request.form.get("add")
+        newrecord=ErrorLog()
+        newrecord.submitter=submitter
+        newrecord.html=html
+        newrecord.error=request.form.get("error")
+        newrecord.additionalinfo=additionaldata
+        newrecord.created_at=datetime.now()
+        newrecord.put()
+        return "Thank you for submitting a bug report. I will take some time before I read this error, and take more time before I fix it. So... just be patient."
+    return render_template('error_form.html')
 
 @app.route('/')
 def main():

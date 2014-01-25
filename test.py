@@ -8,6 +8,7 @@ import unittest
 import json
 import flask
 import datetime
+import cgi
 
 import models
 import admincontroller
@@ -87,6 +88,33 @@ class IIUMSchedulTestCase(unittest.TestCase):
         assert models.SavedSchedule.get_by_key_name("token1") != None
 
         assert models.SavedSchedule.get_by_key_name("token2") == None
+
+    def testErrorLog(self):
+
+        with bootstrap.app.test_request_context("/"):
+
+            with self.app.session_transaction() as sess:
+                sess['logged_in'] = True
+
+            assert models.ErrorLog.query.count()==0
+
+            res=self.app.post(flask.url_for('error_handler'),data={
+                'submitter':'The submitter',
+                'html':'<h1>Some stuff</h1>',
+                'error':'The error',
+                'add':'additional info',
+            })
+            assert 'Thank you for submitting a bug report' in res.data
+            assert models.ErrorLog.query.count()==1
+
+            res=self.app.get(flask.url_for('error_report'))
+            assert 'The submitter' in res.data
+
+            res=self.app.get(flask.url_for('show_error',id=models.ErrorLog.query.all()[0].id))
+            assert cgi.escape( '<h1>Some stuff</h1>' ) in res.data
+
+            res=self.app.get(flask.url_for('delete_error',id=models.ErrorLog.query.all()[0].id))
+            assert models.ErrorLog.query.count()==0
 
 if __name__ == '__main__':
     unittest.main()

@@ -10,7 +10,7 @@ import sqlalchemy.orm.exc
 from datetime import *
 
 from bootstrap import app,db
-from models import SavedSchedule,SubjectData,SectionData
+from models import SavedSchedule,SubjectData,SectionData,ErrorLog
 
 from staticsettings import LOGIN_USERNAME,LOGIN_PASSWORD
 
@@ -160,7 +160,28 @@ def update_section_data():
 @app.route('/admin/remove_all_section_data/')
 @login_required
 def remove_section_data():
-    query=SectionData.query()
+    query=SectionData.query
     for sd in query:
         sd.key.delete()
     return 'Done'
+
+@app.route('/admin/error_report/<id>/delete/')
+@login_required
+def delete_error(id):
+    error=ErrorLog.query.get(id)
+    db.session.delete(error)
+    db.session.commit()
+    return redirect(url_for('error_report'))
+
+@app.route('/admin/error_report/<id>/')
+@login_required
+def show_error(id):
+    error=ErrorLog.query.get(id)
+    return render_template('show_error.html',error=error)
+
+@app.route('/admin/error_report/')
+@login_required
+def error_report():
+    errors=ErrorLog.query
+    return render_template('error_report_list.html',errors=errors)
+

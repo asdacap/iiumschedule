@@ -1,0 +1,22 @@
+{% extends 'adminbase.html' %}
+{% block content %}
+<h1>Error Report</h1>
+<table class="table table-bordered tabled-striped">
+    <thead>
+        <th>Submitter</th>
+        <th>Error</th>
+        <th>Created At</th>
+        <th style="width:20%">Action</th>
+    </thead>
+    <tbody>
+    {% for error in errors  %}
+    <tr>
+        <td>{{error.submitter}}</td>
+        <td>{{error.error}}</td>
+        <td>{{error.created_at}}</td>
+        <td><a href="{{url_for('show_error',id=error.id)}}" class="btn btn-primary">Show</a> <a class="btn btn-danger" href="{{url_for('delete_error',id=error.id)}}">Delete</a></td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
