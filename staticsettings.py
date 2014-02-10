@@ -6,8 +6,7 @@ LOGIN_USERNAME='iiumschedule'
 LOGIN_PASSWORD='admin'
 SESSION_SECRET=':\x7f\x8f-\xb1\x19\xd2-\x9a\xdb\xe3Pr\x95\xd5\x0c\xd2\xeb\x1e\x93\xa9\x90\xd5B'
 
-DEFAULTDATA='''
-{ "coursearray" : [ { "code" : "IFF1454",
+DEFAULTDATA='''{ "coursearray" : [ { "code" : "IFF1454",
         "credithour" : "4",
         "schedule" : [ { "day" : "TUE",
               "end" : 16,
@@ -118,7 +117,7 @@ DEFAULTDATA='''
   "matricnumber" : "163525",
   "program" : "ICT",
   "semester" : "3",
-  "session" : "2011/2012",
+  "session" : "2011/2012"
 }
 '''
 
