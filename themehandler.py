@@ -74,6 +74,12 @@ def save_theme():
             error=True
             errormessage="The no data found"
 
+    if(not error):
+        themedata=Theme.get_by_key_name(themename)
+        if(themedata):
+            error=True
+            errormessage="A theme with the same name already exist"
+
     if(not DEBUG):
         validation=recaptcha.submit(recaptchallange,recaptresponse,RECAPTCHA_KEY,request.remote_addr)
         if(not validation.is_valid):
