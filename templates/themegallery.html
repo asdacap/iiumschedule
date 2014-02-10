@@ -3,7 +3,6 @@
   <style>
     .themediv{
       position:relative;
-      float:left;
       padding: 1ex;
     }
     .themediv h3{
@@ -54,7 +53,7 @@
           style:parent.getcurrentstyle(),
           settings:parent.parsed_data.settings}
           ));
-      $.get("/defaultdata",{},function(data){
+      $.get("/defaultdata/",{},function(data){
 	    var dataobj=JSON.parse(data);
         var parseddata=parent.convert_data(dataobj);
     	parseddata.style=parent.getcurrentstyle();

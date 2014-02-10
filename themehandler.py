@@ -113,7 +113,7 @@ def themegallery():
 
 @app.route('/screenshot/')
 def screenshot():
-    themename=request.args("themename",None)
+    themename=request.args.get("themename",None)
     if(not themename):
         return 'No theme selected',404
     themedata=Theme.get_by_key_name(themename)
