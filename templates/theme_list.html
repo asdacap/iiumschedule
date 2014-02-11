@@ -1,0 +1,22 @@
+{% extends 'adminbase.html' %}
+{% block content %}
+<h1>Theme</h1>
+<table class="table table-bordered tabled-striped">
+    <thead>
+        <th>Name</th>
+        <th>Submitter</th>
+        <th>Email</th>
+        <th style="width:20%">Action</th>
+    </thead>
+    <tbody>
+    {% for theme in themes  %}
+    <tr>
+        <td>{{theme.name}}</td>
+        <td>{{theme.submitter}}</td>
+        <td>{{theme.email}}</td>
+        <td><a href="{{url_for('show_theme',name=theme.name)}}" class="btn btn-primary">Show</a> <a class="btn btn-danger" href="{{url_for('delete_theme',name=theme.name)}}">Delete</a></td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

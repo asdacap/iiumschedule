@@ -10,7 +10,7 @@ import sqlalchemy.orm.exc
 from datetime import *
 
 from bootstrap import app,db
-from models import SavedSchedule,SubjectData,SectionData,ErrorLog
+from models import SavedSchedule,SubjectData,SectionData,ErrorLog,Theme
 
 from staticsettings import LOGIN_USERNAME,LOGIN_PASSWORD
 
@@ -184,4 +184,32 @@ def show_error(id):
 def error_report():
     errors=ErrorLog.query
     return render_template('error_report_list.html',errors=errors)
+
+@app.route('/admin/theme/<name>/delete/')
+@login_required
+def delete_theme(name):
+    theme=Theme.query.get(name)
+    db.session.delete(theme)
+    db.session.commit()
+    return redirect(url_for('theme'))
+
+@app.route('/admin/theme/<name>/',methods=['GET','POST'])
+@login_required
+def show_theme(name):
+    theme=Theme.query.get(name)
+    if(request.method=='POST'):
+        theme.name=request.form.get('name')
+        theme.submitter=request.form.get('submitter')
+        theme.email=request.form.get('email')
+        theme.style=request.form.get('style')
+        theme.rendered=request.form.get('rendered')
+        theme.put();
+        return redirect(url_for('theme'))
+    return render_template('edit_theme.html',theme=theme)
+
+@app.route('/admin/theme/')
+@login_required
+def theme():
+    themes=Theme.query
+    return render_template('theme_list.html',themes=themes)
 
