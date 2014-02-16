@@ -1,3 +1,4 @@
+
 var defaultcolumnlength = 52;
 
 function makearray(length) {
@@ -79,7 +80,11 @@ function start(){
         //Inject in iframe
         $("#TB_window iframe")[0].contentWindow.eval("(function(){var e=document.createElement('script');e.src = 'http://iiumschedule.asdacap.com/static/scheduleformatter.js';e.type='text/javascript';e.addEventListener('load',function(){startscheduler()} );document.getElementsByTagName('head')[0].appendChild(e);})();");
     }else{
-        parsetable();
+        try{
+            parsetable();
+        }catch(e){
+            error(e);
+        }
     }
 }
 
@@ -114,6 +119,8 @@ function parsetable() {
 	// parse table
 	makemessage("Parsing table, please wait...");
 
+
+    //old tablearray system kept for compatibility with CFS student.
 	var tablearray = new Array();
 
 	var rows = $("body table").find("tr");
@@ -199,75 +206,55 @@ function parsetable() {
 
 		})
 
-	})
+	});
 
-    //list of columns for table of length
-    var data_columns_info={
-        '52':{
-            'student_name':10,
-            'matric_no':10,
-            'sessionplusprogram':21,
-            'program':43,
-            'totalmarker':20,
-            'code':2,
-            'section':9,
-            'title':17,
-            'credithour':26,
-            'starttime':34,
-            'endtime':36,
-            'timeampm':41,
-            'venue':46,
-            'rawday':28,
-            'printedby':1
-        },
-        '57':{
-            'student_name':11,
-            'matric_no':11,
-            'sessionplusprogram':22,
-            'program':46,
-            'totalmarker':21,
-            'code':2,
-            'section':10,
-            'title':18,
-            'credithour':28,
-            'starttime':37,
-            'endtime':39,
-            'timeampm':44,
-            'venue':49,
-            'rawday':31,
-            'printedby':1
-        }
-    };
+    //New parsing data structure
+    var rowtextlist=[];
 
-    var data_column=data_columns_info[''+columnlength];
-    if(data_column==undefined){
-        console.log('Warning! column info for table length '+columnlength);
-        data_column=data_columns_info['52'];
-    }
+	rows.each(function(index, el) {
+		var therow = $(this);
+
+		var columns = therow.find("td");
+        var rowtext = [];
+
+		var ci = 0;
+		columns.each(function() {
+			var thecolumn = $(this);
+
+			if (thecolumn.children().length == 0 && thecolumn.text() == "") {
+			} else {
+				rowtext.push(thecolumn.text());
+			}
+
+		})
+
+        rowtextlist.push(rowtext);
+
+	});
 
 	// Extract data
 
-	var studentname = tablearray[8][data_column.student_name].text();
-	if (studentname == "none") {
+	var studentname = rowtextlist[8][2];
+	if (studentname == undefined) {
 		makemessage("Error! cannot find student name.", false)
 		return;
 	}
 	console.log("Student name is->" + studentname)
 
-	var matricplusic = fixstring(tablearray[6][data_column.matric_no].text());
+	var matricplusic = fixstring(rowtextlist[6][2]);
 	var matcher = /\s*(\d+)IC.PassportNo\.\:(\d*)\s*/;
 	var match = matcher.exec(matricplusic);
 	var matricnumber = match[1];
 	var icnumber = match[2];
-	var sessionplusprogram = fixstring(tablearray[4][data_column.sessionplusprogram].text());
+	var sessionplusprogram = fixstring(rowtextlist[4][0]);
 	console.log(sessionplusprogram);
 	matcher = /Session\s*:\s*(\d+\/\d+)Semester\s*:\s*(\d+)/;
 	match = matcher.exec(sessionplusprogram);
 	var session = match[1];
 	var semester = match[2];
-	var program = fixstring(tablearray[6][data_column.program].text())
+	var program = fixstring(rowtextlist[6][5])
 	console.log(program);
-	var printedby= fixstring(tablearray[2][data_column.printedby].text());
+	var printedby= fixstring(rowtextlist[2][0]);
 	var cfsmatcher = /Printedby\d{6}on([^,]+),.+/;
 	var maincampusmatcher = /Printedby\d{7}on([^,]+),.+/;
     var cfsmatch=cfsmatcher.exec(printedby);
@@ -379,20 +366,19 @@ function parsetable() {
 	    var date = maincampusmatch[1];
         var scheduletype="MAINCAMPUS";
         var starttableindex = 0;
-        while (tablearray[starttableindex][1] == "none"
-                || (tablearray[starttableindex][1].children("hr").length == 0)) {
+        while (rowtextlist[starttableindex][0] != 'Course') {
             if (starttableindex >= tablearray.length) {
                 alert("Fail to find start table index");
                 return;
             }
             starttableindex = starttableindex + 1;
         }
+        starttableindex+=2;
 
         console.log("starttableindex->" + starttableindex.toString())
 
         var endtableindex = starttableindex;
-        while (tablearray[endtableindex][data_column.totalmarker] == "none"
-                || tablearray[endtableindex][data_column.totalmarker].text() != "Total") {
+        while (rowtextlist[endtableindex][0]!='Total') {
             if (endtableindex >= tablearray.length) {
                 alert("Fail to find end table index");
                 return;
@@ -404,29 +390,25 @@ function parsetable() {
         console.log("endtableindex->" + endtableindex.toString())
 
         var coursearray = new Array();
-        var currentcourse = 0;
 
         var i = starttableindex + 1;
         while (i < endtableindex) {
 
-            if (tablearray[i][2] != "none") {
-                if (currentcourse != 0) {
-                    console.log("Schedule found->" + JSON.stringify(currentcourse));
-                    coursearray.push(currentcourse);
-                }
-                currentcourse = {
-                    code : tablearray[i][data_column.code].text(),
-                    section : tablearray[i][data_column.section].text(),
-                    title : tablearray[i][data_column.title].text(),
-                    credithour : tablearray[i][data_column.credithour].text(),
+            if (rowtextlist[i].length == 10) {
+
+                var currow=rowtextlist[i];
+
+                var currentcourse = {
+                    code : currow[0],
+                    section : currow[1],
+                    title : currow[3],
+                    credithour : currow[4],
                     schedule : new Array()
                 }
-            }
 
-            if (tablearray[i][28] != "none") {
-                var starttime = parseFloat(tablearray[i][data_column.starttime].text(), 10);
+                var starttime = parseFloat(currow[6], 10);
                 
-                var parseendtime=/^\D*([0-9\.]+)\D*$/.exec(tablearray[i][data_column.endtime].text());
+                var parseendtime=/^\D*([0-9\.]+)\D*$/.exec(currow[7]);
                 if(!parseendtime){
                     console.log("Missing end time. Lets just say it use 1 hour.");
                     endtime = starttime+1;
@@ -434,12 +416,12 @@ function parsetable() {
                     endtime = parseFloat(parseendtime[1], 10);
                 }
 
-                if(tablearray[i][data_column.timeampm].text()=="PM" && starttime<12 && endtime<12){ starttime=starttime+12;
+                if(currow[8]=="PM" && starttime<12 && endtime<12){ starttime=starttime+12;
                 endtime=endtime+12; } 
 
-                var venue = tablearray[i][data_column.venue].text();
+                var venue = currow[9];
                 
-                var rawday=tablearray[i][data_column.rawday].text();
+                var rawday= currow[5];
                 if(/\s*(MON|TUE|WED|THUR|FRI|SAT|SUN)\s*/.exec(rawday)){
                     var day=rawday;
                     var newschedule = {
@@ -502,6 +484,7 @@ function parsetable() {
                     throw "Unknown day format ->"+rawday;
                 }
                 
+                coursearray.push(currentcourse);
             }
 
             i = i + 1;
@@ -551,3 +534,4 @@ function parsetable() {
 
 
 }
+
