@@ -13,9 +13,25 @@
             height:0;
             width:0;
         }
+        html,body{
+            height:100%;
+        }
+        #main{
+            padding:1em;
+            height:100%;
+            box-sizing:border-box;
+            -moz-box-sizing:border-box;
+        }
+        .height100{
+            height:100%;
+        }
+        .yscrollonly{
+            overflow-y:auto;
+            overflow-x:hidden;
+        }
     </style>
     <script type='text/ejs' id="schedtemplate">
-<table id='scheduletable' class="table table-bordered">
+<table id='scheduletable' class="table table-bordered table-condensed">
     <tr>
       <td class='timecell'>Day</td>
       <% 
@@ -45,9 +61,6 @@
 	  <td class='nonempty' colspan='<%= byfiveminute[key][i].duration %>'>
 	      <div class='code'>
 	      <%= byfiveminute[key][i].course.code %>
-	      </div>
-	      <div class='venue'>
-	      <%= byfiveminute[key][i].venue %>
 	      </div>
 	  </td>
 	<% }else if(byfiveminute[key][i]=="none"){ %>
@@ -94,7 +107,7 @@
 
 	{% raw %}
 
-	<div class="container" ng-controller="schedulemaker">
+	<div id="main" ng-controller="schedulemaker">
 		<div ng-show="mode=='startpage'">
 			<form name="start_form" ng-submit="start_form_submit()" class="form-horizontal col-lg-8 col-lg-offset-2">
 				<h1 class="text-center">This is the startpage</h1>
@@ -131,13 +144,13 @@
 			Fetching data		
 		</div>
 
-		<div ng-show="mode=='picker'">
-			<div class="row">
-				<div class="col-sm-6">
-					<h1>Schedule</h1>	
-					<div id="scheduleholder">
-					</div>
-					<div>
+        <div ng-show="mode=='picker'" class="height100">
+            <div class="row height100">
+                <div class="col-lg-6 height100">
+                    <h1>Schedule</h1>    
+                    <div id="scheduleholder">
+                    </div>
+                    <div>
                         <table class="table-bordered table table-striped">
                             <thead>
                                 <tr>
@@ -154,64 +167,96 @@
                                     <td>{{x.lecturer}}</td>
                                     <td>{{x.day}} {{x.time}}</td>
                                     <td>{{x.venue}}</td>
-                                    <td><a class="btn btn-danger" ng-click="remove_section(x.section_id)">X</a></td>
+                                    <td><a class="btn btn-danger glyphicon glyphicon-remove" ng-click="remove_section(x.section_id)"></a></td>
                                 </tr>
                             </tbody>
                         </table>
-					</div>
-				</div>
-				<div class="col-sm-6">
+                    </div>
+                </div>
 
-					<h3>Pick Section</h3>
-					<label>Search</label>
+                <div class="col-lg-6 height100">
+                    <h3>Add Section</h3>
 
-                    <div ng-show="selector.mode=='subject'">
+                    <div ng-show="selector.mode=='subject'" style="margin-bottom:5px">
                         <span>Select A subject</span>
                         <input class="form-control" ng-model="selector.subsearch"></input>
                     </div>
 
-                    <div ng-show="selector.mode=='section'">
-                        <span><span class="btn btn-default" ng-click="selector.mode='subject'">Back</span>Select A section to add</span>
-                        <input class="form-control" ng-model="selector.secsearch"></input>
+                    <div ng-show="selector.mode=='section'" style="margin-bottom:5px">
+                        Select A section from {{selector.selectedsubject.code}} to add
+
+                        <div class="input-group">
+                            <span class="input-group-addon" ng-click="selector.mode='subject'">Back</span>
+                            <input class="form-control" ng-model="selector.secsearch"></input>
+                        </div>
                     </div>
 
-					<div class="row">
-						<div class="col-sm-6" ng-hide="selector.mode=='section'">
-							<span>Kuliyyahs</span>	
-							<ul class="list-group">
-								<li ng-repeat="(k,v) in coursearray" ng-class="'list-group-item '+(selector.selected_kuly==k?'active':'') " ng-click="selector.toggle_selected(k)">{{k}}</li>
-							</ul>
-						</div>
-						<div class="col-sm-6">
-							<span>Subject</span>	
-							<ul class="list-group">
-								<li class="list-group-item" ng-repeat="(k,v) in selector.asubject | filter:{kuliyyah:selector.selected_kuly} | filter:selector.subsearch " ng-class="'list-group-item '+(selector.selected_subject==v?'active':'') "  ng-click="selector.show_section(v)">
-									{{v.code}}<br />
-                                    {{v.title}}<br />
-                                    {{subject_added(v.code)?'Added':''}}
-								</li>
-							</ul>						
-						</div>
-						<div class="col-sm-6" ng-show="selector.mode=='section'">
-							<span>Section</span>	
-							<div ng-show="selector.loading_section==false">
-								<ul class="list-group">
-									<li class="list-group-item" ng-repeat="v in selector.csections | filter:selector.secsearch" ng-click="add_section(v,selector.selected_subject)">
-										{{v.sectionno}}
-                                        {{v.lecturer}}<br />
-                                        {{section_added(v.id)?'Added':''}}
-									</li>
-								</ul>
-							</div>
-							<div ng-show="selector.loading_section==true">
-								Loading
-							</div>
-						</div>
-					</div>
+                    <div class="row">
 
-				</div>
-			</div>
-		</div>
+                        <div class="col-sm-4 height100 yscrollonly" ng-show="selector.mode=='subject'">
+                            <span>Kuliyyahs</span>    
+                            <ul class="list-group">
+                                <li ng-repeat="(k,v) in coursearray" ng-class="'list-group-item '+(selector.selected_kuly==k?'active':'') " ng-click="selector.toggle_selected(k)">{{k}}</li>
+                            </ul>
+                        </div>
+                        <div ng-class="( selector.mode=='subject'?'col-sm-8':'col-sm-4' )+' yscrollonly height100'">
+                            <span>Subject</span>    
+                            <ul class="list-group">
+                                <li class="list-group-item" ng-repeat="(k,v) in selector.asubject | filter:{kuliyyah:selector.selected_kuly} | filter:selector.subsearch " ng-class="'list-group-item '+(selector.selected_subject==v?'active':'') "  ng-click="selector.show_section(v)">
+                                    <i class="glyphicon glyphicon-ok pull-right" ng-show="subject_added(v.code)"></i>
+                                    {{v.code}}<br />
+                                    <small>{{v.title}}</small><br />
+                                </li>
+                            </ul>                        
+                        </div>
+
+                        <div class="col-sm-8 yscrollonly" ng-show="selector.mode=='section'">
+                            <div ng-show="selector.loading_section==false">
+
+                                <table class="table table-borderd">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Lecturer</th>
+                                            <th>Time</th>
+                                            <th>Day</th>
+                                            <th>Venue</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="v in selector.csections | filter:selector.secsearch" >
+                                            <td>{{v.sectionno}}</td>
+                                            <td>{{v.lecturer}}</td>
+                                            <td>{{v.time}}</td>
+                                            <td>{{v.day}}</td>
+                                            <td>{{v.venue}}</td>
+                                            <td class="text-center">
+                                                <a class="btn btn-default" ng-click="replace_section(v,selector.selected_subject)" ng-show="subject_added(selector.selected_subject.code) && !section_added(v.id)">Replace</a>
+                                                <a class="btn btn-default" ng-click="add_section(v,selector.selected_subject)" ng-show="!subject_added(selector.selected_subject.code) && !section_added(v.id)">Add</a>
+                                                <i class="glyphicon glyphicon-ok" ng-show="section_added(v.id)"></i>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                            <div ng-show="selector.loading_section==true">
+                                Loading
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+            </div>
+
+
+
+            </div>
+        </div>
 	</div>
 
 	{% endraw %}
@@ -317,6 +362,7 @@
 				.success(function(coursearray){
 					$scope.mode='picker';
 					$scope.coursearray=coursearray;
+                    $(window).resize();
 				}).error(function(){
 					$scope.mode='startpage';
 					alert('Sorry, an error happened when fetching subjects. The server may be down');
@@ -349,7 +395,11 @@
             var starttime=1;
             var endtime=2;
             if(!rtimes || rtimes.length!=4){
-                alert('Error: unable to identify the format for the time '+section.time+'. Please be patient while we try to fix this issue');
+                if(section.time==' -  '){
+                    alert("Unfortunately this section's schedule is not available yet. Please select another section,");
+                }else{
+                    alert('Error: unable to identify the format for the time '+section.time+'. Please be patient while we try to fix this issue');
+                }
                 return;
             }else{
 
@@ -457,7 +507,7 @@
             for(var i=0;i<$scope.schedule.length;i++){
                 var c=$scope.schedule[i];
                 if(c.code==code){
-                    return true;
+                    return c;
                 }
             }
             return false;
@@ -484,6 +534,12 @@
                     return;
                 }
             }
+        }
+
+        $scope.replace_section=function(section,subject){
+            var asection=$scope.subject_added(subject.code);
+            $scope.remove_section(asection.section_id);
+            $scope.add_section(section,subject);
         }
 
         $scope.$watchCollection('schedule',function(){
@@ -608,6 +664,7 @@
         }
 
 	}
+
 	</script>
 
 </body>
