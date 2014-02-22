@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="/static/css/bootstrap.min.css"></link>
+	<script src="/static/js/jquery-1.9.1.js"></script>
+	<script src="/static/js/angular.min.js"></script>
+    <script type='text/javascript' src='/static/ejs_production.js' ></script>
+	<title>Schedule Maker</title>
+    <style>
+        #scheduletable .fixminutealign,#scheduletable .fixminutealign>td{
+            margin:0;
+            padding:0;
+            height:0;
+            width:0;
+        }
+    </style>
+    <script type='text/ejs' id="schedtemplate">
+<table id='scheduletable' class="table table-bordered">
+    <tr>
+      <td class='timecell'>Day</td>
+      <% 
+        for(var i=0;i<(actualendhour-actualstarthour);i++){
+      %>
+      <td class='timecell' colspan='12'><% 
+      var thetime=i+actualstarthour; 
+      var dtime=thetime;
+      if(thetime>12){
+          dtime=(dtime-12).toString()+" pm";
+      }else if(thetime==12){
+          dtime=dtime.toString()+" pm";
+      }else{
+          dtime=dtime.toString()+" am";
+      }
+      %><%= dtime %></td>
+      <% } %>
+    </tr>
+    <% for(key in byfiveminute) {
+        %>
+    <tr>
+      <td class='day firstcolumn'>
+	<%= key.toLowerCase() %>
+      </td>
+      <% for(var i=0;i<byfiveminute[key].length;i=i+1){ %>
+	<% if(byfiveminute[key][i].course){ %>
+	  <td class='nonempty' colspan='<%= byfiveminute[key][i].duration %>'>
+	      <div class='code'>
+	      <%= byfiveminute[key][i].course.code %>
+	      </div>
+	      <div class='venue'>
+	      <%= byfiveminute[key][i].venue %>
+	      </div>
+	  </td>
+	<% }else if(byfiveminute[key][i]=="none"){ %>
+	<% }else{ 
+        var howmuch=1;
+        var ci=i+1;
+        while(ci<byfiveminute[key].length){
+            if(byfiveminute[key][ci]!=""){
+                break;
+            }else{
+                howmuch+=1;
+            }
+            ci=ci+1;
+        }
+        %>
+	  <td class='empty' colspan='<%= howmuch %>'>
+	      <%= byfiveminute[key][i]%>
+	  </td>
+	<% i=i+howmuch-1} %>
+      <% } %>
+    </tr>
+    <% } %>
+    <tr class='fixminutealign'>
+      <td></td>
+      <% for(var i=0; i<actualendhour-actualstarthour;i=i+1){ %>
+      <td class='align'></td>
+      <td class='align'></td>
+      <td class='align'></td>
+      <td class='align'></td>
+      <td class='align'></td>
+      <td class='align'></td>
+      <td class='align'></td>
+      <td class='align'></td>
+      <td class='align'></td>
+      <td class='align'></td>
+      <td class='align'></td>
+      <td class='align'></td>
+        <% } %>
+    </tr>
+  </table>
+    </script>
+</head>
+<body ng-app>
+
+	{% raw %}
+
+	<div class="container" ng-controller="schedulemaker">
+		<div ng-show="mode=='startpage'">
+			<form name="start_form" ng-submit="start_form_submit()" class="form-horizontal col-lg-8 col-lg-offset-2">
+				<h1 class="text-center">This is the startpage</h1>
+				<div class="form-group">
+					<div class="col-md-4 control-label">Session</div>
+					<div class="col-md-8">
+						<select required class="form-control" ng-model="session" name="session" ng-options="x for x in available_sessions"></select>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-md-4 control-label">Semester</div>
+					<div class="col-md-8">
+						<select required class="form-control" ng-model="semester" name="semester" ng-options="x for x in [1,2,3]"></select>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-md-4 control-label">Student Type</div>
+					<div class="col-md-8">
+						<select required class="form-control" ng-model="student_type" name="student_type" ng-options="k as v for (k,v) in available_student_type"></select>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-md-4 control-label"></div>
+					<div class="col-md-8">
+						<div ng-show="show_submit_error">please select all parameters above.</div>
+						<input type="submit" name="Start" class="btn btn-primary"></input>
+					</div>
+
+				</div>
+			</form>
+		</div>
+
+		<div ng-show="mode=='startloading'">
+			Fetching data		
+		</div>
+
+		<div ng-show="mode=='picker'">
+			<div class="row">
+				<div class="col-sm-6">
+					<h1>Schedule</h1>	
+					<div id="scheduleholder">
+					</div>
+					<div>
+                        <table class="table-bordered table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Lecturer</th>
+                                    <th>Time</th>
+                                    <th>Venue</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="x in schedule">
+                                    <td>{{x.code}}</td>
+                                    <td>{{x.lecturer}}</td>
+                                    <td>{{x.day}} {{x.time}}</td>
+                                    <td>{{x.venue}}</td>
+                                    <td><a class="btn btn-danger" ng-click="remove_section(x.section_id)">X</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+					</div>
+				</div>
+				<div class="col-sm-6">
+
+					<h3>Pick Section</h3>
+					<label>Search</label>
+
+                    <div ng-show="selector.mode=='subject'">
+                        <span>Select A subject</span>
+                        <input class="form-control" ng-model="selector.subsearch"></input>
+                    </div>
+
+                    <div ng-show="selector.mode=='section'">
+                        <span><span class="btn btn-default" ng-click="selector.mode='subject'">Back</span>Select A section to add</span>
+                        <input class="form-control" ng-model="selector.secsearch"></input>
+                    </div>
+
+					<div class="row">
+						<div class="col-sm-6" ng-hide="selector.mode=='section'">
+							<span>Kuliyyahs</span>	
+							<ul class="list-group">
+								<li ng-repeat="(k,v) in coursearray" ng-class="'list-group-item '+(selector.selected_kuly==k?'active':'') " ng-click="selector.toggle_selected(k)">{{k}}</li>
+							</ul>
+						</div>
+						<div class="col-sm-6">
+							<span>Subject</span>	
+							<ul class="list-group">
+								<li class="list-group-item" ng-repeat="(k,v) in selector.asubject | filter:{kuliyyah:selector.selected_kuly} | filter:selector.subsearch " ng-class="'list-group-item '+(selector.selected_subject==v?'active':'') "  ng-click="selector.show_section(v)">
+									{{v.code}}<br />
+                                    {{v.title}}<br />
+                                    {{subject_added(v.code)?'Added':''}}
+								</li>
+							</ul>						
+						</div>
+						<div class="col-sm-6" ng-show="selector.mode=='section'">
+							<span>Section</span>	
+							<div ng-show="selector.loading_section==false">
+								<ul class="list-group">
+									<li class="list-group-item" ng-repeat="v in selector.csections | filter:selector.secsearch" ng-click="add_section(v,selector.selected_subject)">
+										{{v.sectionno}}
+                                        {{v.lecturer}}<br />
+                                        {{section_added(v.id)?'Added':''}}
+									</li>
+								</ul>
+							</div>
+							<div ng-show="selector.loading_section==true">
+								Loading
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	{% endraw %}
+
+	<script src="/static/js/bootstrap.min.js"></script>
+
+	<script>
+
+	function schedulemaker($scope,$http){
+
+		//possible mode are startpage,startloading,picker
+		$scope.mode='startpage';
+
+		$scope.available_sessions=[
+		"2013/2014",
+		"2014/2015"
+		];
+		$scope.available_student_type={ug:'undergraduate',pg:"postgraduate"};
+
+        //defaults
+		//The schedule
+		$scope.schedule=[];
+		$scope.coursearray=[];
+        $scope.session='2013/2014';
+        $scope.student_type='ug';
+        $scope.semester=2;
+
+		//selector stuff, a subject is all subject in an array
+		$scope.selector={
+			selected_kuly:'',
+			asubject:[],
+			mode:'subject',
+			toggle_selected:function(k){
+				if($scope.selector.selected_kuly==k){
+					$scope.selector.selected_kuly='';
+				}else{
+					$scope.selector.selected_kuly=k;
+				}
+			},
+			loading_section:false,
+			selected_subject:{},
+			sectioncache:{},
+			show_section:function(sub){
+				$scope.selector.selected_subject=sub;
+				$scope.selector.loading_section=true;
+				$scope.selector.mode='section';
+
+				function successc(list){
+					$scope.selector.sectioncache[sub.id]=list;
+					$scope.selector.csections=list;
+					$scope.selector.loading_section=false;
+				}
+
+				if($scope.selector.sectioncache[sub.id]!=undefined){
+					successc($scope.selector.sectioncache[sub.id]);
+					return;
+				}
+
+				$http({
+					url:'/schedulemaker/fetch_section/',
+					params:{id:sub.id},
+					method:'GET'
+				}).success(successc).error(function(argument) {
+					alert("Sorry, failed to load section.");
+					$scope.selector.mode='subject';
+					$scope.selector.loading_section=false;
+				});
+			}
+
+		};
+
+		$scope.$watch('coursearray',function(){
+			$scope.selector.asubject=[];
+			for(var k in $scope.coursearray){
+				if($scope.coursearray.hasOwnProperty(k)){
+					for (var i = $scope.coursearray[k].length - 1; i >= 0; i--) {
+						var obj=$scope.coursearray[k][i];
+						obj=$.extend({},obj);
+						obj.kuliyyah=k;
+						$scope.selector.asubject.push(obj);
+					};
+				}
+			}
+		});
+
+		$scope.show_submit_error=false;
+		$scope.start_form_submit=function(){
+			if(
+				$scope.start_form.session.$valid && $scope.start_form.session != undefined &&
+				$scope.start_form.semester.$valid && $scope.start_form.session != undefined &&
+				$scope.start_form.student_type.$valid && $scope.start_form.session != undefined
+			){
+				$scope.show_submit_error=false;
+				$scope.mode='startloading';
+
+				var params={
+					session:$scope.session,
+					semester:$scope.semester,
+					coursetype:$scope.student_type
+				}
+
+				$http({url:'/schedulemaker/fetch_subject/',params:params,method:'GET'})
+				.success(function(coursearray){
+					$scope.mode='picker';
+					$scope.coursearray=coursearray;
+				}).error(function(){
+					$scope.mode='startpage';
+					alert('Sorry, an error happened when fetching subjects. The server may be down');
+				});
+
+			}else{
+				$scope.show_submit_error=true;
+				console.log("Submit called start form "+JSON.stringify($scope.start_form.$valid));
+			}
+		};
+
+        $scope.add_section=function(section,subject){
+
+            var obj={
+                section_id:section.id,
+                code:subject.code,
+                credithour:subject.credithour,
+                section:section.sectionno,
+                title:subject.title,
+                lecturer:section.lecturer,
+                venue:section.venue,
+                time:section.time,
+                day:section.day,
+                schedule:[]
+            };
+
+            //Next is parsing it. Partially copied from scheduleformatter2.js
+
+            var rtimes=/^([0-9\.]+)\s*-\s*([0-9\.]+)\s*(AM|PM)$/.exec(section.time);
+            var starttime=1;
+            var endtime=2;
+            if(!rtimes || rtimes.length!=4){
+                alert('Error: unable to identify the format for the time '+section.time+'. Please be patient while we try to fix this issue');
+                return;
+            }else{
+
+                starttime = parseFloat(rtimes[1], 10);
+
+                var parseendtime=/^\D*([0-9\.]+)\D*$/.exec(rtimes[2]);
+                if(!parseendtime){
+                    console.log("Missing end time. Lets just say it use 1 hour.");
+                    endtime = starttime+1;
+                    }else{
+                    endtime = parseFloat(parseendtime[1], 10);
+                }
+
+                if(rtimes[3]=="PM" && starttime<12 && endtime<12){ starttime=starttime+12;
+                    endtime=endtime+12; 
+                } 
+
+                obj.starttime=starttime;
+                obj.endtime=endtime;
+
+            }
+
+            var rawday=section.day;
+            if(/\s*(MON|TUE|WED|THUR|FRI|SAT|SUN)\s*/.exec(rawday)){
+                var day=rawday;
+                var newschedule = {
+                    day : day,
+                    start : starttime,
+                    end : endtime,
+                    venue : obj.venue
+                }
+                obj.schedule.push(newschedule);
+            }else if(/\s*(M|TH|W|T|F|SN|S)\s*-\s*(M|TH|W|T|F|SN|S)\s*/.exec(rawday)){
+                var execed=/\s*(M|TH|W|T|F|SN|S)\s*-\s*(M|TH|W|T|F|SN|S)\s*/.exec(rawday);
+                function make_long(d){
+                    if(d=='M')return "MON";
+                    if(d=='T')return "TUE";
+                    if(d=='W')return "WED";
+                    if(d=='TH')return "THUR";
+                    if(d=='F')return "FRI";
+                    if(d=='SN')return "SUN";
+                    if(d=='S')return "SAT";
+                    throw "Unknown day ->"+d;
+                }
+                var d1=make_long(execed[1]);
+                var newschedule = {
+                    day : d1,
+                    start : starttime,
+                    end : endtime,
+                    venue : obj.venue
+                }
+
+                obj.schedule.push(newschedule);
+                var d2=make_long(execed[2]);
+
+                newschedule = {
+                    day : d2,
+                    start : starttime,
+                    end : endtime,
+                    venue : obj.venue
+                }
+
+                obj.schedule.push(newschedule);
+            }else if("MTWTHF".indexOf(rawday)!=-1){
+                var idx="MTWTHF".indexOf(rawday);
+                var length=rawday.length;
+                if(rawday.indexOf("TH")!=-1){
+                    length--;
+                }
+                if(rawday=="F"){
+                    idx-=1;
+                }
+                var dayidx=["MON","TUE","WED","THUR","FRI"];
+                var i2=idx;
+                while(i2<idx+length){
+                    var newschedule = {
+                        day : dayidx[i2],
+                        start : starttime,
+                        end : endtime,
+                        venue : venue
+                    }
+                    obj.schedule.push(newschedule);
+                    i2++;
+                }
+            }else{
+                alert( "Unknown day format ->"+rawday+" please be patient as we resolve this issue.");
+                return;
+            }
+
+            //Allright now we just need to add this.
+            //But WAIT. We'll need to check if another section of the subject has been specified
+
+            if(!$scope.section_added(section.id)){
+                if($scope.subject_added(subject.code)){
+                    alert("Another section has been selected for this subject. Please remove that first");
+                }else{
+                    $scope.schedule.push(obj);
+                }
+            }
+
+        }
+
+        $scope.subject_added=function(code){
+
+            for(var i=0;i<$scope.schedule.length;i++){
+                var c=$scope.schedule[i];
+                if(c.code==code){
+                    return true;
+                }
+            }
+            return false;
+
+        }
+
+        $scope.section_added=function(section_id){
+
+            for(var i=0;i<$scope.schedule.length;i++){
+                var c=$scope.schedule[i];
+                if(c.section_id==section_id){
+                    return true;
+                }
+            }
+            return false;
+
+        }
+
+        $scope.remove_section=function(section_id){
+            for(var i=0;i<$scope.schedule.length;i++){
+                var c=$scope.schedule[i];
+                if(c.section_id==section_id){
+                    $scope.schedule.splice(i,1);
+                    return;
+                }
+            }
+        }
+
+        $scope.$watchCollection('schedule',function(){
+            var cdata=convert_data({coursearray:$scope.schedule});
+            $('#scheduleholder').html((new EJS({text:$('#schedtemplate').html()})).render(cdata));
+        });
+
+
+        //convert data gathered from crs into data that can be used by template
+        function convert_data(data){
+
+            function makearray(length) {
+                var thearray = new Array();
+                var i = 0;
+                while (i < length) {
+                    thearray.push("");
+                    i = i + 1;
+                }
+                return thearray;
+            }
+
+            var coursearray = data.coursearray;
+            
+            var starthour=8;
+            var actualstarthour=8;
+            var actualendhour=20;
+            /* Hardcode the range
+            var i=0;
+            while(i<coursearray.length){
+                var i2=0;
+                var ccourse=coursearray[i];
+                while(i2<ccourse.schedule.length){
+                    var sched=ccourse.schedule[i2];
+                    var start=Math.floor(sched.start);
+                    if(start<actualstarthour){
+                        //actualstarthour=start;
+                    }
+                    var end=Math.floor(sched.end);
+                    if(sched.end>end){
+                        end+=1;
+                    }
+                    if(end>actualendhour){
+                        //actualendhour=end;
+                    }
+                    i2=i2+1;
+                }
+                i=i+1;
+            }
+            */
+            
+            var startfminute=actualstarthour*12;
+            var endfminute=actualendhour*12;
+
+            var hournum=14;
+            var actualhournum=actualendhour-actualstarthour;
+            var fiveminutenum=actualhournum*12;
+
+            var byfiveminute={
+                MON : makearray(fiveminutenum),
+                TUE : makearray(fiveminutenum),
+                WED : makearray(fiveminutenum),
+                THUR : makearray(fiveminutenum),
+                FRI : makearray(fiveminutenum),
+                SAT : makearray(fiveminutenum),
+                SUN : makearray(fiveminutenum)
+            }
+
+            var ci = 0;
+            while (ci < coursearray.length) {
+                var course = coursearray[ci];
+                var si = 0;
+                while (si < course.schedule.length) {
+                    var schedule = course.schedule[si];
+                    var start = schedule.start;
+                    var end = schedule.end;
+                    var starth=Math.floor(start);
+                    var startm=start-starth;
+                    startm=Math.round(startm*100/5);
+                    startm=startm+starth*12;
+                    var endh=Math.floor(end);
+                    var endm=end-endh;
+                    endm=Math.round(endm*100/5);
+                    endm=endm+endh*12;
+
+                    var durationm = endm - startm;
+                    byfiveminute[schedule.day][startm - startfminute] ={
+                        course : course,
+                        duration : durationm,
+                        venue : course.schedule[si].venue
+                    }
+                    i = 1;
+                    while(i<durationm){
+                        byfiveminute[schedule.day][startm - startfminute + i] = "none";
+                        i=i+1;
+                    }
+
+                    si = si + 1;
+                }
+
+                ci = ci + 1;
+            }
+
+            function getScheduleText(course) {
+                if (course == "") {
+                    return {
+                        text : ""
+                    };
+                } else {
+                    return {
+                        text : course.name
+                    };
+                }
+            }
+
+            var thedata = {
+                byfiveminute : byfiveminute,
+                actualstarthour : actualstarthour,
+                actualendhour : actualendhour,
+                courselist : coursearray,
+            }
+            return thedata;
+        }
+
+	}
+	</script>
+
+</body>
+</html>

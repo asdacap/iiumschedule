@@ -2,6 +2,7 @@ import bootstrap
 import scheduleformatter
 import admincontroller
 import themehandler
+import schedulemaker
 from bootstrap import app
 from staticsettings import DEBUG
 
