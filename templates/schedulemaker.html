@@ -178,16 +178,20 @@
                     <h3>Add Section</h3>
 
                     <div ng-show="selector.mode=='subject'" style="margin-bottom:5px">
-                        <span>Select A subject</span>
-                        <input class="form-control" ng-model="selector.subsearch"></input>
+                        <span>Select a subject</span>
+                        <div class="input-group">
+                            <input class="form-control" ng-model="selector.subsearch"></input>
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+                        </div>
                     </div>
 
                     <div ng-show="selector.mode=='section'" style="margin-bottom:5px">
-                        Select A section from {{selector.selectedsubject.code}} to add
+                        Select a section from {{selector.selected_subject.code}} to add
 
                         <div class="input-group">
                             <span class="input-group-addon" ng-click="selector.mode='subject'">Back</span>
                             <input class="form-control" ng-model="selector.secsearch"></input>
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
                         </div>
                     </div>
 
