@@ -40,6 +40,7 @@
 				$scope.selector.mode='section';
 
 				function successc(list){
+                    $scope.selector.sectioncache[sub.id]=list;
                     var alist=[];
                     for(var i=0;i<list.length;i++){
                         var hasa=$scope.section_preprocess(list[i],sub);
@@ -50,7 +51,6 @@
                         }
                     }
                     list=alist;
-                    $scope.selector.sectioncache[sub.id]=list;
                     $scope.selector.csections=list;
                     $scope.selector.loading_section=false;
                 }
@@ -88,6 +88,8 @@
 		});
 
 		$scope.show_submit_error=false;
+
+        //This is the thing that happen when the user select the year and session
 		$scope.start_form_submit=function(){
 			if(
 				$scope.start_form.session.$valid && $scope.start_form.session != undefined &&
@@ -119,6 +121,7 @@
 			}
 		};
 
+        //Preprocess downloaded section data for easier processing.
         $scope.section_preprocess=function(section,subject){
 
             var obj={
@@ -141,9 +144,9 @@
             var endtime=2;
             if(!rtimes || rtimes.length!=4){
                 if(section.time==' -  '){
-                    alert("Unfortunately this section's schedule is not available yet. Please select another section,");
+                    console.log("WARNING:Unfortunately this section's schedule is not available yet. Please select another section,");
                 }else{
-                    alert('Error: unable to identify the format for the time '+section.time+'. Please be patient while we try to fix this issue');
+                    console.log('WARNING:Error: unable to identify the format for the time '+section.time+'. Please be patient while we try to fix this issue');
                 }
                 return;
             }else{
@@ -238,7 +241,11 @@
         }
 
         $scope.add_section=function(section){
-
+            var c=$scope.has_collide(section);
+            if(c){
+                alert('This section collide with '+c.code+' section '+c.section);
+                return;
+            }
             var obj=section;
             //Allright now we just need to add this.
             //But WAIT. We'll need to check if another section of the subject has been specified
@@ -285,8 +292,37 @@
             $scope.add_section(section,subject);
         }
 
-        $scope.$watchCollection('schedule_bycode',function(){
+        //This check if the section's schedule collide with each other
+        $scope.check_collide=function(section1,section2){
+            for(var i=0;i<section1.schedule.length;i++){
+                for(var i2=0;i2<section2.schedule.length;i2++){
+                    var s1=section1.schedule[i];
+                    var s2=section2.schedule[i2];
+                    if(s1.day==s2.day &&
+                        ( (s1.end <= s2.end && s1.end > s2.start) || (s1.start >= s2.start && s1.start < s2.end) )
+                    ){
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
 
+        //Check if the section collide with anything in current schedule except with itself
+        $scope.has_collide=function(section){
+            for(var i=0;i<$scope.schedule.length;i++){
+                var c=$scope.schedule[i];
+                if(c!=section){
+                    if($scope.check_collide(c,section)){
+                        return c;
+                    }
+                }
+            }
+            return false;
+        }
+
+        //This watch statement will syncronize schedule with schedule_bycode
+        $scope.$watchCollection('schedule_bycode',function(){
             $scope.schedule=[];
             for(key in $scope.schedule_bycode){
                 if($scope.schedule_bycode.hasOwnProperty(key)){
@@ -295,6 +331,7 @@
             }
         });
 
+        //This will cause the schedule display to redraw everytime the schedule change 
         $scope.$watchCollection('schedule',function(){
             var cdata=convert_data({coursearray:$scope.schedule});
             $('#scheduleholder').html((new EJS({text:$('#schedtemplate').html()})).render(cdata));
