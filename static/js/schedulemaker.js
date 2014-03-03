@@ -18,6 +18,11 @@
         $scope.session='2013/2014';
         $scope.student_type='ug';
         $scope.semester=2;
+        $scope.cur_hover_section=undefined;
+
+        $scope.alert=function(t){
+            console.log('This is alert '+t);
+        }
 
 		//selector stuff, a subject is all subject in an array
 		$scope.selector={
@@ -312,7 +317,7 @@
         $scope.has_collide=function(section){
             for(var i=0;i<$scope.schedule.length;i++){
                 var c=$scope.schedule[i];
-                if(c!=section){
+                if(c.section_id!=section.section_id){
                     if($scope.check_collide(c,section)){
                         return c;
                     }
@@ -331,11 +336,20 @@
             }
         });
 
-        //This will cause the schedule display to redraw everytime the schedule change 
-        $scope.$watchCollection('schedule',function(){
-            var cdata=convert_data({coursearray:$scope.schedule});
+        function redraw(){
+            var schedule=$scope.schedule.slice(0);
+            if($scope.cur_hover_section!=undefined){
+                var obj=$.extend({},$scope.cur_hover_section);
+                obj.hover=true;
+                schedule.push(obj);
+            }
+            var cdata=convert_data({coursearray:schedule});
             $('#scheduleholder').html((new EJS({text:$('#schedtemplate').html()})).render(cdata));
-        });
+        }
+
+        //This will cause the schedule display to redraw everytime the schedule change 
+        $scope.$watchCollection('schedule',redraw);
+        $scope.$watchCollection('cur_hover_section',redraw);
 
 
         //convert data gathered from crs into data that can be used by template

@@ -58,7 +58,7 @@
       </td>
       <% for(var i=0;i<byfiveminute[key].length;i=i+1){ %>
 	<% if(byfiveminute[key][i].course){ %>
-	  <td class='nonempty' colspan='<%= byfiveminute[key][i].duration %>'>
+        <td class='nonempty <%=byfiveminute[key][i].course.hover?"bg-warning":""%>' colspan='<%= byfiveminute[key][i].duration %>'>
 	      <div class='code'>
 	      <%= byfiveminute[key][i].course.code %>
 	      </div>
@@ -189,7 +189,7 @@
                         Select a section from {{selector.selected_subject.code}} to add
 
                         <div class="input-group">
-                            <span class="input-group-addon" ng-click="selector.mode='subject'">Back</span>
+                            <span class="input-group-addon" ng-click="selector.mode='subject';cur_hover_section=undefined">Back</span>
                             <input class="form-control" ng-model="selector.secsearch"></input>
                             <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
                         </div>
@@ -228,7 +228,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="v in selector.csections | filter:selector.secsearch" ng-class="has_collide(v)?'bg-warning':''">
+                                        <tr ng-repeat="v in selector.csections | filter:selector.secsearch" ng-class="has_collide(v)?'bg-warning':''" ng-mouseenter="$parent.cur_hover_section=v;" ng-mouseleave="$parent.cur_hover_section=undefined;">
                                             <td>{{v.section}}</td>
                                             <td>{{v.lecturer}}</td>
                                             <td>{{v.day}} {{v.time}}</td>
