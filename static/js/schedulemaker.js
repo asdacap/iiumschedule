@@ -288,7 +288,7 @@
 
         $scope.replace_section=function(section,subject){
             var asection=$scope.subject_added(subject.code);
-            $scope.remove_section(asection.section);
+            $scope.remove_section(asection.section_id);
             $scope.add_section(section,subject);
         }
 
