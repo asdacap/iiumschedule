@@ -142,7 +142,7 @@ angular.module('smaker',[])
             console.log("Submit called start form "+JSON.stringify($scope.start_form.$valid));
         }
     };
-}).controller('sectionSelector',function($scope,smglobal,$http){
+}).controller('sectionSelector',function($scope,smglobal,$http,$filter){
     
     //selector stuff, a subject is all subject in an array
     _.extend($scope,{
@@ -154,6 +154,20 @@ angular.module('smaker',[])
         selected_subject:{},
         sectioncache:{}
     });
+
+    function refilter(){
+        if($scope.selected_kuly!=''){
+            $scope.filteredSubject=$filter('filter')($scope.asubject,{kuliyyah:$scope.selected_kuly});
+        }else{
+            $scope.filteredSubject=$scope.asubject;
+        }
+        $scope.filteredSubject=$filter('filter')($scope.filteredSubject,$scope.subsearch);
+    }
+
+    $scope.$watch('selected_kuly',refilter);
+    $scope.$watch('subsearch',refilter);
+    $scope.$watchCollection('asubject',refilter);
+
 
     $scope.toggle_selected=function(k){
         if($scope.selected_kuly==k){
@@ -472,7 +486,6 @@ angular.module('smaker',[])
     }
 }).directive('niceScroll',function(){
     return {
-        restrict:'CA',
         link:function(scope,el,attr){
             $(el).niceScroll();
         }

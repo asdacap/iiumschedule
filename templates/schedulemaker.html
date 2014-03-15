@@ -191,7 +191,7 @@
                     <div ng-show="mode=='subject'" style="margin-bottom:5px">
                         <span>Select a subject</span>
                         <div class="input-group">
-                            <input class="form-control" ng-model="subsearch"></input>
+                            <input class="form-control" ng-model="subsearch" placeholder="search subject"></input>
                             <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
                         </div>
                     </div>
@@ -201,7 +201,7 @@
 
                         <div class="input-group">
                             <span class="input-group-addon" ng-click="mode='subject';cur_hover_section=undefined">Back</span>
-                            <input class="form-control" ng-model="secsearch"></input>
+                            <input class="form-control" ng-model="secsearch" placeholder="search subject"></input>
                             <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
                         </div>
                     </div>
@@ -217,7 +217,7 @@
                         <div ng-class="( mode=='subject'?'col-xs-8':'col-xs-4' )+' yscrollonly height100'" nice-scroll>
                             <span>Subject</span>    
                             <div class="list-group">
-                                <a class="list-group-item" ng-repeat="(k,v) in asubject | filter:{kuliyyah:selected_kuly} | filter:subsearch " ng-class="'list-group-item '+(selected_subject==v?'active':'') "  ng-click="show_section(v)">
+                                <a class="list-group-item" ng-repeat="(k,v) in filteredSubject" ng-class="'list-group-item '+(selected_subject==v?'active':'') "  ng-click="show_section(v)">
                                     <i class="glyphicon glyphicon-ok pull-right" ng-show="subject_added(v.code)"></i>
                                     {{v.code}}<br />
                                     <small>{{v.title}}</small><br />
