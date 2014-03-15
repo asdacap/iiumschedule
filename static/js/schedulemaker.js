@@ -490,4 +490,69 @@ angular.module('smaker',['ngAnimate'])
             $(el).niceScroll();
         }
     }
+})
+.controller('generator',function(smglobal,$scope,$filter){
+
+
+    //selector stuff, a subject is all subject in an array
+    _.extend($scope,{
+        selected_kuly:'',
+        asubject:[],
+        smglobal:smglobal,
+        mode:'subject',
+        selectedSubjects:[],
+    });
+
+    function refilter(){
+        if($scope.selected_kuly!=''){
+            $scope.filteredSubject=$filter('filter')($scope.asubject,{kuliyyah:$scope.selected_kuly});
+        }else{
+            $scope.filteredSubject=$scope.asubject;
+        }
+        $scope.filteredSubject=$filter('filter')($scope.filteredSubject,$scope.subsearch);
+    }
+
+    $scope.$watch('selected_kuly',refilter);
+    $scope.$watch('subsearch',refilter);
+    $scope.$watch('asubject',refilter);
+
+
+    $scope.toggle_selected=function(k){
+        if($scope.selected_kuly==k){
+            $scope.selected_kuly='';
+        }else{
+            $scope.selected_kuly=k;
+        }
+    }
+
+    $scope.$watchCollection(function(){return smglobal.coursearray;},function(){
+        $scope.asubject=[];
+        _.each(smglobal.coursearray,function(arr,kuly){
+            _.each(arr,function(obj,i){
+                obj=$.extend({},obj);
+                obj.kuliyyah=kuly;
+                $scope.asubject.push(obj);
+            });
+        });
+    });
+
+    $scope.subjectAdded=function(s){
+        var ret=_.find($scope.selectedSubjects,function(i){return i==s;});
+        return ret;
+    }
+
+    $scope.addSubject=function(s){
+        if(!$scope.subjectAdded(s)){
+            $scope.selectedSubjects.push(s);
+        }
+    }
+
+    $scope.removeSubject=function(s){
+        $scope.selectedSubjects=_.without($scope.selectedSubjects,s);
+    }
+
+    $scope.toggleSubject=function(s){
+        $scope.subjectAdded(s)?$scope.removeSubject(s):$scope.addSubject(s);
+    }
+
 });

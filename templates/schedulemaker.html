@@ -264,6 +264,7 @@
                                 </tr>
                             </tbody>
                         </table>
+                        <a class="mouse-pointer btn btn-default" ng-click="smglobal.mode='generator'">Schedule Generator</a>
                     </div>
                 </div>
 
@@ -361,9 +362,54 @@
 
                 </div>
 
+            </div>
 
+            <div ng-if="smglobal.mode=='generator'" class="height100 slide-anim" ng-controller="generator">
+
+                <div class="row height100">
+                    <div class="col-md-5 height100">
+                        <h3><a class="mouse-pointer btn btn-default" ng-click="smglobal.mode='picker'">Back to picker</a>&nbsp;Schedule Generator</h3>
+
+                        <div style="margin-bottom:5px">
+                            <span>Select a subject</span>
+                            <div class="input-group">
+                                <input class="form-control" ng-model="subsearch" placeholder="search subject"></input>
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+                            </div>
+                        </div>
+
+                        <div class="row longrow">
+
+                            <div class="col-xs-4 height100 yscrollonly" nice-scroll>
+                                <span>Kuliyyahs</span>    
+                                <div class="list-group">
+                                    <a ng-repeat="(k,v) in smglobal.coursearray" class="list-group-item mouse-pointer" ng-class="(selected_kuly==k?'active':'') " ng-click="toggle_selected(k)">{{k}}</a>
+                                </div>
+                            </div>
+                            <div class="col-xs-8 yscrollonly height100" nice-scroll>
+                                <span>Subject</span>    
+                                <div class="list-group">
+                                    <a ng-repeat="(k,v) in filteredSubject" class="list-group-item mouse-pointer" ng-click="toggleSubject(v)">
+                                        <i class="glyphicon glyphicon-ok pull-right" ng-show="subjectAdded(v)"></i>
+                                        {{v.code}}
+                                        <small>{{v.title}}</small><br />
+                                    </a>
+                                </div>                        
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                    <div class="col-md-7">
+                        <span ng-repeat="s in selectedSubjects" ><a class="btn btn-default" ng-click="removeSubject(s)">{{s.code}}</a> </span>
+                    </div>
+                </div>
 
             </div>
+
+            <!-- end pages -->
+
         </div>
 
     </div>
