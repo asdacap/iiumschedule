@@ -93,6 +93,10 @@ angular.module('smaker',['ngAnimate'])
             schedule:[]
         };
 
+        //small venue is the first word in venue
+        var small=section.venue.split(' ');
+        obj.smallvenue=small[0];
+
         //Next is parsing it. Partially copied from scheduleformatter2.js
 
         var rtimes=/^([0-9\.]+)\s*-\s*([0-9\.]+)\s*(AM|PM)$/.exec(section.time);
@@ -367,9 +371,13 @@ angular.module('smaker',['ngAnimate'])
 }).directive('formattedSchedule',function(){
     return {
         scope:{
+            template:'=?',
             schedule:'='
         },
         link:function(scope,element,attrs){
+            if(scope.template==undefined || scope.template==''){
+                scope.template='#schedtemplate';
+            }
             scope.$watch('schedule',function(){
 
                 function redraw(){
@@ -378,7 +386,7 @@ angular.module('smaker',['ngAnimate'])
                         schedule=[];
                     }
                     var cdata=convert_data({coursearray:schedule});
-                    $(element).html((new EJS({text:$('#schedtemplate').html()})).render(cdata));
+                    $(element).html((new EJS({text:$(scope.template).html()})).render(cdata));
                 }
 
                 //This will cause the schedule display to redraw everytime the schedule change 
@@ -534,6 +542,8 @@ angular.module('smaker',['ngAnimate'])
     $scope.$watch('subsearch',refilter);
     $scope.$watch('asubject',refilter);
 
+    $scope.sectioncount={};
+
     $scope.$watchCollection('selectedSubjects',function(){
 
         var coursearray={};
@@ -543,6 +553,7 @@ angular.module('smaker',['ngAnimate'])
             defer.then(function(list){
                 if(list.length){
                     coursearray[sub.code]=list;
+                    $scope.sectioncount[sub.code]=list.length;
                 }
             });
             promises.push(defer);

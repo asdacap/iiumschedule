@@ -10,6 +10,12 @@
   <script type='text/javascript' src='/static/ejs_production.js' ></script>
 	<title>Schedule Maker</title>
     <style>
+        .bigsched .fixminutealign,.bigsched .fixminutealign>td{
+            margin:0;
+            padding:0;
+            height:0;
+            width:0;
+        }
         #scheduletable .fixminutealign,#scheduletable .fixminutealign>td{
             margin:0;
             padding:0;
@@ -121,7 +127,88 @@
             opacity:1;
         }
 
+        .bigsched .nonempty{
+            text-align:center;
+        }
+
+        .bigsched .nonempty .venue{
+            font-size:70%;
+        }
+
     </style>
+    <script type='text/ejs' id="bigschedtemplate">
+        <table class="bigsched table table-bordered table-condensed">
+            <tr>
+                <td class='timecell'>Day</td>
+                <% 
+                for(var i=0;i<(actualendhour-actualstarthour);i++){
+                    %>
+                    <td class='timecell' colspan='12'><% 
+                        var thetime=i+actualstarthour; 
+                        var dtime=thetime;
+                        if(thetime>12){
+                            dtime=(dtime-12).toString()+" pm";
+                            }else if(thetime==12){
+                            dtime=dtime.toString()+" pm";
+                            }else{
+                            dtime=dtime.toString()+" am";
+                        }
+                        %><%= dtime %></td>
+                    <% } %>
+            </tr>
+            <% for(key in byfiveminute) {
+                %>
+                <tr>
+                    <td class='day firstcolumn'>
+                        <%= key.toLowerCase() %>
+                    </td>
+                    <% for(var i=0;i<byfiveminute[key].length;i=i+1){ %>
+                        <% if(byfiveminute[key][i].course){ %>
+                            <td class='nonempty <%=byfiveminute[key][i].course.hover?"bg-warning":""%>' colspan='<%= byfiveminute[key][i].duration %>'>
+                                <div class='code'>
+                                    <%= byfiveminute[key][i].course.code %>
+                                </div>
+                                <div class="venue"><%= byfiveminute[key][i].course.smallvenue %></div>
+                            </td>
+                            <% }else if(byfiveminute[key][i]=="none"){ %>
+                            <% }else{ 
+                            var howmuch=1;
+                            var ci=i+1;
+                            while(ci<byfiveminute[key].length){
+                                if(byfiveminute[key][ci]!=""){
+                                    break;
+                                    }else{
+                                    howmuch+=1;
+                                }
+                                ci=ci+1;
+                            }
+                            %>
+                            <td class='empty' colspan='<%= howmuch %>'>
+                                <%= byfiveminute[key][i]%>
+                            </td>
+                            <% i=i+howmuch-1} %>
+                        <% } %>
+                </tr>
+                <% } %>
+            <tr class='fixminutealign'>
+                <td></td>
+                <% for(var i=0; i<actualendhour-actualstarthour;i=i+1){ %>
+                    <td class='align'></td>
+                    <td class='align'></td>
+                    <td class='align'></td>
+                    <td class='align'></td>
+                    <td class='align'></td>
+                    <td class='align'></td>
+                    <td class='align'></td>
+                    <td class='align'></td>
+                    <td class='align'></td>
+                    <td class='align'></td>
+                    <td class='align'></td>
+                    <td class='align'></td>
+                    <% } %>
+            </tr>
+        </table>
+    </script>
     <script type='text/ejs' id="schedtemplate">
 <table id='scheduletable' class="table table-bordered table-condensed">
     <tr>
@@ -367,7 +454,7 @@
             <div ng-if="smglobal.mode=='generator'" class="height100 slide-anim" ng-controller="generator">
 
                 <div class="row height100">
-                    <div class="col-md-5 height100">
+                    <div class="col-md-4 height100">
                         <h3><a class="mouse-pointer btn btn-default" ng-click="smglobal.mode='picker'">Back to picker</a>&nbsp;Schedule Generator</h3>
 
                         <div style="margin-bottom:5px">
@@ -401,11 +488,39 @@
 
 
                     </div>
-                    <div class="col-md-7">
-                        <span ng-repeat="s in selectedSubjects" ><a class="btn btn-default" ng-click="removeSubject(s)">{{s.code}}</a> </span>
-
-                        <div ng-repeat="result in results">
-                            <div formatted-schedule schedule="result"></div>
+                    <div class="col-md-8 height100" nice-scroll>
+                        <div>
+                            <span ng-if="selectedSubjects.length==0">Select a subject</span>
+                            <span ng-show="selectedSubjects.length">{{ results.length }} possible combination found.</span>
+                            <span ng-repeat="s in selectedSubjects" ><a class="btn btn-default" ng-click="removeSubject(s)">{{s.code}} <span class="badge">{{sectioncount[s.code]==undefined?0:sectioncount[s.code]}}</span></a> </span>
+                            
+                        </div>
+                        <hr />
+                        <div class="" >
+                            <div ng-repeat="result in results">
+                                <div formatted-schedule template="'#bigschedtemplate'" schedule="result"></div>
+                                <small>
+                                    <table class="table table-striped table-condensed">
+                                        <thead>
+                                            <tr>
+                                                <th>Code</th>
+                                                <th>Lecturer</th>
+                                                <th>Time</th>
+                                                <th>Venue</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="x in result">
+                                                <td>{{x.code}}</td>
+                                                <td>{{x.lecturer}}</td>
+                                                <td>{{x.day}} {{x.time}}</td>
+                                                <td>{{x.venue}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </small>
+                                <hr />
+                            </div>
                         </div>
                     </div>
                 </div>
