@@ -1,6 +1,6 @@
 
 angular.module('smaker',['ngAnimate'])
-.service('smglobal',function($rootScope){
+.service('smglobal',function($rootScope,$q,$http){
     var gobj={
         mode:'startpage',
         schedule:{},
@@ -8,6 +8,7 @@ angular.module('smaker',['ngAnimate'])
         session:'',
         student_type:'',
         semester:'',
+        sectioncache:{},
         cur_hover_section:undefined
     };
 
@@ -76,158 +77,8 @@ angular.module('smaker',['ngAnimate'])
         });
     }
 
-    return gobj;
-})
-.controller('schedulemaker',function(smglobal,$scope,$http){
-
-    $scope.smglobal=smglobal;
-
-    $scope.alert=function(t){
-        console.log('This is alert '+t);
-    }
-
-    function resyncschedule(){
-        $scope.schedule=_.values(smglobal.schedule);
-        if(smglobal.cur_hover_section!=undefined){
-            var obj=$.extend({},smglobal.cur_hover_section);
-            obj.hover=true;
-            $scope.schedule.push(obj);
-        }
-    }
-
-    $scope.$watchCollection('smglobal.schedule',resyncschedule);
-    $scope.$watch('smglobal.cur_hover_section',resyncschedule);
-
-}).controller('startform',function($scope,$http,smglobal){
-    
-    $scope.available_sessions=[
-        "2013/2014",
-        "2014/2015"
-    ];
-    $scope.available_student_type={ug:'undergraduate',pg:"postgraduate"};
-    $scope.session='2013/2014';
-    $scope.student_type='ug';
-    $scope.semester=2;
-
-    //This is the thing that happen when the user select the year and session
-    $scope.start_form_submit=function(){
-        if(
-            $scope.start_form.session.$valid && $scope.start_form.session != undefined &&
-            $scope.start_form.semester.$valid && $scope.start_form.session != undefined &&
-            $scope.start_form.student_type.$valid && $scope.start_form.session != undefined
-        ){
-            $scope.show_submit_error=false;
-            smglobal.mode='startloading';
-
-            _.extend(smglobal,_.pick($scope,'session','semester','student_type'));
-
-            var params={
-                session:$scope.session,
-                semester:$scope.semester,
-                coursetype:$scope.student_type
-            }
-
-            $http({url:'/schedulemaker/fetch_subject/',params:params,method:'GET'})
-            .success(function(coursearray){
-                smglobal.mode='picker';
-                smglobal.coursearray=coursearray;
-                $(window).resize();
-            }).error(function(){
-                smglobal.mode='startpage';
-                alert('Sorry, an error happened when fetching subjects. The server may be down');
-            });
-
-        }else{
-            $scope.show_submit_error=true;
-            console.log("Submit called start form "+JSON.stringify($scope.start_form.$valid));
-        }
-    };
-}).controller('sectionSelector',function($scope,smglobal,$http,$filter){
-    
-    //selector stuff, a subject is all subject in an array
-    _.extend($scope,{
-        selected_kuly:'',
-        asubject:[],
-        smglobal:smglobal,
-        mode:'subject',
-        loading_section:false,
-        selected_subject:{},
-        sectioncache:{}
-    });
-
-    function refilter(){
-        if($scope.selected_kuly!=''){
-            $scope.filteredSubject=$filter('filter')($scope.asubject,{kuliyyah:$scope.selected_kuly});
-        }else{
-            $scope.filteredSubject=$scope.asubject;
-        }
-        $scope.filteredSubject=$filter('filter')($scope.filteredSubject,$scope.subsearch);
-    }
-
-    $scope.$watch('selected_kuly',refilter);
-    $scope.$watch('subsearch',refilter);
-    $scope.$watch('asubject',refilter);
-
-
-    $scope.toggle_selected=function(k){
-        if($scope.selected_kuly==k){
-            $scope.selected_kuly='';
-        }else{
-            $scope.selected_kuly=k;
-        }
-    }
-
-    $scope.show_section=function(sub){
-        $scope.selected_subject=sub;
-        $scope.loading_section=true;
-        $scope.mode='section';
-
-        function successc(list){
-            $scope.sectioncache[sub.id]=list;
-            var alist=[];
-            for(var i=0;i<list.length;i++){
-                var hasa=$scope.section_preprocess(list[i],sub);
-                if(hasa){
-                    alist.push(hasa);
-                }else{
-                    console.log('Warning, unable to preprocess section '+list[i].sectionno);
-                }
-            }
-            list=alist;
-            $scope.csections=list;
-            $scope.loading_section=false;
-        }
-
-        if($scope.sectioncache[sub.id]!=undefined){
-            successc($scope.sectioncache[sub.id]);
-            return;
-        }
-
-        $http({
-            url:'/schedulemaker/fetch_section/',
-            params:{id:sub.id},
-            method:'GET'
-        }).success(successc).error(function(argument) {
-            alert("Sorry, failed to load section.");
-            $scope.mode='subject';
-            $scope.loading_section=false;
-        });
-    }
-
-
-    $scope.$watchCollection(function(){return smglobal.coursearray;},function(){
-        $scope.asubject=[];
-        _.each(smglobal.coursearray,function(arr,kuly){
-            _.each(arr,function(obj,i){
-                obj=$.extend({},obj);
-                obj.kuliyyah=kuly;
-                $scope.asubject.push(obj);
-            });
-        });
-    });
-
     //Preprocess downloaded section data for easier processing.
-    $scope.section_preprocess=function(section,subject){
+    gobj.section_preprocess=function(section,subject){
 
         var obj={
             section_id:section.id,
@@ -344,6 +195,173 @@ angular.module('smaker',['ngAnimate'])
 
         return obj;
     }
+
+    //fetch section from cache or server
+    
+    gobj.fetch_section=function(sub){
+        
+        var deferred=$q.defer();
+
+        function successc(obj){
+            var list=obj.data;
+            gobj.sectioncache[sub.id]=obj;
+            var alist=[];
+            for(var i=0;i<list.length;i++){
+                var hasa=gobj.section_preprocess(list[i],sub);
+                if(hasa){
+                    alist.push(hasa);
+                }else{
+                    console.log('Warning, unable to preprocess section '+list[i].sectionno);
+                }
+            }
+            list=alist;
+            return list;
+        }
+
+        if(gobj.sectioncache[sub.id]!=undefined){
+            setTimeout(function(){
+                $rootScope.$apply(function(){
+                    deferred.resolve(successc(gobj.sectioncache[sub.id]));
+                });
+            });
+            return deferred.promise;
+        }
+
+        return $http({
+            url:'/schedulemaker/fetch_section/',
+            params:{id:sub.id},
+            method:'GET'
+        }).then(successc);
+    }
+
+    return gobj;
+})
+.controller('schedulemaker',function(smglobal,$scope,$http){
+
+    $scope.smglobal=smglobal;
+
+    $scope.alert=function(t){
+        console.log('This is alert '+t);
+    }
+
+    function resyncschedule(){
+        $scope.schedule=_.values(smglobal.schedule);
+        if(smglobal.cur_hover_section!=undefined){
+            var obj=$.extend({},smglobal.cur_hover_section);
+            obj.hover=true;
+            $scope.schedule.push(obj);
+        }
+    }
+
+    $scope.$watchCollection('smglobal.schedule',resyncschedule);
+    $scope.$watch('smglobal.cur_hover_section',resyncschedule);
+
+}).controller('startform',function($scope,$http,smglobal){
+    
+    $scope.available_sessions=[
+        "2013/2014",
+        "2014/2015"
+    ];
+    $scope.available_student_type={ug:'undergraduate',pg:"postgraduate"};
+    $scope.session='2013/2014';
+    $scope.student_type='ug';
+    $scope.semester=2;
+
+    //This is the thing that happen when the user select the year and session
+    $scope.start_form_submit=function(){
+        if(
+            $scope.start_form.session.$valid && $scope.start_form.session != undefined &&
+            $scope.start_form.semester.$valid && $scope.start_form.session != undefined &&
+            $scope.start_form.student_type.$valid && $scope.start_form.session != undefined
+        ){
+            $scope.show_submit_error=false;
+            smglobal.mode='startloading';
+
+            _.extend(smglobal,_.pick($scope,'session','semester','student_type'));
+
+            var params={
+                session:$scope.session,
+                semester:$scope.semester,
+                coursetype:$scope.student_type
+            }
+
+            $http({url:'/schedulemaker/fetch_subject/',params:params,method:'GET'})
+            .success(function(coursearray){
+                smglobal.mode='picker';
+                smglobal.coursearray=coursearray;
+                $(window).resize();
+            }).error(function(){
+                smglobal.mode='startpage';
+                alert('Sorry, an error happened when fetching subjects. The server may be down');
+            });
+
+        }else{
+            $scope.show_submit_error=true;
+            console.log("Submit called start form "+JSON.stringify($scope.start_form.$valid));
+        }
+    };
+}).controller('sectionSelector',function($scope,smglobal,$filter){
+    
+    //selector stuff, a subject is all subject in an array
+    _.extend($scope,{
+        selected_kuly:'',
+        asubject:[],
+        smglobal:smglobal,
+        mode:'subject',
+        loading_section:false,
+        selected_subject:{}
+    });
+
+    function refilter(){
+        if($scope.selected_kuly!=''){
+            $scope.filteredSubject=$filter('filter')($scope.asubject,{kuliyyah:$scope.selected_kuly});
+        }else{
+            $scope.filteredSubject=$scope.asubject;
+        }
+        $scope.filteredSubject=$filter('filter')($scope.filteredSubject,$scope.subsearch);
+    }
+
+    $scope.$watch('selected_kuly',refilter);
+    $scope.$watch('subsearch',refilter);
+    $scope.$watch('asubject',refilter);
+
+
+    $scope.toggle_selected=function(k){
+        if($scope.selected_kuly==k){
+            $scope.selected_kuly='';
+        }else{
+            $scope.selected_kuly=k;
+        }
+    }
+
+    $scope.show_section=function(sub){
+        $scope.selected_subject=sub;
+        $scope.loading_section=true;
+        $scope.mode='section';
+
+        smglobal.fetch_section(sub).then(function(obj){
+            $scope.csections=obj;
+            $scope.loading_section=false;
+        },function(){
+            alert("Sorry, failed to load section.");
+            $scope.mode='subject';
+            $scope.loading_section=false;
+        });
+
+    }
+
+
+    $scope.$watchCollection(function(){return smglobal.coursearray;},function(){
+        $scope.asubject=[];
+        _.each(smglobal.coursearray,function(arr,kuly){
+            _.each(arr,function(obj,i){
+                obj=$.extend({},obj);
+                obj.kuliyyah=kuly;
+                $scope.asubject.push(obj);
+            });
+        });
+    });
+
 
 
 }).directive('formattedSchedule',function(){
