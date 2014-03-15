@@ -532,7 +532,6 @@ angular.module('smaker',['ngAnimate','pasvaz.bindonce'])
 })
 .controller('generator',function(smglobal,$scope,$filter,$q){
 
-
     //selector stuff, a subject is all subject in an array
     _.extend($scope,{
         selected_kuly:'',
@@ -540,7 +539,10 @@ angular.module('smaker',['ngAnimate','pasvaz.bindonce'])
         smglobal:smglobal,
         mode:'subject',
         selectedSubjects:[],
+        result_threshold:50,
+        actual_length:0
     });
+
 
     _.each(smglobal.schedule,function(sect){
         var code=sect.code;
@@ -621,7 +623,12 @@ angular.module('smaker',['ngAnimate','pasvaz.bindonce'])
             }
             recurit(temp,0);
 
-            $scope.results=results;
+            $scope.actual_length=results.length;
+            if(results.length>$scope.result_threshold){
+                $scope.results=_.first(results,$scope.result_threshold);
+            }else{
+                $scope.results=results;
+            }
 
         },function(){
             console.log('Error, fail to fetch all section ');
@@ -629,6 +636,7 @@ angular.module('smaker',['ngAnimate','pasvaz.bindonce'])
 
     }
     $scope.$watchCollection('selectedSubjects',fetch_sections);
+    $scope.$watchCollection('result_threshold',fetch_sections);
     fetch_sections();
 
     $scope.toggle_selected=function(k){
