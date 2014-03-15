@@ -643,4 +643,13 @@ angular.module('smaker',['ngAnimate'])
         $scope.subjectAdded(s)?$scope.removeSubject(s):$scope.addSubject(s);
     }
 
+    $scope.useResult=function(r){
+        var newschedule={};
+        _.each(r,function(ri){
+            newschedule[ri.code]=ri;
+        });
+        smglobal.schedule=newschedule;
+        smglobal.mode='picker';
+    }
+
 });

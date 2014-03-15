@@ -326,31 +326,33 @@
 
         <div ng-if="smglobal.mode=='picker'" class="height100 slide-anim">
             <div class="row height100">
-                <div class="col-lg-6">
+                <div class="col-lg-6 height100" nice-scroll>
                     <h1>Schedule</h1>    
                     <div id="scheduleholder" formatted-schedule schedule="schedule">
                     </div>
                     <div>
-                        <table class="table-bordered table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Code</th>
-                                    <th>Lecturer</th>
-                                    <th>Time</th>
-                                    <th>Venue</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat="x in smglobal.schedule">
-                                    <td>{{x.code}}</td>
-                                    <td>{{x.lecturer}}</td>
-                                    <td>{{x.day}} {{x.time}}</td>
-                                    <td>{{x.venue}}</td>
-                                    <td><a class="btn btn-danger glyphicon glyphicon-remove" ng-click="smglobal.remove_section(x.section_id)"></a></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <small>
+                            <table class="table table-striped table-collapsed">
+                                <thead>
+                                    <tr>
+                                        <th>Code</th>
+                                        <th>Lecturer</th>
+                                        <th>Time</th>
+                                        <th>Venue</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="x in smglobal.schedule">
+                                        <td>{{x.code}}</td>
+                                        <td>{{x.lecturer}}</td>
+                                        <td>{{x.day}} {{x.time}}</td>
+                                        <td>{{x.venue}}</td>
+                                        <td><a class="btn btn-danger glyphicon glyphicon-remove btn-sm" ng-click="smglobal.remove_section(x.section_id)"></a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </small>
                         <a class="mouse-pointer btn btn-default" ng-click="smglobal.mode='generator'">Schedule Generator</a>
                     </div>
                 </div>
@@ -409,7 +411,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="v in csections | filter:secsearch" ng-class="has_collide(v)?'bg-warning':''" ng-mouseenter="smglobal.cur_hover_section=v;" ng-mouseleave="smglobal.cur_hover_section=undefined;">
+                                        <tr ng-repeat="v in csections | filter:secsearch" ng-class="smglobal.has_collide(v)?'bg-warning':''" ng-mouseenter="smglobal.cur_hover_section=v;" ng-mouseleave="smglobal.cur_hover_section=undefined;">
                                             <td>{{v.section}}</td>
                                             <td>{{v.lecturer}}</td>
                                             <td>{{v.day}} {{v.time}}</td>
@@ -420,9 +422,9 @@
                                                         <a class="btn btn-default" ng-click="smglobal.replace_section(v,selected_subject)" ng-show="smglobal.subject_added(selected_subject.code)">Replace</a>
                                                         <a class="btn btn-default" ng-click="smglobal.add_section(v)" ng-show="!smglobal.subject_added(selected_subject.code)">Add</a>
                                                     </div>
-                                                    <div ng-show="has_collide(v)">
+                                                    <div ng-show="smglobal.has_collide(v)">
                                                         <small>
-                                                            Collide with {{has_collide(v).code}} section {{has_collide(v).section}}
+                                                            Collide with {{smglobal.has_collide(v).code}} section {{smglobal.has_collide(v).section}}
                                                         </small>
                                                     </div>
                                                 </div>
@@ -519,6 +521,7 @@
                                         </tbody>
                                     </table>
                                 </small>
+                                <a class="btn btn-primary" ng-click="useResult(result)">Use Schedule</a>
                                 <hr />
                             </div>
                         </div>
