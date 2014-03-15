@@ -208,70 +208,69 @@
 
                     <div class="row longrow">
 
-                        <div class="col-sm-4 height100 yscrollonly" ng-show="mode=='subject'">
-                            <div class="slimscroll">
-                                <span>Kuliyyahs</span>    
-                                <div class="list-group">
-                                    <a ng-repeat="(k,v) in smglobal.coursearray" ng-class="'list-group-item '+(selected_kuly==k?'active':'') " ng-click="toggle_selected(k)">{{k}}</a>
-                                </div>
+                        <div class="col-xs-4 height100 yscrollonly" ng-show="mode=='subject'">
+                            <span>Kuliyyahs</span>    
+                            <div class="list-group">
+                                <a ng-repeat="(k,v) in smglobal.coursearray" ng-class="'list-group-item '+(selected_kuly==k?'active':'') " ng-click="toggle_selected(k)">{{k}}</a>
                             </div>
                         </div>
-                        <div ng-class="( mode=='subject'?'col-sm-8':'col-sm-4' )+' yscrollonly height100'">
-                            <div class="slimscroll">
-                                <span>Subject</span>    
-                                <div class="list-group">
-                                    <a class="list-group-item" ng-repeat="(k,v) in asubject | filter:{kuliyyah:selected_kuly} | filter:subsearch " ng-class="'list-group-item '+(selected_subject==v?'active':'') "  ng-click="show_section(v)">
-                                        <i class="glyphicon glyphicon-ok pull-right" ng-show="subject_added(v.code)"></i>
-                                        {{v.code}}<br />
-                                        <small>{{v.title}}</small><br />
-                                    </a>
-                                </div>                        
+                        <div ng-class="( mode=='subject'?'col-xs-8':'col-xs-4' )+' yscrollonly height100'">
+                            <span>Subject</span>    
+                            <div class="list-group">
+                                <a class="list-group-item" ng-repeat="(k,v) in asubject | filter:{kuliyyah:selected_kuly} | filter:subsearch " ng-class="'list-group-item '+(selected_subject==v?'active':'') "  ng-click="show_section(v)">
+                                    <i class="glyphicon glyphicon-ok pull-right" ng-show="subject_added(v.code)"></i>
+                                    {{v.code}}<br />
+                                    <small>{{v.title}}</small><br />
+                                </a>
+                            </div>                        
+                        </div>
+
+                        <div class="col-xs-8 yscrollonly" ng-show="mode=='section'">
+                            <div ng-show="loading_section==false">
+
+                                <table class="table table-borderd">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Lecturer</th>
+                                            <th>Time</th>
+                                            <th>Venue</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="v in csections | filter:secsearch" ng-class="has_collide(v)?'bg-warning':''" ng-mouseenter="smglobal.cur_hover_section=v;" ng-mouseleave="smglobal.cur_hover_section=undefined;">
+                                            <td>{{v.section}}</td>
+                                            <td>{{v.lecturer}}</td>
+                                            <td>{{v.day}} {{v.time}}</td>
+                                            <td>{{v.venue}}</td>
+                                            <td class="text-center">
+                                                <div ng-show="!smglobal.section_added(v.section_id)">
+                                                    <div ng-show="!smglobal.has_collide(v)">
+                                                        <a class="btn btn-default" ng-click="smglobal.replace_section(v,selected_subject)" ng-show="smglobal.subject_added(selected_subject.code)">Replace</a>
+                                                        <a class="btn btn-default" ng-click="smglobal.add_section(v)" ng-show="!smglobal.subject_added(selected_subject.code)">Add</a>
+                                                    </div>
+                                                    <div ng-show="has_collide(v)">
+                                                        <small>
+                                                            Collide with {{has_collide(v).code}} section {{has_collide(v).section}}
+                                                        </small>
+                                                    </div>
+                                                </div>
+                                                <div ng-show="smglobal.section_added(v.section_id)">
+                                                    <i class="glyphicon glyphicon-ok" ng-show="smglobal.section_added(v.section_id)"></i>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
                             </div>
 
-                            <div class="col-sm-8 yscrollonly" ng-show="mode=='section'">
-                                <div ng-show="loading_section==false">
-
-                                    <table class="table table-borderd">
-                                        <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Lecturer</th>
-                                                <th>Time</th>
-                                                <th>Venue</th>
-                                                <th></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr ng-repeat="v in csections | filter:secsearch" ng-class="has_collide(v)?'bg-warning':''" ng-mouseenter="smglobal.cur_hover_section=v;" ng-mouseleave="smglobal.cur_hover_section=undefined;">
-                                                <td>{{v.section}}</td>
-                                                <td>{{v.lecturer}}</td>
-                                                <td>{{v.day}} {{v.time}}</td>
-                                                <td>{{v.venue}}</td>
-                                                <td class="text-center">
-                                                    <div ng-show="!smglobal.section_added(v.section_id)">
-                                                        <div ng-show="!smglobal.has_collide(v)">
-                                                            <a class="btn btn-default" ng-click="smglobal.replace_section(v,selected_subject)" ng-show="smglobal.subject_added(selected_subject.code)">Replace</a>
-                                                            <a class="btn btn-default" ng-click="smglobal.add_section(v)" ng-show="!smglobal.subject_added(selected_subject.code)">Add</a>
-                                                        </div>
-                                                        <div ng-show="has_collide(v)">
-                                                            <small>
-                                                                Collide with {{has_collide(v).code}} section {{has_collide(v).section}}
-                                                            </small>
-                                                        </div>
-                                                    </div>
-                                                    <div ng-show="smglobal.section_added(v.section_id)">
-                                                        <i class="glyphicon glyphicon-ok" ng-show="smglobal.section_added(v.section_id)"></i>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-
-                                </div>
-                                <div ng-show="loading_section==true">
-                                    Loading
-                                </div>
+                            <div ng-show="loading_section==true">
+                                Loading
                             </div>
+
+                        </div>
 
 
                         </div>
