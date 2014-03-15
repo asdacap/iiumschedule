@@ -4,6 +4,7 @@
 	<link rel="stylesheet" href="/static/css/bootstrap.min.css"></link>
 	<script src="/static/js/jquery-1.9.1.js"></script>
 	<script src="/static/js/angular.min.js"></script>
+	<script src="/static/js/angular-animate.min.js"></script>
 	<script src="/static/js/jquery.nicescroll.min.js"></script>
 	<script src="/static/js/underscore-min.js"></script>
   <script type='text/javascript' src='/static/ejs_production.js' ></script>
@@ -39,6 +40,84 @@
             right:15px;
             bottom:0;
         }
+
+        .slide-anim.ng-enter,
+        .slide-anim.ng-leave{
+            transition: 0.5s linear all;
+            position:relative;
+        }
+        .slide-anim.ng-enter{
+            left:100%;
+        }
+        .slide-anim.ng-leave.ng-leave-active{
+            left:-100%;
+        }
+        .slide-anim.ng-enter.ng-enter-active,
+        .slide-anim.ng-leave
+        {
+            left:0px;
+        }
+
+        .selector-kuly.ng-animate{
+            transition: 0.5s linear all;
+            position:absolute;
+            display: block !important;
+        }
+
+        .selector-kuly.ng-hide-add,
+        .selector-kuly.ng-hide-remove.ng-hide-remove-active
+        {
+            opacity:1;
+        }
+
+        .selector-kuly.ng-hide-add.ng-hide-add-active,
+        .selector-kuly.ng-hide-remove
+        {
+            opacity:0;
+        }
+
+        .selector-subject.small-add,
+        .selector-subject.small-remove
+        {
+            transition: 0.5s linear all;
+            position:absolute;
+        }
+
+        .selector-subject.small-add,
+        .selector-subject.small-remove.small-remove-active
+        {
+            left:33%;
+            width:66%;
+        }
+
+        .selector-subject.small-add.small-add-active,
+        .selector-subject.small-remove
+        {
+            left:0;
+            width:33%;
+        }
+
+        .sectionlist.ng-hide-add,
+        .sectionlist.ng-hide-remove
+        {
+            transition: 0.5s linear all;
+            position:absolute;
+            display: block !important;
+            left:33%;
+        }
+
+        .sectionlist.ng-hide-add.ng-hide-add-active,
+        .sectionlist.ng-hide-remove
+        {
+            opacity:0;
+        }
+
+        .sectionlist.ng-hide-add,
+        .sectionlist.ng-hide-remove.ng-hide-remove-active
+        {
+            opacity:1;
+        }
+
     </style>
     <script type='text/ejs' id="schedtemplate">
 <table id='scheduletable' class="table table-bordered table-condensed">
@@ -117,9 +196,9 @@
     
     {% raw %}
 
-    <div id="main" ng-controller="schedulemaker">
+    <div id="main" ng-controller="schedulemaker" style="position:relative;">
 
-        <div ng-if="smglobal.mode=='startpage'" ng-controller="startform">
+        <div ng-if="smglobal.mode=='startpage'" ng-controller="startform" class="slide-anim">
             <form name="start_form" ng-submit="start_form_submit()" class="form-horizontal col-lg-8 col-lg-offset-2">
                 <h1 class="text-center">This is the startpage</h1>
                 <div class="form-group">
@@ -151,11 +230,11 @@
             </form>
         </div>
 
-        <div ng-if="smglobal.mode=='startloading'">
+        <div ng-if="smglobal.mode=='startloading'" class="slide-anim">
             Fetching data		
         </div>
 
-        <div ng-if="smglobal.mode=='picker'" class="height100">
+        <div ng-if="smglobal.mode=='picker'" class="height100 slide-anim">
             <div class="row height100">
                 <div class="col-lg-6">
                     <h1>Schedule</h1>    
@@ -208,13 +287,13 @@
 
                     <div class="row longrow">
 
-                        <div class="col-xs-4 height100 yscrollonly" ng-show="mode=='subject'" nice-scroll>
+                        <div class="col-xs-4 height100 yscrollonly selector-kuly" ng-show="mode=='subject'" nice-scroll>
                             <span>Kuliyyahs</span>    
                             <div class="list-group">
                                 <a ng-repeat="(k,v) in smglobal.coursearray" ng-class="'list-group-item '+(selected_kuly==k?'active':'') " ng-click="toggle_selected(k)">{{k}}</a>
                             </div>
                         </div>
-                        <div ng-class="( mode=='subject'?'col-xs-8':'col-xs-4' )+' yscrollonly height100'" nice-scroll>
+                        <div ng-class="( mode=='subject'?'col-xs-8':'col-xs-4 small' )+' yscrollonly height100 selector-subject'" nice-scroll>
                             <span>Subject</span>    
                             <div class="list-group">
                                 <a class="list-group-item" ng-repeat="(k,v) in filteredSubject" ng-class="'list-group-item '+(selected_subject==v?'active':'') "  ng-click="show_section(v)">
@@ -225,7 +304,7 @@
                             </div>                        
                         </div>
 
-                        <div class="col-xs-8 yscrollonly" ng-show="mode=='section'" nice-scroll>
+                        <div class="col-xs-8 yscrollonly sectionlist" ng-show="mode=='section'" nice-scroll>
                             <div ng-show="loading_section==false">
 
                                 <table class="table table-borderd">

@@ -1,5 +1,5 @@
 
-angular.module('smaker',[])
+angular.module('smaker',['ngAnimate'])
 .service('smglobal',function($rootScope){
     var gobj={
         mode:'startpage',
