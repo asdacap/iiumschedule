@@ -4,7 +4,8 @@
 	<link rel="stylesheet" href="/static/css/bootstrap.min.css"></link>
 	<script src="/static/js/jquery-1.9.1.js"></script>
 	<script src="/static/js/angular.min.js"></script>
-    <script type='text/javascript' src='/static/ejs_production.js' ></script>
+	<script src="/static/js/underscore-min.js"></script>
+  <script type='text/javascript' src='/static/ejs_production.js' ></script>
 	<title>Schedule Maker</title>
     <style>
         #scheduletable .fixminutealign,#scheduletable .fixminutealign>td{
@@ -103,180 +104,184 @@
   </table>
     </script>
 </head>
-<body ng-app>
+<body ng-app='smaker'>
+    
+    {% raw %}
 
-	{% raw %}
+    <div id="main" ng-controller="schedulemaker">
 
-	<div id="main" ng-controller="schedulemaker">
-		<div ng-show="mode=='startpage'">
-			<form name="start_form" ng-submit="start_form_submit()" class="form-horizontal col-lg-8 col-lg-offset-2">
-				<h1 class="text-center">This is the startpage</h1>
-				<div class="form-group">
-					<div class="col-md-4 control-label">Session</div>
-					<div class="col-md-8">
-						<select required class="form-control" ng-model="session" name="session" ng-options="x for x in available_sessions"></select>
-					</div>
-				</div>
-				<div class="form-group">
-					<div class="col-md-4 control-label">Semester</div>
-					<div class="col-md-8">
-						<select required class="form-control" ng-model="semester" name="semester" ng-options="x for x in [1,2,3]"></select>
-					</div>
-				</div>
-				<div class="form-group">
-					<div class="col-md-4 control-label">Student Type</div>
-					<div class="col-md-8">
-						<select required class="form-control" ng-model="student_type" name="student_type" ng-options="k as v for (k,v) in available_student_type"></select>
-					</div>
-				</div>
-				<div class="form-group">
-					<div class="col-md-4 control-label"></div>
-					<div class="col-md-8">
-						<div ng-show="show_submit_error">please select all parameters above.</div>
-						<input type="submit" name="Start" class="btn btn-primary"></input>
-					</div>
+        <div ng-switch="smglobal.mode">
 
-				</div>
-			</form>
-		</div>
-
-		<div ng-show="mode=='startloading'">
-			Fetching data		
-		</div>
-
-        <div ng-show="mode=='picker'" class="height100">
-            <div class="row height100">
-                <div class="col-lg-6 height100">
-                    <h1>Schedule</h1>    
-                    <div id="scheduleholder">
-                    </div>
-                    <div>
-                        <table class="table-bordered table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Code</th>
-                                    <th>Lecturer</th>
-                                    <th>Time</th>
-                                    <th>Venue</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat="x in schedule">
-                                    <td>{{x.code}}</td>
-                                    <td>{{x.lecturer}}</td>
-                                    <td>{{x.day}} {{x.time}}</td>
-                                    <td>{{x.venue}}</td>
-                                    <td><a class="btn btn-danger glyphicon glyphicon-remove" ng-click="remove_section(x.section_id)"></a></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="col-lg-6 height100">
-                    <h3>Add Section</h3>
-
-                    <div ng-show="selector.mode=='subject'" style="margin-bottom:5px">
-                        <span>Select a subject</span>
-                        <div class="input-group">
-                            <input class="form-control" ng-model="selector.subsearch"></input>
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+            <div ng-switch-when="startpage" ng-controller="startform">
+                <form name="start_form" ng-submit="start_form_submit()" class="form-horizontal col-lg-8 col-lg-offset-2">
+                    <h1 class="text-center">This is the startpage</h1>
+                    <div class="form-group">
+                        <div class="col-md-4 control-label">Session</div>
+                        <div class="col-md-8">
+                            <select required class="form-control" ng-model="session" name="session" ng-options="x for x in available_sessions"></select>
                         </div>
                     </div>
-
-                    <div ng-show="selector.mode=='section'" style="margin-bottom:5px">
-                        Select a section from {{selector.selected_subject.code}} to add
-
-                        <div class="input-group">
-                            <span class="input-group-addon" ng-click="selector.mode='subject';cur_hover_section=undefined">Back</span>
-                            <input class="form-control" ng-model="selector.secsearch"></input>
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+                    <div class="form-group">
+                        <div class="col-md-4 control-label">Semester</div>
+                        <div class="col-md-8">
+                            <select required class="form-control" ng-model="semester" name="semester" ng-options="x for x in [1,2,3]"></select>
                         </div>
                     </div>
-
-                    <div class="row">
-
-                        <div class="col-sm-4 height100 yscrollonly" ng-show="selector.mode=='subject'">
-                            <span>Kuliyyahs</span>    
-                            <div class="list-group">
-                                <a ng-repeat="(k,v) in coursearray" ng-class="'list-group-item '+(selector.selected_kuly==k?'active':'') " ng-click="selector.toggle_selected(k)">{{k}}</a>
-                            </div>
+                    <div class="form-group">
+                        <div class="col-md-4 control-label">Student Type</div>
+                        <div class="col-md-8">
+                            <select required class="form-control" ng-model="student_type" name="student_type" ng-options="k as v for (k,v) in available_student_type"></select>
                         </div>
-                        <div ng-class="( selector.mode=='subject'?'col-sm-8':'col-sm-4' )+' yscrollonly height100'">
-                            <span>Subject</span>    
-                            <div class="list-group">
-                                <a class="list-group-item" ng-repeat="(k,v) in selector.asubject | filter:{kuliyyah:selector.selected_kuly} | filter:selector.subsearch " ng-class="'list-group-item '+(selector.selected_subject==v?'active':'') "  ng-click="selector.show_section(v)">
-                                    <i class="glyphicon glyphicon-ok pull-right" ng-show="subject_added(v.code)"></i>
-                                    {{v.code}}<br />
-                                    <small>{{v.title}}</small><br />
-                                </a>
-                            </div>                        
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4 control-label"></div>
+                        <div class="col-md-8">
+                            <div ng-show="show_submit_error">please select all parameters above.</div>
+                            <input type="submit" name="Start" class="btn btn-primary"></input>
                         </div>
-
-                        <div class="col-sm-8 yscrollonly" ng-show="selector.mode=='section'">
-                            <div ng-show="selector.loading_section==false">
-
-                                <table class="table table-borderd">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Lecturer</th>
-                                            <th>Time</th>
-                                            <th>Venue</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-repeat="v in selector.csections | filter:selector.secsearch" ng-class="has_collide(v)?'bg-warning':''" ng-mouseenter="$parent.cur_hover_section=v;" ng-mouseleave="$parent.cur_hover_section=undefined;">
-                                            <td>{{v.section}}</td>
-                                            <td>{{v.lecturer}}</td>
-                                            <td>{{v.day}} {{v.time}}</td>
-                                            <td>{{v.venue}}</td>
-                                            <td class="text-center">
-                                                <div ng-show="!section_added(v.section_id)">
-                                                    <div ng-show="!has_collide(v)">
-                                                        <a class="btn btn-default" ng-click="replace_section(v,selector.selected_subject)" ng-show="subject_added(selector.selected_subject.code)">Replace</a>
-                                                        <a class="btn btn-default" ng-click="add_section(v)" ng-show="!subject_added(selector.selected_subject.code)">Add</a>
-                                                    </div>
-                                                    <div ng-show="has_collide(v)">
-                                                        <small>
-                                                            Collide with {{has_collide(v).code}} section {{has_collide(v).section}}
-                                                        </small>
-                                                    </div>
-                                                </div>
-                                                <div ng-show="section_added(v.section_id)">
-                                                    <i class="glyphicon glyphicon-ok" ng-show="section_added(v.section_id)"></i>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-
-                            </div>
-                            <div ng-show="selector.loading_section==true">
-                                Loading
-                            </div>
-                        </div>
-
-
 
                     </div>
-
-                </div>
+                </form>
             </div>
 
+            <div ng-switch-when="startloading">
+                Fetching data		
+            </div>
+
+            <div ng-switch-when="picker" class="height100">
+                <div class="row height100">
+                    <div class="col-lg-6 height100">
+                        <h1>Schedule</h1>    
+                        <div id="scheduleholder">
+                        </div>
+                        <div>
+                            <table class="table-bordered table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Code</th>
+                                        <th>Lecturer</th>
+                                        <th>Time</th>
+                                        <th>Venue</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="x in smglobal.schedule">
+                                        <td>{{x.code}}</td>
+                                        <td>{{x.lecturer}}</td>
+                                        <td>{{x.day}} {{x.time}}</td>
+                                        <td>{{x.venue}}</td>
+                                        <td><a class="btn btn-danger glyphicon glyphicon-remove" ng-click="smglobal.remove_section(x.section_id)"></a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 height100" ng-controller="sectionSelector">
+                        <h3>Add Section</h3>
+
+                        <div ng-show="mode=='subject'" style="margin-bottom:5px">
+                            <span>Select a subject</span>
+                            <div class="input-group">
+                                <input class="form-control" ng-model="subsearch"></input>
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+                            </div>
+                        </div>
+
+                        <div ng-show="mode=='section'" style="margin-bottom:5px">
+                            Select a section from {{selected_subject.code}} to add
+
+                            <div class="input-group">
+                                <span class="input-group-addon" ng-click="mode='subject';cur_hover_section=undefined">Back</span>
+                                <input class="form-control" ng-model="secsearch"></input>
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-sm-4 height100 yscrollonly" ng-show="mode=='subject'">
+                                <span>Kuliyyahs</span>    
+                                <div class="list-group">
+                                    <a ng-repeat="(k,v) in smglobal.coursearray" ng-class="'list-group-item '+(selected_kuly==k?'active':'') " ng-click="toggle_selected(k)">{{k}}</a>
+                                </div>
+                            </div>
+                            <div ng-class="( mode=='subject'?'col-sm-8':'col-sm-4' )+' yscrollonly height100'">
+                                <span>Subject</span>    
+                                <div class="list-group">
+                                    <a class="list-group-item" ng-repeat="(k,v) in asubject | filter:{kuliyyah:selected_kuly} | filter:subsearch " ng-class="'list-group-item '+(selected_subject==v?'active':'') "  ng-click="show_section(v)">
+                                        <i class="glyphicon glyphicon-ok pull-right" ng-show="subject_added(v.code)"></i>
+                                        {{v.code}}<br />
+                                        <small>{{v.title}}</small><br />
+                                    </a>
+                                </div>                        
+                            </div>
+
+                            <div class="col-sm-8 yscrollonly" ng-show="mode=='section'">
+                                <div ng-show="loading_section==false">
+
+                                    <table class="table table-borderd">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Lecturer</th>
+                                                <th>Time</th>
+                                                <th>Venue</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="v in csections | filter:secsearch" ng-class="has_collide(v)?'bg-warning':''" ng-mouseenter="smglobal.cur_hover_section=v;" ng-mouseleave="smglobal.cur_hover_section=undefined;">
+                                                <td>{{v.section}}</td>
+                                                <td>{{v.lecturer}}</td>
+                                                <td>{{v.day}} {{v.time}}</td>
+                                                <td>{{v.venue}}</td>
+                                                <td class="text-center">
+                                                    <div ng-show="!smglobal.section_added(v.section_id)">
+                                                        <div ng-show="!smglobal.has_collide(v)">
+                                                            <a class="btn btn-default" ng-click="smglobal.replace_section(v,selected_subject)" ng-show="smglobal.subject_added(selected_subject.code)">Replace</a>
+                                                            <a class="btn btn-default" ng-click="smglobal.add_section(v)" ng-show="!smglobal.subject_added(selected_subject.code)">Add</a>
+                                                        </div>
+                                                        <div ng-show="has_collide(v)">
+                                                            <small>
+                                                                Collide with {{has_collide(v).code}} section {{has_collide(v).section}}
+                                                            </small>
+                                                        </div>
+                                                    </div>
+                                                    <div ng-show="smglobal.section_added(v.section_id)">
+                                                        <i class="glyphicon glyphicon-ok" ng-show="smglobal.section_added(v.section_id)"></i>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                                <div ng-show="loading_section==true">
+                                    Loading
+                                </div>
+                            </div>
 
 
+
+                        </div>
+
+                    </div>
+
+
+
+                </div>
             </div>
         </div>
-	</div>
+    </div>
+</div>
 
-	{% endraw %}
+{% endraw %}
 
-	<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/bootstrap.min.js"></script>
 
-	<script src="/static/js/schedulemaker.js"></script>
+<script src="/static/js/schedulemaker.js"></script>
 
 </body>
 </html>
