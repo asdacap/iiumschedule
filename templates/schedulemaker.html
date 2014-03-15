@@ -403,6 +403,10 @@
                     </div>
                     <div class="col-md-7">
                         <span ng-repeat="s in selectedSubjects" ><a class="btn btn-default" ng-click="removeSubject(s)">{{s.code}}</a> </span>
+
+                        <div ng-repeat="result in results">
+                            <div formatted-schedule schedule="result"></div>
+                        </div>
                     </div>
                 </div>
 

@@ -509,7 +509,7 @@ angular.module('smaker',['ngAnimate'])
         }
     }
 })
-.controller('generator',function(smglobal,$scope,$filter){
+.controller('generator',function(smglobal,$scope,$filter,$q){
 
 
     //selector stuff, a subject is all subject in an array
@@ -533,6 +533,65 @@ angular.module('smaker',['ngAnimate'])
     $scope.$watch('selected_kuly',refilter);
     $scope.$watch('subsearch',refilter);
     $scope.$watch('asubject',refilter);
+
+    $scope.$watchCollection('selectedSubjects',function(){
+
+        var coursearray={};
+        var promises=[];
+        _.each($scope.selectedSubjects,function(sub){
+            var defer=smglobal.fetch_section(sub);
+            defer.then(function(list){
+                if(list.length){
+                    coursearray[sub.code]=list;
+                }
+            });
+            promises.push(defer);
+        });
+        
+        $q.all(promises).then(function(){
+            
+            var values=_.values(coursearray);
+
+            var temp=[];
+            var results=[];
+
+            function has_collide(arr,it){
+                if(arr.length==0){
+                    return false;
+                }
+                return _.find(arr,function(c){
+                    return smglobal.check_collide(c,it);
+                });
+            }
+
+            //will do a tree search for the possible uncollide schedule
+            function recurit(temp,depth){
+                _.each(values[depth],function(cur){
+
+                    if(has_collide(temp,cur)){
+                        return;
+                    }
+
+                    temp.push(cur);
+                    if(depth<values.length-1){
+                        recurit(temp,depth+1);
+                    }else if(depth==values.length-1){
+                        var nc=temp.slice(0);
+                        results.push(nc);
+                    }
+
+                    temp.splice('-1',1);
+                });
+            }
+            recurit(temp,0);
+
+            $scope.results=results;
+
+        },function(){
+            console.log('Error, fail to fetch all section ');
+        });
+
+    });
 
 
     $scope.toggle_selected=function(k){
