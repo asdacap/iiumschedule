@@ -318,7 +318,7 @@ angular.module('smaker',['ngAnimate'])
 
     function refilter(){
         if($scope.selected_kuly!=''){
-            $scope.filteredSubject=$filter('filter')($scope.asubject,{kuliyyah:$scope.selected_kuly});
+            $scope.filteredSubject=$filter('filter')($scope.asubject,{kuly:$scope.selected_kuly});
         }else{
             $scope.filteredSubject=$scope.asubject;
         }
@@ -359,8 +359,6 @@ angular.module('smaker',['ngAnimate'])
         $scope.asubject=[];
         _.each(smglobal.coursearray,function(arr,kuly){
             _.each(arr,function(obj,i){
-                obj=$.extend({},obj);
-                obj.kuliyyah=kuly;
                 $scope.asubject.push(obj);
             });
         });
@@ -529,9 +527,21 @@ angular.module('smaker',['ngAnimate'])
         selectedSubjects:[],
     });
 
+    _.each(smglobal.schedule,function(sect){
+        var code=sect.code;
+        _.find(smglobal.coursearray,function(list){
+            return _.find(list,function(sub){
+                if(sub.code==sect.code){
+                    $scope.selectedSubjects.push(sub);
+                    return true;
+                }
+            });
+        });
+    });
+
     function refilter(){
         if($scope.selected_kuly!=''){
-            $scope.filteredSubject=$filter('filter')($scope.asubject,{kuliyyah:$scope.selected_kuly});
+            $scope.filteredSubject=$filter('filter')($scope.asubject,{kuly:$scope.selected_kuly});
         }else{
             $scope.filteredSubject=$scope.asubject;
         }
@@ -544,7 +554,7 @@ angular.module('smaker',['ngAnimate'])
 
     $scope.sectioncount={};
 
-    $scope.$watchCollection('selectedSubjects',function(){
+    var fetch_sections=function(){
 
         var coursearray={};
         var promises=[];
@@ -602,8 +612,9 @@ angular.module('smaker',['ngAnimate'])
             console.log('Error, fail to fetch all section ');
         });
 
-    });
-
+    }
+    $scope.$watchCollection('selectedSubjects',fetch_sections);
+    fetch_sections();
 
     $scope.toggle_selected=function(k){
         if($scope.selected_kuly==k){
@@ -617,8 +628,6 @@ angular.module('smaker',['ngAnimate'])
         $scope.asubject=[];
         _.each(smglobal.coursearray,function(arr,kuly){
             _.each(arr,function(obj,i){
-                obj=$.extend({},obj);
-                obj.kuliyyah=kuly;
                 $scope.asubject.push(obj);
             });
         });
