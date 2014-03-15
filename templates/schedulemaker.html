@@ -151,15 +151,15 @@
             </form>
         </div>
 
-        <div ng-show="smglobal.mode=='startloading'">
+        <div ng-if="smglobal.mode=='startloading'">
             Fetching data		
         </div>
 
-        <div ng-show="smglobal.mode=='picker'" class="height100">
+        <div ng-if="smglobal.mode=='picker'" class="height100">
             <div class="row height100">
                 <div class="col-lg-6">
                     <h1>Schedule</h1>    
-                    <div id="scheduleholder">
+                    <div id="scheduleholder" formatted-schedule schedule="schedule">
                     </div>
                     <div>
                         <table class="table-bordered table table-striped">
@@ -208,13 +208,13 @@
 
                     <div class="row longrow">
 
-                        <div class="col-xs-4 height100 yscrollonly" ng-show="mode=='subject'">
+                        <div class="col-xs-4 height100 yscrollonly" ng-show="mode=='subject'" nice-scroll>
                             <span>Kuliyyahs</span>    
                             <div class="list-group">
                                 <a ng-repeat="(k,v) in smglobal.coursearray" ng-class="'list-group-item '+(selected_kuly==k?'active':'') " ng-click="toggle_selected(k)">{{k}}</a>
                             </div>
                         </div>
-                        <div ng-class="( mode=='subject'?'col-xs-8':'col-xs-4' )+' yscrollonly height100'">
+                        <div ng-class="( mode=='subject'?'col-xs-8':'col-xs-4' )+' yscrollonly height100'" nice-scroll>
                             <span>Subject</span>    
                             <div class="list-group">
                                 <a class="list-group-item" ng-repeat="(k,v) in asubject | filter:{kuliyyah:selected_kuly} | filter:subsearch " ng-class="'list-group-item '+(selected_subject==v?'active':'') "  ng-click="show_section(v)">
@@ -225,7 +225,7 @@
                             </div>                        
                         </div>
 
-                        <div class="col-xs-8 yscrollonly" ng-show="mode=='section'">
+                        <div class="col-xs-8 yscrollonly" ng-show="mode=='section'" nice-scroll>
                             <div ng-show="loading_section==false">
 
                                 <table class="table table-borderd">
@@ -294,9 +294,6 @@
 <script src="/static/js/schedulemaker.js"></script>
 
 <script>
-    $(function(){
-        $('.yscrollonly').niceScroll();
-    });
 </script>
 
 </body>
