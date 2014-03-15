@@ -166,7 +166,7 @@ angular.module('smaker',['ngAnimate'])
 
     $scope.$watch('selected_kuly',refilter);
     $scope.$watch('subsearch',refilter);
-    $scope.$watchCollection('asubject',refilter);
+    $scope.$watch('asubject',refilter);
 
 
     $scope.toggle_selected=function(k){

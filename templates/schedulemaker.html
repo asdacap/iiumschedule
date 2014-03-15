@@ -26,6 +26,9 @@
             box-sizing:border-box;
             -moz-box-sizing:border-box;
         }
+        .mouse-pointer{
+            cursor:pointer;
+        }
         .height100{
             height:100%;
         }
@@ -43,7 +46,7 @@
 
         .slide-anim.ng-enter,
         .slide-anim.ng-leave{
-            transition: 0.5s linear all;
+            transition: 0.5s ease-in-out all;
             position:relative;
         }
         .slide-anim.ng-enter{
@@ -59,7 +62,7 @@
         }
 
         .selector-kuly.ng-animate{
-            transition: 0.5s linear all;
+            transition: 0.5s ease-in-out all;
             position:absolute;
             display: block !important;
         }
@@ -79,7 +82,7 @@
         .selector-subject.small-add,
         .selector-subject.small-remove
         {
-            transition: 0.5s linear all;
+            transition: 0.5s ease-in-out all;
             position:absolute;
         }
 
@@ -100,7 +103,7 @@
         .sectionlist.ng-hide-add,
         .sectionlist.ng-hide-remove
         {
-            transition: 0.5s linear all;
+            transition: 0.5s ease-in-out all;
             position:absolute;
             display: block !important;
             left:33%;
@@ -279,7 +282,7 @@
                         Select a section from {{selected_subject.code}} to add
 
                         <div class="input-group">
-                            <span class="input-group-addon" ng-click="mode='subject';cur_hover_section=undefined">Back</span>
+                            <span class="input-group-addon mouse-pointer" ng-click="mode='subject';cur_hover_section=undefined">Back</span>
                             <input class="form-control" ng-model="secsearch" placeholder="search subject"></input>
                             <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
                         </div>
@@ -290,14 +293,14 @@
                         <div class="col-xs-4 height100 yscrollonly selector-kuly" ng-show="mode=='subject'" nice-scroll>
                             <span>Kuliyyahs</span>    
                             <div class="list-group">
-                                <a ng-repeat="(k,v) in smglobal.coursearray" ng-class="'list-group-item '+(selected_kuly==k?'active':'') " ng-click="toggle_selected(k)">{{k}}</a>
+                                <a ng-repeat="(k,v) in smglobal.coursearray" class="list-group-item mouse-pointer" ng-class="(selected_kuly==k?'active':'') " ng-click="toggle_selected(k)">{{k}}</a>
                             </div>
                         </div>
                         <div ng-class="( mode=='subject'?'col-xs-8':'col-xs-4 small' )+' yscrollonly height100 selector-subject'" nice-scroll>
                             <span>Subject</span>    
                             <div class="list-group">
-                                <a class="list-group-item" ng-repeat="(k,v) in filteredSubject" ng-class="'list-group-item '+(selected_subject==v?'active':'') "  ng-click="show_section(v)">
-                                    <i class="glyphicon glyphicon-ok pull-right" ng-show="subject_added(v.code)"></i>
+                                <a ng-repeat="(k,v) in filteredSubject" class="list-group-item mouse-pointer" ng-class="(selected_subject==v?'active':'') "  ng-click="show_section(v)">
+                                    <i class="glyphicon glyphicon-ok pull-right" ng-show="smglobal.subject_added(v.code)"></i>
                                     {{v.code}}<br />
                                     <small>{{v.title}}</small><br />
                                 </a>
