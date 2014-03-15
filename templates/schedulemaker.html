@@ -5,6 +5,7 @@
 	<script src="/static/js/jquery-1.9.1.js"></script>
 	<script src="/static/js/angular.min.js"></script>
 	<script src="/static/js/angular-animate.min.js"></script>
+	<script src="/static/js/bindonce.min.js"></script>
 	<script src="/static/js/jquery.nicescroll.min.js"></script>
 	<script src="/static/js/underscore-min.js"></script>
   <script type='text/javascript' src='/static/ejs_production.js' ></script>
@@ -383,21 +384,22 @@
                         <div class="col-xs-4 height100 yscrollonly selector-kuly" ng-show="mode=='subject'" nice-scroll>
                             <span>Kuliyyahs</span>    
                             <div class="list-group">
-                                <a ng-repeat="(k,v) in smglobal.coursearray" class="list-group-item mouse-pointer" ng-class="(selected_kuly==k?'active':'') " ng-click="toggle_selected(k)">{{k}}</a>
+                                <a bindonce ng-repeat="(k,v) in smglobal.coursearray" class="list-group-item mouse-pointer" ng-class="(selected_kuly==k?'active':'') " ng-click="toggle_selected(k)"><span bo-text="k"></span> <span bo-text="v.length" class="badge"></span></a>
                             </div>
                         </div>
                         <div ng-class="( mode=='subject'?'col-xs-8':'col-xs-4 small' )+' yscrollonly height100 selector-subject'" nice-scroll>
-                            <span>Subject</span>    
+                            <span>Subject ({{ filteredSubject.length }})</span>    
                             <div class="list-group">
-                                <a ng-repeat="(k,v) in filteredSubject" class="list-group-item mouse-pointer" ng-class="(selected_subject==v?'active':'') "  ng-click="show_section(v)">
-                                    <i class="glyphicon glyphicon-ok pull-right" ng-show="smglobal.subject_added(v.code)"></i>
-                                    {{v.code}}<br />
-                                    <small>{{v.title}}</small><br />
+                                <a bindonce ng-repeat="(k,v) in filteredSubject" class="list-group-item mouse-pointer" ng-class="(selected_subject==v?'active':'') "  ng-click="show_section(v)">
+                                    <i class="glyphicon glyphicon-ok pull-right" ng-show="smglobal.schedule[v.code]!=undefined"></i>
+                                    <span bo-text="v.code"></span><br />
+                                    <small bo-text="v.title"></small><br />
                                 </a>
+                                <small ng-show="scroll_limit_reached">For performance reason, no more than 300 subject will be shown at the same time. Please search for your subject or select a kulliyyah.</small>
                             </div>                        
                         </div>
 
-                        <div class="col-xs-8 yscrollonly sectionlist" ng-show="mode=='section'" nice-scroll>
+                        <div class="col-xs-8 yscrollonly sectionlist height100" ng-show="mode=='section'" nice-scroll>
                             <div ng-show="loading_section==false">
 
                                 <table class="table table-borderd">
@@ -411,12 +413,12 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="v in csections | filter:secsearch" ng-class="smglobal.has_collide(v)?'bg-warning':''" ng-mouseenter="smglobal.cur_hover_section=v;" ng-mouseleave="smglobal.cur_hover_section=undefined;">
+                                        <tr ng-repeat="v in csections | filter:secsearch" ng-class="smglobal.has_collide(v)?'bg-warning':''">
                                             <td>{{v.section}}</td>
                                             <td>{{v.lecturer}}</td>
                                             <td>{{v.day}} {{v.time}}</td>
                                             <td>{{v.venue}}</td>
-                                            <td class="text-center">
+                                            <td class="text-center" ng-mouseenter="smglobal.cur_hover_section=v;" ng-mouseleave="smglobal.cur_hover_section=undefined;">
                                                 <div ng-show="!smglobal.section_added(v.section_id)">
                                                     <div ng-show="!smglobal.has_collide(v)">
                                                         <a class="btn btn-default" ng-click="smglobal.replace_section(v,selected_subject)" ng-show="smglobal.subject_added(selected_subject.code)">Replace</a>

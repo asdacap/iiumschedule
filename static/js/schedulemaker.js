@@ -1,5 +1,5 @@
 
-angular.module('smaker',['ngAnimate'])
+angular.module('smaker',['ngAnimate','pasvaz.bindonce'])
 .service('smglobal',function($rootScope,$q,$http){
     var gobj={
         mode:'startpage',
@@ -108,7 +108,7 @@ angular.module('smaker',['ngAnimate'])
             }else{
                 console.log('WARNING:Error: unable to identify the format for the time '+section.time+'. Please be patient while we try to fix this issue');
             }
-            return;
+            return obj;
         }else{
 
             starttime = parseFloat(rtimes[1], 10);
@@ -193,8 +193,8 @@ angular.module('smaker',['ngAnimate'])
                 i2++;
             }
         }else{
-            alert( "Unknown day format ->"+rawday+" please be patient as we resolve this issue.");
-            return;
+            console.log( "Unknown day format ->"+rawday+" please be patient as we resolve this issue.");
+            return obj;
         }
 
         return obj;
@@ -292,6 +292,11 @@ angular.module('smaker',['ngAnimate'])
             $http({url:'/schedulemaker/fetch_subject/',params:params,method:'GET'})
             .success(function(coursearray){
                 smglobal.mode='picker';
+                _.each(coursearray,function(v,kuly){
+                    _.each(v,function(sub){
+                        sub.kuly=kuly;
+                    });
+                });
                 smglobal.coursearray=coursearray;
                 $(window).resize();
             }).error(function(){
@@ -313,8 +318,11 @@ angular.module('smaker',['ngAnimate'])
         smglobal:smglobal,
         mode:'subject',
         loading_section:false,
+        scroll_limit_reached:false,
         selected_subject:{}
     });
+
+    var scrollthreshold=300;
 
     function refilter(){
         if($scope.selected_kuly!=''){
@@ -323,6 +331,13 @@ angular.module('smaker',['ngAnimate'])
             $scope.filteredSubject=$scope.asubject;
         }
         $scope.filteredSubject=$filter('filter')($scope.filteredSubject,$scope.subsearch);
+
+        if($scope.filteredSubject.length>scrollthreshold){
+            $scope.filteredSubject=_.first($scope.filteredSubject,scrollthreshold);
+            $scope.scroll_limit_reached=true;
+        }else{
+            $scope.scroll_limit_reached=false;
+        }
     }
 
     $scope.$watch('selected_kuly',refilter);
@@ -355,7 +370,7 @@ angular.module('smaker',['ngAnimate'])
     }
 
 
-    $scope.$watchCollection(function(){return smglobal.coursearray;},function(){
+    $scope.$watch(function(){return smglobal.coursearray;},function(){
         $scope.asubject=[];
         _.each(smglobal.coursearray,function(arr,kuly){
             _.each(arr,function(obj,i){
