@@ -4,6 +4,7 @@
 	<link rel="stylesheet" href="/static/css/bootstrap.min.css"></link>
 	<script src="/static/js/jquery-1.9.1.js"></script>
 	<script src="/static/js/angular.min.js"></script>
+	<script src="/static/js/jquery.nicescroll.min.js"></script>
 	<script src="/static/js/underscore-min.js"></script>
   <script type='text/javascript' src='/static/ejs_production.js' ></script>
 	<title>Schedule Maker</title>
@@ -16,6 +17,7 @@
         }
         html,body{
             height:100%;
+            width:99.5%;
         }
         #main{
             padding:1em;
@@ -29,6 +31,13 @@
         .yscrollonly{
             overflow-y:auto;
             overflow-x:hidden;
+        }
+        .longrow{
+            position:absolute;
+            top:130px;
+            left:15px;
+            right:15px;
+            bottom:0;
         }
     </style>
     <script type='text/ejs' id="schedtemplate">
@@ -110,104 +119,105 @@
 
     <div id="main" ng-controller="schedulemaker">
 
-        <div ng-switch="smglobal.mode">
-
-            <div ng-switch-when="startpage" ng-controller="startform">
-                <form name="start_form" ng-submit="start_form_submit()" class="form-horizontal col-lg-8 col-lg-offset-2">
-                    <h1 class="text-center">This is the startpage</h1>
-                    <div class="form-group">
-                        <div class="col-md-4 control-label">Session</div>
-                        <div class="col-md-8">
-                            <select required class="form-control" ng-model="session" name="session" ng-options="x for x in available_sessions"></select>
-                        </div>
+        <div ng-if="smglobal.mode=='startpage'" ng-controller="startform">
+            <form name="start_form" ng-submit="start_form_submit()" class="form-horizontal col-lg-8 col-lg-offset-2">
+                <h1 class="text-center">This is the startpage</h1>
+                <div class="form-group">
+                    <div class="col-md-4 control-label">Session</div>
+                    <div class="col-md-8">
+                        <select required class="form-control" ng-model="session" name="session" ng-options="x for x in available_sessions"></select>
                     </div>
-                    <div class="form-group">
-                        <div class="col-md-4 control-label">Semester</div>
-                        <div class="col-md-8">
-                            <select required class="form-control" ng-model="semester" name="semester" ng-options="x for x in [1,2,3]"></select>
-                        </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-4 control-label">Semester</div>
+                    <div class="col-md-8">
+                        <select required class="form-control" ng-model="semester" name="semester" ng-options="x for x in [1,2,3]"></select>
                     </div>
-                    <div class="form-group">
-                        <div class="col-md-4 control-label">Student Type</div>
-                        <div class="col-md-8">
-                            <select required class="form-control" ng-model="student_type" name="student_type" ng-options="k as v for (k,v) in available_student_type"></select>
-                        </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-4 control-label">Student Type</div>
+                    <div class="col-md-8">
+                        <select required class="form-control" ng-model="student_type" name="student_type" ng-options="k as v for (k,v) in available_student_type"></select>
                     </div>
-                    <div class="form-group">
-                        <div class="col-md-4 control-label"></div>
-                        <div class="col-md-8">
-                            <div ng-show="show_submit_error">please select all parameters above.</div>
-                            <input type="submit" name="Start" class="btn btn-primary"></input>
-                        </div>
-
-                    </div>
-                </form>
-            </div>
-
-            <div ng-switch-when="startloading">
-                Fetching data		
-            </div>
-
-            <div ng-switch-when="picker" class="height100">
-                <div class="row height100">
-                    <div class="col-lg-6 height100">
-                        <h1>Schedule</h1>    
-                        <div id="scheduleholder">
-                        </div>
-                        <div>
-                            <table class="table-bordered table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Code</th>
-                                        <th>Lecturer</th>
-                                        <th>Time</th>
-                                        <th>Venue</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="x in smglobal.schedule">
-                                        <td>{{x.code}}</td>
-                                        <td>{{x.lecturer}}</td>
-                                        <td>{{x.day}} {{x.time}}</td>
-                                        <td>{{x.venue}}</td>
-                                        <td><a class="btn btn-danger glyphicon glyphicon-remove" ng-click="smglobal.remove_section(x.section_id)"></a></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-4 control-label"></div>
+                    <div class="col-md-8">
+                        <div ng-show="show_submit_error">please select all parameters above.</div>
+                        <input type="submit" name="Start" class="btn btn-primary"></input>
                     </div>
 
-                    <div class="col-lg-6 height100" ng-controller="sectionSelector">
-                        <h3>Add Section</h3>
+                </div>
+            </form>
+        </div>
 
-                        <div ng-show="mode=='subject'" style="margin-bottom:5px">
-                            <span>Select a subject</span>
-                            <div class="input-group">
-                                <input class="form-control" ng-model="subsearch"></input>
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
-                            </div>
+        <div ng-show="smglobal.mode=='startloading'">
+            Fetching data		
+        </div>
+
+        <div ng-show="smglobal.mode=='picker'" class="height100">
+            <div class="row height100">
+                <div class="col-lg-6">
+                    <h1>Schedule</h1>    
+                    <div id="scheduleholder">
+                    </div>
+                    <div>
+                        <table class="table-bordered table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Lecturer</th>
+                                    <th>Time</th>
+                                    <th>Venue</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="x in smglobal.schedule">
+                                    <td>{{x.code}}</td>
+                                    <td>{{x.lecturer}}</td>
+                                    <td>{{x.day}} {{x.time}}</td>
+                                    <td>{{x.venue}}</td>
+                                    <td><a class="btn btn-danger glyphicon glyphicon-remove" ng-click="smglobal.remove_section(x.section_id)"></a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 height100" ng-controller="sectionSelector">
+                    <h3>Add Section</h3>
+
+                    <div ng-show="mode=='subject'" style="margin-bottom:5px">
+                        <span>Select a subject</span>
+                        <div class="input-group">
+                            <input class="form-control" ng-model="subsearch"></input>
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
                         </div>
+                    </div>
 
-                        <div ng-show="mode=='section'" style="margin-bottom:5px">
-                            Select a section from {{selected_subject.code}} to add
+                    <div ng-show="mode=='section'" style="margin-bottom:5px">
+                        Select a section from {{selected_subject.code}} to add
 
-                            <div class="input-group">
-                                <span class="input-group-addon" ng-click="mode='subject';cur_hover_section=undefined">Back</span>
-                                <input class="form-control" ng-model="secsearch"></input>
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
-                            </div>
+                        <div class="input-group">
+                            <span class="input-group-addon" ng-click="mode='subject';cur_hover_section=undefined">Back</span>
+                            <input class="form-control" ng-model="secsearch"></input>
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
                         </div>
+                    </div>
 
-                        <div class="row">
+                    <div class="row longrow">
 
-                            <div class="col-sm-4 height100 yscrollonly" ng-show="mode=='subject'">
+                        <div class="col-sm-4 height100 yscrollonly" ng-show="mode=='subject'">
+                            <div class="slimscroll">
                                 <span>Kuliyyahs</span>    
                                 <div class="list-group">
                                     <a ng-repeat="(k,v) in smglobal.coursearray" ng-class="'list-group-item '+(selected_kuly==k?'active':'') " ng-click="toggle_selected(k)">{{k}}</a>
                                 </div>
                             </div>
-                            <div ng-class="( mode=='subject'?'col-sm-8':'col-sm-4' )+' yscrollonly height100'">
+                        </div>
+                        <div ng-class="( mode=='subject'?'col-sm-8':'col-sm-4' )+' yscrollonly height100'">
+                            <div class="slimscroll">
                                 <span>Subject</span>    
                                 <div class="list-group">
                                     <a class="list-group-item" ng-repeat="(k,v) in asubject | filter:{kuliyyah:selected_kuly} | filter:subsearch " ng-class="'list-group-item '+(selected_subject==v?'active':'') "  ng-click="show_section(v)">
@@ -264,16 +274,17 @@
                             </div>
 
 
-
                         </div>
 
                     </div>
 
-
-
                 </div>
+
+
+
             </div>
         </div>
+
     </div>
 </div>
 
@@ -282,6 +293,12 @@
 <script src="/static/js/bootstrap.min.js"></script>
 
 <script src="/static/js/schedulemaker.js"></script>
+
+<script>
+    $(function(){
+        $('.yscrollonly').niceScroll();
+    });
+</script>
 
 </body>
 </html>
