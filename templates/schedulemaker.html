@@ -26,6 +26,7 @@
         html,body{
             height:100%;
             width:99.5%;
+            position:relative;
         }
         #main{
             padding:1em;
@@ -53,8 +54,9 @@
 
         .slide-anim.ng-enter,
         .slide-anim.ng-leave{
-            transition: 0.5s ease-in-out all;
-            position:relative;
+            transition: 1s ease-in-out all;
+            position:absolute;
+            width:99.5%;
         }
         .slide-anim.ng-enter{
             left:100%;
@@ -289,9 +291,9 @@
 
     <div id="main" ng-controller="schedulemaker" style="position:relative;">
 
-        <div ng-if="smglobal.mode=='startpage'" ng-controller="startform" class="slide-anim">
+        <div ng-if="smglobal.mode=='startpage'" ng-controller="startform" class="slide-anim height100">
             <form name="start_form" ng-submit="start_form_submit()" class="form-horizontal col-lg-8 col-lg-offset-2">
-                <h1 class="text-center">This is the startpage</h1>
+                <h1 class="text-center">Enter the particular of the schedule.</h1>
                 <div class="form-group">
                     <div class="col-md-4 control-label">Session</div>
                     <div class="col-md-8">
@@ -321,11 +323,21 @@
             </form>
         </div>
 
-        <div ng-if="smglobal.mode=='startloading'" class="slide-anim">
-            Fetching data		
+        <div ng-if="smglobal.mode=='startloading'" class="height100 slide-anim">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3">
+                    <br /><br /><br /><br /><br />
+                    <strong>Fetching data</strong>
+                    <div class="progress progress-striped active">
+                        <div class="progress-bar"  role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                            <span class="sr-only">Loading</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div ng-show="smglobal.mode=='picker'" class="height100 slide-anim">
+        <div ng-if="smglobal.mode=='picker'" class="height100 slide-anim">
             <div class="row height100">
                 <div class="col-lg-6 height100" nice-scroll>
                     <h1>Schedule</h1>    
@@ -345,6 +357,7 @@
                                 </thead>
                                 <tbody>
                                     <tr ng-repeat="x in smglobal.schedule">
+
                                         <td>{{x.code}}</td>
                                         <td>{{x.lecturer}}</td>
                                         <td>{{x.day}} {{x.time}}</td>
@@ -441,7 +454,7 @@
                             </div>
 
                             <div ng-show="loading_section==true">
-                                Loading
+                                Fetching section data... please wait...
                             </div>
 
                         </div>
