@@ -704,7 +704,13 @@ angular.module('smaker',['ngAnimate','pasvaz.bindonce'])
     $scope.save=function(){
 
         var data={
-            scheduletype:"MAINCAMPUS"
+            scheduletype:"MAINCAMPUS",
+            ic:'',
+            matricnumber:'',
+            program:'',
+            semester:'',
+            session:'',
+            studentname:''
         };
 
         _.extend(data,_.pick(smglobal,'ic','matricnumber','program','semester','session','studentname'));
@@ -713,20 +719,25 @@ angular.module('smaker',['ngAnimate','pasvaz.bindonce'])
 
         $scope.requesting=true;
         $scope.requested=false;
-        $http({ 
-            url:'/scheduleformatter/',
-            data:'data='+JSON.stringify(data),
-            method:'POST',
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-            }).success(function(token){
-            $scope.token=token;
-            $scope.requested=true;
-            $scope.requesting=false;
-        }).error(function(err){
-            $scope.requesting=false;
-            alert('Sorry, an error occur while saving schedule.');
-            console.log('Error saving '+err);
 
+        $.ajax({
+            url:"/scheduleformatter/",
+            type:"POST",
+            data:{data : JSON.stringify(data)},
+            success:function(token) {
+                $scope.$apply(function(){
+                    $scope.token=token;
+                    $scope.requested=true;
+                    $scope.requesting=false;
+                });
+            },
+            error:function(err,textstatus,errthrown){
+                $scope.$apply(function(){
+                    $scope.requesting=false;
+                    alert('Sorry, an error occur while saving schedule.');
+                    console.log('Error saving '+err);
+                });
+            }
         });
 
     }
