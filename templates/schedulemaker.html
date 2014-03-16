@@ -368,6 +368,7 @@
                             </table>
                         </small>
                         <a class="mouse-pointer btn btn-default" ng-click="smglobal.mode='generator'">Schedule Generator</a>
+                        <a class="mouse-pointer btn btn-default" ng-click="smglobal.mode='formatterform'">Schedule Formatter</a>
                     </div>
                 </div>
 
@@ -545,6 +546,47 @@
                     </div>
                 </div>
 
+            </div>
+
+            <div ng-if="smglobal.mode=='formatterform'" class="height100 slide-anim" ng-controller="formatterform">
+              
+              <div class="row">
+
+                <div class="col-md-6">
+                  <h2>Open IIUM Schedule Formatter</h2>
+                  <a class="btn btn-default" ng-click="smglobal.mode='picker'">Back</a>
+                  <a class="btn btn-primary" ng-click="alert('Go it')">Go to Automatic IIUM Schedule Formatter</a>
+                  <span ng-show="_.size(smglobal.schedule)==0">You have not selected any subject. The schedule will appear empty.</span>
+                </div>
+
+                <div class="col-md-6">
+
+                  <h4>Preview</h4>
+                  <div formatted-schedule schedule="schedule"></div>
+                  <table class="table table-striped table-collapsed">
+                    <thead>
+                      <tr>
+                        <th>Code</th>
+                        <th>Lecturer</th>
+                        <th>Time</th>
+                        <th>Venue</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="x in smglobal.schedule">
+
+                        <td>{{x.code}}</td>
+                        <td>{{x.lecturer}}</td>
+                        <td>{{x.day}} {{x.time}}</td>
+                        <td>{{x.venue}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                </div>
+
+              </div>
+              
             </div>
 
             <!-- end pages -->

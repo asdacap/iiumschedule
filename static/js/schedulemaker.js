@@ -684,4 +684,15 @@ angular.module('smaker',['ngAnimate','pasvaz.bindonce'])
         smglobal.mode='picker';
     }
 
+}).controller('formatterform',function($scope,smglobal,$http){
+  
+    $scope.smglobal=smglobal;
+    $scope._=window._;
+
+    function resyncschedule(){
+        $scope.schedule=_.values(smglobal.schedule);
+    }
+
+    $scope.$watchCollection('smglobal.schedule',resyncschedule);
+
 });
