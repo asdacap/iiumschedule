@@ -6,7 +6,7 @@ import json
 def fetchsubject():
 	if(set(['session','semester','coursetype']).issubset(request.args.keys()) and [x for x in ['session','semester','coursetype'] if request.args.get(x)!='' ]):
 		sdlist=db.session\
-			.query(SubjectData.kuliyyah,SubjectData.code,SubjectData.title,SubjectData.id)\
+			.query(SubjectData.kuliyyah,SubjectData.code,SubjectData.title,SubjectData.id,SubjectData.credit)\
 			.filter(SubjectData.session==request.args.get('session'))\
 			.filter(SubjectData.semester==request.args.get('semester'))\
 			.filter(SubjectData.coursetype==request.args.get('coursetype').upper())\
@@ -19,6 +19,7 @@ def fetchsubject():
 			finalres[r[0]].append({
 				'id':r[3],
 				'code':r[1],
+        'ch':r[4],
 				'title':r[2],
 			});
 		return json.dumps(finalres)

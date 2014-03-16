@@ -83,7 +83,7 @@ angular.module('smaker',['ngAnimate','pasvaz.bindonce'])
         var obj={
             section_id:section.id,
             code:subject.code,
-            credithour:subject.credithour,
+            credithour:subject.ch,
             section:section.sectionno,
             title:subject.title,
             lecturer:section.lecturer,
@@ -201,9 +201,9 @@ angular.module('smaker',['ngAnimate','pasvaz.bindonce'])
     }
 
     //fetch section from cache or server
-    
+
     gobj.fetch_section=function(sub){
-        
+
         var deferred=$q.defer();
 
         function successc(obj){
@@ -261,7 +261,7 @@ angular.module('smaker',['ngAnimate','pasvaz.bindonce'])
     $scope.$watch('smglobal.cur_hover_section',resyncschedule);
 
 }).controller('startform',function($scope,$http,smglobal){
-    
+
     $scope.available_sessions=[
         "2013/2014",
         "2014/2015"
@@ -310,7 +310,7 @@ angular.module('smaker',['ngAnimate','pasvaz.bindonce'])
         }
     };
 }).controller('sectionSelector',function($scope,smglobal,$filter){
-    
+
     //selector stuff, a subject is all subject in an array
     _.extend($scope,{
         selected_kuly:'',
@@ -585,9 +585,9 @@ angular.module('smaker',['ngAnimate','pasvaz.bindonce'])
             });
             promises.push(defer);
         });
-        
+
         $q.all(promises).then(function(){
-            
+
             var values=_.values(coursearray);
 
             var temp=[];
@@ -685,14 +685,54 @@ angular.module('smaker',['ngAnimate','pasvaz.bindonce'])
     }
 
 }).controller('formatterform',function($scope,smglobal,$http){
-  
+
     $scope.smglobal=smglobal;
     $scope._=window._;
+    $scope.JSON=window.JSON;
 
-    function resyncschedule(){
-        $scope.schedule=_.values(smglobal.schedule);
+    $scope.data={
+        scheduletype:"MAINCAMPUS",
+        ic: "",
+        matricnumber: "",
+        program: "",
+        scheduletype: "",
+        semester: smglobal.semester,
+        session: smglobal.session,
+        studentname: ""
+    };
+
+    $scope.$watchCollection('smglobal.schedule',function(){
+        var schedule=_.map(smglobal.schedule,function(scheditem,key){
+            return _.pick(scheditem,'code','credithour','schedule','section','title');
+        });
+        $scope.data.coursearray=schedule;
+    });
+
+    $scope.token='';
+    $scope.requested=false;
+    $scope.requesting=false;
+
+    $scope.save=function(){
+
+        $scope.requesting=true;
+        $scope.requested=false;
+        $http({ 
+            url:'/scheduleformatter/',
+            data:'data='+JSON.stringify($scope.data),
+            method:'POST',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).success(function(token){
+            $scope.token=token;
+            $scope.requested=true;
+            $scope.requesting=false;
+        }).error(function(err){
+            $scope.requesting=false;
+            alert('Sorry, an error occur while saving schedule.');
+            console.log('Error saving '+err);
+
+        });
+
     }
 
-    $scope.$watchCollection('smglobal.schedule',resyncschedule);
 
 });

@@ -552,44 +552,65 @@
             </div>
 
             <div ng-if="smglobal.mode=='formatterform'" class="height100 slide-anim" ng-controller="formatterform">
-              
-              <div class="row">
 
-                <div class="col-md-6">
-                  <h2>Open IIUM Schedule Formatter</h2>
-                  <a class="btn btn-default" ng-click="smglobal.mode='picker'">Back</a>
-                  <a class="btn btn-primary" ng-click="alert('Go it')">Go to Automatic IIUM Schedule Formatter</a>
-                  <span ng-show="_.size(smglobal.schedule)==0">You have not selected any subject. The schedule will appear empty.</span>
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <h2>Open IIUM Schedule Formatter</h2>
+                        <a class="btn btn-default" ng-click="smglobal.mode='picker'">Back</a>
+
+                        <hr />
+                        <span ng-show="_.size(smglobal.schedule)==0" class="text-warning">You have not selected any subject. The schedule will appear empty.</span>
+                        <h4>Some additional information required</h4>
+
+                        <label>Name</label>
+                        <input class="form-control" type="text" ng-model="data.studentname"></input>
+                        <label>IC:</label>
+                        <input class="form-control" type="text" ng-model="data.ic"></input>
+                        <label>Matric Number</label>
+                        <input class="form-control" type="text" ng-model="data.matricnumber"></input>
+                        <label>Program:</label>
+                        <input class="form-control" type="text" ng-model="data.program"></input>
+                        <a class="btn btn-primary" ng-click="save()">Save Data</a>
+
+                        <span ng-show="!requesting && requested">
+                            <a class="btn btn-primary" target="_blank" href="/scheduleformatter/?token={{token}}">Go to Automatic IIUM Schedule Formatter</a>
+                        </span>
+
+                        <span ng-show="requesting">
+                            Saving schedule...
+                        </span>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <h4>Preview</h4>
+                        <div formatted-schedule schedule="data.coursearray"></div>
+                        <table class="table table-striped table-collapsed">
+                            <thead>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Lecturer</th>
+                                    <th>Time</th>
+                                    <th>Venue</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="x in smglobal.schedule">
+
+                                    <td>{{x.code}}</td>
+                                    <td>{{x.lecturer}}</td>
+                                    <td>{{x.day}} {{x.time}}</td>
+                                    <td>{{x.venue}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
                 </div>
 
-                <div class="col-md-6">
-
-                  <h4>Preview</h4>
-                  <div formatted-schedule schedule="schedule"></div>
-                  <table class="table table-striped table-collapsed">
-                    <thead>
-                      <tr>
-                        <th>Code</th>
-                        <th>Lecturer</th>
-                        <th>Time</th>
-                        <th>Venue</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr ng-repeat="x in smglobal.schedule">
-
-                        <td>{{x.code}}</td>
-                        <td>{{x.lecturer}}</td>
-                        <td>{{x.day}} {{x.time}}</td>
-                        <td>{{x.venue}}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-
-                </div>
-
-              </div>
-              
             </div>
 
             <!-- end pages -->
