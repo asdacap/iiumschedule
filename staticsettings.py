@@ -1,7 +1,7 @@
 DB_CONN='postgresql://iiumschedule:iiumschedule@localhost/iiumschedule'
 RECAPTCHA_PUBLIC_KEY="6LcfOu0SAAAAAKeyYcuC36_U3yEd_TBK8rlmpCIg"
 RECAPTCHA_KEY="6LcfOu0SAAAAABQw2aAP0FePvDrA6X9JN8bG2hMB"
-DEBUG=True
+DEBUG=False
 LOGIN_USERNAME='iiumschedule'
 LOGIN_PASSWORD='admin'
 SESSION_SECRET=':\x7f\x8f-\xb1\x19\xd2-\x9a\xdb\xe3Pr\x95\xd5\x0c\xd2\xeb\x1e\x93\xa9\x90\xd5B'

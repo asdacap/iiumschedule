@@ -690,22 +690,11 @@ angular.module('smaker',['ngAnimate','pasvaz.bindonce'])
     $scope._=window._;
     $scope.JSON=window.JSON;
 
-    $scope.data={
-        scheduletype:"MAINCAMPUS",
-        ic: "",
-        matricnumber: "",
-        program: "",
-        scheduletype: "",
-        semester: smglobal.semester,
-        session: smglobal.session,
-        studentname: ""
-    };
-
     $scope.$watchCollection('smglobal.schedule',function(){
         var schedule=_.map(smglobal.schedule,function(scheditem,key){
             return _.pick(scheditem,'code','credithour','schedule','section','title');
         });
-        $scope.data.coursearray=schedule;
+        $scope.schedule=schedule;
     });
 
     $scope.token='';
@@ -714,11 +703,19 @@ angular.module('smaker',['ngAnimate','pasvaz.bindonce'])
 
     $scope.save=function(){
 
+        var data={
+            scheduletype:"MAINCAMPUS"
+        };
+
+        _.extend(data,_.pick(smglobal,'ic','matricnumber','program','semester','session','studentname'));
+
+        data.coursearray=$scope.schedule;
+
         $scope.requesting=true;
         $scope.requested=false;
         $http({ 
             url:'/scheduleformatter/',
-            data:'data='+JSON.stringify($scope.data),
+            data:'data='+JSON.stringify(data),
             method:'POST',
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }).success(function(token){

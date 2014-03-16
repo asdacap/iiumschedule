@@ -564,19 +564,19 @@
                         <h4>Some additional information required</h4>
 
                         <label>Name</label>
-                        <input class="form-control" type="text" ng-model="data.studentname"></input>
+                        <input class="form-control" type="text" ng-model="smglobal.studentname"></input>
                         <label>IC:</label>
-                        <input class="form-control" type="text" ng-model="data.ic"></input>
+                        <input class="form-control" type="text" ng-model="smglobal.ic"></input>
                         <label>Matric Number</label>
-                        <input class="form-control" type="text" ng-model="data.matricnumber"></input>
+                        <input class="form-control" type="text" ng-model="smglobal.matricnumber"></input>
                         <label>Program:</label>
-                        <input class="form-control" type="text" ng-model="data.program"></input>
-                        <a class="btn btn-primary" ng-click="save()">Save Data</a>
+                        <input class="form-control" type="text" ng-model="smglobal.program"></input>
 
+                        <br />
+                        <a class="btn btn-primary" ng-click="save()">Save Data</a>
                         <span ng-show="!requesting && requested">
                             <a class="btn btn-primary" target="_blank" href="/scheduleformatter/?token={{token}}">Go to Automatic IIUM Schedule Formatter</a>
                         </span>
-
                         <span ng-show="requesting">
                             Saving schedule...
                         </span>
@@ -586,7 +586,7 @@
                     <div class="col-md-6">
 
                         <h4>Preview</h4>
-                        <div formatted-schedule schedule="data.coursearray"></div>
+                        <div formatted-schedule schedule="schedule"></div>
                         <table class="table table-striped table-collapsed">
                             <thead>
                                 <tr>
