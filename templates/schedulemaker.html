@@ -29,7 +29,6 @@
             position:relative;
         }
         #main{
-            padding:1em;
             height:100%;
             box-sizing:border-box;
             -moz-box-sizing:border-box;
@@ -52,9 +51,13 @@
             bottom:0;
         }
 
+        .slide-anim{
+            padding:1em;
+        }
+
         .slide-anim.ng-enter,
         .slide-anim.ng-leave{
-            transition: 1s ease-in-out all;
+            transition: 1s ease all;
             position:absolute;
             width:99.5%;
         }
@@ -71,7 +74,7 @@
         }
 
         .selector-kuly.ng-animate{
-            transition: 0.5s ease-in-out all;
+            transition: 0.5s ease all;
             position:absolute;
             display: block !important;
         }
@@ -91,7 +94,7 @@
         .selector-subject.small-add,
         .selector-subject.small-remove
         {
-            transition: 0.5s ease-in-out all;
+            transition: 0.5s ease all;
             position:absolute;
         }
 
@@ -112,7 +115,7 @@
         .sectionlist.ng-hide-add,
         .sectionlist.ng-hide-remove
         {
-            transition: 0.5s ease-in-out all;
+            transition: 0.5s ease all;
             position:absolute;
             display: block !important;
             left:33%;
