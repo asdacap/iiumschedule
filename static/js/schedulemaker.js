@@ -267,9 +267,9 @@ angular.module('smaker',['ngAnimate','pasvaz.bindonce'])
         "2014/2015"
     ];
     $scope.available_student_type={ug:'undergraduate',pg:"postgraduate"};
-    $scope.session='2013/2014';
+    $scope.session='2014/2015';
     $scope.student_type='ug';
-    $scope.semester=2;
+    $scope.semester=1;
 
     //This is the thing that happen when the user select the year and session
     $scope.start_form_submit=function(){
