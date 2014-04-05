@@ -257,7 +257,7 @@ angular.module('smaker',['ngAnimate','pasvaz.bindonce'])
         }
     }
 
-    $scope.$watchCollection('smglobal.schedule',resyncschedule);
+    $scope.$watch('smglobal.schedule',resyncschedule);
     $scope.$watch('smglobal.cur_hover_section',resyncschedule);
 
 }).controller('startform',function($scope,$http,smglobal){
@@ -391,136 +391,134 @@ angular.module('smaker',['ngAnimate','pasvaz.bindonce'])
             if(scope.template==undefined || scope.template==''){
                 scope.template='#schedtemplate';
             }
-            scope.$watch('schedule',function(){
 
-                function redraw(){
-                    var schedule=scope.schedule;
-                    if(schedule==undefined){
-                        schedule=[];
+            function redraw(){
+                var schedule=scope.schedule;
+                if(schedule==undefined){
+                    schedule=[];
+                }
+                var cdata=convert_data({coursearray:schedule});
+                $(element).html((new EJS({text:$(scope.template).html()})).render(cdata));
+            }
+
+            //This will cause the schedule display to redraw everytime the schedule change 
+            scope.$watch('schedule',redraw);
+
+            //convert data gathered from crs into data that can be used by template
+            function convert_data(data){
+
+                function makearray(length) {
+                    var thearray = new Array();
+                    var i = 0;
+                    while (i < length) {
+                        thearray.push("");
+                        i = i + 1;
                     }
-                    var cdata=convert_data({coursearray:schedule});
-                    $(element).html((new EJS({text:$(scope.template).html()})).render(cdata));
+                    return thearray;
                 }
 
-                //This will cause the schedule display to redraw everytime the schedule change 
-                scope.$watchCollection('schedule',redraw);
+                var coursearray = data.coursearray;
 
-                //convert data gathered from crs into data that can be used by template
-                function convert_data(data){
+                var starthour=8;
+                var actualstarthour=8;
+                var actualendhour=20;
+                /* Hardcode the range
+                var i=0;
+                while(i<coursearray.length){
+                var i2=0;
+                var ccourse=coursearray[i];
+                while(i2<ccourse.schedule.length){
+                var sched=ccourse.schedule[i2];
+                var start=Math.floor(sched.start);
+                if(start<actualstarthour){
+                //actualstarthour=start;
+                }
+                var end=Math.floor(sched.end);
+                if(sched.end>end){
+                end+=1;
+                }
+                if(end>actualendhour){
+                //actualendhour=end;
+                }
+                i2=i2+1;
+                }
+                i=i+1;
+                }
+                */
 
-                    function makearray(length) {
-                        var thearray = new Array();
-                        var i = 0;
-                        while (i < length) {
-                            thearray.push("");
-                            i = i + 1;
-                        }
-                        return thearray;
-                    }
+                var startfminute=actualstarthour*12;
+                var endfminute=actualendhour*12;
 
-                    var coursearray = data.coursearray;
+                var hournum=14;
+                var actualhournum=actualendhour-actualstarthour;
+                var fiveminutenum=actualhournum*12;
 
-                    var starthour=8;
-                    var actualstarthour=8;
-                    var actualendhour=20;
-                    /* Hardcode the range
-                    var i=0;
-                    while(i<coursearray.length){
-                    var i2=0;
-                    var ccourse=coursearray[i];
-                    while(i2<ccourse.schedule.length){
-                    var sched=ccourse.schedule[i2];
-                    var start=Math.floor(sched.start);
-                    if(start<actualstarthour){
-                    //actualstarthour=start;
-                    }
-                    var end=Math.floor(sched.end);
-                    if(sched.end>end){
-                    end+=1;
-                    }
-                    if(end>actualendhour){
-                    //actualendhour=end;
-                    }
-                    i2=i2+1;
-                    }
-                    i=i+1;
-                    }
-                    */
-
-                    var startfminute=actualstarthour*12;
-                    var endfminute=actualendhour*12;
-
-                    var hournum=14;
-                    var actualhournum=actualendhour-actualstarthour;
-                    var fiveminutenum=actualhournum*12;
-
-                    var byfiveminute={
-                        MON : makearray(fiveminutenum),
-                        TUE : makearray(fiveminutenum),
-                        WED : makearray(fiveminutenum),
-                        THUR : makearray(fiveminutenum),
-                        FRI : makearray(fiveminutenum),
-                        SAT : makearray(fiveminutenum),
-                        SUN : makearray(fiveminutenum)
-                    }
-
-                    var ci = 0;
-                    while (ci < coursearray.length) {
-                        var course = coursearray[ci];
-                        var si = 0;
-                        while (si < course.schedule.length) {
-                            var schedule = course.schedule[si];
-                            var start = schedule.start;
-                            var end = schedule.end;
-                            var starth=Math.floor(start);
-                            var startm=start-starth;
-                            startm=Math.round(startm*100/5);
-                            startm=startm+starth*12;
-                            var endh=Math.floor(end);
-                            var endm=end-endh;
-                            endm=Math.round(endm*100/5);
-                            endm=endm+endh*12;
-
-                            var durationm = endm - startm;
-                            byfiveminute[schedule.day][startm - startfminute] ={
-                                course : course,
-                                duration : durationm,
-                                venue : course.schedule[si].venue
-                            }
-                            i = 1;
-                            while(i<durationm){
-                                byfiveminute[schedule.day][startm - startfminute + i] = "none";
-                                i=i+1;
-                            }
-
-                            si = si + 1;
-                        }
-
-                        ci = ci + 1;
-                    }
-
-                    function getScheduleText(course) {
-                        if (course == "") {
-                            return {
-                                text : ""
-                            };
-                        } else {
-                            return {
-                                text : course.name
-                            };
-                        }
-                    }
-
-                    var thedata = {
-                        byfiveminute : byfiveminute,
-                        actualstarthour : actualstarthour,
-                        actualendhour : actualendhour,
-                        courselist : coursearray,
-                    }
-                    return thedata;
+                var byfiveminute={
+                    MON : makearray(fiveminutenum),
+                    TUE : makearray(fiveminutenum),
+                    WED : makearray(fiveminutenum),
+                    THUR : makearray(fiveminutenum),
+                    FRI : makearray(fiveminutenum),
+                    SAT : makearray(fiveminutenum),
+                    SUN : makearray(fiveminutenum)
                 }
 
-            });
+                var ci = 0;
+                while (ci < coursearray.length) {
+                    var course = coursearray[ci];
+                    var si = 0;
+                    while (si < course.schedule.length) {
+                        var schedule = course.schedule[si];
+                        var start = schedule.start;
+                        var end = schedule.end;
+                        var starth=Math.floor(start);
+                        var startm=start-starth;
+                        startm=Math.round(startm*100/5);
+                        startm=startm+starth*12;
+                        var endh=Math.floor(end);
+                        var endm=end-endh;
+                        endm=Math.round(endm*100/5);
+                        endm=endm+endh*12;
+
+                        var durationm = endm - startm;
+                        byfiveminute[schedule.day][startm - startfminute] ={
+                            course : course,
+                            duration : durationm,
+                            venue : course.schedule[si].venue
+                        }
+                        i = 1;
+                        while(i<durationm){
+                            byfiveminute[schedule.day][startm - startfminute + i] = "none";
+                            i=i+1;
+                        }
+
+                        si = si + 1;
+                    }
+
+                    ci = ci + 1;
+                }
+
+                function getScheduleText(course) {
+                    if (course == "") {
+                        return {
+                            text : ""
+                        };
+                    } else {
+                        return {
+                            text : course.name
+                        };
+                    }
+                }
+
+                var thedata = {
+                    byfiveminute : byfiveminute,
+                    actualstarthour : actualstarthour,
+                    actualendhour : actualendhour,
+                    courselist : coursearray,
+                }
+                return thedata;
+            }
+
         }
     }
 }).directive('niceScroll',function(){
