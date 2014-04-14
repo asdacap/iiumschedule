@@ -23,7 +23,7 @@ The schedule maker need section data from IIUM server. The schedule formatter al
 
 License
 -------
-Automatic IIUM Schedule Formatter is licensed under the General Public License version 3. For more information, see LICENSE. 
+Automatic IIUM Schedule Formatter is licensed under the GNU General Public License version 3. For more information, see COPYING. 
     
 Contact
 -------
