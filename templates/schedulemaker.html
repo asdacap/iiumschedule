@@ -365,6 +365,7 @@
                                 <thead>
                                     <tr>
                                         <th>Code</th>
+                                        <th>Section</th>
                                         <th>Lecturer</th>
                                         <th>Time</th>
                                         <th>Venue</th>
@@ -375,6 +376,7 @@
                                     <tr ng-repeat="x in smglobal.schedule">
 
                                         <td>{{x.code}}</td>
+                                        <td>{{x.section}}</td>
                                         <td>{{x.lecturer}}</td>
                                         <td>{{x.day}} {{x.time}}</td>
                                         <td>{{x.venue}}</td>
@@ -604,6 +606,7 @@
                             <thead>
                                 <tr>
                                     <th>Code</th>
+                                    <th>Section</th>
                                     <th>Lecturer</th>
                                     <th>Time</th>
                                     <th>Venue</th>
@@ -613,6 +616,7 @@
                                 <tr ng-repeat="x in smglobal.schedule">
 
                                     <td>{{x.code}}</td>
+                                    <td>{{x.section}}</td>
                                     <td>{{x.lecturer}}</td>
                                     <td>{{x.day}} {{x.time}}</td>
                                     <td>{{x.venue}}</td>
