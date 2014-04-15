@@ -1,4 +1,23 @@
-var columnlength = 52;
+/*
+Copyright (C) 2014 Muhd Amirul Ashraf bin Mohd Fauzi <asdacap@gmail.com>
+
+This file is part of Automatic IIUM Schedule Formatter.
+
+Automatic IIUM Schedule Formatter is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Automatic IIUM Schedule Formatter is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Automatic IIUM Schedule Formatter.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+var defaultcolumnlength = 52;
 
 function makearray(length) {
 	var thearray = new Array();
@@ -118,9 +137,31 @@ function parsetable() {
 	// parse table
 	makemessage("Parsing table, please wait...");
 
+
+    //old tablearray system kept for compatibility with CFS student.
 	var tablearray = new Array();
 
 	var rows = $("body table").find("tr");
+
+    var maxcollength=0;
+    rows.each(function(){
+        var cur=0;
+        $(this).find('td').each(function(){
+            if($(this).attr('colspan')){
+                cur+=parseInt($(this).attr('colspan'),10);
+            }else{
+                cur++;
+            }
+        });
+        if(cur>maxcollength){
+            maxcollength=cur;
+        }
+    });
+
+    var columnlength=maxcollength;
+    if(columnlength!=defaultcolumnlength){
+        console.log('Warning! Different column length than default : '+columnlength);
+    }
 
 	var i = 0;
 	while (i < rows.length) {
@@ -183,31 +224,55 @@ function parsetable() {
 
 		})
 
-	})
+	});
+
+    //New parsing data structure
+    var rowtextlist=[];
+
+	rows.each(function(index, el) {
+		var therow = $(this);
+
+		var columns = therow.find("td");
+        var rowtext = [];
+
+		var ci = 0;
+		columns.each(function() {
+			var thecolumn = $(this);
+
+			if (thecolumn.children().length == 0 && thecolumn.text() == "") {
+			} else {
+				rowtext.push(thecolumn.text());
+			}
+
+		})
+
+        rowtextlist.push(rowtext);
+
+	});
 
 	// Extract data
 
-	var studentname = tablearray[8][10].text();
-	if (studentname == "none") {
+	var studentname = rowtextlist[8][2];
+	if (studentname == undefined) {
 		makemessage("Error! cannot find student name.", false)
 		return;
 	}
 	console.log("Student name is->" + studentname)
 
-	var matricplusic = fixstring(tablearray[6][10].text());
+	var matricplusic = fixstring(rowtextlist[6][2]);
 	var matcher = /\s*(\d+)IC.PassportNo\.\:(\d*)\s*/;
 	var match = matcher.exec(matricplusic);
 	var matricnumber = match[1];
 	var icnumber = match[2];
-	var sessionplusprogram = fixstring(tablearray[4][21].text());
+	var sessionplusprogram = fixstring(rowtextlist[4][0]);
 	console.log(sessionplusprogram);
 	matcher = /Session\s*:\s*(\d+\/\d+)Semester\s*:\s*(\d+)/;
 	match = matcher.exec(sessionplusprogram);
 	var session = match[1];
 	var semester = match[2];
-	var program = fixstring(tablearray[6][43].text())
+	var program = fixstring(rowtextlist[6][5])
 	console.log(program);
-	var printedby= fixstring(tablearray[2][1].text());
+	var printedby= fixstring(rowtextlist[2][0]);
 	var cfsmatcher = /Printedby\d{6}on([^,]+),.+/;
 	var maincampusmatcher = /Printedby\d{7}on([^,]+),.+/;
     var cfsmatch=cfsmatcher.exec(printedby);
@@ -319,20 +384,19 @@ function parsetable() {
 	    var date = maincampusmatch[1];
         var scheduletype="MAINCAMPUS";
         var starttableindex = 0;
-        while (tablearray[starttableindex][1] == "none"
-                || (tablearray[starttableindex][1].children("hr").length == 0)) {
+        while (rowtextlist[starttableindex][0] != 'Course') {
             if (starttableindex >= tablearray.length) {
                 alert("Fail to find start table index");
                 return;
             }
             starttableindex = starttableindex + 1;
         }
+        starttableindex+=2;
 
         console.log("starttableindex->" + starttableindex.toString())
 
         var endtableindex = starttableindex;
-        while (tablearray[endtableindex][20] == "none"
-                || tablearray[endtableindex][20].text() != "Total") {
+        while (rowtextlist[endtableindex][0]!='Total') {
             if (endtableindex >= tablearray.length) {
                 alert("Fail to find end table index");
                 return;
@@ -344,55 +408,38 @@ function parsetable() {
         console.log("endtableindex->" + endtableindex.toString())
 
         var coursearray = new Array();
-        var currentcourse = 0;
 
         var i = starttableindex + 1;
         while (i < endtableindex) {
 
-            if (tablearray[i][2] != "none") {
-                if (currentcourse != 0) {
-                    console.log("Schedule found->" + JSON.stringify(currentcourse));
-                    coursearray.push(currentcourse);
-                }
-                currentcourse = {
-                    code : tablearray[i][2].text(),
-                    section : tablearray[i][9].text(),
-                    title : tablearray[i][17].text(),
-                    credithour : tablearray[i][26].text(),
+            if (rowtextlist[i].length == 10) {
+
+                var currow=rowtextlist[i];
+
+                var currentcourse = {
+                    code : currow[0],
+                    section : currow[1],
+                    title : currow[3],
+                    credithour : currow[4],
                     schedule : new Array()
                 }
-            }
 
-            if (tablearray[i][28] != "none") {
-                var starttime = parseFloat(tablearray[i][34].text(), 10);
+                var starttime = parseFloat(currow[6], 10);
                 
-                var parseendtime=/^\D*([0-9\.]+)\D*$/.exec(tablearray[i][36].text());
+                var parseendtime=/^\D*([0-9\.]+)\D*$/.exec(currow[7]);
                 if(!parseendtime){
-                    console.log("Warning, end time for "+tablearray[i][2].text()+" miraculously missing. Using column 35");
-                    if(tablearray[i][35]){
-                        parseendtime=/^[^\d]*(\d+)[^\d]*$/.exec(tablearray[i][35].text());
-                    }
-                }
-                if(!parseendtime){
-                    console.log("Still nothing. Using column 37");
-                    if(tablearray[i][37]){
-                        parseendtime=/^[^\d]*(\d+)[^\d]*$/.exec(tablearray[i][37].text());
-                    }
-                }
-                var endtime;
-                if(!parseendtime){
-                    console.log("Still missing. Lets just say it use 1 hour.");
+                    console.log("Missing end time. Lets just say it use 1 hour.");
                     endtime = starttime+1;
                 }else{
                     endtime = parseFloat(parseendtime[1], 10);
                 }
 
-                if(tablearray[i][41].text()=="PM" && starttime<12 && endtime<12){ starttime=starttime+12;
+                if(currow[8]=="PM" && starttime<12 && endtime<12){ starttime=starttime+12;
                 endtime=endtime+12; } 
 
-                var venue = tablearray[i][46].text();
+                var venue = currow[9];
                 
-                var rawday=tablearray[i][28].text();
+                var rawday= currow[5];
                 if(/\s*(MON|TUE|WED|THUR|FRI|SAT|SUN)\s*/.exec(rawday)){
                     var day=rawday;
                     var newschedule = {
@@ -455,6 +502,7 @@ function parsetable() {
                     throw "Unknown day format ->"+rawday;
                 }
                 
+                coursearray.push(currentcourse);
             }
 
             i = i + 1;
@@ -504,3 +552,4 @@ function parsetable() {
 
 
 }
+

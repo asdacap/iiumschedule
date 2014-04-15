@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="/static/css/bootstrap.min.css"></link>
+	<script src="/static/js/jquery-1.9.1.js"></script>
+	<script src="/static/js/angular.min.js"></script>
+	<script src="/static/js/angular-animate.min.js"></script>
+	<script src="/static/js/bindonce.min.js"></script>
+	<script src="/static/js/jquery.nicescroll.min.js"></script>
+	<script src="/static/js/underscore-min.js"></script>
+  <script type='text/javascript' src='/static/ejs_production.js' ></script>
+  <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-21243240-7']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('http:' == document.location.protocol ? 'http://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+  </script>
+	<title>Schedule Maker</title>
+    <style>
+        .bigsched .fixminutealign,.bigsched .fixminutealign>td{
+            margin:0;
+            padding:0;
+            height:0;
+            width:0;
+        }
+        #scheduletable .fixminutealign,#scheduletable .fixminutealign>td{
+            margin:0;
+            padding:0;
+            height:0;
+            width:0;
+        }
+        html,body{
+            height:100%;
+            width:99.5%;
+            position:relative;
+        }
+        #main{
+            height:100%;
+            box-sizing:border-box;
+            -moz-box-sizing:border-box;
+        }
+        .mouse-pointer{
+            cursor:pointer;
+        }
+        .height100{
+            height:100%;
+        }
+        .yscrollonly{
+            overflow-y:auto;
+            overflow-x:hidden;
+        }
+        .longrow{
+            position:absolute;
+            top:130px;
+            left:15px;
+            right:15px;
+            bottom:0;
+        }
+
+        .slide-anim{
+            padding:1em;
+        }
+
+        .slide-anim.ng-enter,
+        .slide-anim.ng-leave{
+            transition: 1s ease all;
+            position:absolute;
+            width:99.5%;
+        }
+        .slide-anim.ng-enter{
+            left:100%;
+        }
+        .slide-anim.ng-leave.ng-leave-active{
+            left:-100%;
+        }
+        .slide-anim.ng-enter.ng-enter-active,
+        .slide-anim.ng-leave
+        {
+            left:0px;
+        }
+
+        .selector-kuly.ng-animate{
+            transition: 0.5s ease all;
+            position:absolute;
+            display: block !important;
+        }
+
+        .selector-kuly.ng-hide-add,
+        .selector-kuly.ng-hide-remove.ng-hide-remove-active
+        {
+            opacity:1;
+        }
+
+        .selector-kuly.ng-hide-add.ng-hide-add-active,
+        .selector-kuly.ng-hide-remove
+        {
+            opacity:0;
+        }
+
+        .selector-subject.small-add,
+        .selector-subject.small-remove
+        {
+            transition: 0.5s ease all;
+            position:absolute;
+        }
+
+        .selector-subject.small-add,
+        .selector-subject.small-remove.small-remove-active
+        {
+            left:33%;
+            width:66%;
+        }
+
+        .selector-subject.small-add.small-add-active,
+        .selector-subject.small-remove
+        {
+            left:0;
+            width:33%;
+        }
+
+        .sectionlist.ng-hide-add,
+        .sectionlist.ng-hide-remove
+        {
+            transition: 0.5s ease all;
+            position:absolute;
+            display: block !important;
+            left:33%;
+        }
+
+        .sectionlist.ng-hide-add.ng-hide-add-active,
+        .sectionlist.ng-hide-remove
+        {
+            opacity:0;
+        }
+
+        .sectionlist.ng-hide-add,
+        .sectionlist.ng-hide-remove.ng-hide-remove-active
+        {
+            opacity:1;
+        }
+
+        .bigsched .nonempty{
+            text-align:center;
+        }
+
+        .bigsched .nonempty .venue{
+            font-size:70%;
+        }
+
+    </style>
+    <script type='text/ejs' id="bigschedtemplate">
+        <table class="bigsched table table-bordered table-condensed">
+            <tr>
+                <td class='timecell'>Day</td>
+                <% 
+                for(var i=0;i<(actualendhour-actualstarthour);i++){
+                    %>
+                    <td class='timecell' colspan='12'><% 
+                        var thetime=i+actualstarthour; 
+                        var dtime=thetime;
+                        if(thetime>12){
+                            dtime=(dtime-12).toString()+" pm";
+                            }else if(thetime==12){
+                            dtime=dtime.toString()+" pm";
+                            }else{
+                            dtime=dtime.toString()+" am";
+                        }
+                        %><%= dtime %></td>
+                    <% } %>
+            </tr>
+            <% for(key in byfiveminute) {
+                %>
+                <tr>
+                    <td class='day firstcolumn'>
+                        <%= key.toLowerCase() %>
+                    </td>
+                    <% for(var i=0;i<byfiveminute[key].length;i=i+1){ %>
+                        <% if(byfiveminute[key][i].course){ %>
+                            <td class='nonempty <%=byfiveminute[key][i].course.hover?"bg-warning":""%>' colspan='<%= byfiveminute[key][i].duration %>'>
+                                <div class='code'>
+                                    <%= byfiveminute[key][i].course.code %>
+                                </div>
+                                <div class="venue"><%= byfiveminute[key][i].course.smallvenue %></div>
+                            </td>
+                            <% }else if(byfiveminute[key][i]=="none"){ %>
+                            <% }else{ 
+                            var howmuch=1;
+                            var ci=i+1;
+                            while(ci<byfiveminute[key].length){
+                                if(byfiveminute[key][ci]!=""){
+                                    break;
+                                    }else{
+                                    howmuch+=1;
+                                }
+                                ci=ci+1;
+                            }
+                            %>
+                            <td class='empty' colspan='<%= howmuch %>'>
+                                <%= byfiveminute[key][i]%>
+                            </td>
+                            <% i=i+howmuch-1} %>
+                        <% } %>
+                </tr>
+                <% } %>
+            <tr class='fixminutealign'>
+                <td></td>
+                <% for(var i=0; i<actualendhour-actualstarthour;i=i+1){ %>
+                    <td class='align'></td>
+                    <td class='align'></td>
+                    <td class='align'></td>
+                    <td class='align'></td>
+                    <td class='align'></td>
+                    <td class='align'></td>
+                    <td class='align'></td>
+                    <td class='align'></td>
+                    <td class='align'></td>
+                    <td class='align'></td>
+                    <td class='align'></td>
+                    <td class='align'></td>
+                    <% } %>
+            </tr>
+        </table>
+    </script>
+    <script type='text/ejs' id="schedtemplate">
+<table id='scheduletable' class="table table-bordered table-condensed">
+    <tr>
+      <td class='timecell'>Day</td>
+      <% 
+        for(var i=0;i<(actualendhour-actualstarthour);i++){
+      %>
+      <td class='timecell' colspan='12'><% 
+      var thetime=i+actualstarthour; 
+      var dtime=thetime;
+      if(thetime>12){
+          dtime=(dtime-12).toString()+" pm";
+      }else if(thetime==12){
+          dtime=dtime.toString()+" pm";
+      }else{
+          dtime=dtime.toString()+" am";
+      }
+      %><%= dtime %></td>
+      <% } %>
+    </tr>
+    <% for(key in byfiveminute) {
+        %>
+    <tr>
+      <td class='day firstcolumn'>
+	<%= key.toLowerCase() %>
+      </td>
+      <% for(var i=0;i<byfiveminute[key].length;i=i+1){ %>
+	<% if(byfiveminute[key][i].course){ %>
+        <td class='nonempty <%=byfiveminute[key][i].course.hover?"bg-warning":""%>' colspan='<%= byfiveminute[key][i].duration %>'>
+	      <div class='code'>
+	      <%= byfiveminute[key][i].course.code %>
+	      </div>
+	  </td>
+	<% }else if(byfiveminute[key][i]=="none"){ %>
+	<% }else{ 
+        var howmuch=1;
+        var ci=i+1;
+        while(ci<byfiveminute[key].length){
+            if(byfiveminute[key][ci]!=""){
+                break;
+            }else{
+                howmuch+=1;
+            }
+            ci=ci+1;
+        }
+        %>
+	  <td class='empty' colspan='<%= howmuch %>'>
+	      <%= byfiveminute[key][i]%>
+	  </td>
+	<% i=i+howmuch-1} %>
+      <% } %>
+    </tr>
+    <% } %>
+    <tr class='fixminutealign'>
+      <td></td>
+      <% for(var i=0; i<actualendhour-actualstarthour;i=i+1){ %>
+      <td class='align'></td>
+      <td class='align'></td>
+      <td class='align'></td>
+      <td class='align'></td>
+      <td class='align'></td>
+      <td class='align'></td>
+      <td class='align'></td>
+      <td class='align'></td>
+      <td class='align'></td>
+      <td class='align'></td>
+      <td class='align'></td>
+      <td class='align'></td>
+        <% } %>
+    </tr>
+  </table>
+    </script>
+</head>
+<body ng-app='smaker'>
+    
+    {% raw %}
+
+    <div id="main" ng-controller="schedulemaker" style="position:relative;">
+
+        <div ng-if="smglobal.mode=='startpage'" ng-controller="startform" class="slide-anim height100">
+            <form name="start_form" ng-submit="start_form_submit()" class="form-horizontal col-lg-8 col-lg-offset-2">
+                <h1 class="text-center">Enter the particular of the schedule.</h1>
+                <div class="form-group">
+                    <div class="col-md-4 control-label">Session</div>
+                    <div class="col-md-8">
+                        <select required class="form-control" ng-model="session" name="session" ng-options="x for x in available_sessions"></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-4 control-label">Semester</div>
+                    <div class="col-md-8">
+                        <select required class="form-control" ng-model="semester" name="semester" ng-options="x for x in [1,2,3]"></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-4 control-label">Student Type</div>
+                    <div class="col-md-8">
+                        <select required class="form-control" ng-model="student_type" name="student_type" ng-options="k as v for (k,v) in available_student_type"></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-4 control-label"></div>
+                    <div class="col-md-8">
+                        <div ng-show="show_submit_error">please select all parameters above.</div>
+                        <input type="submit" name="Start" class="btn btn-primary"></input>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+
+        <div ng-if="smglobal.mode=='startloading'" class="height100 slide-anim">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3">
+                    <br /><br /><br /><br /><br />
+                    <strong>Fetching data</strong>
+                    <div class="progress progress-striped active">
+                        <div class="progress-bar"  role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                            <span class="sr-only">Loading</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div ng-if="smglobal.mode=='picker'" class="height100 slide-anim">
+            <div class="row height100">
+                <div class="col-lg-6 height100" nice-scroll>
+                    <h1>Schedule</h1>    
+                    <div id="scheduleholder" formatted-schedule schedule="schedule">
+                    </div>
+                    <div>
+                        <small>
+                            <table class="table table-striped table-collapsed">
+                                <thead>
+                                    <tr>
+                                        <th>Code</th>
+                                        <th>Section</th>
+                                        <th>Lecturer</th>
+                                        <th>Time</th>
+                                        <th>Venue</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="x in smglobal.schedule">
+
+                                        <td>{{x.code}}</td>
+                                        <td>{{x.section}}</td>
+                                        <td>{{x.lecturer}}</td>
+                                        <td>{{x.day}} {{x.time}}</td>
+                                        <td>{{x.venue}}</td>
+                                        <td><a class="btn btn-danger glyphicon glyphicon-remove btn-sm" ng-click="smglobal.remove_section(x.section_id)"></a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </small>
+                        <a class="mouse-pointer btn btn-default" ng-click="smglobal.mode='generator'">Schedule Generator</a>
+                        <a class="mouse-pointer btn btn-default" ng-click="smglobal.mode='formatterform'">Schedule Formatter</a>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 height100" ng-controller="sectionSelector">
+                    <h3>Add Section</h3>
+
+                    <div ng-show="mode=='subject'" style="margin-bottom:5px">
+                        <span>Select a subject</span>
+                        <div class="input-group">
+                            <input class="form-control" ng-model="subsearch" placeholder="search subject"></input>
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+                        </div>
+                    </div>
+
+                    <div ng-show="mode=='section'" style="margin-bottom:5px">
+                        Select a section from {{selected_subject.code}} to add
+
+                        <div class="input-group">
+                            <span class="input-group-addon mouse-pointer" ng-click="mode='subject';cur_hover_section=undefined">Back</span>
+                            <input class="form-control" ng-model="secsearch" placeholder="search subject"></input>
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+                        </div>
+                    </div>
+
+                    <div class="row longrow">
+
+                        <div class="col-xs-4 height100 yscrollonly selector-kuly" ng-show="mode=='subject'" nice-scroll>
+                            <span>Kuliyyahs</span>    
+                            <div class="list-group">
+                                <a bindonce ng-repeat="(k,v) in smglobal.coursearray" class="list-group-item mouse-pointer" ng-class="(selected_kuly==k?'active':'') " ng-click="toggle_selected(k)"><span bo-text="k"></span> <span bo-text="v.length" class="badge"></span></a>
+                            </div>
+                        </div>
+                        <div ng-class="( mode=='subject'?'col-xs-8':'col-xs-4 small' )+' yscrollonly height100 selector-subject'" nice-scroll>
+                            <span>Subject ({{ filteredSubject.length }})</span>    
+                            <div class="list-group">
+                                <a bindonce ng-repeat="(k,v) in filteredSubject" class="list-group-item mouse-pointer" ng-class="(selected_subject==v?'active':'') "  ng-click="show_section(v)">
+                                    <i class="glyphicon glyphicon-ok pull-right" ng-show="smglobal.schedule[v.code]!=undefined"></i>
+                                    <span bo-text="v.code"></span><br />
+                                    <small bo-text="v.title"></small><br />
+                                </a>
+                                <small ng-show="scroll_limit_reached">For performance reason, no more than 300 subject will be shown at the same time. Please search for your subject or select a kulliyyah.</small>
+                            </div>                        
+                        </div>
+
+                        <div class="col-xs-8 yscrollonly sectionlist height100" ng-show="mode=='section'" nice-scroll>
+                            <div ng-show="loading_section==false">
+
+                                <table class="table table-borderd">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Lecturer</th>
+                                            <th>Time</th>
+                                            <th>Venue</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="v in csections | filter:secsearch" ng-class="smglobal.has_collide(v)?'bg-warning':''">
+                                            <td>{{v.section}}</td>
+                                            <td>{{v.lecturer}}</td>
+                                            <td>{{v.day}} {{v.time}}</td>
+                                            <td>{{v.venue}}</td>
+                                            <td class="text-center" ng-mouseenter="smglobal.cur_hover_section=v;" ng-mouseleave="smglobal.cur_hover_section=undefined;">
+                                                <div ng-show="!smglobal.section_added(v.section_id)">
+                                                    <div ng-show="!smglobal.has_collide(v)">
+                                                        <a class="btn btn-default" ng-click="smglobal.replace_section(v,selected_subject)" ng-show="smglobal.subject_added(selected_subject.code)">Replace</a>
+                                                        <a class="btn btn-default" ng-click="smglobal.add_section(v)" ng-show="!smglobal.subject_added(selected_subject.code)">Add</a>
+                                                    </div>
+                                                    <div ng-show="smglobal.has_collide(v)">
+                                                        <small>
+                                                            Collide with {{smglobal.has_collide(v).code}} section {{smglobal.has_collide(v).section}}
+                                                        </small>
+                                                    </div>
+                                                </div>
+                                                <div ng-show="smglobal.section_added(v.section_id)">
+                                                    <i class="glyphicon glyphicon-ok" ng-show="smglobal.section_added(v.section_id)"></i>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+
+                            <div ng-show="loading_section==true">
+                                Fetching section data... please wait...
+                            </div>
+
+                        </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div ng-if="smglobal.mode=='generator'" class="height100 slide-anim" ng-controller="generator">
+
+                <div class="row height100">
+                    <div class="col-md-4 height100">
+                        <h3><a class="mouse-pointer btn btn-default" ng-click="smglobal.mode='picker'">Back to picker</a>&nbsp;Schedule Generator</h3>
+
+                        <div style="margin-bottom:5px">
+                            <span>Select a subject</span>
+                            <div class="input-group">
+                                <input class="form-control" ng-model="subsearch" placeholder="search subject"></input>
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+                            </div>
+                        </div>
+
+                        <div class="row longrow">
+
+                            <div class="col-xs-4 height100 yscrollonly" nice-scroll>
+                                <span>Kuliyyahs</span>    
+                                <div class="list-group">
+                                    <a ng-repeat="(k,v) in smglobal.coursearray" class="list-group-item mouse-pointer" ng-class="(selected_kuly==k?'active':'') " ng-click="toggle_selected(k)">{{k}}</a>
+                                </div>
+                            </div>
+                            <div class="col-xs-8 yscrollonly height100" nice-scroll>
+                                <span>Subject</span>    
+                                <div class="list-group">
+                                    <a ng-repeat="(k,v) in filteredSubject" class="list-group-item mouse-pointer" ng-click="toggleSubject(v)">
+                                        <i class="glyphicon glyphicon-ok pull-right" ng-show="subjectAdded(v)"></i>
+                                        {{v.code}}
+                                        <small>{{v.title}}</small><br />
+                                    </a>
+                                </div>                        
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                    <div class="col-md-8 height100" nice-scroll>
+                        <div>
+                            <span ng-if="selectedSubjects.length==0">Select a subject</span>
+                            <span ng-show="selectedSubjects.length">{{ actual_length }} possible combination found.<span class="text-danger" ng-show="results.length < actual_length"> Too many combination to show. For performance reason,only {{ result_threshold }} results will be shown. Try removing subject with section that has not been determined the schedule. Or <a class="mouse-pointer" ng-click="result_threshold=result_threshold+50">click here</a> to increase the threshold by 50. </span></span>
+                            <span ng-repeat="s in selectedSubjects" ><a class="btn btn-default" ng-click="removeSubject(s)">{{s.code}} <span class="badge">{{sectioncount[s.code]==undefined?0:sectioncount[s.code]}}</span></a> </span>
+                            
+                        </div>
+                        <hr />
+                        <div class="" >
+                            <div ng-repeat="result in results">
+                                <div formatted-schedule template="'#bigschedtemplate'" schedule="result"></div>
+                                <small>
+                                    <table class="table table-striped table-condensed">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Code</th>
+                                                <th>Lecturer</th>
+                                                <th>Time</th>
+                                                <th>Venue</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="x in result">
+                                                <td>{{x.section}}</td>
+                                                <td>{{x.code}}</td>
+                                                <td>{{x.lecturer}}</td>
+                                                <td>{{x.day}} {{x.time}}</td>
+                                                <td>{{x.venue}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </small>
+                                <a class="btn btn-primary" ng-click="useResult(result)">Use Schedule</a>
+                                <hr />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div ng-if="smglobal.mode=='formatterform'" class="height100 slide-anim" ng-controller="formatterform">
+
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <h2>Open IIUM Schedule Formatter</h2>
+                        <a class="btn btn-default" ng-click="smglobal.mode='picker'">Back</a>
+
+                        <hr />
+                        <span ng-show="_.size(smglobal.schedule)==0" class="text-warning">You have not selected any subject. The schedule will appear empty.</span>
+                        <h4>Some additional information required</h4>
+
+                        <label>Name</label>
+                        <input class="form-control" type="text" ng-model="smglobal.studentname"></input>
+                        <label>IC:</label>
+                        <input class="form-control" type="text" ng-model="smglobal.ic"></input>
+                        <label>Matric Number</label>
+                        <input class="form-control" type="text" ng-model="smglobal.matricnumber"></input>
+                        <label>Program:</label>
+                        <input class="form-control" type="text" ng-model="smglobal.program"></input>
+
+                        <br />
+                        <a class="btn btn-primary" ng-click="save()">Save Data</a>
+                        <span ng-show="!requesting && requested">
+                            <a class="btn btn-primary" target="_blank" href="/scheduleformatter/?token={{token}}">Go to Automatic IIUM Schedule Formatter</a>
+                        </span>
+                        <span ng-show="requesting">
+                            Saving schedule...
+                        </span>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <h4>Preview</h4>
+                        <div formatted-schedule schedule="schedule"></div>
+                        <table class="table table-striped table-collapsed">
+                            <thead>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Section</th>
+                                    <th>Lecturer</th>
+                                    <th>Time</th>
+                                    <th>Venue</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="x in smglobal.schedule">
+
+                                    <td>{{x.code}}</td>
+                                    <td>{{x.section}}</td>
+                                    <td>{{x.lecturer}}</td>
+                                    <td>{{x.day}} {{x.time}}</td>
+                                    <td>{{x.venue}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- end pages -->
+
+        </div>
+
+    </div>
+</div>
+
+{% endraw %}
+
+<script src="/static/js/bootstrap.min.js"></script>
+
+<script src="/static/js/schedulemaker.js"></script>
+
+<script>
+</script>
+
+</body>
+</html>

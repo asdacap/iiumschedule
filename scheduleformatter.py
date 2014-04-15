@@ -1,8 +1,21 @@
-from google.appengine.ext import webapp
-from google.appengine.ext.webapp import util
-import os
-from google.appengine.ext.webapp import template
-from google.appengine.ext import db
+'''
+Copyright (C) 2014 Muhd Amirul Ashraf bin Mohd Fauzi <asdacap@gmail.com>
+
+This file is part of Automatic IIUM Schedule Formatter.
+
+Automatic IIUM Schedule Formatter is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Automatic IIUM Schedule Formatter is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Automatic IIUM Schedule Formatter.  If not, see <http://www.gnu.org/licenses/>.
+'''
 import hashlib
 import os
 from datetime import datetime,timedelta
@@ -16,8 +29,7 @@ from models import SavedSchedule, ErrorLog
 
 from flask import Flask, render_template, request, g
 import logging
-
-app= Flask(__name__)
+from bootstrap import app
 
 @app.route('/scheduleformatter/',methods=['GET','POST'])
 def schedule_formatter():
@@ -34,8 +46,8 @@ def schedule_formatter():
                 data=theinstance.data
                 return data
             return
-        path = os.path.join(os.path.dirname(__file__), 'scheduleformatterpage.html')
-        text=open(path).read()
+
+        text=render_template('scheduleformatterpage.html')
 
         token=request.args.get("token",None)
         if(not token):
@@ -56,9 +68,11 @@ def schedule_formatter():
             token=str(hashlib.md5(str(os.urandom(4))).hexdigest())
         else:
             token=request.form.get("ctoken")
-        theschedule=SavedSchedule(key_name=token)
+        theschedule=SavedSchedule(token=token)
         theschedule.data=thedata
         theschedule.createddate=datetime.now()
+        if(request.form.get("no_post_process","0")!="1"):
+            theschedule.post_process()
         theschedule.put()
         header={"Access-Control-Allow-Origin":"http://my.iium.edu.my"}
         return token,200,header
@@ -74,26 +88,28 @@ def schedule_loader():
         else:
             return "false"
     if(isfacebook):
-        path = os.path.join(os.path.dirname(__file__), 'facebookloader.html')
+        path = 'facebookloader.html'
     else:
-        path = os.path.join(os.path.dirname(__file__), 'scheduleloader.html')
-    return template.render(path,{"token":token})
+        path = 'scheduleloader.html'
+    return render_template(path,token=token)
 
 @app.route('/error/',methods=['GET','POST'])
 def error_handler():
-    submitter=request.form.get("submitter")
-    html=request.form.get("html")
-    additionaldata=request.form.get("add")
-    newrecord=ErrorLog()
-    newrecord.submitter=submitter
-    newrecord.html=html
-    newrecord.error=request.form.get("error")
-    newrecord.additionalinfo=additionaldata
-    newrecord.put()
-    return "Thank you for submitting a bug report. I will take some time before I read this error, and take more time before I fix it. So... just be patient."
+    if(request.method=='POST'):
+        submitter=request.form.get("submitter")
+        html=request.form.get("html")
+        additionaldata=request.form.get("add")
+        newrecord=ErrorLog()
+        newrecord.submitter=submitter
+        newrecord.html=html
+        newrecord.error=request.form.get("error")
+        newrecord.additionalinfo=additionaldata
+        newrecord.created_at=datetime.now()
+        newrecord.put()
+        return "Thank you for submitting a bug report. I will take some time before I read this error, and take more time before I fix it. So... just be patient."
+    return render_template('error_form.html')
 
 @app.route('/')
 def main():
-    path = os.path.join(os.path.dirname(__file__), 'mainpage.html')
-    return open(path).read()
+    return render_template('mainpage.html')
 

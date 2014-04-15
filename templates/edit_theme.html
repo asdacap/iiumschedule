@@ -1,0 +1,82 @@
+{% extends 'adminbase.html' %}
+{% block content %}
+
+<style>
+.labels{
+    width:10em;
+}
+
+.inputs{
+    width:60em;
+}
+
+.inputs textarea{
+    width:100%;
+    height:15em;
+}
+
+.inputs input{
+    width:100%;
+}
+#midbody{
+    width:60em;
+    margin-left:auto;
+    margin-right:auto;
+}
+</style>
+<script type='text/javascript' src='/static/js/jquery-1.7.2.min.js' ></script>
+
+<div id='midbody'>
+    <h1>Submit Your Theme</h1>
+    <form method="POST" action="">
+        <p>{{message}}</p>
+
+        <div class="form-group">
+            <label for='name'>Theme name:</label>
+            <input class="form-control" type='text' name='name' value='{{theme.name}}'></input>
+        </div>
+        <div class="form-group">
+            <label for='submitter'>Your name:</label>
+            <input class="form-control" type='text' name='submitter' value='{{theme.submitter}}'></input>
+        </div>
+        <div class="form-group">
+            <label for='email'>email:</label>
+            <input class="form-control" type='text' name='email' value='{{theme.email}}'></input>
+        </div>
+        <div class="form-group">
+            <label for='style'>data:</label>
+            <textarea class="form-control" name='data'>{{theme.data}}</textarea>
+        </div>
+
+        <label for='style'>Rendered:</label>
+        <textarea name='rendered' class="form-control" style=''>{{theme.rendered}}</textarea>
+        <br />
+        <a class="btn btn-default" href="javascript:rerender2()">Rerender</a>
+        <input name='submit' class="btn btn-primary" type='submit' value='Submit'></input>
+    </form>
+</div>
+
+
+<script type='text/javascript' src='/static/ejs_production.js' ></script>
+<script type='text/javascript' src='/static/customizer.js' ></script>
+<script type='text/javascript' src='/static/to-title-case.js' ></script>
+<script>
+
+function rerender2()
+{
+    var template=$('[name=data]').val();
+    template=JSON.parse(template);
+    $.get("/defaultdata/",{},function(data){
+        var dataobj=JSON.parse(data);
+        window.parsed_data=convert_data(dataobj);
+        window.parsed_data.style=template.style;
+        window.parsed_data.settings=template.settings;
+        
+        applyTemplate(template.template);
+        $("textarea[name=rendered]").text(renderdata(parsed_data));
+    });
+}
+
+</script>
+
+{% endblock %}

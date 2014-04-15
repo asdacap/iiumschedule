@@ -1,45 +1,99 @@
-import hashlib
-import os
-import re
+'''
+Copyright (C) 2014 Muhd Amirul Ashraf bin Mohd Fauzi <asdacap@gmail.com>
+
+This file is part of Automatic IIUM Schedule Formatter.
+
+Automatic IIUM Schedule Formatter is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Automatic IIUM Schedule Formatter is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Automatic IIUM Schedule Formatter.  If not, see <http://www.gnu.org/licenses/>.
+'''
 try:
     import JSON
 except ImportError:
     import json as JSON
-from models import SavedSchedule,SubjectData,SectionData
-
-from flask import Flask, render_template, request, g
+from functools import wraps
+from flask import Flask, render_template, request, g, session, redirect, url_for
 import json
 import logging
-from google.appengine.ext import deferred
-from google.appengine.ext import db
+import sqlalchemy.orm.exc
 from datetime import *
 
-app = Flask(__name__)
+from bootstrap import app,db
+from models import SavedSchedule,SubjectData,SectionData,ErrorLog,Theme
 
-@app.route('/cleanschedule/')
-def cleanschedule():
-    nowtime=datetime.now()
-    nowtime=nowtime-timedelta(hours=12)
-    thelist=SavedSchedule.all().filter("createddate <",nowtime)
-    db.delete(thelist)
-    return "Done"
+from staticsettings import LOGIN_USERNAME,LOGIN_PASSWORD
+
+
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'logged_in' in session and session['logged_in']==True:
+            return f(*args, **kwargs)
+        return redirect(url_for('login', next=request.url))
+    return decorated_function
+
+@app.route('/admin/logout/')
+def logout(next=None):
+    session['logged_in']=False
+    return redirect(url_for('login'))
+
+@app.route('/admin/login/',methods=['GET','POST'])
+def login(next=None):
+    if(request.method=='POST'):
+        if(request.form['username']==LOGIN_USERNAME and request.form['password']==LOGIN_PASSWORD):
+            session['logged_in']=True
+            if(next==None):
+                return redirect(url_for('adminmainpage'))
+            return redirect(next)
+    return render_template('login.html')
 
 @app.route('/admin/')
+@login_required
 def adminmainpage():
     return render_template( 'adminpage.html')
 
+@app.route('/admin/reset_db/')
+@login_required
+def reset_db():
+    db.drop_all()
+    db.create_all()
+    return "Done"
+
+@app.route('/admin/create_db/')
+@login_required
+def create_db():
+    db.create_all()
+    return "Done"
+
 def update_subject_data(session,sem,stype,kuly,code,data):
-    update=False;
+    update=False
     insert=False
 
-    query=list(SubjectData.query(SubjectData.code==code).fetch(1))
-    if(len(query)):
-        obj=query[0]
-        if(obj.coursetype!=stype or obj.title != data['title'] or obj.credit!=float(data['credit']) or obj.kuliyyah!=kuly):
+    obj=SubjectData.get_subject_data(code,session,sem)
+    if(obj!=None):
+        if(obj.coursetype==stype and
+            obj.title==data['title'] and
+            obj.credit==float(data['credit']) and
+            obj.kuliyyah==kuly and
+            obj.session==session and
+            obj.semester==sem):
+            pass
+        else:
             obj.coursetype=stype
             obj.title=data['title']
             obj.credit=float(data['credit'])
             obj.kuliyyah=kuly
+            obj.session=session
+            obj.semester=sem
             obj.put()
             update=True
     else:
@@ -49,32 +103,59 @@ def update_subject_data(session,sem,stype,kuly,code,data):
         obj.title=data['title']
         obj.credit=float(data['credit'])
         obj.kuliyyah=kuly
+        obj.session=session
+        obj.semester=sem
         obj.put()
         insert=True
 
     sectionupdate=False
     sectioninsert=False
 
-    query=list(SectionData.query(SectionData.session==session,SectionData.semester==int(sem),SectionData.code==code).fetch(1))
-    if(len(query)):
-        obj=query[0]
-        if(obj.sectiondata!=data['sections']):
-            obj.sectiondata=data['sections']
-            obj.put()
-            sectionupdate=True
-    else:
-        obj=SectionData()
-        obj.session=session
-        obj.semester=int(sem)
-        obj.code=code
-        obj.sectiondata=data['sections']
-        obj.put()
-        sectioninsert=True
+
+    for section in data['sections']:
+        val=data['sections'][section]
+        try:
+            sdata=SectionData.query.filter(SectionData.subject==obj).filter(SectionData.sectionno==section).one()
+            if(sdata.lecturer==val['lecturer'] and
+                sdata.venue==val['venue'] and
+                sdata.day==val['day'] and
+                sdata.time==val['time']):
+                pass
+            else:
+                sdata.lecturer=val['lecturer']
+                sdata.venue=val['venue']
+                sdata.day=val['day']
+                sdata.time=val['time']
+                sdata.put()
+        except sqlalchemy.orm.exc.NoResultFound, e:
+            sdata=SectionData()
+            sdata.subject=obj
+            sdata.sectionno=section
+            sdata.lecturer=val['lecturer']
+            sdata.venue=val['venue']
+            sdata.day=val['day']
+            sdata.time=val['time']
+            sdata.put()
 
     logging.info("On subject %s using %s. %s section data %s. "%(code,update and 'update' or ( insert and 'add' or 'nothing') ,len(data['sections'].keys()),sectionupdate and 'updated' or ( sectioninsert and 'added' or 'nothing') ))
 
+def update_subject_data_bulk(obj,session):
+    results=obj['results']
+
+    for sem in results:
+        for rstype in results[sem]:
+            if(rstype=='<'):
+                stype='UG'
+            else:
+                stype='PG'
+            for kuly in results[sem][rstype]:
+                for code in results[sem][rstype][kuly]:
+                    update_subject_data(session,sem,stype,kuly,code,results[sem][rstype][kuly][code])
+                    g.counter+=1
+
 
 @app.route('/admin/upload_section_data/',methods=['GET','POST'])
+@login_required
 def update_section_data():
     message="Upload the section data"
     if(request.method=='POST'):
@@ -87,29 +168,66 @@ def update_section_data():
             if(request.files['secdata'].filename!=''):
                 obj=json.load(request.files['secdata'])
 
-                results=obj['results']
+                update_subject_data_bulk(obj,session)
 
-                for sem in results:
-                    for rstype in results[sem]:
-                        if(rstype=='<'):
-                            stype='UG'
-                        else:
-                            stype='PG'
-                        for kuly in results[sem][rstype]:
-                            for code in results[sem][rstype][kuly]:
-                                deferred.defer(update_subject_data,session,sem,stype,kuly,code,results[sem][rstype][kuly][code])
-                                #update_subject_data(session,sem,stype,kuly,code,results[sem][rstype][kuly][code])
-                                g.counter+=1
-
-
-                message="File Uploaded. %s deferred task created. "%g.counter
+                message="File Uploaded. %s session data added/updated. "%g.counter
             else:
                 message="Pick a file"
     return render_template( 'upload_section.html', message=message )
 
 @app.route('/admin/remove_all_section_data/')
+@login_required
 def remove_section_data():
-    query=SectionData.query()
+    query=SectionData.query
     for sd in query:
         sd.key.delete()
     return 'Done'
+
+@app.route('/admin/error_report/<id>/delete/')
+@login_required
+def delete_error(id):
+    error=ErrorLog.query.get(id)
+    db.session.delete(error)
+    db.session.commit()
+    return redirect(url_for('error_report'))
+
+@app.route('/admin/error_report/<id>/')
+@login_required
+def show_error(id):
+    error=ErrorLog.query.get(id)
+    return render_template('show_error.html',error=error)
+
+@app.route('/admin/error_report/')
+@login_required
+def error_report():
+    errors=ErrorLog.query
+    return render_template('error_report_list.html',errors=errors)
+
+@app.route('/admin/theme/<name>/delete/')
+@login_required
+def delete_theme(name):
+    theme=Theme.query.get(name)
+    db.session.delete(theme)
+    db.session.commit()
+    return redirect(url_for('theme'))
+
+@app.route('/admin/theme/<name>/',methods=['GET','POST'])
+@login_required
+def show_theme(name):
+    theme=Theme.query.get(name)
+    if(request.method=='POST'):
+        theme.name=request.form.get('name')
+        theme.submitter=request.form.get('submitter')
+        theme.email=request.form.get('email')
+        theme.style=request.form.get('style')
+        theme.rendered=request.form.get('rendered')
+        theme.put();
+        return redirect(url_for('theme'))
+    return render_template('edit_theme.html',theme=theme)
+
+@app.route('/admin/theme/')
+@login_required
+def theme():
+    themes=Theme.query
+    return render_template('theme_list.html',themes=themes)
+

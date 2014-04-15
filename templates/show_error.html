@@ -1,0 +1,26 @@
+{% extends 'adminbase.html' %}
+{% block content %}
+<h1>Error Report</h1>
+<dl>
+    <dt>Submitter</dt>
+    <dd>{{error.submitter}}</dd>
+</dl><dl>
+    <dt>Created At</dt>
+    <dd>{{error.created_at}}</dd>
+</dl><dl>
+    <dt>Error</dt>
+    <dd>{{error.error}}</dd>
+</dl><dl>
+    <dt>Description</dt>
+    <dd>{{error.description}}</dd>
+</dl><dl>
+    <dt>HTML data</dt>
+    <dd>{{error.html}}</dd>
+</dl>
+<h4>Unescaped Data</h4>
+<div style="border:1px solid black;">
+{{error.html|safe}}
+</div>
+<a class="btn btn-default" href="{{url_for('error_report')}}">Back</a>
+<a class="btn btn-danger" href="{{url_for('delete_error',id=error.id)}}">Delete</a>
+{% endblock %}

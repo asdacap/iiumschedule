@@ -29,7 +29,17 @@
             samename("showpersonalinfo");
             samename("showcoursetable");
             samename("showfulldayname");
+
+            function coursetablesetting(name){
+                csetting.coursetable[name] && $("input[name=course_table_"+name+"]").prop("checked",true);
+            }
+            coursetablesetting('code');
+            coursetablesetting('section');
+            coursetablesetting('credit');
+            coursetablesetting('name');
+            coursetablesetting('lecturer');
         }
+
         function save_settings(){
             var oursetting={show_day:{}};
             oursetting.show_day.MON=$("input[name=day_monday]").prop("checked");
@@ -46,6 +56,17 @@
             samename("showpersonalinfo");
             samename("showcoursetable");
             samename("showfulldayname");
+
+            oursetting.coursetable={}
+            function coursetablesetting(name){
+                oursetting.coursetable[name]=$("input[name=course_table_"+name+"]").prop("checked");
+            }
+            coursetablesetting('code');
+            coursetablesetting('section');
+            coursetablesetting('credit');
+            coursetablesetting('name');
+            coursetablesetting('lecturer');
+
             $.extend(parent.currentsettings,oursetting);
             parent.rerender();
         }
@@ -71,6 +92,15 @@
         <tr><td>Friday:</td><td><input type="checkbox" name="day_friday"/></td></tr>
         <tr><td>Saturday:</td><td><input type="checkbox" name="day_saturday"/></td></tr>
         <tr><td>Sunday:</td><td><input type="checkbox" name="day_sunday"/></td></tr>
+    </table>
+    <br />
+    <span class="heading">Course Table:</span>
+    <table>
+        <tr><td>Code:</td><td><input type="checkbox" name="course_table_code"/></td></tr>
+        <tr><td>Section:</td><td><input type="checkbox" name="course_table_section"/></td></tr>
+        <tr><td>Credit Hour:</td><td><input type="checkbox" name="course_table_credit"/></td></tr>
+        <tr><td>Name:</td><td><input type="checkbox" name="course_table_name"/></td></tr>
+        <tr><td>Lecturer:</td><td><input type="checkbox" name="course_table_lecturer"/></td></tr>
     </table>
     <br />
     <span class="heading">Tweaks</span><br />

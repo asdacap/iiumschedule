@@ -1,0 +1,30 @@
+{% extends 'adminbase.html' %}
+
+{% block content %}
+<h1>Error Report</h1>
+<form method="POST" action="">
+    <div class="form-group">
+        <label for='submitter'>Your Name</label><input type='text' name='submitter' value='' class="form-control"></input>
+    </div>
+
+    <div class="form-group">
+        <label for='add'>Anything else to add? Description maybe?</label>
+        <textarea cols='30' rows='5' name='add' class="form-control" placeholder="Insert complaint here"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for='error'>Error Description</label>
+        <input type='text' name='error' class="form-control"></input>
+    </div>
+
+    <div class="form-group">
+        <label for='html'>HTML data</label>
+        <textarea cols='30' rows='5' name='html' class="form-control"></textarea>
+    </div>
+
+    <div class="form-group">
+        <input name='submit' type='submit' value='submit' class="btn btn-primary"></input>
+    </div>
+</form>
+
+{% endblock %}
