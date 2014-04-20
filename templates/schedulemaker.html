@@ -257,7 +257,7 @@
       </td>
       <% for(var i=0;i<byfiveminute[key].length;i=i+1){ %>
 	<% if(byfiveminute[key][i].course){ %>
-        <td class='nonempty <%=byfiveminute[key][i].course.hover?"bg-warning":""%>' colspan='<%= byfiveminute[key][i].duration %>'>
+        <td title='<%= byfiveminute[key][i].course.title %>' class='nonempty <%=byfiveminute[key][i].course.hover?"bg-warning":""%>' colspan='<%= byfiveminute[key][i].duration %>'>
 	      <div class='code'>
 	      <%= byfiveminute[key][i].course.code %>
 	      </div>
@@ -386,7 +386,7 @@
                                 </thead>
                                 <tbody>
                                     <tr ng-repeat="x in smglobal.schedule">
-                                        <td>{{x.code}}</td>
+                                        <td title="{{x.title}}">{{x.code}}</td>
                                         <td>{{x.section}}</td>
                                         <td>{{x.lecturer}}</td>
                                         <td>{{x.day}} {{x.time}}</td>
@@ -564,7 +564,7 @@
                                     <table class="table table-striped table-condensed">
                                         <thead>
                                             <tr>
-                                                <th>#</th>
+                                                <th>Section</th>
                                                 <th>Code</th>
                                                 <th>Lecturer</th>
                                                 <th>Time</th>
@@ -574,7 +574,7 @@
                                         <tbody>
                                             <tr ng-repeat="x in result">
                                                 <td>{{x.section}}</td>
-                                                <td>{{x.code}}</td>
+                                                <td title="{{x.title}}">{{x.code}}</td>
                                                 <td>{{x.lecturer}}</td>
                                                 <td>{{x.day}} {{x.time}}</td>
                                                 <td>{{x.venue}}</td>
