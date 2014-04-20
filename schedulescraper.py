@@ -26,7 +26,7 @@ import logging
 from datetime import datetime
 from urlparse import urlparse,parse_qsl
 
-SOURCE_URL='http://itdportal.iium.edu.my/student/schedule1.php'
+SOURCE_URL='http://prereg.iium.edu.my/schedule1.php'
 
 def fetch_schedule_data(session):
 
@@ -38,7 +38,7 @@ def fetch_schedule_data(session):
 
     #options got from main form selects
     kulys=[[x['value'],x.string] for x in soup.find(attrs={'name':'kuly'})('option')]
-    sems=[[x['value'],x.string] for x in soup.find(attrs={'name':'sem'})('option')]
+    sems=( ( '1' , '1' ),( '2' , '2' ),( '3' , '3' ) )
     ctypes=[[x['value'],x.string] for x in soup.find(attrs={'name':'ctype'})('option')]
 
 
@@ -106,6 +106,7 @@ def fetch_schedule_data(session):
             return
 
         trs=scheduletable.find_all('table')[1].find_all('tr',recursive=False)[2:-1]
+        logging.info("Got "+str(len(trs))+" records")
 
         for row in trs:
             tds=row.find_all('td')
