@@ -9,7 +9,8 @@ angular.module('smaker',['ngAnimate','pasvaz.bindonce'])
         student_type:'',
         semester:'',
         sectioncache:{},
-        cur_hover_section:undefined
+        cur_hover_section:undefined,
+        loading_section_query:false
     };
 
     gobj.add_section=function(section){
@@ -257,10 +258,20 @@ angular.module('smaker',['ngAnimate','pasvaz.bindonce'])
         }
     }
 
-    $scope.$watch('smglobal.schedule',resyncschedule);
+    $scope.generateLink=function(){
+        return location.origin+"/schedulemaker/?"+$.param({
+            ses:smglobal.session,
+            sem:smglobal.semester,
+            st:smglobal.student_type,
+            code:_.pluck(smglobal.schedule,'code').join(','),
+            section:_.pluck(smglobal.schedule,'section').join(','),
+        });
+    }
+
+    $scope.$watchCollection('smglobal.schedule',resyncschedule);
     $scope.$watch('smglobal.cur_hover_section',resyncschedule);
 
-}).controller('startform',function($scope,$http,smglobal){
+}).controller('startform',function($scope,$http,smglobal,$timeout,$q,$rootScope){
 
     $scope.available_sessions=[
         "2013/2014",
@@ -299,8 +310,49 @@ angular.module('smaker',['ngAnimate','pasvaz.bindonce'])
                 });
                 smglobal.coursearray=coursearray;
                 $(window).resize();
+
+                if(window.schedulequery){
+
+                    //add the course in the querystring
+                    var codes=window.schedulequery.code.split(',');
+                    var sections=window.schedulequery.section.split(',');
+                    var promises=[];
+                    var i=0;
+                    while(i<codes.length){
+                        //find the subject object
+                        var code=codes[i];
+                        var subject=undefined;
+                        var csection=sections[i];
+                        _.find(coursearray,function(v){
+                            return _.find(v,function(sub){
+                                if(sub.code==code){
+                                    subject=sub;
+                                    return true;
+                                }
+                            });
+                        });
+                        
+                        //get the sections
+                        var promise=smglobal.fetch_section(subject).then(function(fetchedsections){
+                            _.find(fetchedsections,function(section){
+                                if(section.section==csection){
+                                    smglobal.add_section(section);
+                                }
+                            });
+                        });
+                        promises.push(promise);
+                        i++;
+                    }
+                    
+                    $q.all(promises).then(function(){
+                        smglobal.loading_section_query=false;
+                    });
+
+                }
+
             }).error(function(){
                 smglobal.mode='startpage';
+                smglobal.loading_section_query=true;
                 alert('Sorry, an error happened when fetching subjects. The server may be down');
             });
 
@@ -309,6 +361,16 @@ angular.module('smaker',['ngAnimate','pasvaz.bindonce'])
             console.log("Submit called start form "+JSON.stringify($scope.start_form.$valid));
         }
     };
+
+    //if link provide query, autoload it.
+    if(window.schedulequery){
+        $scope.session=window.schedulequery.ses;
+        $scope.semester=window.schedulequery.sem;
+        $scope.student_type=window.schedulequery.st;
+        $timeout(function(){
+            $scope.start_form_submit();
+        },10);
+    }
 }).controller('sectionSelector',function($scope,smglobal,$filter){
 
     //selector stuff, a subject is all subject in an array
@@ -370,7 +432,7 @@ angular.module('smaker',['ngAnimate','pasvaz.bindonce'])
     }
 
 
-    $scope.$watch(function(){return smglobal.coursearray;},function(){
+    $scope.$watchCollection(function(){return smglobal.coursearray;},function(){
         $scope.asubject=[];
         _.each(smglobal.coursearray,function(arr,kuly){
             _.each(arr,function(obj,i){

@@ -80,4 +80,9 @@ def fetchsection():
 
 @app.route('/schedulemaker/')
 def schedulemaker():
-	return render_template('schedulemaker.html')
+        query=False
+	if(set(['ses','sem','st','code','section']).issubset(request.args.keys()) and [x for x in ['ses','sem','st','code','section'] if request.args.get(x)!='' ]):
+            query={}
+            for x in ['ses','sem','st','code','section']:
+                query[x]=request.args.get(x)
+        return render_template('schedulemaker.html',query=json.dumps(query))
