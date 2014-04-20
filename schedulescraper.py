@@ -23,6 +23,7 @@ import sys
 import urllib2
 import urllib
 import logging
+import gc
 from datetime import datetime
 from urlparse import urlparse,parse_qsl
 
@@ -41,6 +42,8 @@ def fetch_schedule_data(session):
     sems=( ( '1' , '1' ),( '2' , '2' ),( '3' , '3' ) )
     ctypes=[[x['value'],x.string] for x in soup.find(attrs={'name':'ctype'})('option')]
 
+    soup.decompose()
+    soup=None
 
     #this is where data will be kept
     results={}
@@ -83,7 +86,7 @@ def fetch_schedule_data(session):
         logging.info('Requesting '+theurl)
 
         #helps with debugging
-        global scheduletable
+        #global scheduletable
 
         ''' used in debugging
         global tested
@@ -93,7 +96,9 @@ def fetch_schedule_data(session):
         '''
 
         try:
-            scheduletable=BeautifulSoup(urllib2.urlopen(theurl))
+            request=urllib2.urlopen(theurl)
+            scheduletable=BeautifulSoup(request.read())
+            request.close()
             fetched.append(theurl)
         except urllib2.URLError,e:
             logging.info("Error fetching. Trying again")
@@ -137,7 +142,13 @@ def fetch_schedule_data(session):
 
             results[sems[0]][ctypes[0]][kulys[0]][rowdata['code']]['sections'][rowdata['section']]=aresult
 
-        links=[x['href'] for x in scheduletable.find_all('table')[1].td.find_all('a')]
+        links=[str(x['href']) for x in scheduletable.find_all('table')[1].td.find_all('a')]
+        trs=None
+        tds=None
+        scheduletable.decompose()
+        scheduletable=None
+        gc.collect()
+
         for link in links:
             newparam=dict(parse_qsl(urlparse(link).query))
             scan_it(kulys,sems,ctypes,newparam['view'])
