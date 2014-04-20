@@ -538,9 +538,22 @@
                     </div>
                     <div class="col-md-8 height100" nice-scroll>
                         <div>
-                            <span ng-if="selectedSubjects.length==0">Select a subject</span>
-                            <span ng-show="selectedSubjects.length">{{ actual_length }} possible combination found.<span class="text-danger" ng-show="results.length < actual_length"> Too many combination to show. For performance reason,only {{ result_threshold }} results will be shown. Try removing subject with section that has not been determined the schedule. Or <a class="mouse-pointer" ng-click="result_threshold=result_threshold+50">click here</a> to increase the threshold by 50. </span></span>
-                            <span ng-repeat="s in selectedSubjects" ><a class="btn btn-default" ng-click="removeSubject(s)">{{s.code}} <span class="badge">{{sectioncount[s.code]==undefined?0:sectioncount[s.code]}}</span></a> </span>
+
+                            <div ng-show="fetching_sections">
+                                <span>Fetching sections and calculating combinations...</span>
+                                <div class="progress progress-striped active" style="margin-bottom:5px;">
+                                    <div class="progress-bar"  role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                                        <span class="sr-only">Loading sections</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div ng-hide="fetching_sections">
+                                <span ng-if="selectedSubjects.length==0">Select a subject</span>
+
+                                <span ng-show="selectedSubjects.length">{{ actual_length }} possible combination found.<span class="text-danger" ng-show="results.length < actual_length"> Too many combination to show. For performance reason,only {{ result_threshold }} results will be shown. Try removing subject with section that has not been determined the schedule. Or <a class="mouse-pointer" ng-click="result_threshold=result_threshold+50">click here</a> to increase the threshold by 50. </span></span>
+                                <span ng-repeat="s in selectedSubjects" ><a class="btn btn-default" ng-click="removeSubject(s)">{{s.code}} <span class="badge">{{sectioncount[s.code]==undefined?0:sectioncount[s.code]}}</span></a> </span>
+                            </div>
                             
                         </div>
                         <hr />

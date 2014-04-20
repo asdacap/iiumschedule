@@ -630,8 +630,15 @@ angular.module('smaker',['ngAnimate','pasvaz.bindonce'])
     $scope.$watch('asubject',refilter);
 
     $scope.sectioncount={};
+    $scope.fetching_sections=false;
+
+    var curop=0;
 
     var fetch_sections=function(){
+        $scope.fetching_sections=true;
+
+        curop++;
+        var icurop=curop;
 
         var coursearray={};
         var promises=[];
@@ -647,6 +654,10 @@ angular.module('smaker',['ngAnimate','pasvaz.bindonce'])
         });
 
         $q.all(promises).then(function(){
+            if(icurop!=curop){
+                return;
+            }
+            $scope.fetching_sections=false;
 
             var values=_.values(coursearray);
 
@@ -683,6 +694,7 @@ angular.module('smaker',['ngAnimate','pasvaz.bindonce'])
             }
             recurit(temp,0);
 
+            //limit what will be displayed for performance reason.
             $scope.actual_length=results.length;
             if(results.length>$scope.result_threshold){
                 $scope.results=_.first(results,$scope.result_threshold);
