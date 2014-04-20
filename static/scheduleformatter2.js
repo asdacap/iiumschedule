@@ -440,43 +440,38 @@ function parsetable() {
                 var venue = currow[9];
                 
                 var rawday= currow[5];
+
+                var days=[];
+                function make_long(d){
+                    if(d=='M')return "MON";
+                    if(d=='T')return "TUE";
+                    if(d=='W')return "WED";
+                    if(d=='TH')return "THUR";
+                    if(d=='F')return "FRI";
+                    if(d=='SN')return "SUN";
+                    if(d=='S')return "SAT";
+                    throw "Unknown day ->"+d;
+                }
+
                 if(/\s*(MON|TUE|WED|THUR|FRI|SAT|SUN)\s*/.exec(rawday)){
-                    var day=rawday;
-                    var newschedule = {
-                        day : day,
-                        start : starttime,
-                        end : endtime,
-                        venue : venue
-                    }
-                    currentcourse.schedule.push(newschedule);
+                    days.push(rawday);
+                }else if(/\s*(MON|TUE|WED|THUR|FRI|SAT|SUN)-(MON|TUE|WED|THUR|FRI|SAT|SUN)\s*/.exec(rawday)){
+                    var execed=/\s*(MON|TUE|WED|THUR|FRI|SAT|SUN)-(MON|TUE|WED|THUR|FRI|SAT|SUN)\s*/.exec(rawday);
+                    days.push(make_long( execed[1] ));
+                    days.push(make_long( execed[2] ));
+                }else if(/\s*(M|TH|W|T|F|SN|S)\s*-\s*(M|TH|W|T|F|SN|S)\s*-\s*(M|TH|W|T|F|SN|S)\s*/.exec(rawday)){
+                    var execed=/\s*(M|TH|W|T|F|SN|S)\s*-\s*(M|TH|W|T|F|SN|S)\s*-\s*(M|TH|W|T|F|SN|S)\s*/.exec(rawday);
+                    days.push(make_long( execed[1] ));
+                    days.push(make_long( execed[2] ));
+                    days.push(make_long( execed[3] ));
                 }else if(/\s*(M|TH|W|T|F|SN|S)\s*-\s*(M|TH|W|T|F|SN|S)\s*/.exec(rawday)){
                     var execed=/\s*(M|TH|W|T|F|SN|S)\s*-\s*(M|TH|W|T|F|SN|S)\s*/.exec(rawday);
-                    function make_long(d){
-                        if(d=='M')return "MON";
-                        if(d=='T')return "TUE";
-                        if(d=='W')return "WED";
-                        if(d=='TH')return "THUR";
-                        if(d=='F')return "FRI";
-                        if(d=='SN')return "SUN";
-                        if(d=='S')return "SAT";
-                        throw "Unknown day ->"+d;
-                    }
-                    var d1=make_long(execed[1]);
-                    var newschedule = {
-                        day : d1,
-                        start : starttime,
-                        end : endtime,
-                        venue : venue
-                    }
-                    currentcourse.schedule.push(newschedule);
-                    var d2=make_long(execed[2]);
-                    newschedule = {
-                        day : d2,
-                        start : starttime,
-                        end : endtime,
-                        venue : venue
-                    }
-                    currentcourse.schedule.push(newschedule);
+                    days.push(make_long( execed[1] ));
+                    days.push(make_long( execed[2] ));
+                }else if(rawday=="TWF"){
+                    days.push('TUE');
+                    days.push('WED');
+                    days.push('THUR');
                 }else if("MTWTHF".indexOf(rawday)!=-1){
                     var idx="MTWTHF".indexOf(rawday);
                     var length=rawday.length;
@@ -489,18 +484,22 @@ function parsetable() {
                     var dayidx=["MON","TUE","WED","THUR","FRI"];
                     var i2=idx;
                     while(i2<idx+length){
-                        var newschedule = {
-                            day : dayidx[i2],
-                            start : starttime,
-                            end : endtime,
-                            venue : venue
-                        }
-                        currentcourse.schedule.push(newschedule);
+                        days.push(dayidx[i2]);
                         i2++;
                     }
                 }else{
                     throw "Unknown day format ->"+rawday;
                 }
+
+                _.each(days,function(day){
+                    var newschedule = {
+                        day : day,
+                        start : starttime,
+                        end : endtime,
+                        venue : obj.venue
+                    }
+                    currentcourse.schedule.push(newschedule);
+                });
                 
                 coursearray.push(currentcourse);
             }
