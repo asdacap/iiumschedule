@@ -108,9 +108,8 @@ def update_subject_data(session,sem,stype,kuly,code,data):
         obj.put()
         insert=True
 
-    sectionupdate=False
-    sectioninsert=False
-
+    sectionupdated=0
+    sectionadded=0
 
     for section in data['sections']:
         val=data['sections'][section]
@@ -127,6 +126,7 @@ def update_subject_data(session,sem,stype,kuly,code,data):
                 sdata.day=val['day']
                 sdata.time=val['time']
                 sdata.put()
+                sectionupdated=sectionupdated+1
         except sqlalchemy.orm.exc.NoResultFound, e:
             sdata=SectionData()
             sdata.subject=obj
@@ -136,8 +136,9 @@ def update_subject_data(session,sem,stype,kuly,code,data):
             sdata.day=val['day']
             sdata.time=val['time']
             sdata.put()
+            sectionadded=sectionadded+1
 
-    logging.info("On subject %s using %s. %s section data %s. "%(code,update and 'update' or ( insert and 'add' or 'nothing') ,len(data['sections'].keys()),sectionupdate and 'updated' or ( sectioninsert and 'added' or 'nothing') ))
+    logging.info("On subject %s using %s. %s section updated, %s section added. "%(code,update and 'update' or ( insert and 'add' or 'nothing'),sectionupdated,sectionadded) )
 
 def update_subject_data_bulk(obj,session):
     results=obj['results']
