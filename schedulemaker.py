@@ -41,7 +41,7 @@ def fetchsubject():
 				'title':r[2],
 			});
 		return json.dumps(finalres)
-	return 'Arguments not filled';
+	return 'Arguments not filled',400
 
 from sqlalchemy.ext.declarative import DeclarativeMeta
 class AlchemyEncoder(json.JSONEncoder):
@@ -65,7 +65,7 @@ class AlchemyEncoder(json.JSONEncoder):
 @app.route('/schedulemaker/fetch_section/')
 def fetchsection():
 	if('id' not in request.args.keys()):
-		return 'Arguments not filled'
+		return 'Arguments not filled',400
 	finalres=SectionData.query.filter(SectionData.subject_id==request.args.get('id')).all()
 	finalres=[{
         'id':x.id,

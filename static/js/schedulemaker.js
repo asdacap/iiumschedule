@@ -149,8 +149,8 @@ angular.module('smaker',['ngAnimate','pasvaz.bindonce'])
             days.push(rawday);
         }else if(/\s*(MON|TUE|WED|THUR|FRI|SAT|SUN)-(MON|TUE|WED|THUR|FRI|SAT|SUN)\s*/.exec(rawday)){
             var execed=/\s*(MON|TUE|WED|THUR|FRI|SAT|SUN)-(MON|TUE|WED|THUR|FRI|SAT|SUN)\s*/.exec(rawday);
-            days.push(make_long( execed[1] ));
-            days.push(make_long( execed[2] ));
+            days.push(execed[1]);
+            days.push(execed[2]);
         }else if(/\s*(M|TH|W|T|F|SN|S)\s*-\s*(M|TH|W|T|F|SN|S)\s*-\s*(M|TH|W|T|F|SN|S)\s*/.exec(rawday)){
             var execed=/\s*(M|TH|W|T|F|SN|S)\s*-\s*(M|TH|W|T|F|SN|S)\s*-\s*(M|TH|W|T|F|SN|S)\s*/.exec(rawday);
             days.push(make_long( execed[1] ));
@@ -163,7 +163,7 @@ angular.module('smaker',['ngAnimate','pasvaz.bindonce'])
         }else if(rawday=="TWF"){
             days.push('TUE');
             days.push('WED');
-            days.push('THUR');
+            days.push('FRI');
         }else if("MTWTHF".indexOf(rawday)!=-1){
             var idx="MTWTHF".indexOf(rawday);
             var length=rawday.length;
@@ -327,16 +327,25 @@ angular.module('smaker',['ngAnimate','pasvaz.bindonce'])
                                 }
                             });
                         });
+
+                        if(subject==undefined){
+                            console.log("WARNING:Subject "+code+" not found");
+                            i++;
+                            continue;
+                        }
                         
-                        //get the sections
-                        var promise=smglobal.fetch_section(subject).then(function(fetchedsections){
-                            _.find(fetchedsections,function(section){
-                                if(section.section==csection){
-                                    smglobal.add_section(section);
-                                }
+                        (function(csection,subject){
+                            //get the sections
+                            var promise=smglobal.fetch_section(subject).then(function(fetchedsections){
+                                _.find(fetchedsections,function(section){
+                                    if(section.section==csection){
+                                        smglobal.add_section(section);
+                                    }
+                                });
                             });
-                        });
-                        promises.push(promise);
+                            promises.push(promise);
+                        })(csection,subject);
+
                         i++;
                     }
                     
