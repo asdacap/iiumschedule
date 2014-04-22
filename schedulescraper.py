@@ -18,6 +18,7 @@ You should have received a copy of the GNU General Public License
 along with Automatic IIUM Schedule Formatter.  If not, see <http://www.gnu.org/licenses/>.
 '''
 
+import bootstrap
 from bs4 import BeautifulSoup
 import sys
 import urllib2
@@ -170,3 +171,42 @@ def fetch_schedule_data(session):
     logging.info('Done. Duration '+str(duration))
 
     return resultarr
+
+if __name__ == '__main__':
+    import sys
+    import logging.config
+
+    logging.config.dictConfig({
+        'version':1,
+            'formatters':{
+                'simple':{
+                    'format':'%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+                }
+            },
+            'handlers':{
+                'console':{
+                    'class':'logging.StreamHandler',
+                    'level':'INFO',
+                    'formatter':'simple',
+                    'stream': 'ext://sys.stdout'
+                }
+            },
+            'root':{
+                'level':'INFO',
+                'handlers':['console']
+            }
+        })
+
+    if(len(sys.argv) != 3):
+        print("Invalid arguments %")
+        print("Usage : schedulescraper.py [session] [outputfile]")
+    else:
+        session=sys.argv[1]
+        outputfile=sys.argv[2]
+        result=fetch_schedule_data(session)
+
+        with open(outputfile,'w') as dumpit:
+            import json
+            dumpit.write(json.dumps(result,indent=2))
+
+        print('done')
