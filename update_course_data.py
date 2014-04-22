@@ -24,7 +24,9 @@ import logging
 import logging.config
 import admincontroller
 import staticsettings
+import sqlalchemy.orm.exc
 from flask import g
+from models import SubjectData,SectionData
 
 logging.config.dictConfig({
     'version':1,
@@ -56,8 +58,70 @@ logging.config.dictConfig({
 sessions=staticsettings.SESSIONS_STILL_UPDATE
 
 with bootstrap.app.app_context():
-    g.counter=0
     for session in sessions:
-        obj=schedulescraper.fetch_schedule_data(session)
-        admincontroller.update_subject_data_bulk(obj,session)
-        logging.info("%s session data added/updated."%g.counter)
+
+        logging.info("=== STARTING UPDATE ===")
+
+        def callback(sem,stype,kuly,data):
+            code=data['code']
+
+            obj=SubjectData.get_subject_data(code,session,sem)
+            if(obj!=None):
+                if(obj.coursetype==stype and
+                    obj.title==data['title'] and
+                    obj.credit==float(data['credit']) and
+                    obj.kuliyyah==kuly and
+                    obj.session==session and
+                    obj.semester==int(sem)):
+                    pass
+                else:
+                    obj.coursetype=stype
+                    obj.title=data['title']
+                    obj.credit=float(data['credit'])
+                    obj.kuliyyah=kuly
+                    obj.session=session
+                    obj.semester=sem
+                    obj.put()
+                    logging.info("Update subject %s"%obj.code)
+            else:
+                obj=SubjectData()
+                obj.code=code
+                obj.coursetype=stype
+                obj.title=data['title']
+                obj.credit=float(data['credit'])
+                obj.kuliyyah=kuly
+                obj.session=session
+                obj.semester=sem
+                obj.put()
+                logging.info("Insert subject %s"%obj.code)
+
+            section=data['section']
+            try:
+                sdata=SectionData.query.filter(SectionData.subject==obj).filter(SectionData.sectionno==section).one()
+                if(sdata.lecturer==data['lecturer'] and
+                    sdata.venue==data['venue'] and
+                    sdata.day==data['day'] and
+                    sdata.time==data['time']):
+                    pass
+                else:
+                    sdata.lecturer=data['lecturer']
+                    sdata.venue=data['venue']
+                    sdata.day=data['day']
+                    sdata.time=data['time']
+                    sdata.put()
+                    logging.info("Update subject %s section %s"%(data['code'],data['section']))
+            except sqlalchemy.orm.exc.NoResultFound, e:
+                sdata=SectionData()
+                sdata.subject=obj
+                sdata.sectionno=section
+                sdata.lecturer=data['lecturer']
+                sdata.venue=data['venue']
+                sdata.day=data['day']
+                sdata.time=data['time']
+                sdata.put()
+                logging.info("Add subject %s section %s"%(data['code'],data['section']))
+
+        obj=schedulescraper.fetch_schedule_data_callback(session,callback)
+
+        logging.info("Done update")
+
