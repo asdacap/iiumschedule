@@ -63,6 +63,10 @@ with bootstrap.app.app_context():
         logging.info("=== STARTING UPDATE ===")
 
         def callback(sem,stype,kuly,data):
+            if(stype=='<'):
+                stype='UG'
+            else:
+                stype='PG'
             code=data['code']
 
             obj=SubjectData.get_subject_data(code,session,sem)
