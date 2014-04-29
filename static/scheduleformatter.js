@@ -2,7 +2,6 @@
 
 function startscheduler(){
 	var counter=0;
-	var complete_count=2;
 	function res_add_counter(){
 		counter=counter+1;
 		if(counter==complete_count){
@@ -15,16 +14,18 @@ function startscheduler(){
 	e.innerHTML='Loading additional resource...'
 	document.getElementsByTagName('body')[0].appendChild(e); 
 	  
-	e=document.createElement('script');
-	e.src = 'http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js';
-	e.type='text/javascript';
-	e.addEventListener('load', res_add_counter )
-	document.getElementsByTagName('head')[0].appendChild(e); 
-	  
-	e=document.createElement('script');
-	e.src = 'http://iiumschedule.asdacap.com/static/scheduleformatter2.js';
-	e.type='text/javascript';
-	e.addEventListener('load', res_add_counter )
-	document.getElementsByTagName('head')[0].appendChild(e); 
-  
+    var scripts=[
+    'http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js',
+    'http://iiumschedule.asdacap.com/static/js/underscore-min.js',
+    'http://iiumschedule.asdacap.com/static/scheduleformatter2.js'
+    ];
+	var complete_count=scripts.length;
+
+    for(var i=0;i<scripts.length;i++){
+        e=document.createElement('script');
+        e.src = scripts[i];
+        e.type='text/javascript';
+        e.addEventListener('load', res_add_counter )
+        document.getElementsByTagName('head')[0].appendChild(e); 
+    }
 }

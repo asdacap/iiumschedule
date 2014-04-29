@@ -496,7 +496,7 @@ function parsetable() {
                         day : day,
                         start : starttime,
                         end : endtime,
-                        venue : obj.venue
+                        venue : venue
                     }
                     currentcourse.schedule.push(newschedule);
                 });
