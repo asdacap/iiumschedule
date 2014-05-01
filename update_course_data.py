@@ -65,7 +65,7 @@ with bootstrap.app.app_context():
         def callback(sem,stype,kuly,data):
             if(stype=='<'):
                 stype='UG'
-            else:
+            if(stype=='>='):
                 stype='PG'
             code=data['code']
 
