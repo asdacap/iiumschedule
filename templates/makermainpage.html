@@ -1,0 +1,53 @@
+{% extends 'mainpage_base.html' %}
+
+{% block header %}
+  <title>SemiAutomatic IIUM Schedule Maker</title>
+  <meta name="description" content="A tools that helps IIUM student sort their schedule."/>
+  <meta property="og:title" content="SemiAutomatic IIUM Schedule Maker"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="http://iiumschedule.asdacap.com/schedulemaker/"/>
+  <meta property="og:image" content="http://iiumschedule.asdacap.com/static/logo-med.png"/>
+  <meta property="og:description" content="A tools that helps IIUM student sort their schedule."/>
+  <meta property="fb:app_id" content="207943475977546" />
+  <meta property="fb:admins" content="asdacap" />
+{% endblock %}
+
+{% set active_page = "maker" %}
+
+{% block content %}
+<h1 class="page-header">SemiAutomatic IIUM Schedule Maker</h1>
+<h2>Link</h2>
+<p>For those of you who is looking for where is it, its <a href="/schedulemaker/">here</a>.</p>
+<h2>Introduction</h2>
+<p>In International Islamic University Malaysia (IIUM), student need to register for course/subject every semester. Fail to do so within a certain period, the student will not be associated with a particular subject in the system and therefore will have to take the subject next semester. Figuring out which subject and section to take can be a hassle as the section can be on the same time as another section. This application aims to help student sort their schedule. It does the following thing:</p>
+<ul>
+    <li>Show your schedule in a day-to-day table like in Automatic IIUM Schedule Formatter in a preview.</li>
+    <li>When you hover the add/replace section button, it show your section as highlighted in the schedule preview.&nbsp;&nbsp;</li>
+    <li>When a section collide with another section of another subject, it will show that this section collide with the other section.&nbsp;</li>
+    <li>It has a generator function in which you select all the subject that you want to enroll, then it will list down all possible section combination. Then you just select one of them, and the changes is applied.&nbsp;</li>
+    <li><span style="color: #ff0000;">It does NOT automatically register the subject. It is just an aid to help you sort your schedule. </span></li>
+</ul>
+
+<h2>Instruction</h2>
+<p>Here are some photos on how to use it. Note that, it will first prompt you to select the session and semester. </p>
+
+<a href="/static/makermainpagemanual.png"><img src="/static/makermainpagemanual.png" style="max-width:100%;" alt="Main page manual" class="screenshot"></img></a>
+<p>These are for schedule generator.</p>
+<a href="/static/makerschedulegeneratormanual.png"><img src="/static/makerschedulegeneratormanual.png" style="max-width:100%;" alt="Schedule Generator Manual" class="screenshot"></img></a>
+
+
+<h2>Share</h2>
+<p>You can share your schedule with your friend by sharing the link. The link changes as you change you selection. For example, this is a link to a schedule that I just made up <a href="http://iiumschedule.asdacap.com/schedulemaker/?ses=2014%2F2015&sem=1&st=ug&code=MCT+4299%2CMCT+4323%2CMEC+2601%2CMEC+1392&section=1%2C1%2C1%2C2">http://iiumschedule.asdacap.com/schedulemaker/?ses=2014%2F2015&sem=1&st=ug&code=MCT+4299%2CMCT+4323%2CMEC+2601%2CMEC+1392&section=1%2C1%2C1%2C2</a>.</p>
+
+<h2>Disclaimer</h2>
+<ul>
+    <li><span class="text-danger"><strong>This application does NOT automatically register the subject for you.</strong></span></li>
+    <li>The data for subject and section may be outdated. The server attempt to update it once every week.</li>
+    <li>The application does not have any connection or endorsement by IIUM administration. This is an independant work or a community work if in the future someone send a patch through github. </li>
+    <li>The source code for this application along with schedule formatter is is available at <a href="http://github.com/asdacap/iiumschedule/">github</a>. Those who know how to code are encourange to send pull request for new feature or fix.</li>
+</ul>
+
+<hr />
+<div class="fb-like" data-href="http://iiumschedule.asdacap.com/schedulemaker/" data-send="true" data-show-faces="true"></div><br >
+<div class="fb-comments" data-href="http://iiumschedule.asdacap.com/schedulemaker/" data-num-posts="3" ></div>
+{% endblock %}

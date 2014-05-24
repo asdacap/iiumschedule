@@ -86,3 +86,7 @@ def schedulemaker():
             for x in ['ses','sem','st','code','section']:
                 query[x]=request.args.get(x)
         return render_template('schedulemaker.html',query=json.dumps(query))
+
+@app.route('/maker/')
+def schedulemaker_manual():
+    return render_template('makermainpage.html')

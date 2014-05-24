@@ -1,0 +1,33 @@
+
+body{
+    background-color:#e1f7f5;
+    background-image:url("/static/mainback.jpg");
+    background-attachment:fixed;
+    background-size:cover;
+}
+.mainwrap{
+    box-shadow:0 0 2px 1px grey;
+    background-color:white;
+    padding-bottom:2em;
+}
+.top_menu{
+    box-shadow:0 0 2px 1px grey;
+    margin-bottom:0px;
+}
+h1{
+    margin:0;
+    padding:0;
+}
+
+#toptitle{
+    text-align:center;
+}
+.screenshot{
+    border:1px solid #888;
+    border-radius:2px;
+    margin:1ex;
+}
+.text-middle{
+    text-align:center;
+}
+

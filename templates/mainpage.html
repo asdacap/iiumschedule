@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" xmlns:og="http://opengraphprotocol.org/schema/" xmlns:fb="http://www.facebook.com/2008/fbml">
-<head>
+{% extends 'mainpage_base.html' %}
+{% set active_page = "formatter" %}
+{% block header %}
   <title>Automatic IIUM Schedule Formatter</title>
   <meta name="description" content="Automatically Generate your IIUM Schedule from your CRS slips! Then customize your schedule and...   that's about it... just that."/>
   <meta property="og:title" content="Automatic IIUM Schedule Formatter"/>
@@ -11,81 +10,12 @@
   <meta property="og:description" content="Automatically Generate your IIUM Schedule from your CRS slips! Then customize your schedule and...   that's about it... just that."/>
   <meta property="fb:app_id" content="207943475977546" />
   <meta property="fb:admins" content="asdacap" />
-  <script type="text/javascript">
+{% endblock %}
 
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-21243240-7']);
-  _gaq.push(['_trackPageview']);
+{% block content %}
+  <h1 class="page-header">Automatic IIUM Schedule Formatter</h1>
 
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('http:' == document.location.protocol ? 'http://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-
-  </script>
-  <style>
-    body{
-      background-color:#e1f7f5;
-      background-image:url("/static/mainback.jpg");
-      background-attachment:fixed;
-      background-size:cover;
-    }
-    .wrap{
-      margin:0;
-      padding:1em;
-      margin-top:2em;
-      margin-bottom:2em;
-      margin-left:auto;
-      margin-right:auto;
-      width:800px;
-      font-family:arial;
-      box-shadow:0 0 3px 2px grey;
-      background-color:white;
-    }
-    h1{
-      margin:0;
-      padding:0;
-    }
-    
-    #toptitle{
-      text-align:center;
-    }
-    .screenshot{
-      border:1px solid #888;
-      border-radius:2px;
-    }
-    .text-middle{
-      text-align:center;
-    }
-  </style>
-  <div id="fb-root"></div>
-  <script>
-    window.fbAsyncInit = function() {
-      FB.init({
-	appId      : '207943475977546', // App ID
-	channelUrl : 'http://iiumschedule.asdacap.com/static/fbchannel.html',
-	status     : true, // check login status
-	cookie     : true, // enable cookies to allow the server to access the session
-	xfbml      : true  // parse XFBML
-      });
-
-      // Additional initialization code here
-    };
-
-    // Load the SDK Asynchronously
-    (function(d){
-      var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
-      if (d.getElementById(id)) {return;}
-      js = d.createElement('script'); js.id = id; js.async = true;
-      js.src = "//connect.facebook.net/en_US/all.js";
-      ref.parentNode.insertBefore(js, ref);
-    }(document));
-  </script>
-</head>
-<body>
-  <div class='wrap'>
-  <div id='toptitle' ><img style='display:inline-block;' src='/static/logo-small.png'></img><h1>Automatic IIUM Schedule Formatter</h1></div>
+  <h2>Introduction</h2>
   
   <p>Assalamualaikum, are you an International Islamic University Malaysia student? If you are, then you knew that IIUM use a CRS (Course Registration Slip) or a Confirmation Slip to show the class schedule.</p>
   <img class='screenshot' style='margin-left:auto;margin-right:auto;display:block;' src='/static/mainpage/crs.jpg'></img>
@@ -100,7 +30,7 @@
   <li>
     For Google Chrome user, make sure your bookmark bar is visible (Shift+Ctrl+B), then drag the link below to your bookmark bar.
     <br />For Firefox user, you can just right click and then select "bookmark this link".
-  <br /><div style="text-align:center;margin:1ex auto;"><a href="javascript:(function(){var e=document.createElement('script');e.src = 'http://iiumschedule.asdacap.com/static/scheduleformatter.js';e.type='text/javascript';e.addEventListener('load',function(){startscheduler()} );document.getElementsByTagName('head')[0].appendChild(e);})();">Automatic IIUM Schedule Formatter Magic Bookmarklet</a></div>
+  <br /><div style="margin:1em auto;margin-bottom:2em;text-align:center;"><a class="btn btn-primary" href="javascript:(function(){var e=document.createElement('script');e.src = 'http://iiumschedule.asdacap.com/static/scheduleformatter.js';e.type='text/javascript';e.addEventListener('load',function(){startscheduler()} );document.getElementsByTagName('head')[0].appendChild(e);})();">Automatic IIUM Schedule Formatter Magic Bookmarklet</a></div>
   
   </li>
   <li>Open your Course Registration Slip (CRS)/Confirmation Slip at <a href="http://my.iium.edu.my/" target="_blank_">myiium</a></li>
@@ -139,7 +69,7 @@
   <h3>Saving Your Schedule</h3>
   <p>To save your schedule, just click on the "save" button at the top right of the page. A new page will appear saying that your schedule is ready.</p>
   
-  <h2>Disclamier</h2>
+  <h2>Disclaimer</h2>
   <ul>
   <li>
   First of all, I would like to say the the creation of this website has no connection with IIUM. Use at your own risk, allthough as far as I can tell, there are no risk whatsoever.
@@ -161,7 +91,6 @@
     <br /><br />
   
   <div class="fb-like" data-href="http://iiumschedule.asdacap.com/" data-send="true" data-width="770" data-show-faces="true"></div>
-  <div class="fb-comments" data-href="http://iiumschedule.asdacap.com/" data-num-posts="3" data-width="770"></div>
-  </div>
-</body>
-</html>
+  <div class="fb-comments" data-href="http://iiumschedule.asdacap.com/" data-num-posts="3" data-width="770" data-height="500"></div>
+  
+{% endblock %}
