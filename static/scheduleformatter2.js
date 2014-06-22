@@ -407,16 +407,94 @@ function parsetable() {
 
         console.log("endtableindex->" + endtableindex.toString())
 
+        //hold all course
         var coursearray = new Array();
+
+        //Hold currently parsing course
+        var currentcourse = undefined;
+
+        //Add schedule to currentcourse
+        function addschedule(starttime,endtime,venue,rawday){
+            if(currentcourse == undefined){
+                console.log("WARNING:Attempt to add schedule to current course when there is no current course");
+                return;
+            }
+            var days=[];
+            function make_long(d){
+                if(d=='M')return "MON";
+                if(d=='T')return "TUE";
+                if(d=='W')return "WED";
+                if(d=='TH')return "THUR";
+                if(d=='F')return "FRI";
+                if(d=='SN')return "SUN";
+                if(d=='S')return "SAT";
+                throw "Unknown day ->"+d;
+            }
+
+            if(/\s*(MON|TUE|WED|THUR|FRI|SAT|SUN)\s*/.exec(rawday)){
+                days.push(rawday);
+            }else if(/\s*(MON|TUE|WED|THUR|FRI|SAT|SUN)-(MON|TUE|WED|THUR|FRI|SAT|SUN)\s*/.exec(rawday)){
+                var execed=/\s*(MON|TUE|WED|THUR|FRI|SAT|SUN)-(MON|TUE|WED|THUR|FRI|SAT|SUN)\s*/.exec(rawday);
+                days.push(make_long( execed[1] ));
+                days.push(make_long( execed[2] ));
+            }else if(/\s*(M|TH|W|T|F|SN|S)\s*-\s*(M|TH|W|T|F|SN|S)\s*-\s*(M|TH|W|T|F|SN|S)\s*/.exec(rawday)){
+                var execed=/\s*(M|TH|W|T|F|SN|S)\s*-\s*(M|TH|W|T|F|SN|S)\s*-\s*(M|TH|W|T|F|SN|S)\s*/.exec(rawday);
+                days.push(make_long( execed[1] ));
+                days.push(make_long( execed[2] ));
+                days.push(make_long( execed[3] ));
+            }else if(/\s*(M|TH|W|T|F|SN|S)\s*-\s*(M|TH|W|T|F|SN|S)\s*/.exec(rawday)){
+                var execed=/\s*(M|TH|W|T|F|SN|S)\s*-\s*(M|TH|W|T|F|SN|S)\s*/.exec(rawday);
+                days.push(make_long( execed[1] ));
+                days.push(make_long( execed[2] ));
+            }else if(rawday=="TWF"){
+                days.push('TUE');
+                days.push('WED');
+                days.push('THUR');
+            }else if("MTWTHF".indexOf(rawday)!=-1){
+                var idx="MTWTHF".indexOf(rawday);
+                var length=rawday.length;
+                if(rawday.indexOf("TH")!=-1){
+                    length--;
+                }
+                if(rawday=="F"){
+                    idx-=1;
+                }
+                var dayidx=["MON","TUE","WED","THUR","FRI"];
+                var i2=idx;
+                while(i2<idx+length){
+                    days.push(dayidx[i2]);
+                    i2++;
+                }
+            }else{
+                throw "Unknown day format ->"+rawday;
+            }
+
+            _.each(days,function(day){
+                var newschedule = {
+                    day : day,
+                    start : starttime,
+                    end : endtime,
+                    venue : venue
+                }
+                currentcourse.schedule.push(newschedule);
+            });
+        }
 
         var i = starttableindex + 1;
         while (i < endtableindex) {
 
+            var currow=rowtextlist[i];
+
+            if (rowtextlist[i].length == 0) {
+                //Add it if not added
+                if(currentcourse != undefined){
+                    coursearray.push(currentcourse);
+                }
+                currentcourse = undefined;
+            }
+
             if (rowtextlist[i].length == 10) {
-
-                var currow=rowtextlist[i];
-
-                var currentcourse = {
+                currentcourse = {
                     code : currow[0],
                     section : currow[1],
                     title : currow[3],
@@ -425,7 +503,6 @@ function parsetable() {
                 }
 
                 var starttime = parseFloat(currow[6], 10);
-                
                 var parseendtime=/^\D*([0-9\.]+)\D*$/.exec(currow[7]);
                 if(!parseendtime){
                     console.log("Missing end time. Lets just say it use 1 hour.");
@@ -436,78 +513,39 @@ function parsetable() {
 
                 if(currow[8]=="PM" && starttime<12 && endtime<12){ starttime=starttime+12;
                 endtime=endtime+12; } 
-
                 var venue = currow[9];
-                
                 var rawday= currow[5];
-
-                var days=[];
-                function make_long(d){
-                    if(d=='M')return "MON";
-                    if(d=='T')return "TUE";
-                    if(d=='W')return "WED";
-                    if(d=='TH')return "THUR";
-                    if(d=='F')return "FRI";
-                    if(d=='SN')return "SUN";
-                    if(d=='S')return "SAT";
-                    throw "Unknown day ->"+d;
-                }
-
-                if(/\s*(MON|TUE|WED|THUR|FRI|SAT|SUN)\s*/.exec(rawday)){
-                    days.push(rawday);
-                }else if(/\s*(MON|TUE|WED|THUR|FRI|SAT|SUN)-(MON|TUE|WED|THUR|FRI|SAT|SUN)\s*/.exec(rawday)){
-                    var execed=/\s*(MON|TUE|WED|THUR|FRI|SAT|SUN)-(MON|TUE|WED|THUR|FRI|SAT|SUN)\s*/.exec(rawday);
-                    days.push(make_long( execed[1] ));
-                    days.push(make_long( execed[2] ));
-                }else if(/\s*(M|TH|W|T|F|SN|S)\s*-\s*(M|TH|W|T|F|SN|S)\s*-\s*(M|TH|W|T|F|SN|S)\s*/.exec(rawday)){
-                    var execed=/\s*(M|TH|W|T|F|SN|S)\s*-\s*(M|TH|W|T|F|SN|S)\s*-\s*(M|TH|W|T|F|SN|S)\s*/.exec(rawday);
-                    days.push(make_long( execed[1] ));
-                    days.push(make_long( execed[2] ));
-                    days.push(make_long( execed[3] ));
-                }else if(/\s*(M|TH|W|T|F|SN|S)\s*-\s*(M|TH|W|T|F|SN|S)\s*/.exec(rawday)){
-                    var execed=/\s*(M|TH|W|T|F|SN|S)\s*-\s*(M|TH|W|T|F|SN|S)\s*/.exec(rawday);
-                    days.push(make_long( execed[1] ));
-                    days.push(make_long( execed[2] ));
-                }else if(rawday=="TWF"){
-                    days.push('TUE');
-                    days.push('WED');
-                    days.push('THUR');
-                }else if("MTWTHF".indexOf(rawday)!=-1){
-                    var idx="MTWTHF".indexOf(rawday);
-                    var length=rawday.length;
-                    if(rawday.indexOf("TH")!=-1){
-                        length--;
-                    }
-                    if(rawday=="F"){
-                        idx-=1;
-                    }
-                    var dayidx=["MON","TUE","WED","THUR","FRI"];
-                    var i2=idx;
-                    while(i2<idx+length){
-                        days.push(dayidx[i2]);
-                        i2++;
-                    }
+                //Add the schedule
+                addschedule(starttime,endtime,venue,rawday);
+            }
+            if (rowtextlist[i].length == 5) {
+                var starttime = parseFloat(currow[1], 10);
+                var parseendtime=/^\D*([0-9\.]+)\D*$/.exec(currow[2]);
+                if(!parseendtime){
+                    console.log("Missing end time. Lets just say it use 1 hour.");
+                    endtime = starttime+1;
                 }else{
-                    throw "Unknown day format ->"+rawday;
+                    endtime = parseFloat(parseendtime[1], 10);
                 }
 
-                _.each(days,function(day){
-                    var newschedule = {
-                        day : day,
-                        start : starttime,
-                        end : endtime,
-                        venue : venue
-                    }
-                    currentcourse.schedule.push(newschedule);
-                });
-                
-                coursearray.push(currentcourse);
+                if(currow[3]=="PM" && starttime<12 && endtime<12){ starttime=starttime+12;
+                endtime=endtime+12; } 
+                var venue = currow[4];
+                var rawday= currow[0];
+                //Add the schedule
+                addschedule(starttime,endtime,venue,rawday);
             }
 
             i = i + 1;
         }
-        console.log("Schedule found->" + JSON.stringify(currentcourse));
-        coursearray.push(currentcourse);
+
+        //Add it if not added
+        if(currentcourse != undefined){
+            coursearray.push(currentcourse);
+        }
+        currentcourse = undefined;
+
+        console.log("Schedule found->" + JSON.stringify(coursearray));
     }else{
         throw "Unknown Schedule Type, match string -> "+printedby;
     }
