@@ -17,13 +17,14 @@ You should have received a copy of the GNU General Public License
 along with Automatic IIUM Schedule Formatter.  If not, see <http://www.gnu.org/licenses/>.
 */
 if (!window.location.origin) {
-	window.location.origin = window.location.protocol + "//"
-			+ window.location.host;
+	window.location.origin = window.location.protocol +
+      "//" +
+	  window.location.host;
 }
 
 var currenttemplate;
 var parsed_data;
-var currentsettings={
+var currentsettings = {
     show_day:{
         MON:true,
         TUE:true,
@@ -45,7 +46,7 @@ var currentsettings={
         lecturer:true
     }
 };
-var day_name={
+var day_name = {
     MON:'monday',
     TUE:'tuesday',
     WED:'wednesday',
@@ -81,7 +82,7 @@ $("#savebutton a").attr("href", "/scheduleloader?ctoken=" + ctoken);
 $("#savebutton a").click(saveStyle);
 
 function getcurrentstyle() {
-	if (parsed_data.style == undefined) {
+	if (parsed_data.style === undefined) {
 		var theiframe = $('#previewiframe');
 		parsed_data.style = theiframe.contents().find("#thestyle").html();
 	}
@@ -89,22 +90,22 @@ function getcurrentstyle() {
 }
 
 function getcurrenttemplate() {
-	if (currenttemplate != undefined) {
+	if (currenttemplate !== undefined) {
 		return currenttemplate;
 	}
 	return $("#scheduletemplate").html();
 }
 
 function currentrendered() {
-	var theiframe = $('#previewiframe')
+	var theiframe = $('#previewiframe');
 	var thetext = theiframe.contents().find('html').html();
 	return thetext;
 }
 
 function renderdata(data) {
-    var cdata=data;
-    if(cdata==undefined){
-        cdata=parsed_data;
+    var cdata = data;
+    if(cdata === undefined){
+        cdata = parsed_data;
     }
 
     return (new EJS({
@@ -113,27 +114,24 @@ function renderdata(data) {
 }
 
 function rerender(style) {
-	if (style == undefined) {
+	if (style === undefined) {
 		style = getcurrentstyle();
 	}
 	parsed_data.style = style;
 	var thetext = renderdata(parsed_data);
-	var theiframe = $('#previewiframe')
+	var theiframe = $('#previewiframe');
 
 	theiframe.contents().find('html').html(thetext);
 }
 
 function changetemplatepage() {
 	postpage();
-	$('#configiframe').bind(
-			'load',
-			function() {
-				document.getElementById('configiframe').contentWindow
-						.changetemplate(getcurrenttemplate());
-				$('#configiframe').unbind("load");
-				postpage = function() {
-				}
-			});
+    $('#configiframe').bind('load',function() {
+        document.getElementById('configiframe').contentWindow.changetemplate(getcurrenttemplate());
+        $('#configiframe').unbind("load");
+        postpage = function() {
+        };
+    });
 	$("#configiframe").attr("src", "/static/templateeditor.html");
 }
 
@@ -142,45 +140,37 @@ function themegallery() {
 	$('#configiframe').bind('load', function() {
 		$('#configiframe').unbind("load");
 		postpage = function() {
-		}
+		};
 	});
 	$("#configiframe").attr("src", "/themegallery");
 }
 
 function settingspage(){
     postpage();
-    postpage=function(){}
+    postpage = function(){};
 	$("#configiframe").attr("src", "/static/settings.html");
 }
 
 function manualcsspage() {
 	postpage();
-	$('#configiframe').bind(
-			'load',
-			function() {
-				document.getElementById('configiframe').contentWindow
-						.changeStyle(getcurrentstyle());
-				$('#configiframe').unbind("load");
-				postpage = function() {
-				}
-			});
+	$('#configiframe').bind('load',function() {
+        document.getElementById('configiframe').contentWindow.changeStyle(getcurrentstyle());
+        $('#configiframe').unbind("load");
+        postpage = function(){};
+    });
 	$("#configiframe").attr("src", "/static/csseditor.html");
 }
 
 function stylercsspage() {
 	postpage();
-	$('#configiframe').bind(
-			'load',
-			function() {
-				var thewindow=document.getElementById('configiframe').contentWindow;
-				thewindow.parseCSS(
-						getcurrentstyle(), $('#previewiframe'));
-				$('#configiframe').unbind("load");
-				postpage = function() {
-					document.getElementById('configiframe').contentWindow
-							.savestyle();
-				}
-			});
+    $('#configiframe').bind('load',function() {
+        var thewindow = document.getElementById('configiframe').contentWindow;
+        thewindow.parseCSS(getcurrentstyle(), $('#previewiframe'));
+        $('#configiframe').unbind("load");
+        postpage = function() {
+            document.getElementById('configiframe').contentWindow.savestyle();
+        };
+    });
 	$("#configiframe").attr("src", "/static/styler.html");
 }
 
@@ -208,12 +198,12 @@ function saveStyle() {
 		ctoken : ctoken
 	}, function(response) {
 		console.log("Schedule posted");
-	})
+	});
 
 }
 
 function makearray(length) {
-	var thearray = new Array();
+	var thearray = [];
 	var i = 0;
 	while (i < length) {
 		thearray.push("");
@@ -227,37 +217,37 @@ function convert_data(data){
 	var studentname = data.studentname;
 	var coursearray = data.coursearray;
 	
-    var starthour=8;
-    var actualstarthour=20;
-    var actualendhour=8;
-    var i=0;
+    var starthour = 8;
+    var actualstarthour = 20;
+    var actualendhour = 8;
+    var i = 0;
     while(i<coursearray.length){
-        var i2=0;
-        var ccourse=coursearray[i];
+        var i2 = 0;
+        var ccourse = coursearray[i];
         while(i2<ccourse.schedule.length){
-            var sched=ccourse.schedule[i2];
-            var start=Math.floor(sched.start);
+            var sched = ccourse.schedule[i2];
+            var start = Math.floor(sched.start);
             if(start<actualstarthour){
-                actualstarthour=start;
+                actualstarthour = start;
             }
-            var end=Math.floor(sched.end);
+            var end = Math.floor(sched.end);
             if(sched.end>end){
-                end+=1;
+                end += 1;
             }
             if(end>actualendhour){
-                actualendhour=end;
+                actualendhour = end;
             }
-            i2=i2+1;
+            i2 = i2+1;
         }
-        i=i+1;
+        i = i+1;
     }
     
-    var startfminute=actualstarthour*12;
-	var endfminute=actualendhour*12;
+    var startfminute = actualstarthour*12;
+	var endfminute = actualendhour*12;
 
-	var hournum=14;
-    var actualhournum=actualendhour-actualstarthour;
-    var fiveminutenum=actualhournum*12;
+	var hournum = 14;
+    var actualhournum = actualendhour-actualstarthour;
+    var fiveminutenum = actualhournum*12;
 
 
 	var byday = {
@@ -268,7 +258,7 @@ function convert_data(data){
 		FRI : makearray(hournum),
 		SAT : makearray(hournum),
 		SUN : makearray(hournum)
-	}
+	};
 
 	var scaledbyday = {
 		MON : makearray(actualhournum),
@@ -278,9 +268,9 @@ function convert_data(data){
 		FRI : makearray(actualhournum),
 		SAT : makearray(actualhournum),
 		SUN : makearray(actualhournum)
-	}
+	};
 
-    var byfiveminute={
+    var byfiveminute = {
 		MON : makearray(fiveminutenum),
 		TUE : makearray(fiveminutenum),
 		WED : makearray(fiveminutenum),
@@ -288,7 +278,7 @@ function convert_data(data){
 		FRI : makearray(fiveminutenum),
 		SAT : makearray(fiveminutenum),
 		SUN : makearray(fiveminutenum)
-    }
+    };
 
 	var ci = 0;
 	while (ci < coursearray.length) {
@@ -298,26 +288,27 @@ function convert_data(data){
 			var schedule = course.schedule[si];
 			var start = schedule.start;
 			var end = schedule.end;
-            var starth=Math.floor(start);
-            var startm=start-starth;
-            startm=Math.round(startm*100/5);
-            startm=startm+starth*12;
-            var endh=Math.floor(end);
-            var endm=end-endh;
-            endm=Math.round(endm*100/5);
-            endm=endm+endh*12;
+            var starth = Math.floor(start);
+            var startm = start-starth;
+            startm = Math.round(startm*100/5);
+            startm = startm+starth*12;
+            var endh = Math.floor(end);
+            var endm = end-endh;
+            endm = Math.round(endm*100/5);
+            endm = endm+endh*12;
 
 			var durationh = endh - starth;
 			byday[schedule.day][starth - starthour] = {
 				course : course,
 				duration : durationh,
 				venue : course.schedule[si].venue
-			}
+			};
+
             scaledbyday[schedule.day][starth - actualstarthour] = {
 				course : course,
 				duration : durationh,
 				venue : course.schedule[si].venue
-			}
+			};
 
 			var i = 1;
 			while (i < durationh) {
@@ -327,15 +318,16 @@ function convert_data(data){
 			}
 
             var durationm = endm - startm;
-            byfiveminute[schedule.day][startm - startfminute] ={
+            byfiveminute[schedule.day][startm - startfminute] = {
                 course : course,
                 duration : durationm,
                 venue : course.schedule[si].venue
-            }
+            };
+
             i = 1;
             while(i<durationm){
                 byfiveminute[schedule.day][startm - startfminute + i] = "none";
-                i=i+1;
+                i = i+1;
             }
 
 			si = si + 1;
@@ -345,7 +337,7 @@ function convert_data(data){
 	}
 
 	function getScheduleText(course) {
-		if (course == "") {
+		if (course === "") {
 			return {
 				text : ""
 			};
@@ -357,8 +349,8 @@ function convert_data(data){
 	}
 
 	function formatschedule() {
-		var thereturn = new Array();
-		for (key in byday) {
+		var thereturn = [];
+		for (var key in byday) {
 			thereturn.push({
 				day : key,
 				ischedule : getScheduleText(byday[key])
@@ -380,19 +372,19 @@ function convert_data(data){
 		session : data.session,
 		semester : data.semester,
 		program : data.program
-	}
+	};
     return thedata;
 }
 
 function formatschedule() {
 
-    window.parsed_data=convert_data(data);
-    parsed_data.settings=currentsettings;
+    window.parsed_data = convert_data(data);
+    parsed_data.settings = currentsettings;
 
 	$.get("/static/default.html", function(data) {
 		currenttemplate = data;
 		$.get("/static/default.css", function(data) {
-            parsed_data.style=data;
+            parsed_data.style = data;
 			rerender(data);
 			//stylercsspage();
 			themegallery();
@@ -403,8 +395,8 @@ function formatschedule() {
 
 
 $("#tabmenulist td > a").click(function(){
-    var thetd=$(this).parent();
-    if(thetd.attr("id")=="savebutton"){
+    var thetd = $(this).parent();
+    if(thetd.attr("id") == "savebutton"){
         return;
     }
     $("#tabmenulist td.selected").toggleClass("selected");

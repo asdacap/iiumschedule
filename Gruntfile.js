@@ -20,6 +20,9 @@ module.exports = function(grunt) {
             }
         },
         jshint: {
+            options: {
+                shadow: true
+            },
             all: ['Gruntfile.js','src/*.js']
         }
     });
@@ -30,4 +33,4 @@ module.exports = function(grunt) {
 
     grunt.registerTask('default', ['jshint','uglify']);
 
-}
+};

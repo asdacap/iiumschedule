@@ -20,7 +20,7 @@ along with Automatic IIUM Schedule Formatter.  If not, see <http://www.gnu.org/l
 var defaultcolumnlength = 52;
 
 function makearray(length) {
-	var thearray = new Array();
+	var thearray = [];
 	var i = 0;
 	while (i < length) {
 		thearray.push("");
@@ -31,7 +31,7 @@ function makearray(length) {
 
 function makemessage(message, loading) {	
 	console.log("Message ->"+message.toString());
-	if (loading == undefined) {
+	if (loading === undefined) {
 		loading = true;
 	}
 	if (!$("#iiumschedulediv").length) {
@@ -54,33 +54,33 @@ function fixstring(text) {
 					/([\x00-\x7F]|[\xC0-\xDF][\x80-\xBF]|[\xE0-\xEF][\x80-\xBF]{2}|[\xF0-\xF7][\x80-\xBF]{3})|./g,
 					"$1");
 	console.log("Result->" + result);
-	return result
+	return result;
 }
 
 function error(e,vol){
-	globerr=e;
+	globerr = e;
 	if(!$("#iiumschedulediv").length){
 		$("body").append("<div id='iiumschedulediv' style='width:100%;text-align:center;margin-top:10px;'></div>");
 	}
-	var maindiv=$("#iiumschedulediv");
+	var maindiv = $("#iiumschedulediv");
 	maindiv.html("");
-    if(vol!=undefined){
+    if(vol !== undefined){
         maindiv.append("<h3>Reports...</h3>");
         maindiv.append("<p>Please click ok to continue <br /> WARNING: By default, this WILL include your CRS. To exclude your CRS, after you click ok, empty the section 'HTML Data'</p>");
     }else{
         maindiv.append("<h3>Error detected...</h3>");
         maindiv.append("<p>Sorry, an error occur. Would you be so kind to send me some data to help fix this bug? <br /> WARNING: this WILL include your CRS</p>");
     }
-	var button=$("<button>Ok</button>");
+	var button = $("<button>Ok</button>");
 	maindiv.append(button);
 	maindiv.append("<span>(If not ok, just close this window)</span>");
 	button.click(function(){
-		var container=$("<div class='tempanimcont'>");
+		var container = $("<div class='tempanimcont'>");
 		maindiv.children().wrap(container);
 		maindiv.find(".tempanimcont").slideUp(1000,function(){
 			maindiv.find(".tempanimcont").remove();
 		});
-		var theform=$("<form>");
+		var theform = $("<form>");
 		theform.attr("method","POST");
 		theform.attr("action","http://iiumschedule.asdacap.com/error/");
 		theform.append("<label for='submitter'>Your Name</label><input type='text' name='submitter' value=''></input><br />");
@@ -96,7 +96,7 @@ function error(e,vol){
 function start(){
     if($("#TB_window iframe").length){
         //Inject in iframe
-        $("#TB_window iframe")[0].contentWindow.eval("(function(){var e=document.createElement('script');e.src = 'http://iiumschedule.asdacap.com/static/scheduleformatter.js';e.type='text/javascript';e.addEventListener('load',function(){startscheduler()} );document.getElementsByTagName('head')[0].appendChild(e);})();");
+        $("#TB_window iframe")[0].contentWindow.eval("(function(){var e=document.createElement('script');e.src = 'http://iiumschedule.asdacap.com/static/scheduleformatter.js';e.type='text/javascript';e.addEventListener('load',function(){startscheduler()} );document.getElementsByTagName('head')[0].appendChild(e);})();"); // jshint ignore:line
     }else{
         try{
             parsetable();
@@ -110,7 +110,7 @@ function parsetable() {
 
     makemessage("Validating path");
 
-    if(window.location.host=="prereg.iium.edu.my"){
+    if(window.location.host == "prereg.iium.edu.my"){
         makemessage("<h3>Wrong Usage</h3>Please use the code on the CRS/Confirmation Slip page from MyIIUM, not from prereg slip.",false);
         return;
     }
@@ -130,7 +130,7 @@ function parsetable() {
         return;
     }
 
-    if($('body table').length!=1){
+    if($('body table').length != 1){
         makemessage("Error, page unrecognized. Are you sure this is the schedule?<br>If you are, please <a href='javascript:error(\"Voluntary Error Report\",1)'>send an error report</a> so that I can fix this.",false);
         return;
     }
@@ -139,33 +139,33 @@ function parsetable() {
 
 
     //old tablearray system kept for compatibility with CFS student.
-	var tablearray = new Array();
+	var tablearray = [];
 
 	var rows = $("body table").find("tr");
 
-    var maxcollength=0;
+    var maxcollength = 0;
     rows.each(function(){
-        var cur=0;
+        var cur = 0;
         $(this).find('td').each(function(){
             if($(this).attr('colspan')){
-                cur+=parseInt($(this).attr('colspan'),10);
+                cur += parseInt($(this).attr('colspan'),10);
             }else{
                 cur++;
             }
         });
         if(cur>maxcollength){
-            maxcollength=cur;
+            maxcollength = cur;
         }
     });
 
-    var columnlength=maxcollength;
-    if(columnlength!=defaultcolumnlength){
+    var columnlength = maxcollength;
+    if(columnlength != defaultcolumnlength){
         console.log('Warning! Different column length than default : '+columnlength);
     }
 
 	var i = 0;
 	while (i < rows.length) {
-		tablearray.push(makearray(columnlength))
+		tablearray.push(makearray(columnlength));
 		i = i + 1;
 	}
 
@@ -192,23 +192,23 @@ function parsetable() {
 			while (cspi < colspan) {
 				var rspi = 0;
 				while (rspi < rowspan) {
-					if (cspi == 0 && rspi == 0) {
+					if (cspi === 0 && rspi === 0) {
 					} else {
-						if (tablearray[index + rspi][ci + cspi] == "") {
-							tablearray[index + rspi][ci + cspi] = "none"
+						if (tablearray[index + rspi][ci + cspi] === "") {
+							tablearray[index + rspi][ci + cspi] = "none";
 						} else {
-							console.log("warning, table array on rspi/cspi"
-									+ (index + rspi).toString() + "/"
-									+ (ci + cspi).toString()
-									+ " is not empty->"
-									+ tablearray[index + rspi][ci + cspi])
+							console.log("warning, table array on rspi/cspi" +
+									(index + rspi).toString() + "/" +
+									(ci + cspi).toString() +
+									" is not empty->" +
+									tablearray[index + rspi][ci + cspi]);
 						}
 					}
 					rspi = rspi + 1;
 				}
 				cspi = cspi + 1;
 			}
-			if (thecolumn.children().length == 0 && thecolumn.text() == "") {
+			if (thecolumn.children().length === 0 && thecolumn.text() === "") {
 				tablearray[index][ci] = "none";
 			} else {
 				tablearray[index][ci] = thecolumn;
@@ -222,12 +222,12 @@ function parsetable() {
 				nextci = ci + 1;
 			}
 
-		})
+		});
 
 	});
 
     //New parsing data structure
-    var rowtextlist=[];
+    var rowtextlist = [];
 
 	rows.each(function(index, el) {
 		var therow = $(this);
@@ -239,12 +239,12 @@ function parsetable() {
 		columns.each(function() {
 			var thecolumn = $(this);
 
-			if (thecolumn.children().length == 0 && thecolumn.text() == "") {
+			if (thecolumn.children().length === 0 && thecolumn.text() === "") {
 			} else {
 				rowtext.push(thecolumn.text());
 			}
 
-		})
+		});
 
         rowtextlist.push(rowtext);
 
@@ -253,11 +253,11 @@ function parsetable() {
 	// Extract data
 
 	var studentname = rowtextlist[8][2];
-	if (studentname == undefined) {
-		makemessage("Error! cannot find student name.", false)
+	if (studentname === undefined) {
+		makemessage("Error! cannot find student name.", false);
 		return;
 	}
-	console.log("Student name is->" + studentname)
+	console.log("Student name is->" + studentname);
 
 	var matricplusic = fixstring(rowtextlist[6][2]);
 	var matcher = /\s*(\d+)IC.PassportNo\.\:(\d*)\s*/;
@@ -270,20 +270,23 @@ function parsetable() {
 	match = matcher.exec(sessionplusprogram);
 	var session = match[1];
 	var semester = match[2];
-	var program = fixstring(rowtextlist[6][5])
+	var program = fixstring(rowtextlist[6][5]);
 	console.log(program);
-	var printedby= fixstring(rowtextlist[2][0]);
+	var printedby = fixstring(rowtextlist[2][0]);
 	var cfsmatcher = /Printedby\d{6}on([^,]+),.+/;
 	var maincampusmatcher = /Printedby\d{7}on([^,]+),.+/;
-    var cfsmatch=cfsmatcher.exec(printedby);
-    var maincampusmatch=maincampusmatcher.exec(printedby);
+    var cfsmatch = cfsmatcher.exec(printedby);
+    var maincampusmatch = maincampusmatcher.exec(printedby);
+    var coursearray = [];
+    var scheduletype;
+
     if(cfsmatch){
         makemessage("Looks like a cfs slip.");
 	    var date = cfsmatch[1];
-        var scheduletype="CFS";
+        scheduletype = "CFS";
         var starttableindex = 0;
-        while (tablearray[starttableindex][1] == "none"
-                || (tablearray[starttableindex][1].children("hr").length == 0)) {
+        while (tablearray[starttableindex][1] == "none" ||
+               (tablearray[starttableindex][1].children("hr").length === 0)) {
             if (starttableindex >= tablearray.length) {
                 alert("Fail to find start table index");
                 return;
@@ -291,11 +294,11 @@ function parsetable() {
             starttableindex = starttableindex + 1;
         }
 
-        console.log("starttableindex->" + starttableindex.toString())
+        console.log("starttableindex->" + starttableindex.toString());
 
         var endtableindex = starttableindex;
-        while (tablearray[endtableindex][20] == "none"
-                || tablearray[endtableindex][20].text() != "Total") {
+        while (tablearray[endtableindex][20] == "none" || 
+                tablearray[endtableindex][20].text() != "Total") {
             if (endtableindex >= tablearray.length) {
                 alert("Fail to find end table index");
                 return;
@@ -304,16 +307,14 @@ function parsetable() {
             endtableindex = endtableindex + 1;
         }
 
-        console.log("endtableindex->" + endtableindex.toString())
-
-        var coursearray = new Array();
+        console.log("endtableindex->" + endtableindex.toString());
         var currentcourse = 0;
 
         var i = starttableindex + 1;
         while (i < endtableindex) {
 
             if (tablearray[i][2] != "none") {
-                if (currentcourse != 0) {
+                if (currentcourse !== 0) {
                     console.log("Schedule found->" + JSON.stringify(currentcourse));
                     coursearray.push(currentcourse);
                 }
@@ -322,24 +323,24 @@ function parsetable() {
                     section : tablearray[i][9].text(),
                     title : tablearray[i][17].text(),
                     credithour : tablearray[i][26].text(),
-                    schedule : new Array()
-                }
+                    schedule : []
+                };
             }
 
             if (tablearray[i][28] != "none") {
                 var starttime = parseInt(tablearray[i][34].text(), 10);
                 
-                var parseendtime=/^[^\d]*(\d+)[^\d]*$/.exec(tablearray[i][36].text());
+                var parseendtime = /^[^\d]*(\d+)[^\d]*$/.exec(tablearray[i][36].text());
                 if(!parseendtime){
                     console.log("Warning, end time for "+tablearray[i][2].text()+" miraculously missing. Using column 35");
                     if(tablearray[i][35]){
-                        parseendtime=/^[^\d]*(\d+)[^\d]*$/.exec(tablearray[i][35].text());
+                        parseendtime = /^[^\d]*(\d+)[^\d]*$/.exec(tablearray[i][35].text());
                     }
                 }
                 if(!parseendtime){
                     console.log("Still nothing. Using column 37");
                     if(tablearray[i][37]){
-                        parseendtime=/^[^\d]*(\d+)[^\d]*$/.exec(tablearray[i][37].text());
+                        parseendtime = /^[^\d]*(\d+)[^\d]*$/.exec(tablearray[i][37].text());
                     }
                 }
                 var endtime;
@@ -371,7 +372,8 @@ function parsetable() {
                     start : starttime,
                     end : endtime,
                     venue : venue
-                }
+                };
+
                 currentcourse.schedule.push(newschedule);
             }
 
@@ -382,7 +384,7 @@ function parsetable() {
     }else if(maincampusmatch){
         makemessage("Looks like a main campus slip.");
 	    var date = maincampusmatch[1];
-        var scheduletype="MAINCAMPUS";
+        scheduletype = "MAINCAMPUS";
         var starttableindex = 0;
         while (rowtextlist[starttableindex][0] != 'Course') {
             if (starttableindex >= tablearray.length) {
@@ -391,12 +393,12 @@ function parsetable() {
             }
             starttableindex = starttableindex + 1;
         }
-        starttableindex+=2;
+        starttableindex += 2;
 
-        console.log("starttableindex->" + starttableindex.toString())
+        console.log("starttableindex->" + starttableindex.toString());
 
         var endtableindex = starttableindex;
-        while (rowtextlist[endtableindex][0]!='Total') {
+        while (rowtextlist[endtableindex][0] != 'Total') {
             if (endtableindex >= tablearray.length) {
                 alert("Fail to find end table index");
                 return;
@@ -405,62 +407,62 @@ function parsetable() {
             endtableindex = endtableindex + 1;
         }
 
-        console.log("endtableindex->" + endtableindex.toString())
+        console.log("endtableindex->" + endtableindex.toString());
 
         //hold all course
-        var coursearray = new Array();
+        var coursearray = [];
 
         //Hold currently parsing course
-        var currentcourse = undefined;
+        var currentcourse;
 
         //Add schedule to currentcourse
-        function addschedule(starttime,endtime,venue,rawday){
-            if(currentcourse == undefined){
+        var addscheduler = function(starttime,endtime,venue,rawday){
+            if(currentcourse === undefined){
                 console.log("WARNING:Attempt to add schedule to current course when there is no current course");
                 return;
             }
-            var days=[];
+            var days = [];
             function make_long(d){
-                if(d=='M')return "MON";
-                if(d=='T')return "TUE";
-                if(d=='W')return "WED";
-                if(d=='TH')return "THUR";
-                if(d=='F')return "FRI";
-                if(d=='SN')return "SUN";
-                if(d=='S')return "SAT";
+                if(d == 'M')return "MON";
+                if(d == 'T')return "TUE";
+                if(d == 'W')return "WED";
+                if(d == 'TH')return "THUR";
+                if(d == 'F')return "FRI";
+                if(d == 'SN')return "SUN";
+                if(d == 'S')return "SAT";
                 throw "Unknown day ->"+d;
             }
 
             if(/\s*(MON|TUE|WED|THUR|FRI|SAT|SUN)\s*/.exec(rawday)){
                 days.push(rawday);
             }else if(/\s*(MON|TUE|WED|THUR|FRI|SAT|SUN)-(MON|TUE|WED|THUR|FRI|SAT|SUN)\s*/.exec(rawday)){
-                var execed=/\s*(MON|TUE|WED|THUR|FRI|SAT|SUN)-(MON|TUE|WED|THUR|FRI|SAT|SUN)\s*/.exec(rawday);
+                var execed = /\s*(MON|TUE|WED|THUR|FRI|SAT|SUN)-(MON|TUE|WED|THUR|FRI|SAT|SUN)\s*/.exec(rawday);
                 days.push(make_long( execed[1] ));
                 days.push(make_long( execed[2] ));
             }else if(/\s*(M|TH|W|T|F|SN|S)\s*-\s*(M|TH|W|T|F|SN|S)\s*-\s*(M|TH|W|T|F|SN|S)\s*/.exec(rawday)){
-                var execed=/\s*(M|TH|W|T|F|SN|S)\s*-\s*(M|TH|W|T|F|SN|S)\s*-\s*(M|TH|W|T|F|SN|S)\s*/.exec(rawday);
+                var execed = /\s*(M|TH|W|T|F|SN|S)\s*-\s*(M|TH|W|T|F|SN|S)\s*-\s*(M|TH|W|T|F|SN|S)\s*/.exec(rawday);
                 days.push(make_long( execed[1] ));
                 days.push(make_long( execed[2] ));
                 days.push(make_long( execed[3] ));
             }else if(/\s*(M|TH|W|T|F|SN|S)\s*-\s*(M|TH|W|T|F|SN|S)\s*/.exec(rawday)){
-                var execed=/\s*(M|TH|W|T|F|SN|S)\s*-\s*(M|TH|W|T|F|SN|S)\s*/.exec(rawday);
+                var execed = /\s*(M|TH|W|T|F|SN|S)\s*-\s*(M|TH|W|T|F|SN|S)\s*/.exec(rawday);
                 days.push(make_long( execed[1] ));
                 days.push(make_long( execed[2] ));
-            }else if(rawday=="TWF"){
+            }else if(rawday == "TWF"){
                 days.push('TUE');
                 days.push('WED');
                 days.push('THUR');
-            }else if("MTWTHF".indexOf(rawday)!=-1){
-                var idx="MTWTHF".indexOf(rawday);
-                var length=rawday.length;
-                if(rawday.indexOf("TH")!=-1){
+            }else if("MTWTHF".indexOf(rawday) != -1){
+                var idx = "MTWTHF".indexOf(rawday);
+                var length = rawday.length;
+                if(rawday.indexOf("TH") != -1){
                     length--;
                 }
-                if(rawday=="F"){
-                    idx-=1;
+                if(rawday == "F"){
+                    idx -= 1;
                 }
-                var dayidx=["MON","TUE","WED","THUR","FRI"];
-                var i2=idx;
+                var dayidx = ["MON","TUE","WED","THUR","FRI"];
+                var i2 = idx;
                 while(i2<idx+length){
                     days.push(dayidx[i2]);
                     i2++;
@@ -475,19 +477,20 @@ function parsetable() {
                     start : starttime,
                     end : endtime,
                     venue : venue
-                }
+                };
                 currentcourse.schedule.push(newschedule);
             });
-        }
+        };
 
         var i = starttableindex + 1;
         while (i < endtableindex) {
 
-            var currow=rowtextlist[i];
+            var currow = rowtextlist[i];
+            var endtime;
 
-            if (rowtextlist[i].length == 0) {
+            if (rowtextlist[i].length === 0) {
                 //Add it if not added
-                if(currentcourse != undefined){
+                if(currentcourse !== undefined){
                     coursearray.push(currentcourse);
                 }
                 currentcourse = undefined;
@@ -499,11 +502,11 @@ function parsetable() {
                     section : currow[1],
                     title : currow[3],
                     credithour : currow[4],
-                    schedule : new Array()
-                }
+                    schedule : []
+                };
 
                 var starttime = parseFloat(currow[6], 10);
-                var parseendtime=/^\D*([0-9\.]+)\D*$/.exec(currow[7]);
+                var parseendtime = /^\D*([0-9\.]+)\D*$/.exec(currow[7]);
                 if(!parseendtime){
                     console.log("Missing end time. Lets just say it use 1 hour.");
                     endtime = starttime+1;
@@ -511,16 +514,16 @@ function parsetable() {
                     endtime = parseFloat(parseendtime[1], 10);
                 }
 
-                if(currow[8]=="PM" && starttime<12 && endtime<12){ starttime=starttime+12;
-                endtime=endtime+12; } 
+                if(currow[8] == "PM" && starttime<12 && endtime<12){ starttime = starttime+12;
+                endtime = endtime+12; } 
                 var venue = currow[9];
-                var rawday= currow[5];
+                var rawday = currow[5];
                 //Add the schedule
                 addschedule(starttime,endtime,venue,rawday);
             }
             if (rowtextlist[i].length == 5) {
                 var starttime = parseFloat(currow[1], 10);
-                var parseendtime=/^\D*([0-9\.]+)\D*$/.exec(currow[2]);
+                var parseendtime = /^\D*([0-9\.]+)\D*$/.exec(currow[2]);
                 if(!parseendtime){
                     console.log("Missing end time. Lets just say it use 1 hour.");
                     endtime = starttime+1;
@@ -528,10 +531,10 @@ function parsetable() {
                     endtime = parseFloat(parseendtime[1], 10);
                 }
 
-                if(currow[3]=="PM" && starttime<12 && endtime<12){ starttime=starttime+12;
-                endtime=endtime+12; } 
+                if(currow[3] == "PM" && starttime<12 && endtime<12){ starttime = starttime+12;
+                endtime = endtime+12; } 
                 var venue = currow[4];
-                var rawday= currow[0];
+                var rawday = currow[0];
                 //Add the schedule
                 addschedule(starttime,endtime,venue,rawday);
             }
@@ -540,7 +543,7 @@ function parsetable() {
         }
 
         //Add it if not added
-        if(currentcourse != undefined){
+        if(currentcourse !== undefined){
             coursearray.push(currentcourse);
         }
         currentcourse = undefined;
@@ -572,18 +575,13 @@ function parsetable() {
      data:{data : data},
 	 success:function(response) {
         var thetoken = response;
-        makemessage(
-        "Done! Please click <a target='_blank' href='http://iiumschedule.asdacap.com/scheduleformatter/?token="
-                    + thetoken
-                    + "' >this link</a> to continue.<br />"+
+        makemessage("Done! Please click <a target='_blank' href='http://iiumschedule.asdacap.com/scheduleformatter/?token=" + 
+        thetoken + "' >this link</a> to continue.<br />" +
         "Or, <a href='javascript:error(\"Voluntary Error Report\",1)'>Click here</a> to report incorrect result or simply to comments and stuff.",
         false);
         },
      error:function(err,textstatus,errthrown){
-        makemessage(
-            "Error saving schedule ->"+textstatus+" . The server may be down. Please try again later.",
-            false
-        );
+        makemessage("Error saving schedule ->"+textstatus+" . The server may be down. Please try again later.",false);
      }
     });
 
