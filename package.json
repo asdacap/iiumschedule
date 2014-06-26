@@ -1,0 +1,27 @@
+{
+  "name": "iiumschedule",
+  "version": "6.0.0",
+  "description": "Various utility for IIUM student to manage their schedule.",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/asdacap/iiumschedule.git"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.5",
+    "grunt-contrib-jshint": "~0.10.0",
+    "grunt-contrib-nodeunit": "~0.3.3",
+    "grunt-contrib-uglify": "~0.4.0"
+  },
+  "keywords": [
+    "IIUM",
+    "schedule"
+  ],
+  "author": "Muhd Amirul Ashraf",
+  "license": "GPL",
+  "bugs": {
+    "url": "https://github.com/asdacap/iiumschedule/issues"
+  }
+}
