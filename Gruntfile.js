@@ -15,13 +15,19 @@ module.exports = function(grunt) {
                         cwd: "src",
                         src: "*.js",
                         dest: "static"
-                    },{
-                        expand: true,
-                        cwd: "src/js",
-                        src: "*.js",
-                        dest: "static/js"
-                    }
+                    },
                 ]
+            },
+            with_mangle: {
+                options: {
+                    mangle: true
+                },
+                files: [{
+                    expand: true,
+                    cwd: "src/js",
+                    src: "*.js",
+                    dest: "static/js"
+                }]
             }
         },
         jshint: {
