@@ -15,15 +15,21 @@ module.exports = function(grunt) {
                         cwd: "src",
                         src: "*.js",
                         dest: "static"
+                    },{
+                        expand: true,
+                        cwd: "src/js",
+                        src: "*.js",
+                        dest: "static/js"
                     }
                 ]
             }
         },
         jshint: {
             options: {
-                shadow: true
+                shadow: true,
+                loopfunc: true,
             },
-            all: ['Gruntfile.js','src/*.js']
+            all: ['Gruntfile.js','src/*.js','src/js/*.js',]
         }
     });
 
