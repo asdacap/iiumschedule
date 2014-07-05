@@ -416,7 +416,7 @@ function parsetable() {
         var currentcourse;
 
         //Add schedule to currentcourse
-        var addscheduler = function(starttime,endtime,venue,rawday){
+        var addschedule = function(starttime,endtime,venue,rawday){
             if(currentcourse === undefined){
                 console.log("WARNING:Attempt to add schedule to current course when there is no current course");
                 return;
