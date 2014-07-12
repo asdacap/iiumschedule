@@ -1,8 +1,9 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 <head>
 <title>Automatic IIUM Schedule Formatter!</title>
 <link type="text/css" href="/static/global.css" rel="stylesheet"/>
-<link type="text/css" href="/static/customize.css" rel="stylesheet"/>
+<link type="text/css" href="/static/css/split-pane.css" rel="stylesheet"/>
+<link type="text/css" href="/static/css/customize.css" rel="stylesheet"/>
 <script type="text/javascript">
 
   var _gaq = _gaq || [];
@@ -16,25 +17,93 @@
   })();
 
 </script>
+<base href="/scheduleformatter/"/>
 </head>
 <body>
-<table id='tabmenulist'><tr>
-<td class="title"><h3>AIIUMSF</h3></td>
-<td class="selected"><a href='javascript:themegallery();'>Theme Gallery</a></td>
-<td><a href='javascript:settingspage();'>Settings</a></td>
-<td><a href='javascript:stylercsspage();'>Styler</a></td>
-<td><a href='javascript:manualcsspage();' >Edit CSS</a></td>
-<td><a href='javascript:changetemplatepage();' >Edit Template</a></td>
-<td id='savebutton'><a target='_blank' href='javascript:saveStyle();' title='Save temporarily in another page. You should save that page in your computer.' target='_blank'>Save</a></td>
-</tr></table>
-<iframe id='previewiframe' src="/static/dummy.html" ></iframe>
-<iframe id='configiframe' src="/static/loading.html" ></iframe>
-<button id='expandbutton' onclick="togglealternate();">Expand</button>
+  <table id='tabmenulist'><tr>
+      <td class="title"><h3>AIIUMSF</h3></td>
+      <td class="selected"><a href='#/theme'>Theme Gallery</a></td>
+      <td><a href='#/setting'>Settings</a></td>
+      <td><a href='#/styler'>Styler</a></td>
+      <td><a href='#/css' >Edit CSS</a></td>
+      <td><a href='#/template' >Edit Template</a></td>
+      <td id='savebutton'><a target='_blank' href='javascript:saveStyle();' title='Save temporarily in another page. You should save that page in your computer.' target='_blank'>Save</a></td>
+  </tr></table>
+
+  <div class="split-pane fixed-left" id="main-split-pane">
+    <div class="split-pane-component" id="left-pane">
+      <div id="configpane"></div>
+    </div>
+    <div class="split-pane-divider" id="split-divider"></div>
+    <div class="split-pane-component" id="right-pane"">
+      <iframe id='previewiframe' src="about:blank" ></iframe>
+    </div>
+  </div>
+
 </body>
 <script id="scheduletemplate" type="text/html" src='/static/default.html'>
 </script>
 
+<script id="edittemplate_template" type="text/html">
+  <table style='height:100%;width:100%;'>
+    <tr><td>
+        <button style="float:right;" class='save_button'>Save</button>
+        <p>Edit the EJS template below and click save when you are done.</p>
+    </td></tr>
+    <tr style='height:100%;'><td>
+        <textarea class="content" style='width:100%;height:100%;'><%= get("template") %></textarea>
+    </td></tr>
+  </table>
+</script>
+
+<script id="editstyle_template" type="text/html">
+  <table style='height:100%;width:100%;'>
+    <tr><td>
+        <button style="float:right;" class='save_button'>Save</button>
+        <p>Edit the CSS below and click save when you are done.</p>
+    </td></tr>
+    <tr style='height:100%;'><td>
+        <textarea class="content" style='width:100%;height:100%;'><%= get("style") %></textarea>
+    </td></tr>
+  </table>
+</script>
+
+<script id="setting_template" type="text/html">
+  <h2>Settings</h2>
+    <span class="heading">Display:</span><br />
+    Show personal info : <input type="checkbox" name="showpersonalinfo" /><br />
+    Show course table : <input type="checkbox" name="showcoursetable" /><br />
+    Show day in full instead of partial : <input type="checkbox" name="showfulldayname" /><br />
+    <br />
+    <span class="heading">Show Days:</span>
+    <table>
+        <tr><td>Monday:</td><td><input type="checkbox" name="show_day.MON"/></td></tr>
+        <tr><td>Tuesday:</td><td><input type="checkbox" name="show_day.TUE"/></td></tr>
+        <tr><td>Wednesday:</td><td><input type="checkbox" name="show_day.WED"/></td></tr>
+        <tr><td>Thursday:</td><td><input type="checkbox" name="show_day.THUR"/></td></tr>
+        <tr><td>Friday:</td><td><input type="checkbox" name="show_day.FRI"/></td></tr>
+        <tr><td>Saturday:</td><td><input type="checkbox" name="show_day.SAT"/></td></tr>
+        <tr><td>Sunday:</td><td><input type="checkbox" name="show_day.SUN"/></td></tr>
+    </table>
+    <br />
+    <span class="heading">Course Table:</span>
+    <table>
+        <tr><td>Code:</td><td><input type="checkbox" name="coursetable.code"/></td></tr>
+        <tr><td>Section:</td><td><input type="checkbox" name="coursetable.section"/></td></tr>
+        <tr><td>Credit Hour:</td><td><input type="checkbox" name="coursetable.credit"/></td></tr>
+        <tr><td>Name:</td><td><input type="checkbox" name="coursetable.name"/></td></tr>
+        <tr><td>Lecturer:</td><td><input type="checkbox" name="coursetable.lecturer"/></td></tr>
+    </table>
+    <br />
+    <span class="heading">Tweaks</span><br />
+    Fix minute align:<input type="checkbox" name="fixminutealign"/><br />
+    Minute alignment may not be correct. Fortunately there are way to fix it. Unfortunately there are side effect in which some style cannot be applied correctly.
+</script>
+
 <script type='text/javascript' src='/static/js/jquery-1.7.2.min.js' ></script>
+<script type='text/javascript' src='/static/js/underscore-min.js' ></script>
+<script type='text/javascript' src='/static/js/backbone.js' ></script>
 <script type='text/javascript' src='/static/js/ejs_production.js' ></script>
 <script type='text/javascript' src='/static/js/to-title-case.js' ></script>
+<script type='text/javascript' src='/static/js/split-pane.js' ></script>
 <script type='text/javascript' src='/static/js/customizer.js' ></script>

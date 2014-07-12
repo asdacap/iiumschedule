@@ -59,7 +59,7 @@ def schedule_formatter():
             data=theinstance.data
 
         header={"Access-Control-Allow-Origin":"http://my.iium.edu.my"}
-        text=text+r"<script>var data="+data+";formatschedule();</script>"
+        text=text+r"<script>var data="+data+"</script>"
         return text,200,header
     else:
         thedata=request.form.get("data")
