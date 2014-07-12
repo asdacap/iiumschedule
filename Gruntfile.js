@@ -36,13 +36,23 @@ module.exports = function(grunt) {
                 loopfunc: true,
             },
             all: ['Gruntfile.js','src/*.js','src/js/*.js',]
+        },
+        copy: {
+            main: {
+                expand: true,
+                cwd: 'src/',
+                src: '**',
+                dest: 'static',
+            }
         }
     });
 
 
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-contrib-copy');
 
     grunt.registerTask('default', ['jshint','uglify']);
+    grunt.registerTask('nomin', ['jshint','copy']);
 
 };
