@@ -205,9 +205,10 @@ $(function(){
     data: function(){
       return this.model;
     },
-    initialize: function(){
+    initialize: function(options){
+      this.options = options;
       this.render();
-    }
+    },
   });
 
   var EditTemplateView = View.extend({
@@ -228,6 +229,33 @@ $(function(){
     },
     save: function(){
       this.model.set('style',this.$el.find('textarea.content').val());
+    }
+  });
+
+  var StylerView = View.extend({
+    events: {
+      'click .reset-button':'reset',
+      'click .save-button':'save',
+    },
+    template: _.template($('#styler_view').html()),
+    afterRender: function(){
+      var styler_option = window.customizer_styler;
+      styler_option.container = this.$el.find("#mainbody");
+      styler_option.iframe = this.options.iframe;
+      styler_option.css = this.model.get("style");
+      this.stylerobj = Styler(styler_option);
+    },
+    reset: function(){
+      this.stylerobj.updateCss(this.model.get('style'));
+      this.model.trigger("change");
+    },
+    save: function(){
+      this.model.set('style',this.stylerobj.getNewCss(true));
+      this.model.trigger("change");
+    },
+    remove: function(){
+      this.model.trigger("change");
+      View.prototype.remove.apply(this);
     }
   });
 
@@ -289,7 +317,7 @@ $(function(){
       this.loadView(new SettingView({ model:current_state }));
     },
     loadStyler: function(){
-      console.log("On load styler");
+      this.loadView(new StylerView({ model:current_state, iframe: $("#previewiframe") }));
     },
     loadCSS: function(){
       this.loadView(new EditCSSView({ model:current_state }));

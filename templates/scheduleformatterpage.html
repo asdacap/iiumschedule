@@ -1,7 +1,15 @@
 <!DOCTYPE html>
 <head>
 <title>Automatic IIUM Schedule Formatter!</title>
+<link type="text/css" href="/static/css/bootstrap.min.css" rel="stylesheet"/>
 <link type="text/css" href="/static/global.css" rel="stylesheet"/>
+
+<!-- Styler specific settings -->
+<link type="text/css" href="/static/css/styler.css" rel="stylesheet"/>
+<link type="text/css" href="/static/css/styler-grey/jquery-ui-1.10.1.custom.css" rel="stylesheet"/>
+<link type="text/css" href="/static/colorpicker/colorpicker.css" rel="stylesheet"/>
+<!-- End Styler specific settings -->
+
 <link type="text/css" href="/static/css/split-pane.css" rel="stylesheet"/>
 <link type="text/css" href="/static/css/customize.css" rel="stylesheet"/>
 <script type="text/javascript">
@@ -47,7 +55,7 @@
 <script id="edittemplate_template" type="text/html">
   <table style='height:100%;width:100%;'>
     <tr><td>
-        <button style="float:right;" class='save_button'>Save</button>
+        <div class="btn btn-default btn-sm save_button pull-right">Save</div>
         <p>Edit the EJS template below and click save when you are done.</p>
     </td></tr>
     <tr style='height:100%;'><td>
@@ -56,10 +64,19 @@
   </table>
 </script>
 
+<script id="styler_view" type="text/html">
+  <div class="btn btn-default btn-sm reset-button">Reset</div>
+  <div class="btn btn-default btn-sm save-button">Save</div>
+  <div class="clearfix"></div>
+  <div id="mainbody">
+  </div>
+</script>
+
+
 <script id="editstyle_template" type="text/html">
   <table style='height:100%;width:100%;'>
     <tr><td>
-        <button style="float:right;" class='save_button'>Save</button>
+        <div class="btn btn-default btn-sm save_button pull-right">Save</div>
         <p>Edit the CSS below and click save when you are done.</p>
     </td></tr>
     <tr style='height:100%;'><td>
@@ -100,10 +117,14 @@
     Minute alignment may not be correct. Fortunately there are way to fix it. Unfortunately there are side effect in which some style cannot be applied correctly.
 </script>
 
-<script type='text/javascript' src='/static/js/jquery-1.7.2.min.js' ></script>
+<script type="text/javascript" src="/static/js/jquery-1.9.1.js"></script>
 <script type='text/javascript' src='/static/js/underscore-min.js' ></script>
 <script type='text/javascript' src='/static/js/backbone.js' ></script>
 <script type='text/javascript' src='/static/js/ejs_production.js' ></script>
 <script type='text/javascript' src='/static/js/to-title-case.js' ></script>
 <script type='text/javascript' src='/static/js/split-pane.js' ></script>
+<script type='text/javascript' src='/static/js/customizer-styler.js' ></script>
+<script type="text/javascript" src="/static/js/jquery.tools.min.js"></script>
+<script type="text/javascript" src="/static/js/jquery-ui-1.10.1.custom.min.js"></script>
+<script type="text/javascript" src="/static/js/styler.js"></script>
 <script type='text/javascript' src='/static/js/customizer.js' ></script>
