@@ -131,4 +131,16 @@ body{
   width:205px;
   float:left;
   margin:0 10px 10px 0;
+  position:relative;
+}
+
+.loading-mask{
+  display: none;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  width: 100%;
+  height: 100%;
+  z-index: 100000;
 }

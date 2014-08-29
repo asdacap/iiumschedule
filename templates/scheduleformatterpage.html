@@ -80,6 +80,7 @@
 
 <script id="theme_view" type="text/html">
   <div class="thumbnail theme-item">
+    <div class="loading-mask"></div>
     <img src='//free.pagepeeker.com/v2/thumbs.php?size=m&url=http%3A%2F%2Fiiumschedule.asdacap.com%2Fscreenshot%3Fthemename%3D<%= encodeURIComponent(attributes.name) %>'></img>
     <div class="caption">
       <h3><%= attributes.name %></h3>
@@ -113,26 +114,17 @@
 </script>
 
 <script id="submit_theme" type="text/html">
-<h1>Submit Your Theme</h1>
-<table>
-  <tr><td class='labels'>
-      <label for='name'>Theme name:</label></td><td class='inputs'><input type='text' name='name' value='{{name}}'></input>
-  </td></tr>
-  <tr><td class='labels'>
-      <label for='submitter'>Your name:</label></td><td class='inputs'><input type='text' name='submitter' value='{{submitter}}'></input>
-  </td></tr>
-  <tr><td class='labels'>
-      <label for='email'>email:</label></td><td class='inputs'><input type='text' name='email' value='{{email}}'></input>
-  </td></tr>
-  <tr>
-    <td>
-      <div id="recaptcha_div"></div>
-      <input type="hidden" name="recaptcha_response_field" value="">
-      <input type="hidden" name="recaptcha_challange_field" value="">
-    </td>
-  </tr>
-</table> 
-<textarea name='rendered' style='display:none;'>{{rendered}}</textarea>
+<div class="loading-mask"></div>
+<h2>Submit Theme</h2>
+<label for='name'>Theme name:</label>
+<input type='text' name='name' value='{{name}}' class="form-control"></input>
+<label for='submitter'>Your name:</label>
+<input type='text' name='submitter' value='{{submitter}}' class="form-control"></input>
+<label for='email'>email:</label>
+<input type='text' name='email' value='{{email}}' class="form-control"></input>
+<div id="recaptcha_div"></div>
+<input type="hidden" name="recaptcha_response_field" value="">
+<input type="hidden" name="recaptcha_challange_field" value="">
 <a class="btn btn-primary submit">Submit</a>
 </script>
 

@@ -235,21 +235,26 @@ $(function(){
       });
 
       params.data = JSON.stringify({
-        template:current_state.get('template'),
-        style:current_state.get('style'),
-        settings:_.clone(current_state.get('settings').attributes)
+        template:self.model.get('template'),
+        style:self.model.get('style'),
+        settings:_.clone(self.model.get('settings').attributes)
       });
+
+      params.rendered = self.model.render();
 
       params.recaptcha_response_field = Recaptcha.get_response();
       params.recaptcha_challenge_field = Recaptcha.get_challenge();
 
+      self.$el.find('.loading-mask').css('display','block');
       $.post('/themegallery/',params).success(function(data){
         alert("Theme submitted");
         Backbone.history.navigate("theme",{trigger:true, replace:true});
+        self.$el.find('.loading-mask').css('display','none');
       }).fail(function(xhr,msg){
         var obj = JSON.parse(xhr.responseText);
         Recaptcha.reload();
         alert("Failed to submit theme. "+obj.error);
+        self.$el.find('.loading-mask').css('display','none');
       });
 
     }
@@ -257,14 +262,23 @@ $(function(){
 
   var ThemeItemView = View.extend({
     template: _.template($('#theme_view').html()),
+    initialize: function(options){
+      this.state = options.state;
+    },
     events: {
       'click .thumbnail':'loadTheme'
     },
     loadTheme: function(){
+      var self=this;
+      self.$el.find('.loading-mask').css('display','block');
       $.getJSON("/themegallery?name="+this.model.get('name'),function(data){
-        current_state.get('settings').attributes=data.data.settings;
-        current_state.set('style',data.data.style);
-        current_state.set('template',data.data.template);
+        self.$el.find('.loading-mask').css('display','none');
+        self.state.get('settings').attributes=data.data.settings;
+        self.state.set('style',data.data.style);
+        self.state.set('template',data.data.template);
+      }).fail(function(){
+        self.$el.find('.loading-mask').css('display','none');
+        alert("error loading theme");
       });
     }
   });
@@ -285,7 +299,7 @@ $(function(){
       var self=this;
       this.collection.each(function(model){
         if(!model.view){
-          model.view = new ThemeItemView({model:model});
+          model.view = new ThemeItemView({model:model,state: self.model});
         }
         var el=self.$el.find('[data-model="'+model.cid+'"]');
         model.view.setElement(el).render();
@@ -409,7 +423,7 @@ $(function(){
       this.loadView(new EditTemplateView({ model:current_state }));
     },
     loadSubmitTheme: function(){
-      this.loadView(new SubmitThemeView());
+      this.loadView(new SubmitThemeView({ model:current_state }));
     }
   });
 
