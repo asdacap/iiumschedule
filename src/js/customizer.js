@@ -39,6 +39,7 @@ $(function(){
       var template_data = this.convert_data(this.get("data"));
       template_data.style = this.get("style");
       template_data.settings = this.get("settings").attributes;
+      template_data.day_name = DAY_NAME;
 
       var result = (new EJS({
         text : this.get("template"),
