@@ -1,2 +1,6 @@
 *.pyc
 *~
+faulty_page
+iiumschedule.log
+output.json
+course_data_updater.log

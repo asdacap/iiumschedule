@@ -25,6 +25,7 @@ import logging.config
 import admincontroller
 import staticsettings
 import sqlalchemy.orm.exc
+import os
 from flask import g
 from models import SubjectData,SectionData
 
@@ -44,7 +45,7 @@ logging.config.dictConfig({
             },
             'file':{
                 'class':'logging.handlers.RotatingFileHandler',
-                'filename': 'course_data_updater.log',
+                'filename': os.path.join( os.path.dirname(__file__),'course_data_updater.log' ),
                 'level':'INFO',
                 'formatter':'simple',
             }
