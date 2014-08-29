@@ -25,6 +25,10 @@
   })();
 
 </script>
+<script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
+<script>
+  var RECAPTCHA_PUBLIC_KEY = "{{ RECAPTCHA_PUBLIC_KEY }}";
+</script>
 <base href="/scheduleformatter/"/>
 </head>
 <body>
@@ -65,13 +69,36 @@
 </script>
 
 <script id="styler_view" type="text/html">
-  <div class="btn btn-default btn-sm reset-button">Reset</div>
-  <div class="btn btn-default btn-sm save-button">Save</div>
+  <div style="text-align:right;margin-bottom:5px;">
+    <div class="btn btn-default btn-sm reset-button">Reset</div>
+    <div class="btn btn-default btn-sm save-button">Save</div>
+  </div>
   <div class="clearfix"></div>
   <div id="mainbody">
   </div>
 </script>
 
+<script id="theme_view" type="text/html">
+  <div class="thumbnail theme-item">
+    <img src='//free.pagepeeker.com/v2/thumbs.php?size=m&url=http%3A%2F%2Fiiumschedule.asdacap.com%2Fscreenshot%3Fthemename%3D<%= encodeURIComponent(attributes.name) %>'></img>
+    <div class="caption">
+      <h3><%= attributes.name %></h3>
+      <p> by <%= attributes.submitter %></p>
+    </div>
+  </div>
+</script>
+
+<script id="themelist_view" type="text/html">
+  <h2>Choose a theme</h2>
+  <div class="theme-list">
+    <% collection.each(function(model){ %>
+      <div data-model="<%= model.cid %>"></div>
+    <% }) %>
+  </div>
+  <div style='clear:both;' />
+  <p>Please contribute to the community of IIUM by <a href="#/submit_theme">submitting</a> your own design</p>
+  <a href='http://pagepeeker.com/' target='_blank'>Thumbshots by PagePeeker</a></p>
+</script>
 
 <script id="editstyle_template" type="text/html">
   <table style='height:100%;width:100%;'>
@@ -83,6 +110,30 @@
         <textarea class="content" style='width:100%;height:100%;'><%= get("style") %></textarea>
     </td></tr>
   </table>
+</script>
+
+<script id="submit_theme" type="text/html">
+<h1>Submit Your Theme</h1>
+<table>
+  <tr><td class='labels'>
+      <label for='name'>Theme name:</label></td><td class='inputs'><input type='text' name='name' value='{{name}}'></input>
+  </td></tr>
+  <tr><td class='labels'>
+      <label for='submitter'>Your name:</label></td><td class='inputs'><input type='text' name='submitter' value='{{submitter}}'></input>
+  </td></tr>
+  <tr><td class='labels'>
+      <label for='email'>email:</label></td><td class='inputs'><input type='text' name='email' value='{{email}}'></input>
+  </td></tr>
+  <tr>
+    <td>
+      <div id="recaptcha_div"></div>
+      <input type="hidden" name="recaptcha_response_field" value="">
+      <input type="hidden" name="recaptcha_challange_field" value="">
+    </td>
+  </tr>
+</table> 
+<textarea name='rendered' style='display:none;'>{{rendered}}</textarea>
+<a class="btn btn-primary submit">Submit</a>
 </script>
 
 <script id="setting_template" type="text/html">

@@ -30,6 +30,7 @@ from models import SavedSchedule, ErrorLog
 from flask import Flask, render_template, request, g
 import logging
 from bootstrap import app
+from staticsettings import RECAPTCHA_KEY,RECAPTCHA_PUBLIC_KEY,DEBUG,DEFAULTDATA
 
 @app.route('/scheduleformatter/',methods=['GET','POST'])
 def schedule_formatter():
@@ -47,7 +48,10 @@ def schedule_formatter():
                 return data
             return
 
-        text=render_template('scheduleformatterpage.html')
+        arg={}
+        arg["RECAPTCHA_PUBLIC_KEY"]=RECAPTCHA_PUBLIC_KEY
+        arg["RECAPTCHA_KEY"]=RECAPTCHA_KEY
+        text=render_template('scheduleformatterpage.html', **arg)
 
         token=request.args.get("token",None)
         if(not token):

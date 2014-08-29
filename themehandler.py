@@ -102,7 +102,7 @@ def save_theme():
         validation=recaptcha.submit(recaptchallange,recaptresponse,RECAPTCHA_KEY,request.remote_addr)
         if(not validation.is_valid):
             error=True
-            errormessage="Please reenter the recaptcha."+str(validation.error_code)+" challange="+recaptchallange+" response="+recaptresponse
+            errormessage="Please reenter the recaptcha."
 
     if((DEBUG or validation.is_valid) and not error):
         newtheme=Theme()
@@ -113,20 +113,16 @@ def save_theme():
         newtheme.counter=0
         newtheme.rendered=rendered
         newtheme.put()
-        return render_template('thankmessage.html')
+        return 'success',200
     elif(not error):
         return 'Something went wrong',400
     else:
-        arg=dict()
-        arg["name"]=themename
-        arg["submitter"]=submitter
-        arg["email"]=email
-        arg["data"]=data
-        arg["message"]=errormessage
-        arg["rendered"]=rendered
-        arg["RECAPTCHA_PUBLIC_KEY"]=RECAPTCHA_PUBLIC_KEY
-        arg["RECAPTCHA_KEY"]=RECAPTCHA_KEY
-        return render_template('submittheme.html',**arg)
+        return JSON.dumps({ "error": errormessage }),400
+
+@app.route('/scheduleformatter/themes/',methods=['GET'])
+def themes():
+    themelist=Theme.all()
+    return JSON.dumps([x.simple_to_hash() for x in themelist.all()])
 
 @app.route('/themegallery/',methods=['GET','POST'])
 def themegallery():

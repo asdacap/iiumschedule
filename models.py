@@ -139,3 +139,6 @@ class Theme(DBBase,CMethods):
     data=Column(Text)
     counter=Column(Integer)
     rendered=Column(Text)
+
+    def simple_to_hash(self):
+      return { "name":self.name, "submitter":self.submitter }

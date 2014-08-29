@@ -188,7 +188,15 @@ $(function(){
 
   });
 
+  var Theme = Backbone.Model.extend({
+  });
+
   var ScheduleSetting = Backbone.Model.extend({
+  });
+
+  var ThemeCollection = Backbone.Collection.extend({
+    model: Theme,
+    url: 'themes'
   });
 
   var View = Backbone.View.extend({
@@ -209,6 +217,80 @@ $(function(){
       this.options = options;
       this.render();
     },
+  });
+
+  var SubmitThemeView = View.extend({
+    events: {
+      'click .submit': 'submitTheme'
+    },
+    template: _.template($('#submit_theme').html()),
+    afterRender: function(){
+      Recaptcha.create(RECAPTCHA_PUBLIC_KEY,'recaptcha_div',{ theme: 'red', callback: Recaptcha.focus_response_field });
+    },
+    submitTheme: function(){
+      var params={};
+      var self = this;
+      _.each(['name','submitter','email'],function(name){
+        params[name] = self.$el.find('[name='+name+']').val(); 
+      });
+
+      params.data = JSON.stringify({
+        template:current_state.get('template'),
+        style:current_state.get('style'),
+        settings:_.clone(current_state.get('settings').attributes)
+      });
+
+      params.recaptcha_response_field = Recaptcha.get_response();
+      params.recaptcha_challenge_field = Recaptcha.get_challenge();
+
+      $.post('/themegallery/',params).success(function(data){
+        alert("Theme submitted");
+        Backbone.history.navigate("theme",{trigger:true, replace:true});
+      }).fail(function(xhr,msg){
+        var obj = JSON.parse(xhr.responseText);
+        Recaptcha.reload();
+        alert("Failed to submit theme. "+obj.error);
+      });
+
+    }
+  });
+
+  var ThemeItemView = View.extend({
+    template: _.template($('#theme_view').html()),
+    events: {
+      'click .thumbnail':'loadTheme'
+    },
+    loadTheme: function(){
+      $.getJSON("/themegallery?name="+this.model.get('name'),function(data){
+        current_state.get('settings').attributes=data.data.settings;
+        current_state.set('style',data.data.style);
+        current_state.set('template',data.data.template);
+      });
+    }
+  });
+
+  var ThemeListView = View.extend({
+    template: _.template($('#themelist_view').html()),
+    data: function(){
+      return this;
+    },
+    initialize: function(){
+      this.collection = new ThemeCollection();
+      this.collection.fetch();
+      this.listenTo(this.collection,'change',_.bind(this.render,this));
+      this.listenTo(this.collection,'sync',_.bind(this.render,this));
+      View.prototype.initialize.call(this);
+    },
+    afterRender: function(){
+      var self=this;
+      this.collection.each(function(model){
+        if(!model.view){
+          model.view = new ThemeItemView({model:model});
+        }
+        var el=self.$el.find('[data-model="'+model.cid+'"]');
+        model.view.setElement(el).render();
+      });
+    }
   });
 
   var EditTemplateView = View.extend({
@@ -298,7 +380,8 @@ $(function(){
       "setting": "loadSettings",
       "styler": "loadStyler",
       "css": "loadCSS",
-      "template": "loadTemplateSetting"
+      "template": "loadTemplateSetting",
+      "submit_theme": "loadSubmitTheme"
     },
     el: $("#configpane"),
     loadView: function(view){
@@ -308,10 +391,10 @@ $(function(){
     },
 
     index: function(){
-      console.log("index");
+      this.navigate("theme",{trigger:true, replace:true});
     },
     loadThemes: function(){
-      console.log("On load themes");
+      this.loadView(new ThemeListView({ model:current_state }));
     },
     loadSettings: function(){
       this.loadView(new SettingView({ model:current_state }));
@@ -324,6 +407,9 @@ $(function(){
     },
     loadTemplateSetting: function(){
       this.loadView(new EditTemplateView({ model:current_state }));
+    },
+    loadSubmitTheme: function(){
+      this.loadView(new SubmitThemeView());
     }
   });
 

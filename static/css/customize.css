@@ -122,3 +122,13 @@ body{
 #configpane table tr:nth-child(1) td p{
   margin:3px 0;
 }
+
+#configpane .theme-list > div{
+  float:left;
+}
+
+#configpane .theme-item{
+  width:205px;
+  float:left;
+  margin:0 10px 10px 0;
+}
