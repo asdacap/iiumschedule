@@ -27,6 +27,7 @@ import tempfile
 import subprocess
 import os
 import os.path
+import logging
 
 from bootstrap import db,app
 DBBase=db.Model
@@ -151,5 +152,13 @@ class Theme(DBBase,CMethods):
       with tempfile.NamedTemporaryFile(suffix=".html") as tfile:
         tfile.write(self.rendered.encode('utf8'))
         tfile.flush()
-        subprocess.check_output(["webkit2png", os.path.abspath(tfile.name),"--output="+os.path.join(os.path.dirname(__file__), "static/themeimage/%s.png"%(self.name)),"--scale=200","150"])
+        try:
+          subprocess.check_output(["python","/usr/local/bin/webkit2png","-x","800","600",os.path.abspath(tfile.name),"--output="+os.path.join(os.path.dirname(__file__), "static/themeimage/%s.png"%(self.name)),"--scale=200","150"], cwd=os.path.dirname(__file__) )
+        except subprocess.CalledProcessError as e:
+          logging.error("Exception on Generate Photo")
+          logging.error(e.cmd)
+          logging.error(e.returncode)
+          logging.error(e.output)
+          raise e
+
 
