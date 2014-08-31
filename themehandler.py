@@ -112,6 +112,7 @@ def save_theme():
         newtheme.data=data
         newtheme.counter=0
         newtheme.rendered=rendered
+        newtheme.generate_photo()
         newtheme.put()
         return 'success',200
     elif(not error):
