@@ -226,6 +226,13 @@ def show_theme(name):
         return redirect(url_for('theme'))
     return render_template('edit_theme.html',theme=theme)
 
+@app.route('/admin/theme/<name>/rerender',methods=['GET'])
+@login_required
+def rerender_theme(name):
+    theme=Theme.query.get(name)
+    theme.generate_photo()
+    return redirect(url_for('show_theme',name=name))
+
 @app.route('/admin/theme/')
 @login_required
 def theme():

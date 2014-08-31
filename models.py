@@ -23,6 +23,10 @@ from sqlalchemy.schema import UniqueConstraint
 import sqlalchemy.orm.exc
 import json
 import re
+import tempfile
+import subprocess
+import os
+import os.path
 
 from bootstrap import db,app
 DBBase=db.Model
@@ -142,3 +146,10 @@ class Theme(DBBase,CMethods):
 
     def simple_to_hash(self):
       return { "name":self.name, "submitter":self.submitter }
+
+    def generate_photo(self):
+      with tempfile.NamedTemporaryFile(suffix=".html") as tfile:
+        tfile.write(self.rendered.encode('utf8'))
+        tfile.flush()
+        subprocess.check_output(["webkit2png", os.path.abspath(tfile.name),"--output="+os.path.join(os.path.dirname(__file__), "static/themeimage/%s.png"%(self.name)),"--scale=200","150"])
+

@@ -52,6 +52,7 @@
         <textarea name='rendered' class="form-control" style=''>{{theme.rendered}}</textarea>
         <br />
         <a class="btn btn-default" href="javascript:rerender2()">Rerender</a>
+        <a class="btn btn-default" href="{{ url_for("rerender_theme",name=theme.name) }}">Server Rerender</a>
         <input name='submit' class="btn btn-primary" type='submit' value='Submit'></input>
     </form>
 </div>

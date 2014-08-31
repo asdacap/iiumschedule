@@ -124,7 +124,7 @@ body{
 }
 
 #configpane .theme-list > div{
-  float:left;
+  display: inline-block;
 }
 
 #configpane .theme-item{

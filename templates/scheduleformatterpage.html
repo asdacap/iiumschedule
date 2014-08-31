@@ -81,7 +81,7 @@
 <script id="theme_view" type="text/html">
   <div class="thumbnail theme-item">
     <div class="loading-mask"></div>
-    <img src='//free.pagepeeker.com/v2/thumbs.php?size=m&url=http%3A%2F%2Fiiumschedule.asdacap.com%2Fscreenshot%3Fthemename%3D<%= encodeURIComponent(attributes.name) %>'></img>
+    <img src='/static/themeimage/<%= encodeURIComponent(attributes.name) %>.png'></img>
     <div class="caption">
       <h3><%= attributes.name %></h3>
       <p> by <%= attributes.submitter %></p>
