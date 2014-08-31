@@ -252,10 +252,16 @@ $(function(){
         Backbone.history.navigate("theme",{trigger:true, replace:true});
         self.$el.find('.loading-mask').css('display','none');
       }).fail(function(xhr,msg){
-        var obj = JSON.parse(xhr.responseText);
         Recaptcha.reload();
-        alert("Failed to submit theme. "+obj.error);
         self.$el.find('.loading-mask').css('display','none');
+        var obj;
+        try{
+          obj = JSON.parse(xhr.responseText);
+        }catch(e){
+          alert("Failed to submit theme.");
+          return;
+        }
+        alert("Failed to submit theme. "+obj.error);
       });
 
     }
