@@ -16,6 +16,10 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Automatic IIUM Schedule Formatter.  If not, see <http://www.gnu.org/licenses/>.
 '''
+
+import os
+import os.path
+
 DB_CONN='postgresql://iiumschedule:iiumschedule@localhost/iiumschedule'
 RECAPTCHA_PUBLIC_KEY="6LcfOu0SAAAAAKeyYcuC36_U3yEd_TBK8rlmpCIg"
 RECAPTCHA_KEY="6LcfOu0SAAAAABQw2aAP0FePvDrA6X9JN8bG2hMB"
@@ -24,4 +28,4 @@ LOGIN_USERNAME='iiumschedule'
 LOGIN_PASSWORD='admin'
 SESSION_SECRET=':\x7f\x8f-\xb1\x19\xd2-\x9a\xdb\xe3Pr\x95\xd5\x0c\xd2\xeb\x1e\x93\xa9\x90\xd5B'
 SESSIONS_STILL_UPDATE=['2014/2015']
-DEFAULTDATA=open('defaultdata.json').read()
+DEFAULTDATA=open(os.path.join(os.path.dirname(__file__),'defaultdata.json')).read()
