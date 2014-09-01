@@ -28,7 +28,8 @@ import gc
 from datetime import datetime
 from urlparse import urlparse,parse_qsl
 
-SOURCE_URL='http://prereg.iium.edu.my/schedule1.php'
+#SOURCE_URL='http://prereg.iium.edu.my/schedule1.php'
+SOURCE_URL='http://albiruni.iium.edu.my/myapps/StudentOnline/schedule1.php' # use this instead
 
 '''
 A compatibility function. Works the samme way as previous one,
