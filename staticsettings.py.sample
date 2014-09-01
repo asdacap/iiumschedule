@@ -17,15 +17,27 @@ You should have received a copy of the GNU General Public License
 along with Automatic IIUM Schedule Formatter.  If not, see <http://www.gnu.org/licenses/>.
 '''
 
+### Sample settings ###
+
 import os
 import os.path
 
 DB_CONN='postgresql://iiumschedule:iiumschedule@localhost/iiumschedule'
-RECAPTCHA_PUBLIC_KEY="6LcfOu0SAAAAAKeyYcuC36_U3yEd_TBK8rlmpCIg"
-RECAPTCHA_KEY="6LcfOu0SAAAAABQw2aAP0FePvDrA6X9JN8bG2hMB"
+RECAPTCHA_PUBLIC_KEY=""
+RECAPTCHA_KEY=""
 DEBUG=False
-LOGIN_USERNAME='iiumschedule'
+SESSION_SECRET='anythingunique'
+
+# username/password for /admin endpoint
+LOGIN_USERNAME='admin'
 LOGIN_PASSWORD='admin'
-SESSION_SECRET=':\x7f\x8f-\xb1\x19\xd2-\x9a\xdb\xe3Pr\x95\xd5\x0c\xd2\xeb\x1e\x93\xa9\x90\xd5B'
-SESSIONS_STILL_UPDATE=['2014/2015']
-DEFAULTDATA=open(os.path.join(os.path.dirname(__file__),'defaultdata.json')).read()
+
+# Default/Sample data used by scheduleformatter for schedule
+DEFAULTDATA=open(os.path.join(os.path.dirname(__file__),'defaultdata.json')).read() 
+
+# The URL where scraper will fetch section data
+# SCRAPER_SOURCE_URL='http://prereg.iium.edu.my/schedule1.php'
+SCRAPER_SOURCE_URL='http://albiruni.iium.edu.my/myapps/StudentOnline/schedule1.php' # use this instead
+
+# What session it will attempt to fetch section data.
+SESSIONS_STILL_UPDATE=['2014/2015'] 
