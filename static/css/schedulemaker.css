@@ -1,0 +1,138 @@
+.bigsched .fixminutealign,.bigsched .fixminutealign>td{
+    margin:0;
+    padding:0;
+    height:0;
+    width:0;
+}
+#scheduletable .fixminutealign,#scheduletable .fixminutealign>td{
+    margin:0;
+    padding:0;
+    height:0;
+    width:0;
+}
+html,body{
+    height:100%;
+    width:99.5%;
+    position:relative;
+}
+#main{
+    height:100%;
+    box-sizing:border-box;
+    -moz-box-sizing:border-box;
+}
+.mouse-pointer{
+    cursor:pointer;
+}
+
+@media(min-width: 1200px){
+    .height100-lg{
+        height:100%;
+    }
+}
+
+.height100{
+    height:100%;
+}
+
+
+.yscrollonly{
+    overflow-y:auto;
+    overflow-x:hidden;
+}
+.longrow{
+    position:absolute;
+    top:130px;
+    left:15px;
+    right:15px;
+    bottom:0;
+}
+
+.slide-anim{
+    padding:1em;
+}
+
+.slide-anim.ng-enter,
+.slide-anim.ng-leave{
+    transition: 1s ease all;
+    position:absolute;
+    width:99.5%;
+}
+.slide-anim.ng-enter{
+    left:100%;
+}
+.slide-anim.ng-leave.ng-leave-active{
+    left:-100%;
+}
+.slide-anim.ng-enter.ng-enter-active,
+.slide-anim.ng-leave
+{
+    left:0px;
+}
+
+.selector-kuly.ng-animate{
+    transition: 0.5s ease all;
+    position:absolute;
+    display: block !important;
+}
+
+.selector-kuly.ng-hide-add,
+.selector-kuly.ng-hide-remove.ng-hide-remove-active
+{
+    opacity:1;
+}
+
+.selector-kuly.ng-hide-add.ng-hide-add-active,
+.selector-kuly.ng-hide-remove
+{
+    opacity:0;
+}
+
+.selector-subject.small-add,
+.selector-subject.small-remove
+{
+    transition: 0.5s ease all;
+    position:absolute;
+}
+
+.selector-subject.small-add,
+.selector-subject.small-remove.small-remove-active
+{
+    left:33%;
+    width:66%;
+}
+
+.selector-subject.small-add.small-add-active,
+.selector-subject.small-remove
+{
+    left:0;
+    width:33%;
+}
+
+.sectionlist.ng-hide-add,
+.sectionlist.ng-hide-remove
+{
+    transition: 0.5s ease all;
+    position:absolute;
+    display: block !important;
+    left:33%;
+}
+
+.sectionlist.ng-hide-add.ng-hide-add-active,
+.sectionlist.ng-hide-remove
+{
+    opacity:0;
+}
+
+.sectionlist.ng-hide-add,
+.sectionlist.ng-hide-remove.ng-hide-remove-active
+{
+    opacity:1;
+}
+
+.bigsched .nonempty{
+    text-align:center;
+}
+
+.bigsched .nonempty .venue{
+    font-size:70%;
+}
