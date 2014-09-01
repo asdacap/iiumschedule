@@ -33,6 +33,10 @@ angular.module('smaker',['ngAnimate','pasvaz.bindonce'])
 
     };
 
+    gobj.total_credithour=function(){
+        return _.reduce(gobj.schedule, function(m,s){ return m+s.credithour; }, 0);
+    };
+
     gobj.subject_added=function(code){
         return gobj.schedule[code];
     };
@@ -465,7 +469,7 @@ angular.module('smaker',['ngAnimate','pasvaz.bindonce'])
                     schedule=[];
                 }
                 var cdata=convert_data({coursearray:schedule});
-                $(element).html((new EJS({text:$(scope.template).html()})).render(cdata));
+                $(element).html(_.template($(scope.template).html())(cdata));
             }
 
             //This will cause the schedule display to redraw everytime the schedule change 
@@ -489,29 +493,6 @@ angular.module('smaker',['ngAnimate','pasvaz.bindonce'])
                 var starthour=8;
                 var actualstarthour=8;
                 var actualendhour=20;
-                /* Hardcode the range
-                var i=0;
-                while(i<coursearray.length){
-                var i2=0;
-                var ccourse=coursearray[i];
-                while(i2<ccourse.schedule.length){
-                var sched=ccourse.schedule[i2];
-                var start=Math.floor(sched.start);
-                if(start<actualstarthour){
-                //actualstarthour=start;
-                }
-                var end=Math.floor(sched.end);
-                if(sched.end>end){
-                end+=1;
-                }
-                if(end>actualendhour){
-                //actualendhour=end;
-                }
-                i2=i2+1;
-                }
-                i=i+1;
-                }
-                */
 
                 var startfminute=actualstarthour*12;
                 var endfminute=actualendhour*12;

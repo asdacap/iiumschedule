@@ -419,8 +419,8 @@
                             <table class="table table-striped table-collapsed">
                                 <thead>
                                     <tr>
-                                        <th>Code</th>
-                                        <th>Section</th>
+                                        <th>Code - <span title="Section">Sec</span></th>
+                                        <th><span title="Credit Hour">Cr</span></th>
                                         <th>Lecturer</th>
                                         <th>Time</th>
                                         <th>Venue</th>
@@ -429,17 +429,27 @@
                                 </thead>
                                 <tbody>
                                     <tr ng-repeat="x in smglobal.schedule">
-                                        <td title="{{x.title}}">{{x.code}}</td>
-                                        <td>{{x.section}}</td>
+                                        <td title="{{x.title}}">{{x.code}} - {{x.section}}</td>
+                                        <td>{{x.credithour}}</td>
                                         <td>{{x.lecturer}}</td>
                                         <td>{{x.day}} {{x.time}}</td>
                                         <td>{{x.venue}}</td>
                                         <td><a class="btn btn-danger glyphicon glyphicon-remove btn-sm" ng-click="smglobal.remove_section(x.section_id)"></a></td>
                                     </tr>
                                 </tbody>
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>{{ smglobal.total_credithour() }}</th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
                             </table>
                         </small>
-                        <a class="mouse-pointer btn btn-default" ng-click="smglobal.mode='generator'">Schedule Generator</a>
+                        <a class="mouse-pointer btn btn-default" ng-click="smglobal.mode='generator'">Schedula Generator</a>
                         <a class="mouse-pointer btn btn-default" ng-click="smglobal.mode='formatterform'">Schedule Formatter</a>
 
                         <br /><strong style="margin-top:10px;display:block;" class="text-warning">Warning: this application does NOT automatically enroll you on a course. You will still need to register you course separately.</strong>
@@ -477,12 +487,12 @@
                             </div>
                         </div>
                         <div ng-class="( mode=='subject'?'col-xs-8':'col-xs-4 small' )+' yscrollonly height100 selector-subject'" nice-scroll>
-                            <span>Subject ({{ filteredSubject.length }})</span>    
+                            <span>Credit hour - Subject ({{ filteredSubject.length }})</span>    
                             <div class="list-group">
                                 <a bindonce ng-repeat="(k,v) in filteredSubject" class="list-group-item mouse-pointer" ng-class="(selected_subject==v?'active':'') "  ng-click="show_section(v)">
                                     <i class="glyphicon glyphicon-ok pull-right" ng-show="smglobal.schedule[v.code]!=undefined"></i>
                                     <span bo-text="v.code"></span><br />
-                                    <small bo-text="v.title"></small><br />
+                                    <small bo-text="v.ch" title="Credit Hour"></small> - <small bo-text="v.title"></small><br />
                                 </a>
                                 <small ng-show="scroll_limit_reached">For performance reason, no more than 300 subject will be shown at the same time. Please search for your subject or select a kulliyyah.</small>
                             </div>                        
@@ -571,7 +581,7 @@
                                 <div class="list-group">
                                     <a ng-repeat="(k,v) in filteredSubject" class="list-group-item mouse-pointer" ng-click="toggleSubject(v)">
                                         <i class="glyphicon glyphicon-ok pull-right" ng-show="subjectAdded(v)"></i>
-                                        {{v.code}}
+                                        {{ v.ch }} - {{v.code}}
                                         <small>{{v.title}}</small><br />
                                     </a>
                                 </div>                        
@@ -684,7 +694,6 @@
                             </thead>
                             <tbody>
                                 <tr ng-repeat="x in smglobal.schedule">
-
                                     <td>{{x.code}}</td>
                                     <td>{{x.section}}</td>
                                     <td>{{x.lecturer}}</td>
