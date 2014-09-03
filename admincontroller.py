@@ -179,9 +179,9 @@ def update_section_data():
 @app.route('/admin/remove_all_section_data/')
 @login_required
 def remove_section_data():
-    query=SectionData.query
-    for sd in query:
-        sd.key.delete()
+    SectionData.all().delete()
+    SubjectData.all().delete()
+    db.session.commit()
     return 'Done'
 
 @app.route('/admin/error_report/<id>/delete/')

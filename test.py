@@ -22,6 +22,7 @@ staticsettings.DB_CONN='sqlite:///:memory:'
 import os
 import app as iiumschedule
 import bootstrap
+from bootstrap import db,app
 import unittest
 import json
 import flask
@@ -31,16 +32,19 @@ import cgi
 import models
 import admincontroller
 import mantainance
+import json
+import sqlalchemy.orm.session
 
-class IIUMSchedulTestCase(unittest.TestCase):
+class IIUMScheduleTestCase(unittest.TestCase):
 
     def setUp(self):
         iiumschedule.app.config['TESTING'] = True
         self.app = iiumschedule.app.test_client()
-        bootstrap.db.create_all()
+        db.create_all()
 
     def tearDown(self):
-        bootstrap.db.drop_all()
+        db.session.remove()
+        db.drop_all()
 
     def addSectionData(self):
 
@@ -62,6 +66,9 @@ class IIUMSchedulTestCase(unittest.TestCase):
         ssd.time="sample time"
         ssd.sectionno=12
         ssd.put()
+
+
+class ModelTestCase(IIUMScheduleTestCase):
 
     def testPostProcess(self):
 
@@ -134,6 +141,105 @@ class IIUMSchedulTestCase(unittest.TestCase):
 
             res=self.app.get(flask.url_for('delete_error',id=models.ErrorLog.query.all()[0].id))
             assert models.ErrorLog.query.count()==0
+
+class ScheduleFormatterTestCase(IIUMScheduleTestCase):
+
+    def setUp(self):
+        super(ScheduleFormatterTestCase,self).setUp()
+
+        samplejson = ''
+        with open("testfixtures/samplejson.json") as f:
+            samplejson = f.read()
+
+        ss = models.SavedSchedule()
+        ss.token="samplescheduletoken"
+        ss.data=samplejson
+        ss.createddate = datetime.datetime.now()
+        ss.post_process()
+        ss.put()
+        self.saved_schedule = ss
+
+    def testScheduleFormatter(self):
+        resp = self.app.get('/scheduleformatter/')
+        assert resp.status_code == 200
+
+    def testScheduleFormatterNotExist(self):
+        resp = self.app.get('/scheduleformatter/?dtype=completeschedule&token=notexist')
+        assert resp.data == "Sorry, the requested schedule is no longer in the database. You should save it on your computer earlier."
+
+    def testScheduleFormatterExist(self):
+        resp = self.app.get('/scheduleformatter/?dtype=completeschedule&token='+self.saved_schedule.token)
+        assert resp.data == self.saved_schedule.data
+
+    def testScheduleFormatterUnformattedExist(self):
+        resp = self.app.get('/scheduleformatter/?dtype=unformatted&token='+self.saved_schedule.token)
+        assert resp.status_code == 200
+
+    def testScheduleFormatterCreate(self):
+        samplejson = ''
+        with open("testfixtures/samplejson.json") as f:
+            samplejson = f.read()
+        resp = self.app.post('/scheduleformatter/',data={ 'data': samplejson })
+        assert resp.status_code == 200
+        token = resp.data
+        ss = models.SavedSchedule.get_by_key_name(token)
+        assert json.loads(ss.data)['studentname'] == json.loads(samplejson)['studentname']
+
+    def testScheduleLoader(self):
+        resp = self.app.get('/scheduleloader/?ctoken='+self.saved_schedule.token)
+        assert resp.status_code == 200
+
+    def testMain(self):
+        resp = self.app.get('/')
+        assert resp.status_code == 200
+
+    def testErrorHandlerGet(self):
+        resp = self.app.get('/error/')
+        assert resp.status_code == 200
+
+    def testErrorHandlerPost(self):
+        beforecount = db.session.query(models.ErrorLog).count()
+        resp = self.app.post('/error/',data={ 'html':'Some html','submitter':'someone', 'error':'Someerror' })
+        assert resp.status_code == 200
+        assert ( db.session.query(models.ErrorLog).count() - beforecount ) == 1
+
+class AdminControllerTestCase(IIUMScheduleTestCase):
+
+    def setUp(self):
+        super(AdminControllerTestCase,self).setUp()
+        self.app.post('/admin/login/',data={ 'username': staticsettings.LOGIN_USERNAME, 'password': staticsettings.LOGIN_PASSWORD })
+
+    def testMainPage(self):
+        resp = self.app.get('/admin/')
+        assert resp.status_code == 200
+
+    def testResetDB(self):
+        resp = self.app.get('/admin/reset_db/')
+        assert resp.status_code == 200
+
+    def testCreateDB(self):
+        resp = self.app.get('/admin/reset_db/')
+        assert resp.status_code == 200
+
+    def testUpdateSectionData(self):
+        oricount = models.SubjectData.query.count()
+
+        resp = self.app.post('/admin/upload_section_data/', data={
+                'session':'2013/2014',
+                'secdata':open('testfixtures/sectiondata.json')
+            })
+
+        assert resp.status_code == 200
+        assert oricount < models.SubjectData.query.count()
+
+    def testRemoveSectionData(self):
+        self.addSectionData()
+        assert models.SubjectData.query.count() != 0
+        resp = self.app.get('/admin/remove_all_section_data/')
+        assert resp.status_code == 200
+        assert models.SubjectData.query.count() == 0
+
+
 
 if __name__ == '__main__':
     unittest.main()
