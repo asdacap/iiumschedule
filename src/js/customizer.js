@@ -591,6 +591,12 @@ $(function(){
   //The splitpane
   $(".split-pane").splitPane();
 
+  //Navigate link
+  $(document).on('click','a.backbone-navigate',function(){
+    var towhat = $(this).data('navigate-to');
+    Backbone.history.navigate(towhat,{ trigger: true, replace: false});
+  });
+
   var router = new AppRouter();
   Backbone.history.start({
   });
