@@ -336,17 +336,21 @@ $(function(){
   });
 
   var StylerView = View.extend({
+  /*
     events: {
       'click .reset-button':'reset',
       'click .save-button':'save',
     },
+    */
     template: _.template($('#styler_view').html()),
     afterRender: function(){
+    /*
       var styler_option = window.customizer_styler;
       styler_option.container = this.$el.find("#mainbody");
       styler_option.iframe = this.options.iframe;
       styler_option.css = this.model.get("style");
       this.stylerobj = Styler(styler_option);
+      */
     },
     reset: function(){
       this.stylerobj.updateCss(this.model.get('style'));
