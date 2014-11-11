@@ -444,14 +444,13 @@ var customizer_styler = (function parseCSS(css, iframe) {
     container : $("#mainbody"),
     predeflayout : predeflayout,
     preparse : true,
+    searchlayout: false,
     palette:palette,
-    palettegallery:palettegallery
+    palettegallery:palettegallery,
+    color_picker:{
+      static_path: "/static/styler/images/"
+    }
   };
   return options;
 })();
-
-function savestyle() {
-  var newcss = stylerobj.getNewCss(true);
-  parent.applyStyle(newcss);
-}
 

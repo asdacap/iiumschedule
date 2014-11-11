@@ -1,0 +1,117 @@
+input.minmax {
+  width: 8%;
+  max-width:4ex;
+  border: 0;
+  display: inline-block;
+  background: none;
+  margin:0;
+  text-align:right;
+}
+
+input.maxunit {
+  text-align:left;
+}
+
+input.sliderpreval{
+  width:6em;
+}
+
+.cssslider {
+  min-width: 80%;
+  max-width: 95%;
+  display: inline-block;
+  margin:0 1ex;
+}
+
+.cssslider .slider.slider-horizontal{
+  width:100%;
+}
+
+.stylerslider .input-group{
+  max-width:200px;
+}
+
+.stylerslider .sliderpreval{
+  min-width:100px;
+}
+
+.styler_control{
+  margin-bottom:10px;
+}
+.panel.styler-group{
+  margin-top:10px;
+}
+
+.css_control_group {
+}
+
+input.colorinput{
+  width:8em;
+  border:1px solid grey;
+  padding:1ex;
+}
+
+.palettetab .colorbox{
+  display:inline-block;
+  width:20px;
+  height:20px;
+  outline:1px solid grey;
+}
+
+.palettetab input{
+  margin-right:1ex;
+}
+
+.palettetab .palettethemeitem .name{
+  vertical-align:super;
+  margin:2px;
+  margin-left:5px;
+}
+.palettetab .palettethemeitem:hover{
+  text-decoration:underline;
+  cursor:pointer;
+}
+
+div.mainloading{
+  text-align:center;
+  width:100%;
+  height:100%;
+  font-family:Arial;
+  font-size:200%;
+}
+
+.stylercolortab{
+  background-image:url("/static/colorpicker/colortabback.png");
+  background-size:100% 100%;
+}
+
+.addcolor{
+  border:1px solid grey;
+  padding:1ex;
+  margin-top:1ex;
+}
+
+.addcolor div{
+  margin-bottom:1ex;
+}
+
+.addcolorgallery{
+  border:1px solid grey;
+  padding:1ex;
+  margin-top:1ex;
+}
+
+.addcolorgallery div{
+  margin-bottom:1ex;
+}
+
+.removecolor{
+  display:inline-block;
+  width:23px;
+  height:25px;
+  cursor:pointer;
+  background-image:url("remove_color.png");
+  background-repeat:no-repeat;
+  background-position:center center;
+  vertical-align:top;
+}
