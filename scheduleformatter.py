@@ -48,11 +48,6 @@ def schedule_formatter():
                 return data
             return
 
-        arg={}
-        arg["RECAPTCHA_PUBLIC_KEY"]=RECAPTCHA_PUBLIC_KEY
-        arg["RECAPTCHA_KEY"]=RECAPTCHA_KEY
-        text=render_template('scheduleformatterpage.html', **arg)
-
         token=request.args.get("token",None)
         if(not token):
             data=DEFAULTDATA
@@ -62,8 +57,13 @@ def schedule_formatter():
                 return "Sorry, the requested schedule is no longer in the database. You should save it on your computer earlier."
             data=theinstance.data
 
+        arg={}
+        arg["RECAPTCHA_PUBLIC_KEY"]=RECAPTCHA_PUBLIC_KEY
+        arg["RECAPTCHA_KEY"]=RECAPTCHA_KEY
+        arg["data"]=data
+        text=render_template('scheduleformatterpage.html', **arg)
+
         header={"Access-Control-Allow-Origin":"http://my.iium.edu.my"}
-        text=text+r"<script>var data="+data+"</script>"
         return text,200,header
     else:
         thedata=request.form.get("data")

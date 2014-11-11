@@ -346,7 +346,7 @@ $(function(){
       styler_option.container = this.$el.find(".mainbody");
       styler_option.iframe = this.options.iframe;
       styler_option.css = this.model.get("style");
-      this.stylerobj = Styler(styler_option);
+      this.stylerobj = Styler.initialize(styler_option);
     },
     reset: function(){
       this.stylerobj.updateCss(this.model.get('style'));

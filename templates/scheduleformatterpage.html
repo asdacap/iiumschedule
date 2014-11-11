@@ -5,13 +5,13 @@
 <link type="text/css" href="/static/global.css" rel="stylesheet"/>
 
 <!-- Styler specific settings -->
-<link type="text/css" href="/static/css/styler.css" rel="stylesheet"/>
-<link type="text/css" href="/static/css/styler-grey/jquery-ui-1.10.1.custom.css" rel="stylesheet"/>
-<link type="text/css" href="/static/colorpicker/colorpicker.css" rel="stylesheet"/>
+<link type="text/css" href="/static/styler/css/styler.css" rel="stylesheet"/>
+<link type="text/css" href="/static/styler/css/colorpicker.css" rel="stylesheet"/>
 <!-- End Styler specific settings -->
 
 <link type="text/css" href="/static/css/split-pane.css" rel="stylesheet"/>
 <link type="text/css" href="/static/css/customize.css" rel="stylesheet"/>
+<link type="text/css" href="/static/css/bootstrap-slider.min.css" rel="stylesheet"/>
 <script type="text/javascript">
 
   var _gaq = _gaq || [];
@@ -52,12 +52,11 @@
     </div>
   </div>
 
-</body>
-<script id="scheduletemplate" type="text/html" src='/static/default.html'>
-</script>
+  <script id="scheduletemplate" type="text/html" src='/static/default.html'>
+  </script>
 
-<script id="edittemplate_template" type="text/html">
-  <table style='height:100%;width:100%;'>
+  <script id="edittemplate_template" type="text/html">
+    <table style='height:100%;width:100%;'>
     <tr><td>
         <div class="btn btn-default btn-sm save_button pull-right">Save</div>
         <p>Edit the EJS template below and click save when you are done.</p>
@@ -66,20 +65,20 @@
         <textarea class="content" style='width:100%;height:100%;'><%= get("template") %></textarea>
     </td></tr>
   </table>
-</script>
+  </script>
 
-<script id="styler_view" type="text/html">
-  <div style="text-align:right;margin-bottom:5px;">
+  <script id="styler_view" type="text/html">
+    <div style="text-align:right;margin-bottom:5px;">
     <div class="btn btn-default btn-sm reset-button">Reset</div>
     <div class="btn btn-default btn-sm save-button">Save</div>
   </div>
   <div class="clearfix"></div>
   <div class="mainbody">
   </div>
-</script>
+  </script>
 
-<script id="theme_view" type="text/html">
-  <div class="thumbnail theme-item">
+  <script id="theme_view" type="text/html">
+    <div class="thumbnail theme-item">
     <div class="loading-mask"></div>
     <img src='/static/themeimage/<%= encodeURIComponent(attributes.name) %>.png'></img>
     <div class="caption">
@@ -87,10 +86,10 @@
       <p> by <%= attributes.submitter %></p>
     </div>
   </div>
-</script>
+  </script>
 
-<script id="themelist_view" type="text/html">
-  <h2>Choose a theme</h2>
+  <script id="themelist_view" type="text/html">
+    <h2>Choose a theme</h2>
   <div class="theme-list">
     <% collection.each(function(model){ %>
       <div data-model="<%= model.cid %>"></div>
@@ -99,10 +98,10 @@
   <div style='clear:both;' />
   <p>Please contribute to the community of IIUM by <a href="#/submit_theme">submitting</a> your own design</p>
   <a href='http://pagepeeker.com/' target='_blank'>Thumbshots by PagePeeker</a></p>
-</script>
+  </script>
 
-<script id="editstyle_template" type="text/html">
-  <table style='height:100%;width:100%;'>
+  <script id="editstyle_template" type="text/html">
+    <table style='height:100%;width:100%;'>
     <tr><td>
         <div class="btn btn-default btn-sm save_button pull-right">Save</div>
         <p>Edit the CSS below and click save when you are done.</p>
@@ -111,10 +110,10 @@
         <textarea class="content" style='width:100%;height:100%;'><%= get("style") %></textarea>
     </td></tr>
   </table>
-</script>
+  </script>
 
-<script id="submit_theme" type="text/html">
-<div class="loading-mask"></div>
+  <script id="submit_theme" type="text/html">
+    <div class="loading-mask"></div>
 <h2>Submit Theme</h2>
 <label for='name'>Theme name:</label>
 <input type='text' name='name' value='{{name}}' class="form-control"></input>
@@ -126,10 +125,10 @@
 <input type="hidden" name="recaptcha_response_field" value="">
 <input type="hidden" name="recaptcha_challange_field" value="">
 <a class="btn btn-primary submit">Submit</a>
-</script>
+  </script>
 
-<script id="setting_template" type="text/html">
-  <h2>Settings</h2>
+  <script id="setting_template" type="text/html">
+    <h2>Settings</h2>
     <span class="heading">Display:</span><br />
     Show personal info : <input type="checkbox" name="showpersonalinfo" /><br />
     Show course table : <input type="checkbox" name="showcoursetable" /><br />
@@ -158,16 +157,21 @@
     <span class="heading">Tweaks</span><br />
     Fix minute align:<input type="checkbox" name="fixminutealign"/><br />
     Minute alignment may not be correct. Fortunately there are way to fix it. Unfortunately there are side effect in which some style cannot be applied correctly.
-</script>
+  </script>
 
-<script type="text/javascript" src="/static/js/jquery-1.9.1.js"></script>
-<script type='text/javascript' src='/static/js/underscore-min.js' ></script>
-<script type='text/javascript' src='/static/js/backbone.js' ></script>
-<script type='text/javascript' src='/static/js/ejs_production.js' ></script>
-<script type='text/javascript' src='/static/js/to-title-case.js' ></script>
-<script type='text/javascript' src='/static/js/split-pane.js' ></script>
-<script type='text/javascript' src='/static/js/customizer-styler.js' ></script>
-<script type="text/javascript" src="/static/js/jquery.tools.min.js"></script>
-<script type="text/javascript" src="/static/js/jquery-ui-1.10.1.custom.min.js"></script>
-<script type="text/javascript" src="/static/js/styler.js"></script>
-<script type='text/javascript' src='/static/js/customizer.js' ></script>
+  <script type="text/javascript" src="/static/js/jquery-1.9.1.js"></script>
+  <script type='text/javascript' src='/static/js/bootstrap.min.js' ></script>
+  <script type='text/javascript' src='/static/js/bootstrap-slider.min.js' ></script>
+  <script type='text/javascript' src='/static/js/underscore-min.js' ></script>
+  <script type='text/javascript' src='/static/js/backbone.js' ></script>
+  <script type='text/javascript' src='/static/js/ejs_production.js' ></script>
+  <script type='text/javascript' src='/static/js/to-title-case.js' ></script>
+  <script type='text/javascript' src='/static/js/split-pane.js' ></script>
+  <script type='text/javascript' src='/static/js/customizer-styler.js' ></script>
+  <script type="text/javascript" src="/static/styler/js/styler.js"></script>
+  <script type='text/javascript' src='/static/js/customizer.js' ></script>
+
+  <script>
+    var data = {{data|safe}};
+  </script>
+</body>

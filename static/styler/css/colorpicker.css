@@ -1,0 +1,102 @@
+#colorchooser{
+    display:none;
+    position:absolute;
+    background-color:#777;
+    overflow:hidden;
+    width:285px;
+    height:230px;
+    font-family:Arial;
+    border:1px solid #333;
+    border-radius:2px;
+    z-index:3;
+}
+#colorchooser .sidebox{
+    position:absolute;
+    left:200px;
+    top:0;
+    width:80px;
+    margin-right:2px;
+}
+#colorchooser .sidebox .previewbox{
+    position:relative;
+    background-color:black;
+    width:70px;
+    height:35px;
+    margin:5px;
+    margin-bottom:0;
+    z-index:10;
+}
+#colorchooser .sidebox .comparebox{
+    position:relative;
+    background-color:blue;
+    width:70px;
+    height:35px;
+    margin:5px;
+    margin-top:0;
+    z-index:10;
+}
+#colorchooser .backboxtile{
+    position:absolute;
+    top:5px;
+    right:5px;
+    z-index:5;
+    width:70px;
+    height:70px;
+    background-image:url("../images/previewalphatile.png");
+}
+#colorchooser .label{
+}
+#colorchooser input{
+    width:4em;
+}
+#colorchooser .inputbox{
+    padding-left:1em;
+}
+#colorchooser .palettebox{
+    position:absolute;
+    top:0;
+    left:281px;
+    margin-top:5px;
+    padding-left:4px;
+    border-left:1px solid black;
+    height:220px;
+    width:300px;
+}
+#colorchooser .palettebox span{
+    vertical-align:super;
+}
+#colorchooser .palettebox .paletteitem:hover span{
+    vertical-align:super;
+    text-decoration:underline;
+}
+#colorchooser .paletteicon{
+    height:20px;
+    width:20px;
+    cursor:pointer;
+    background-image:url('../images/paletteicon.png');
+    background-size:100% 100%;
+}
+#colorchooser .paletteicon:hover{
+    outline:1px solid white;
+}
+#colorchooser .paletteitembox{
+    height:20px;
+    width:20px;
+    display:inline-block;
+    margin-right:4px;
+    cursor:pointer;
+}
+#colorchooser .paletteitem:hover .paletteitembox{
+    outline:1px solid white;
+}
+#colorchooser .paletteitem.selected .paletteitembox{
+    outline:1px solid white;
+}
+#colorchooser .paletteitem{
+    cursor:pointer;
+}
+#colorchooser .innercontainer{
+    position:absolute;
+    left:0;
+    top:0;
+}
