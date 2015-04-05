@@ -12,16 +12,16 @@
     ], 
     "sems": [
       [
+        "1", 
+        "1"
+      ], 
+      [
         "2", 
-        "2013/2014 sem 2"
+        "2"
       ], 
       [
         "3", 
-        "2013/2014 sem 3"
-      ], 
-      [
-        "1", 
-        "2014/2015 sem 1"
+        "3"
       ]
     ], 
     "kulys": [
@@ -74,6 +74,10 @@
         "ISTAC"
       ], 
       [
+        "MEDIC", 
+        "MEDICINE"
+      ], 
+      [
         "PHARM", 
         "PHARMACY"
       ], 
@@ -96,6 +100,10 @@
       [
         "IIBF", 
         "ISLAMIC BANKING AND FINANCE"
+      ], 
+      [
+        "IHART", 
+        "INTERNATIONAL INSTITUTE FOR HALAL RESEARCH AND TRAINING"
       ]
     ]
   }, 
@@ -108,45 +116,93 @@
             "sections": {
               "1": {
                 "lecturer": "DR. RIZAL BIN MOHD. NOR", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "3": {
-                "lecturer": "DR. NORMI SHAM BT. AWANG ABU BAKAR", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "DR. NORSAREMAH BT. SALLEH", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "2": {
                 "lecturer": "ASSOC.PROF.DR. IMAD FAKHRI TAHA ALSHAIKHLI", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "5": {
-                "lecturer": "ASSOC.PROF NORMAZIAH BINTI ABDUL AZIZ", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "DR. AZLIN BINTI NORDIN", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "4": {
-                "lecturer": "PROFESSOR DR. ABDUL WAHAB BIN ABDUL RAHMAN", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "PROFESSOR DR. MOHAMED RIDZA WAHIDDIN", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "7": {
-                "lecturer": "DR. AL-SAKIB KHAN PATHAN", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "SURIANI BT. SULAIMAN", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "6": {
                 "lecturer": "DR. AMELIA RITAHANI BT. ISMAIL", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
+              }, 
+              "9": {
+                "lecturer": "DR. NORMI SHAM BT. AWANG ABU BAKAR", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
+              }, 
+              "8": {
+                "lecturer": "DR. ZULKEFLI BIN MUHAMMED YUSOF", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }
             }, 
             "title": "FINAL YEAR PROJECT"
@@ -155,22 +211,34 @@
             "credit": "3", 
             "sections": {
               "1": {
-                "lecturer": "DR. MIRA KARTIWI", 
-                "venue": "ICT TEACH LAB 5 LEVEL 3C", 
-                "day": "T-TH", 
-                "time": "10 - 11.20 AM"
-              }, 
-              "3": {
-                "lecturer": "DR. ZAINATUL SHIMA ABDULLAH", 
-                "venue": "ICT TEACH LAB 3 LEVEL 3C", 
-                "day": "T-TH", 
-                "time": "10 - 11.20 AM"
+                "lecturer": "DR. LILI MARZIANA BT. ABDULLAH", 
+                "schedules": [
+                  {
+                    "venue": "ICT TEACH LAB 4 LEVEL 3C", 
+                    "day": "M-W", 
+                    "time": "10 - 11.20 AM"
+                  }, 
+                  {
+                    "venue": "ICT TEACH LAB 3 LEVEL 3C", 
+                    "day": "MON", 
+                    "time": "5 - 6.50 PM"
+                  }
+                ]
               }, 
               "2": {
-                "lecturer": "DR. MIRA KARTIWI", 
-                "venue": "ICT TEACH LAB 5 LEVEL 3C", 
-                "day": "T-TH", 
-                "time": "11.30 - 12.50 AM"
+                "lecturer": "DR. LILI MARZIANA BT. ABDULLAH", 
+                "schedules": [
+                  {
+                    "venue": "ICT TEACH LAB 3 LEVEL 3C", 
+                    "day": "M-W", 
+                    "time": "11.30 - 12.50 AM"
+                  }, 
+                  {
+                    "venue": "ICT TEACH LAB 4 LEVEL 3C", 
+                    "day": "THUR", 
+                    "time": "5 - 6.50 PM"
+                  }
+                ]
               }
             }, 
             "title": "DATABASE SYSTEM II"
@@ -179,94 +247,144 @@
             "credit": "6", 
             "sections": {
               "11": {
-                "lecturer": "DR. MESSIKH AZ EDDINE", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "DR. NORSAREMAH BT. SALLEH", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "10": {
-                "lecturer": "DR. SHERZOD TURAEV", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "DR. M.M. HAFIZUR RAHMAN", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "13": {
-                "lecturer": "PROFESSOR DR. ABU OSMAN BIN MD TAP", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "RAINI BINTI HASSAN", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "12": {
-                "lecturer": "DR. FARRUH SHAHIDI", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
-              }, 
-              "15": {
-                "lecturer": "ASSOC.PROF NORMAZIAH BINTI ABDUL AZIZ", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "ASSOC.PROF.DR. IMAD FAKHRI TAHA ALSHAIKHLI", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "14": {
-                "lecturer": "DR. M.M. HAFIZUR RAHMAN", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "HAMWIRA SAKTI BIN YAACOB", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "1": {
-                "lecturer": "ZULKEFLI BIN MUHAMMED YUSOF", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "DR. NORMI SHAM BT. AWANG ABU BAKAR", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "3": {
-                "lecturer": "DR. AZLIN BINTI NORDIN", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "DR. ZULKEFLI BIN MUHAMMED YUSOF", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "2": {
-                "lecturer": "ASSOC.PROF.DR. IMAD FAKHRI TAHA ALSHAIKHLI", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "DR. SHERZOD TURAEV", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "5": {
-                "lecturer": "DR. NORMI SHAM BT. AWANG ABU BAKAR", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "DR. AZLIN BINTI NORDIN", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "4": {
-                "lecturer": "DR. NORSAREMAH BT. SALLEH", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "DR. MESSIKH AZ EDDINE", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "7": {
-                "lecturer": "SURIANI BT. SULAIMAN", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "DR. AL-SAKIB KHAN PATHAN", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "6": {
                 "lecturer": "DR. RIZAL BIN MOHD. NOR", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "9": {
-                "lecturer": "PROFESSOR DR. ABDUL WAHAB BIN ABDUL RAHMAN", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "DR. AMELIA RITAHANI BT. ISMAIL", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "8": {
-                "lecturer": "DR. AL-SAKIB KHAN PATHAN", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "SURIANI BT. SULAIMAN", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }
             }, 
             "title": "INDUSTRIAL ATTACHMENT"
@@ -275,16 +393,24 @@
             "credit": "3", 
             "sections": {
               "1": {
-                "lecturer": "ASSOC.PROF.DR. MOHAMAD FAUZAN BIN NOORDIN", 
-                "venue": "ICT LT 2 LEVEL 4D", 
-                "day": "T-TH", 
-                "time": "8.30 - 9.50 AM"
+                "lecturer": "PROFESSOR DR. MOHAMAD FAUZAN BIN NOORDIN", 
+                "schedules": [
+                  {
+                    "venue": "ICT LT 2 LEVEL 4D", 
+                    "day": "T-TH", 
+                    "time": "8.30 - 9.50 AM"
+                  }
+                ]
               }, 
               "2": {
-                "lecturer": "ASSOC.PROF.DR. MOHAMAD FAUZAN BIN NOORDIN", 
-                "venue": "ICT LT 2 LEVEL 4D", 
-                "day": "T-TH", 
-                "time": "10 - 11.20 AM"
+                "lecturer": "PROFESSOR DR. MOHAMAD FAUZAN BIN NOORDIN", 
+                "schedules": [
+                  {
+                    "venue": "ICT LT 2 LEVEL 4D", 
+                    "day": "T-TH", 
+                    "time": "10 - 11.20 AM"
+                  }
+                ]
               }
             }, 
             "title": "IT AND ISLAM"
@@ -294,15 +420,33 @@
             "sections": {
               "1": {
                 "lecturer": "DR. AZNAN ZUHID BIN SAIDIN", 
-                "venue": "ICT LT 2 LEVEL 4D", 
-                "day": "M-W", 
-                "time": "11.30 - 12.50 AM"
+                "schedules": [
+                  {
+                    "venue": "ICT LT 2 LEVEL 4D", 
+                    "day": "M-W", 
+                    "time": "11.30 - 12.50 AM"
+                  }
+                ]
+              }, 
+              "3": {
+                "lecturer": "DR. ROOSFA BIN HASHIM", 
+                "schedules": [
+                  {
+                    "venue": "ICT LT 2 LEVEL 4D", 
+                    "day": "T-TH", 
+                    "time": "2 - 3.20 PM"
+                  }
+                ]
               }, 
               "2": {
                 "lecturer": "MUHD. ROSYDI BIN MUHAMMAD", 
-                "venue": "ICT LR 14A LEVEL 2D", 
-                "day": "T-TH", 
-                "time": "2 - 3.20 PM"
+                "schedules": [
+                  {
+                    "venue": "ICT LT 2 LEVEL 4D", 
+                    "day": "T-TH", 
+                    "time": "11.30 - 12.50 AM"
+                  }
+                ]
               }
             }, 
             "title": "CYBER LAW & ETHICS"
@@ -311,10 +455,14 @@
             "credit": "3", 
             "sections": {
               "1": {
-                "lecturer": "ASSOC.PROF.DR. ABD. RAHMAN BIN AHLAN", 
-                "venue": "ICT LR 3 LEVEL 1C", 
-                "day": "M-W", 
-                "time": "2 - 3.20 PM"
+                "lecturer": "DR. ADAMU ABUBAKAR IBRAHIM", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }
             }, 
             "title": "INFORMATION RESOURCE AND STRATEGY MANAGEMENT"
@@ -323,16 +471,24 @@
             "credit": "3", 
             "sections": {
               "1": {
-                "lecturer": "PROFESSOR DR. HUSNAYATI BT HUSSIN", 
-                "venue": "ICT LR 1 LEVEL 1C", 
-                "day": "M-W", 
-                "time": "11.30 - 12.50 AM"
+                "lecturer": "DR. MOHAMED RAZI MOHAMED JALALDEEN", 
+                "schedules": [
+                  {
+                    "venue": "ICT LR 1 LEVEL 1C", 
+                    "day": "M-W", 
+                    "time": "10 - 11.20 AM"
+                  }
+                ]
               }, 
               "2": {
-                "lecturer": "PROFESSOR DR. HUSNAYATI BT HUSSIN", 
-                "venue": "ICT LR 1 LEVEL 1C", 
-                "day": "M-W", 
-                "time": "3.30 - 4.50 PM"
+                "lecturer": "DR. MOHAMED RAZI MOHAMED JALALDEEN", 
+                "schedules": [
+                  {
+                    "venue": "ICT LR 1 LEVEL 1C", 
+                    "day": "M-W", 
+                    "time": "11.30 - 12.50 AM"
+                  }
+                ]
               }
             }, 
             "title": "E-COMMERCE"
@@ -341,22 +497,49 @@
             "credit": "3", 
             "sections": {
               "1": {
-                "lecturer": "ASMA BINTI MD ALI", 
-                "venue": "ICT TEACH LAB 3 LEVEL 3C", 
-                "day": "M-W", 
-                "time": "3.30 - 4.50 PM"
+                "lecturer": "MR. MUHAMAD SADRY ABU SEMAN", 
+                "schedules": [
+                  {
+                    "venue": "ICT CITA LAB LEVEL 1B", 
+                    "day": "T-TH", 
+                    "time": "8.30 - 9.50 AM"
+                  }, 
+                  {
+                    "venue": "ICT CITA LAB LEVEL 1B", 
+                    "day": "MON", 
+                    "time": "5 - 6.50 PM"
+                  }
+                ]
               }, 
               "3": {
-                "lecturer": "ASMA BINTI MD ALI", 
-                "venue": "ICT TEACH LAB 6 LEVEL 3C", 
-                "day": "T-TH", 
-                "time": "8.30 - 9.50 AM"
+                "lecturer": "TUTOR", 
+                "schedules": [
+                  {
+                    "venue": "ICT CITA LAB LEVEL 1B", 
+                    "day": "WED", 
+                    "time": "5 - 6.50 PM"
+                  }, 
+                  {
+                    "venue": "ICT CITA LAB LEVEL 1B", 
+                    "day": "M-W", 
+                    "time": "2 - 3.20 PM"
+                  }
+                ]
               }, 
               "2": {
-                "lecturer": "ASMA BINTI MD ALI", 
-                "venue": "ICT TEACH LAB 5 LEVEL 3C", 
-                "day": "M-W", 
-                "time": "2 - 3.20 PM"
+                "lecturer": "MR. MUHAMAD SADRY ABU SEMAN", 
+                "schedules": [
+                  {
+                    "venue": "ICT CITA LAB LEVEL 1B", 
+                    "day": "T-TH", 
+                    "time": "11.30 - 12.50 AM"
+                  }, 
+                  {
+                    "venue": "ICT CITA LAB LEVEL 1B", 
+                    "day": "TUE", 
+                    "time": "5 - 6.50 PM"
+                  }
+                ]
               }
             }, 
             "title": "WEB PROGRAMMING II"
@@ -365,22 +548,79 @@
             "credit": "3", 
             "sections": {
               "1": {
-                "lecturer": "SURIANI BT. SULAIMAN", 
-                "venue": "ICT TEACH LAB 6 LEVEL 3C", 
-                "day": "T-TH", 
-                "time": "10 - 11.20 AM"
+                "lecturer": "ANVAR NARZULLAEV (DR)", 
+                "schedules": [
+                  {
+                    "venue": "ICT TEACH LAB 6 LEVEL 3C", 
+                    "day": "T-TH", 
+                    "time": "10 - 11.20 AM"
+                  }, 
+                  {
+                    "venue": "ICT TEACH LAB 6 LEVEL 3C", 
+                    "day": "MON", 
+                    "time": "5 - 7 PM"
+                  }
+                ]
               }, 
               "3": {
-                "lecturer": "SURIANI BT. SULAIMAN", 
-                "venue": "ICT TEACH LAB 6 LEVEL 3C", 
-                "day": "M-W", 
-                "time": "11.30 - 12.50 AM"
+                "lecturer": "DR. AMELIA RITAHANI BT. ISMAIL", 
+                "schedules": [
+                  {
+                    "venue": "ICT TEACH LAB 6 LEVEL 3C", 
+                    "day": "M-W", 
+                    "time": "11.30 - 12.50 AM"
+                  }, 
+                  {
+                    "venue": "ICT TEACH LAB 6 LEVEL 3C", 
+                    "day": "FRI", 
+                    "time": "9 - 11 AM"
+                  }
+                ]
+              }, 
+              "2": {
+                "lecturer": "RAINI BINTI HASSAN", 
+                "schedules": [
+                  {
+                    "venue": "ICT TEACH LAB 6 LEVEL 3C", 
+                    "day": "M-W", 
+                    "time": "2 - 3.20 PM"
+                  }, 
+                  {
+                    "venue": "ICT TEACH LAB 6 LEVEL 3C", 
+                    "day": "TUE", 
+                    "time": "5 - 7 PM"
+                  }
+                ]
+              }, 
+              "5": {
+                "lecturer": "TUTOR", 
+                "schedules": [
+                  {
+                    "venue": "ICT CITA LAB LEVEL 1B", 
+                    "day": "THUR", 
+                    "time": "5 - 6.50 PM"
+                  }, 
+                  {
+                    "venue": "ICT CITA LAB LEVEL 1B", 
+                    "day": "T-TH", 
+                    "time": "2 - 3.20 PM"
+                  }
+                ]
               }, 
               "4": {
-                "lecturer": "DR. AMELIA RITAHANI BT. ISMAIL", 
-                "venue": "ICT TEACH LAB 6 LEVEL 3C", 
-                "day": "M-W", 
-                "time": "8.30 - 9.50 AM"
+                "lecturer": "DR. ALI A. ALWAN ALJUBOORI", 
+                "schedules": [
+                  {
+                    "venue": "ICT TEACH LAB 6 LEVEL 3C", 
+                    "day": "T-TH", 
+                    "time": "2 - 3.20 PM"
+                  }, 
+                  {
+                    "venue": "ICT TEACH LAB 6 LEVEL 3C", 
+                    "day": "THUR", 
+                    "time": "5 - 7 PM"
+                  }
+                ]
               }
             }, 
             "title": "ELEMENTS OF PROGRAMMING"
@@ -389,28 +629,79 @@
             "credit": "3", 
             "sections": {
               "1": {
-                "lecturer": "DR. NORSAREMAH BT. SALLEH", 
-                "venue": "ICT TEACH LAB 6 LEVEL 3C", 
-                "day": "M-W", 
-                "time": "10 - 11.20 AM"
+                "lecturer": "DR. ALI A. ALWAN ALJUBOORI", 
+                "schedules": [
+                  {
+                    "venue": "ICT TEACH LAB 6 LEVEL 3C", 
+                    "day": "T-TH", 
+                    "time": "8.30 - 9.50 AM"
+                  }, 
+                  {
+                    "venue": "ICT TUTOR 1 TL-D5-01", 
+                    "day": "MON", 
+                    "time": "5 - 6.50 PM"
+                  }
+                ]
               }, 
               "3": {
-                "lecturer": "DR. NORSAREMAH BT. SALLEH", 
-                "venue": "ICT TEACH LAB 6 LEVEL 3C", 
-                "day": "M-W", 
-                "time": "3.30 - 4.50 PM"
+                "lecturer": "DR. ALI A. ALWAN ALJUBOORI", 
+                "schedules": [
+                  {
+                    "venue": "ICT TEACH LAB 6 LEVEL 3C", 
+                    "day": "M-W", 
+                    "time": "3.30 - 4.50 PM"
+                  }, 
+                  {
+                    "venue": "ICT TUTOR 1 TL-D5-01", 
+                    "day": "WED", 
+                    "time": "5 - 6.50 PM"
+                  }
+                ]
               }, 
               "2": {
                 "lecturer": "DR. AZLIN BINTI NORDIN", 
-                "venue": "ICT TEACH LAB 6 LEVEL 3C", 
-                "day": "T-TH", 
-                "time": "2 - 3.20 PM"
+                "schedules": [
+                  {
+                    "venue": "ICT TEACH LAB 3 LEVEL 3C", 
+                    "day": "T-TH", 
+                    "time": "2 - 3.20 PM"
+                  }, 
+                  {
+                    "venue": "ICT TUTOR 1 TL-D5-01", 
+                    "day": "TUE", 
+                    "time": "5 - 6.50 PM"
+                  }
+                ]
+              }, 
+              "5": {
+                "lecturer": "TUTOR", 
+                "schedules": [
+                  {
+                    "venue": "ICT TUTOR 1 TL-D5-01", 
+                    "day": "FRI", 
+                    "time": "9 - 11.50 AM"
+                  }, 
+                  {
+                    "venue": "ICT TEACH LAB 6 LEVEL 3C", 
+                    "day": "T-TH", 
+                    "time": "3.30 - 4.50 PM"
+                  }
+                ]
               }, 
               "4": {
                 "lecturer": "DR. AZLIN BINTI NORDIN", 
-                "venue": "ICT TEACH LAB 6 LEVEL 3C", 
-                "day": "T-TH", 
-                "time": "11.30 - 12.50 AM"
+                "schedules": [
+                  {
+                    "venue": "ICT TEACH LAB 6 LEVEL 3C", 
+                    "day": "T-TH", 
+                    "time": "11.30 - 12.50 AM"
+                  }, 
+                  {
+                    "venue": "ICT TUTOR 1 TL-D5-01", 
+                    "day": "THUR", 
+                    "time": "5 - 6.50 PM"
+                  }
+                ]
               }
             }, 
             "title": "OBJECT ORIENTED PROGRAMMING"
@@ -419,10 +710,19 @@
             "credit": "3", 
             "sections": {
               "1": {
-                "lecturer": "SHARYAR WANI", 
-                "venue": "ICT TEACH LAB 4 LEVEL 3C", 
-                "day": "M-W", 
-                "time": "3.30 - 4.50 PM"
+                "lecturer": "DR. ALI A. ALWAN ALJUBOORI", 
+                "schedules": [
+                  {
+                    "venue": "ICT TEACH LAB 3 LEVEL 3C", 
+                    "day": "M-W", 
+                    "time": "8.30 - 9.50 AM"
+                  }, 
+                  {
+                    "venue": "ICT LR 19 LEVEL 4C", 
+                    "day": "WED", 
+                    "time": "5 - 6.50 PM"
+                  }
+                ]
               }
             }, 
             "title": "WEB PROGRAMMING FUNDAMENTAL"
@@ -431,16 +731,49 @@
             "credit": "3", 
             "sections": {
               "1": {
-                "lecturer": "DR. AKRAM M Z M KHEDHER", 
-                "venue": "ICT TEACH LAB 3 LEVEL 3C", 
-                "day": "M-W", 
-                "time": "10 - 11.20 AM"
+                "lecturer": "DR. SUHAILA BINTI SAMSURI", 
+                "schedules": [
+                  {
+                    "venue": "ICT MMEDIA LAB TL-E4-02", 
+                    "day": "T-TH", 
+                    "time": "8.30 - 9.50 AM"
+                  }, 
+                  {
+                    "venue": "ICT MMEDIA LAB TL-E4-02", 
+                    "day": "THUR", 
+                    "time": "5 - 6.50 PM"
+                  }
+                ]
+              }, 
+              "3": {
+                "lecturer": "DR. SUHAILA BINTI SAMSURI", 
+                "schedules": [
+                  {
+                    "venue": "ICT MMEDIA LAB TL-E4-02", 
+                    "day": "M-W", 
+                    "time": "2 - 3.20 PM"
+                  }, 
+                  {
+                    "venue": "ICT MMEDIA LAB TL-E4-02", 
+                    "day": "TUE", 
+                    "time": "5 - 6.50 PM"
+                  }
+                ]
               }, 
               "2": {
                 "lecturer": "DR. AKRAM M Z M KHEDHER", 
-                "venue": "ICT TEACH LAB 3 LEVEL 3C", 
-                "day": "M-W", 
-                "time": "2 - 3.20 PM"
+                "schedules": [
+                  {
+                    "venue": "ICT MMEDIA LAB TL-E4-02", 
+                    "day": "T-TH", 
+                    "time": "10 - 11.30 AM"
+                  }, 
+                  {
+                    "venue": "ICT MMEDIA LAB TL-E4-02", 
+                    "day": "FRI", 
+                    "time": "8 - 9.50 AM"
+                  }
+                ]
               }
             }, 
             "title": "MULTIMEDIA TECHNOLOGY"
@@ -450,9 +783,18 @@
             "sections": {
               "1": {
                 "lecturer": "PROFESSOR DR. ASADULLAH SHAH", 
-                "venue": "ICT TEACH LAB 5 LEVEL 3C", 
-                "day": "M-W", 
-                "time": "8.30 - 9.50 AM"
+                "schedules": [
+                  {
+                    "venue": "ICT MMEDIA LAB TL-E4-02", 
+                    "day": "M-W", 
+                    "time": "8.30 - 9.50 AM"
+                  }, 
+                  {
+                    "venue": "ICT MMEDIA LAB TL-E4-02", 
+                    "day": "WED", 
+                    "time": "5 - 6.50 PM"
+                  }
+                ]
               }
             }, 
             "title": "CREATIVE DESIGN TECHNIQUES"
@@ -461,10 +803,14 @@
             "credit": "3", 
             "sections": {
               "1": {
-                "lecturer": "ZULKEFLI BIN MUHAMMED YUSOF", 
-                "venue": "ICT LR 1 LEVEL 1C", 
-                "day": "T-TH", 
-                "time": "8.30 - 9.50 AM"
+                "lecturer": "DR. RIZAL BIN MOHD. NOR", 
+                "schedules": [
+                  {
+                    "venue": "ICT CISCO LAB LEVEL 4C", 
+                    "day": "M-W", 
+                    "time": "10 - 11.20 AM"
+                  }
+                ]
               }
             }, 
             "title": "COMPUTER NETWORKING"
@@ -473,76 +819,114 @@
             "credit": "3", 
             "sections": {
               "11": {
-                "lecturer": "ASMA BINTI MD ALI", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "MR. MUHAMAD SADRY ABU SEMAN", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "10": {
-                "lecturer": "ABDUL RAHMAN BIN AHMAD DAHLAN", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
-              }, 
-              "12": {
-                "lecturer": "SITI ROHIMI BT. HAMEDON", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "DR. LILI MARZIANA BT. ABDULLAH", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "1": {
-                "lecturer": "MRS. SUHAILA BINTI SAMSURI", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "DR. SUHAILA BINTI SAMSURI", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "3": {
                 "lecturer": "DR. MIOR NASIR MIOR NAZRI", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "2": {
                 "lecturer": "MUHD. ROSYDI BIN MUHAMMAD", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "5": {
-                "lecturer": "DR. SOFIANIZA BT. ABD. MALIK", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "DR. NOOR AZIZAH BT. MOHAMADALI", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "4": {
                 "lecturer": "DR. MOHAMED RAZI MOHAMED JALALDEEN", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "7": {
-                "lecturer": "ASSOC.PROF.DR. MOHAMAD FAUZAN BIN NOORDIN", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "DR. ZAHIDAH BINTI ZULKIFLI", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "6": {
-                "lecturer": "DR. NOOR AZIZAH BT. MOHAMADALI", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "MRS. NOOR AZIAN BT. MOHAMAD ALI", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "9": {
-                "lecturer": "MRS. ZAHIDAH BINTI ZULKIFLI", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "DR. ADAMU ABUBAKAR IBRAHIM", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "8": {
-                "lecturer": "MRS. NOOR AZIAN BT. MOHAMAD ALI", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "MADIHAH BT. S. ABD. AZIZ", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }
             }, 
             "title": "FINAL YEAR PROJECT I"
@@ -551,10 +935,19 @@
             "credit": "3", 
             "sections": {
               "1": {
-                "lecturer": "DR. FARRUH SHAHIDI", 
-                "venue": "ICT LR 11 LEVEL 2C", 
-                "day": "M-W", 
-                "time": "2 - 3.20 PM"
+                "lecturer": "RAINI BINTI HASSAN", 
+                "schedules": [
+                  {
+                    "venue": "ICT LR 3 LEVEL 1C", 
+                    "day": "T-TH", 
+                    "time": "10 - 11.30 AM"
+                  }, 
+                  {
+                    "venue": "ICT LR 3 LEVEL 1C", 
+                    "day": "MON", 
+                    "time": "5 - 6.50 PM"
+                  }
+                ]
               }
             }, 
             "title": "ELEMENTARY STATISTICS"
@@ -563,124 +956,204 @@
             "credit": "6", 
             "sections": {
               "11": {
-                "lecturer": "ASSOC.PROF.DR. ABD. RAHMAN BIN AHLAN", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "MADIHAH BT. S. ABD. AZIZ", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "10": {
-                "lecturer": "DR. SOFIANIZA BT. ABD. MALIK", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "DR. LILI MARZIANA BT. ABDULLAH", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "13": {
-                "lecturer": "ASMA BINTI MD ALI", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "ABDUL RAHMAN BIN AHMAD DAHLAN", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "12": {
-                "lecturer": "DR. ISHAQ OYEBISI OYEFOLAHAN", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "MUHD. ROSYDI BIN MUHAMMAD", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "15": {
-                "lecturer": "MUHD. ROSYDI BIN MUHAMMAD", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "DR. SOFIANIZA BT. ABD. MALIK", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "14": {
-                "lecturer": "DR. MIOR NASIR MIOR NAZRI", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "PROFESSOR DR. MOHAMAD FAUZAN BIN NOORDIN", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "17": {
-                "lecturer": "DR. MOHAMED RAZI MOHAMED JALALDEEN", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "DR. ZAHIDAH BINTI ZULKIFLI", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "16": {
-                "lecturer": "DR. NOOR AZIZAH BT. MOHAMADALI", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "MR. MUHAMAD SADRY ABU SEMAN", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "19": {
-                "lecturer": "MRS. SUHAILA BINTI SAMSURI", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "DR. ISHAQ OYEBISI OYEFOLAHAN", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "18": {
-                "lecturer": "MRS. ZAHIDAH BINTI ZULKIFLI", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "DR. SUHAILA BINTI SAMSURI", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "20": {
-                "lecturer": "DR. ZAINATUL SHIMA ABDULLAH", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "DR. AKRAM M Z M KHEDHER", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "1": {
-                "lecturer": "DR. AKRAM M Z M KHEDHER", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "MRS. NOOR AZIAN BT. MOHAMAD ALI", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "3": {
-                "lecturer": "PROFESSOR DR. HUSNAYATI BT HUSSIN", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "MARINI OTHMAN", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "2": {
-                "lecturer": "ASSOC.PROF.DR. MOHAMAD FAUZAN BIN NOORDIN", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "ASSOC.PROF.DR. MURNI BT. MAHMUD", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "5": {
-                "lecturer": "MRS. NOOR AZIAN BT. MOHAMAD ALI", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "DR. AHMAD FATZILAH BIN MISMAN", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "4": {
-                "lecturer": "AHMAD FATZILAH BIN MISMAN", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "DR. SHUHAILI BT. TALIB", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "7": {
                 "lecturer": "DR. MOHD. IZZUDDIN BIN MOHD. TAMRIN", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "6": {
-                "lecturer": "DR. LILI MARZIANA BT. ABDULLAH", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "DR. NOOR AZIZAH BT. MOHAMADALI", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "9": {
-                "lecturer": "DR. MIRA KARTIWI", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "DR. MOHD. SYARQAWY BIN HAMZAH", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "8": {
-                "lecturer": "ABDUL RAHMAN BIN AHMAD DAHLAN", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "DR. MIOR NASIR MIOR NAZRI", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }
             }, 
             "title": "INDUSTRIAL ATTACHMENT"
@@ -690,9 +1163,18 @@
             "sections": {
               "1": {
                 "lecturer": "PROFESSOR DR. ASADULLAH SHAH", 
-                "venue": "ICT TEACH LAB 3 LEVEL 3C", 
-                "day": "M-W", 
-                "time": "11.30 - 12.50 AM"
+                "schedules": [
+                  {
+                    "venue": "ICT MMEDIA LAB TL-E4-02", 
+                    "day": "T-TH", 
+                    "time": "2 - 3.20 PM"
+                  }, 
+                  {
+                    "venue": "ICT MMEDIA LAB TL-E4-02", 
+                    "day": "MON", 
+                    "time": "5 - 6.50 PM"
+                  }
+                ]
               }
             }, 
             "title": "ANIMATION TECHNIQUE"
@@ -701,28 +1183,64 @@
             "credit": "3", 
             "sections": {
               "1": {
-                "lecturer": "DR. MESSIKH AZ EDDINE", 
-                "venue": "ICT LR 11 LEVEL 2C", 
-                "day": "M-W", 
-                "time": "8.30 - 9.50 AM"
+                "lecturer": "HAMWIRA SAKTI BIN YAACOB", 
+                "schedules": [
+                  {
+                    "venue": "ICT LR 11 LEVEL 2C", 
+                    "day": "M-W", 
+                    "time": "8.30 - 9.50 AM"
+                  }, 
+                  {
+                    "venue": "ICT LR 11 LEVEL 2C", 
+                    "day": "MON", 
+                    "time": "5 - 6.50 PM"
+                  }
+                ]
               }, 
               "3": {
-                "lecturer": "DR. MESSIKH AZ EDDINE", 
-                "venue": "ICT LR 11 LEVEL 2C", 
-                "day": "T-TH", 
-                "time": "10 - 11.20 AM"
+                "lecturer": "HAMWIRA SAKTI BIN YAACOB", 
+                "schedules": [
+                  {
+                    "venue": "ICT LR 11 LEVEL 2C", 
+                    "day": "T-TH", 
+                    "time": "8.30 - 9.50 AM"
+                  }, 
+                  {
+                    "venue": "ICT LR 11 LEVEL 2C", 
+                    "day": "WED", 
+                    "time": "5 - 6.50 PM"
+                  }
+                ]
               }, 
-              "5": {
-                "lecturer": "DR. SHERZOD TURAEV", 
-                "venue": "ICT LR 11 LEVEL 2C", 
-                "day": "T-TH", 
-                "time": "11.30 - 12.50 AM"
+              "2": {
+                "lecturer": "HAMWIRA SAKTI BIN YAACOB", 
+                "schedules": [
+                  {
+                    "venue": "ICT LR 19 LEVEL 4C", 
+                    "day": "M-W", 
+                    "time": "11.30 - 12.50 AM"
+                  }, 
+                  {
+                    "venue": "ICT LR 12 LEVEL 2C", 
+                    "day": "TUE", 
+                    "time": "5 - 6.50 PM"
+                  }
+                ]
               }, 
               "4": {
                 "lecturer": "DR. SHERZOD TURAEV", 
-                "venue": "ICT LR 3 LEVEL 1C", 
-                "day": "M-W", 
-                "time": "11.30 - 12.50 AM"
+                "schedules": [
+                  {
+                    "venue": "ICT LR 19 LEVEL 4C", 
+                    "day": "T-TH", 
+                    "time": "11.30 - 12.50 AM"
+                  }, 
+                  {
+                    "venue": "ICT LR 1 LEVEL 1C", 
+                    "day": "THUR", 
+                    "time": "5 - 6.50 PM"
+                  }
+                ]
               }
             }, 
             "title": "DISCRETE MATHEMATICS"
@@ -732,27 +1250,78 @@
             "sections": {
               "1": {
                 "lecturer": "DR. MESSIKH AZ EDDINE", 
-                "venue": "ICT LR 5 LEVEL 1C", 
-                "day": "M-W", 
-                "time": "10 - 11.20 AM"
+                "schedules": [
+                  {
+                    "venue": "ICT LR 5 LEVEL 1C", 
+                    "day": "M-W", 
+                    "time": "10 - 11.20 AM"
+                  }, 
+                  {
+                    "venue": "ICT LR 5 LEVEL 1C", 
+                    "day": "MON", 
+                    "time": "5 - 6.50 PM"
+                  }
+                ]
               }, 
               "3": {
                 "lecturer": "PROFESSOR DR. ABU OSMAN BIN MD TAP", 
-                "venue": "ICT LR 5 LEVEL 1C", 
-                "day": "T-TH", 
-                "time": "11.30 - 12.50 AM"
+                "schedules": [
+                  {
+                    "venue": "ICT LR 5 LEVEL 1C", 
+                    "day": "T-TH", 
+                    "time": "10 - 11.20 AM"
+                  }, 
+                  {
+                    "venue": "ICT LR 5 LEVEL 1C", 
+                    "day": "WED", 
+                    "time": "5 - 6.50 PM"
+                  }
+                ]
               }, 
               "2": {
-                "lecturer": "PROFESSOR DR. ABU OSMAN BIN MD TAP", 
-                "venue": "ICT LR 5 LEVEL 1C", 
-                "day": "M-W", 
-                "time": "8.30 - 9.50 AM"
+                "lecturer": "DR. MESSIKH AZ EDDINE", 
+                "schedules": [
+                  {
+                    "venue": "ICT LR 5 LEVEL 1C", 
+                    "day": "M-W", 
+                    "time": "11.30 - 12.50 AM"
+                  }, 
+                  {
+                    "venue": "ICT LR 5 LEVEL 1C", 
+                    "day": "TUE", 
+                    "time": "5 - 6.50 PM"
+                  }
+                ]
+              }, 
+              "5": {
+                "lecturer": "TUTOR", 
+                "schedules": [
+                  {
+                    "venue": "ICT LR 11 LEVEL 2C", 
+                    "day": "TUE", 
+                    "time": "5 - 6.50 PM"
+                  }, 
+                  {
+                    "venue": "ICT LR 2 LEVEL 1D", 
+                    "day": "T-TH", 
+                    "time": "2 - 3.20 PM"
+                  }
+                ]
               }, 
               "4": {
-                "lecturer": "DR. MESSIKH AZ EDDINE", 
-                "venue": "ICT LR 5 LEVEL 1C", 
-                "day": "T-TH", 
-                "time": "8.30 - 9.50 AM"
+                "lecturer": "PROFESSOR DR. ABU OSMAN BIN MD TAP", 
+                "schedules": [
+                  {
+                    "venue": "ICT LR 5 LEVEL 1C", 
+                    "day": "T-TH", 
+                    "time": "11.30 - 12.50 AM"
+                  }, 
+                  {
+                    "venue": "ICT LR 5 LEVEL 1C", 
+                    "day": "THUR", 
+                    "time": "5 - 6.50 PM"
+                  }
+                ]
               }
             }, 
             "title": "CALCULUS I"
@@ -761,10 +1330,19 @@
             "credit": "3", 
             "sections": {
               "1": {
-                "lecturer": "SURIANI BT. SULAIMAN", 
-                "venue": "ICT TEACH LAB 4 LEVEL 3C", 
-                "day": "T-TH", 
-                "time": "3.30 - 4.50 PM"
+                "lecturer": "DR. AMELIA RITAHANI BT. ISMAIL", 
+                "schedules": [
+                  {
+                    "venue": "ICT TEACH LAB 6 LEVEL 3C", 
+                    "day": "M-W", 
+                    "time": "10 - 11.20 AM"
+                  }, 
+                  {
+                    "venue": "ICT LR 14 LEVEL 2D", 
+                    "day": "WED", 
+                    "time": "5 - 6.50 PM"
+                  }
+                ]
               }
             }, 
             "title": "PRINCIPLES OF ARTIFICIAL INTELLIGENCE"
@@ -773,34 +1351,56 @@
             "credit": "3", 
             "sections": {
               "1": {
-                "lecturer": "AKEEM PLAWOLAYEMO", 
-                "venue": "ICT TEACH LAB 3 LEVEL 3C", 
-                "day": "T-TH", 
-                "time": "3.30 - 4.50 PM"
+                "lecturer": "DR. ZAINATUL SHIMA ABDULLAH", 
+                "schedules": [
+                  {
+                    "venue": "ICT TEACH LAB 3 LEVEL 3C", 
+                    "day": "T-TH", 
+                    "time": "3.30 - 4.50 PM"
+                  }, 
+                  {
+                    "venue": "ICT TEACH LAB 3 LEVEL 3C", 
+                    "day": "WED", 
+                    "time": "5 - 6.50 PM"
+                  }
+                ]
               }
             }, 
             "title": "DATA MINING"
           }, 
-          "INFO 4102": {
+          "CSC 4506": {
             "credit": "3", 
             "sections": {
               "1": {
-                "lecturer": "DR. MIOR NASIR MIOR NAZRI", 
-                "venue": "ICT LR 3 LEVEL 1C", 
-                "day": "T-TH", 
-                "time": "8.30 - 9.50 AM"
+                "lecturer": "DR. RIZAL BIN MOHD. NOR", 
+                "schedules": [
+                  {
+                    "venue": "ICT TUTOR 1 TL-D5-01", 
+                    "day": "M-W", 
+                    "time": "11.30 - 12.50 PM"
+                  }, 
+                  {
+                    "venue": "ICT LR 13 LEVEL 2D", 
+                    "day": "THUR", 
+                    "time": "5.30 - 7.30 PM"
+                  }
+                ]
               }
             }, 
-            "title": "ADVANCED DATABASE"
+            "title": "MOBILE APPLICATION DEVELOPMENT"
           }, 
           "CSC 4504": {
             "credit": "3", 
             "sections": {
               "1": {
                 "lecturer": "DR. AZLIN BINTI NORDIN", 
-                "venue": "ICT LR 12 LEVEL 2C", 
-                "day": "M-W", 
-                "time": "2 - 3.20 PM"
+                "schedules": [
+                  {
+                    "venue": "ICT LR 2 LEVEL 1D", 
+                    "day": "M-W", 
+                    "time": "11.30 - 12.50 AM"
+                  }
+                ]
               }
             }, 
             "title": "REQUIREMENTS ENGINEERING"
@@ -810,27 +1410,55 @@
             "sections": {
               "1": {
                 "lecturer": "JAMALUDIN BIN IBRAHIM", 
-                "venue": "ICT LT 2 LEVEL 4D", 
-                "day": "M-W", 
-                "time": "10 - 11.20 AM"
+                "schedules": [
+                  {
+                    "venue": "ICT LT 2 LEVEL 4D", 
+                    "day": "M-W", 
+                    "time": "10 - 11.20 AM"
+                  }
+                ]
               }, 
               "2": {
                 "lecturer": "ABDUL RAHMAN BIN AHMAD DAHLAN", 
-                "venue": "ICT LT 1 LEVEL 4D", 
-                "day": "T-TH", 
-                "time": "2 - 3.20 PM"
+                "schedules": [
+                  {
+                    "venue": "ICT LR 11 LEVEL 2C", 
+                    "day": "M-W", 
+                    "time": "11.30 - 12.50 AM"
+                  }
+                ]
               }
             }, 
             "title": "TECHNOPRENEURSHIP"
+          }, 
+          "CSC 4503": {
+            "credit": "3", 
+            "sections": {
+              "1": {
+                "lecturer": "DR. NORSAREMAH BT. SALLEH", 
+                "schedules": [
+                  {
+                    "venue": "ICT LR 2 LEVEL 1D", 
+                    "day": "T-TH", 
+                    "time": "11.30 - 12.50 AM"
+                  }
+                ]
+              }
+            }, 
+            "title": "SOFTWARE METRICS AND MODEL"
           }, 
           "CSC 4501": {
             "credit": "3", 
             "sections": {
               "1": {
                 "lecturer": "DR. NORMI SHAM BT. AWANG ABU BAKAR", 
-                "venue": "ICT LR 4 LEVEL 1C", 
-                "day": "T-TH", 
-                "time": "3.30 - 4.50 PM"
+                "schedules": [
+                  {
+                    "venue": "ICT LR 11 LEVEL 2C", 
+                    "day": "T-TH", 
+                    "time": "3.30 - 4.50 PM"
+                  }
+                ]
               }
             }, 
             "title": "SOFTWARE QUALITY ASSURANCE"
@@ -839,10 +1467,14 @@
             "credit": "3", 
             "sections": {
               "1": {
-                "lecturer": "ALFI KHAIRIANSYAH MACHFUD", 
-                "venue": "ICT LT 2 LEVEL 4D", 
-                "day": "M-W", 
-                "time": "3.30 - 4.50 PM"
+                "lecturer": "DR. AKRAM M Z M KHEDHER", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }
             }, 
             "title": "INTERNET APPLICATIONS"
@@ -851,22 +1483,64 @@
             "credit": "3", 
             "sections": {
               "1": {
-                "lecturer": "DR. MOHD. IZZUDDIN BIN MOHD. TAMRIN", 
-                "venue": "ICT TEACH LAB 3 LEVEL 3C", 
-                "day": "M-W", 
-                "time": "8.30 - 9.50 AM"
+                "lecturer": "DR. MOHD. SYARQAWY BIN HAMZAH", 
+                "schedules": [
+                  {
+                    "venue": "ICT TEACH LAB 3 LEVEL 3C", 
+                    "day": "T-TH", 
+                    "time": "8.30 - 9.50 AM"
+                  }, 
+                  {
+                    "venue": "ICT TEACH LAB 3 LEVEL 3C", 
+                    "day": "TUE", 
+                    "time": "5 - 6.50 PM"
+                  }
+                ]
               }, 
               "3": {
-                "lecturer": "DR. LILI MARZIANA BT. ABDULLAH", 
-                "venue": "ICT TEACH LAB 5 LEVEL 3C", 
-                "day": "T-TH", 
-                "time": "3.30 - 4.50 PM"
+                "lecturer": "DR. MOHD. SYARQAWY BIN HAMZAH", 
+                "schedules": [
+                  {
+                    "venue": "ICT TEACH LAB 3 LEVEL 3C", 
+                    "day": "T-TH", 
+                    "time": "11.30 - 12.50 AM"
+                  }, 
+                  {
+                    "venue": "ICT TEACH LAB 4 LEVEL 3C", 
+                    "day": "MON", 
+                    "time": "5 - 6.50 PM"
+                  }
+                ]
               }, 
               "2": {
-                "lecturer": "DR. LILI MARZIANA BT. ABDULLAH", 
-                "venue": "ICT TEACH LAB 5 LEVEL 3C", 
-                "day": "T-TH", 
-                "time": "8.30 - 9.50 AM"
+                "lecturer": "DR. MOHD. SYARQAWY BIN HAMZAH", 
+                "schedules": [
+                  {
+                    "venue": "ICT TEACH LAB 3 LEVEL 3C", 
+                    "day": "T-TH", 
+                    "time": "10 - 11.20 AM"
+                  }, 
+                  {
+                    "venue": "ICT TEACH LAB 6 LEVEL 3C", 
+                    "day": "WED", 
+                    "time": "5 - 6.50 PM"
+                  }
+                ]
+              }, 
+              "4": {
+                "lecturer": "TUTOR", 
+                "schedules": [
+                  {
+                    "venue": "ICT TEACH LAB 3 LEVEL 3C", 
+                    "day": "THUR", 
+                    "time": "5 - 6.50 PM"
+                  }, 
+                  {
+                    "venue": "ICT TEACH LAB 3 LEVEL 3C", 
+                    "day": "M-W", 
+                    "time": "2 - 3.20 PM"
+                  }
+                ]
               }
             }, 
             "title": "DATABASE SYSTEMS I"
@@ -876,57 +1550,54 @@
             "sections": {
               "1": {
                 "lecturer": "PROFESSOR DR. MOHAMED RIDZA WAHIDDIN", 
-                "venue": "ICT LR 12 LEVEL 2C", 
-                "day": "T-TH", 
-                "time": "8.30 - 9.50 AM"
+                "schedules": [
+                  {
+                    "venue": "ICT LR 12 LEVEL 2C", 
+                    "day": "T-TH", 
+                    "time": "8.30 - 9.50 AM"
+                  }, 
+                  {
+                    "venue": "ICT LR 12 LEVEL 2C", 
+                    "day": "THUR", 
+                    "time": "5 - 6.50 PM"
+                  }
+                ]
               }
             }, 
             "title": "CALCULUS II"
-          }, 
-          "INFO 2301": {
-            "credit": "3", 
-            "sections": {
-              "1": {
-                "lecturer": "AHMAD FATZILAH BIN MISMAN", 
-                "venue": "ICT TEACH LAB 5 LEVEL 3C", 
-                "day": "M-W", 
-                "time": "10 - 11.20 AM"
-              }, 
-              "3": {
-                "lecturer": "AHMAD FATZILAH BIN MISMAN", 
-                "venue": "ICT TEACH LAB 5 LEVEL 3C", 
-                "day": "M-W", 
-                "time": "3.30 - 4.50 PM"
-              }, 
-              "2": {
-                "lecturer": "AHMAD FATZILAH BIN MISMAN", 
-                "venue": "ICT TEACH LAB 5 LEVEL 3C", 
-                "day": "M-W", 
-                "time": "11.30 - 12.50 AM"
-              }
-            }, 
-            "title": "WEB PROGRAMMING I"
           }, 
           "INFO 2701": {
             "credit": "3", 
             "sections": {
               "1": {
-                "lecturer": "DR. FARRUH SHAHIDI", 
-                "venue": "ICT TEACH LAB 3 LEVEL 3C", 
-                "day": "T-TH", 
-                "time": "8.30 - 9.50 AM"
-              }, 
-              "3": {
                 "lecturer": "DR. NOOR AZIZAH BT. MOHAMADALI", 
-                "venue": "ICT TEACH LAB 5 LEVEL 3C", 
-                "day": "T-TH", 
-                "time": "2 - 3.20 PM"
+                "schedules": [
+                  {
+                    "venue": "ICT TEACH LAB 5 LEVEL 3C", 
+                    "day": "T-TH", 
+                    "time": "10 - 11.20 AM"
+                  }, 
+                  {
+                    "venue": "ICT TEACH LAB 5 LEVEL 3C", 
+                    "day": "FRI", 
+                    "time": "8.30 - 10.20 AM"
+                  }
+                ]
               }, 
               "2": {
                 "lecturer": "DR. NOOR AZIZAH BT. MOHAMADALI", 
-                "venue": "ICT TEACH LAB 4 LEVEL 3C", 
-                "day": "T-TH", 
-                "time": "10 - 11.20 AM"
+                "schedules": [
+                  {
+                    "venue": "ICT TEACH LAB 5 LEVEL 3C", 
+                    "day": "T-TH", 
+                    "time": "11.30 - 12.50 AM"
+                  }, 
+                  {
+                    "venue": "ICT TEACH LAB 5 LEVEL 3C", 
+                    "day": "FRI", 
+                    "time": "10.30 - 12.30 AM"
+                  }
+                ]
               }
             }, 
             "title": "FOUNDATION OF QUANTITATIVE ANALYSIS"
@@ -935,76 +1606,85 @@
             "credit": "3", 
             "sections": {
               "1": {
-                "lecturer": "AHMAD WAQAS", 
-                "venue": "ICT LR 4 LEVEL 1C", 
-                "day": "M-W", 
-                "time": "3.30 - 4.50 PM"
+                "lecturer": "DR. SHERZOD TURAEV", 
+                "schedules": [
+                  {
+                    "venue": "ICT LR 19 LEVEL 4C", 
+                    "day": "M-W", 
+                    "time": "10 - 11.20 AM"
+                  }, 
+                  {
+                    "venue": "ICT LR 12 LEVEL 2C", 
+                    "day": "WED", 
+                    "time": "5 - 6.50 PM"
+                  }
+                ]
               }
             }, 
             "title": "THEORY OF AUTOMATA"
-          }, 
-          "INFO 3501": {
-            "credit": "3", 
-            "sections": {
-              "1": {
-                "lecturer": "MRS. NOOR AZIAN BT. MOHAMAD ALI", 
-                "venue": "ICT LR 14A LEVEL 2D", 
-                "day": "T-TH", 
-                "time": "10 - 11.20 AM"
-              }, 
-              "3": {
-                "lecturer": "MRS. NOOR AZIAN BT. MOHAMAD ALI", 
-                "venue": "ICT LR 14A LEVEL 2D", 
-                "day": "M-W", 
-                "time": "3.30 - 4.50 PM"
-              }, 
-              "2": {
-                "lecturer": "MRS. NOOR AZIAN BT. MOHAMAD ALI", 
-                "venue": "ICT LR 13 LEVEL 2D", 
-                "day": "T-TH", 
-                "time": "2 - 3.20 PM"
-              }
-            }, 
-            "title": "PROJECT MANAGEMENT IN IT"
           }, 
           "INFO 2501": {
             "credit": "3", 
             "sections": {
               "1": {
-                "lecturer": "DR. ISHAQ OYEBISI OYEFOLAHAN", 
-                "venue": "ICT LR 14 LEVEL 2D", 
-                "day": "M-W", 
-                "time": "2 - 3.20 PM"
+                "lecturer": "ASSOC.PROF.DR. MURNI BT. MAHMUD", 
+                "schedules": [
+                  {
+                    "venue": "ICT LR 3 LEVEL 1C", 
+                    "day": "M-W", 
+                    "time": "10 - 11.20 AM"
+                  }
+                ]
               }, 
               "3": {
-                "lecturer": "DR. MOHAMED RAZI MOHAMED JALALDEEN", 
-                "venue": "ICT LR 14 LEVEL 2D", 
-                "day": "M-W", 
-                "time": "10 - 11.20 AM"
+                "lecturer": "DR. ZAHIDAH BINTI ZULKIFLI", 
+                "schedules": [
+                  {
+                    "venue": "ICT LR 14A LEVEL 2D", 
+                    "day": "M-W", 
+                    "time": "2 - 3.20 PM"
+                  }
+                ]
               }, 
               "2": {
-                "lecturer": "ASSOC.PROF.DR. ABD. RAHMAN BIN AHLAN", 
-                "venue": "ICT LR 13 LEVEL 2D", 
-                "day": "M-W", 
-                "time": "8.30 - 9.50 AM"
+                "lecturer": "ASSOC.PROF.DR. MURNI BT. MAHMUD", 
+                "schedules": [
+                  {
+                    "venue": "ICT LR 3 LEVEL 1C", 
+                    "day": "M-W", 
+                    "time": "11.30 - 12.50 AM"
+                  }
+                ]
               }, 
               "5": {
-                "lecturer": "DR. ISHAQ OYEBISI OYEFOLAHAN", 
-                "venue": "ICT LR 14 LEVEL 2D", 
-                "day": "T-TH", 
-                "time": "10 - 11.20 AM"
+                "lecturer": "DR. ZAHIDAH BINTI ZULKIFLI", 
+                "schedules": [
+                  {
+                    "venue": "ICT LR 14 LEVEL 2D", 
+                    "day": "T-TH", 
+                    "time": "10 - 11.20 AM"
+                  }
+                ]
               }, 
               "4": {
-                "lecturer": "DR. MOHAMED RAZI MOHAMED JALALDEEN", 
-                "venue": "ICT LR 14 LEVEL 2D", 
-                "day": "T-TH", 
-                "time": "8.30 - 9.50 AM"
+                "lecturer": "DR. ZAHIDAH BINTI ZULKIFLI", 
+                "schedules": [
+                  {
+                    "venue": "ICT LR 14 LEVEL 2D", 
+                    "day": "T-TH", 
+                    "time": "8.30 - 9.50 AM"
+                  }
+                ]
               }, 
               "6": {
-                "lecturer": "DR. MOHAMED RAZI MOHAMED JALALDEEN", 
-                "venue": "ICT LR 14 LEVEL 2D", 
-                "day": "T-TH", 
-                "time": "2 - 3.20 PM"
+                "lecturer": "DR. ADAMU ABUBAKAR IBRAHIM", 
+                "schedules": [
+                  {
+                    "venue": "ICT LR 14 LEVEL 2D", 
+                    "day": "T-TH", 
+                    "time": "2 - 3.20 PM"
+                  }
+                ]
               }
             }, 
             "title": "MANAGEMENT INFORMATION SYSTEM"
@@ -1014,15 +1694,48 @@
             "sections": {
               "1": {
                 "lecturer": "ASSOC.PROF.DR. IMAD FAKHRI TAHA ALSHAIKHLI", 
-                "venue": "ICT TEACH LAB 4 LEVEL 3C", 
-                "day": "T-TH", 
-                "time": "8.30 - 9.50 AM"
+                "schedules": [
+                  {
+                    "venue": "ICT TEACH LAB 4 LEVEL 3C", 
+                    "day": "T-TH", 
+                    "time": "8.30 - 9.50 AM"
+                  }, 
+                  {
+                    "venue": "ICT TEACH LAB 4 LEVEL 3C", 
+                    "day": "TUE", 
+                    "time": "5 - 6.50 PM"
+                  }
+                ]
+              }, 
+              "3": {
+                "lecturer": "ASSOC.PROF.DR. IMAD FAKHRI TAHA ALSHAIKHLI", 
+                "schedules": [
+                  {
+                    "venue": "ICT TEACH LAB 4 LEVEL 3C", 
+                    "day": "T-TH", 
+                    "time": "2 - 3.20 PM"
+                  }, 
+                  {
+                    "venue": "ICT TEACH LAB 4 LEVEL 3C", 
+                    "day": "THUR", 
+                    "time": "8 - 8.50 PM"
+                  }
+                ]
               }, 
               "2": {
                 "lecturer": "ASSOC.PROF.DR. IMAD FAKHRI TAHA ALSHAIKHLI", 
-                "venue": "ICT TEACH LAB 4 LEVEL 3C", 
-                "day": "T-TH", 
-                "time": "11.30 - 12.50 AM"
+                "schedules": [
+                  {
+                    "venue": "ICT TEACH LAB 4 LEVEL 3C", 
+                    "day": "T-TH", 
+                    "time": "11.30 - 12.50 AM"
+                  }, 
+                  {
+                    "venue": "ICT TEACH LAB 4 LEVEL 3C", 
+                    "day": "WED", 
+                    "time": "5 - 6.50 PM"
+                  }
+                ]
               }
             }, 
             "title": "DATA STRUCTURE & ALGORITHM"
@@ -1031,22 +1744,34 @@
             "credit": "3", 
             "sections": {
               "1": {
-                "lecturer": "MRS. ZAHIDAH BINTI ZULKIFLI", 
-                "venue": "ICT LR 4 LEVEL 1C", 
-                "day": "M-W", 
-                "time": "10 - 11.20 AM"
+                "lecturer": "MRS. NOOR AZIAN BT. MOHAMAD ALI", 
+                "schedules": [
+                  {
+                    "venue": "ICT LR 4 LEVEL 1C", 
+                    "day": "M-W", 
+                    "time": "10 - 11.20 AM"
+                  }
+                ]
               }, 
               "3": {
-                "lecturer": "MRS. ZAHIDAH BINTI ZULKIFLI", 
-                "venue": "ICT LR 4 LEVEL 1C", 
-                "day": "T-TH", 
-                "time": "10 - 11.20 AM"
+                "lecturer": "DR. MIOR NASIR MIOR NAZRI", 
+                "schedules": [
+                  {
+                    "venue": "ICT LR 4 LEVEL 1C", 
+                    "day": "T-TH", 
+                    "time": "2 - 3.20 PM"
+                  }
+                ]
               }, 
               "2": {
-                "lecturer": "MRS. ZAHIDAH BINTI ZULKIFLI", 
-                "venue": "ICT LR 4 LEVEL 1C", 
-                "day": "M-W", 
-                "time": "2 - 3.20 PM"
+                "lecturer": "MRS. NOOR AZIAN BT. MOHAMAD ALI", 
+                "schedules": [
+                  {
+                    "venue": "ICT LR 4 LEVEL 1C", 
+                    "day": "M-W", 
+                    "time": "11.30 - 12.50 AM"
+                  }
+                ]
               }
             }, 
             "title": "SYSTEMS ANALYSIS AND DESIGN"
@@ -1056,9 +1781,18 @@
             "sections": {
               "1": {
                 "lecturer": "DR. RIZAL BIN MOHD. NOR", 
-                "venue": "ICT TEACH LAB 4 LEVEL 3C", 
-                "day": "M-W", 
-                "time": "2 - 3.20 PM"
+                "schedules": [
+                  {
+                    "venue": "ICT TEACH LAB 4 LEVEL 3C", 
+                    "day": "M-W", 
+                    "time": "2 - 3.20 PM"
+                  }, 
+                  {
+                    "venue": "ICT TUTOR 2 TL-D5-02", 
+                    "day": "TUE", 
+                    "time": "5 - 6.50 PM"
+                  }
+                ]
               }
             }, 
             "title": "WEB PROGRAMMING"
@@ -1068,15 +1802,23 @@
             "sections": {
               "1": {
                 "lecturer": "DR. M.M. HAFIZUR RAHMAN", 
-                "venue": "ICT LR 5 LEVEL 1C", 
-                "day": "M-W", 
-                "time": "11.30 - 12.50 AM"
+                "schedules": [
+                  {
+                    "venue": "ICT LR 14 LEVEL 2D", 
+                    "day": "M-W", 
+                    "time": "10 - 11.20 AM"
+                  }
+                ]
               }, 
               "2": {
                 "lecturer": "DR. M.M. HAFIZUR RAHMAN", 
-                "venue": "ICT LR 5 LEVEL 1C", 
-                "day": "T-TH", 
-                "time": "10 - 11.20 AM"
+                "schedules": [
+                  {
+                    "venue": "ICT LR 14 LEVEL 2D", 
+                    "day": "M-W", 
+                    "time": "11.30 - 12.50 AM"
+                  }
+                ]
               }
             }, 
             "title": "INTRODUCTION TO COMPUTER ORGANIZATION"
@@ -1086,9 +1828,13 @@
             "sections": {
               "1": {
                 "lecturer": "ASSOC.PROF NORMAZIAH BINTI ABDUL AZIZ", 
-                "venue": "ICT LR 11 LEVEL 2C", 
-                "day": "M-W", 
-                "time": "11.30 - 12.50 AM"
+                "schedules": [
+                  {
+                    "venue": "ICT ACM-ICPC LAB TL-C4-02", 
+                    "day": "M-W", 
+                    "time": "11.30 - 12.50 AM"
+                  }
+                ]
               }
             }, 
             "title": "IT SECURITY I"
@@ -1098,9 +1844,18 @@
             "sections": {
               "1": {
                 "lecturer": "DR. SHERZOD TURAEV", 
-                "venue": "ICT LR 12 LEVEL 2C", 
-                "day": "M-W", 
-                "time": "3.30 - 4.50 PM"
+                "schedules": [
+                  {
+                    "venue": "ICT LR 19 LEVEL 4C", 
+                    "day": "T-TH", 
+                    "time": "3.30 - 4.50 PM"
+                  }, 
+                  {
+                    "venue": "ICT LR 12 LEVEL 2C", 
+                    "day": "MON", 
+                    "time": "5 - 6.50 PM"
+                  }
+                ]
               }
             }, 
             "title": "ALGORITHM ANALYSIS & DESIGN"
@@ -1110,15 +1865,23 @@
             "sections": {
               "1": {
                 "lecturer": "DR. NORMI SHAM BT. AWANG ABU BAKAR", 
-                "venue": "ICT LR 13 LEVEL 2D", 
-                "day": "T-TH", 
-                "time": "11.30 - 12.50 AM"
+                "schedules": [
+                  {
+                    "venue": "ICT LR 12 LEVEL 2C", 
+                    "day": "T-TH", 
+                    "time": "10 - 11.20 AM"
+                  }
+                ]
               }, 
               "2": {
                 "lecturer": "DR. NORMI SHAM BT. AWANG ABU BAKAR", 
-                "venue": "ICT LR 13 LEVEL 2D", 
-                "day": "T-TH", 
-                "time": "10 - 11.20 AM"
+                "schedules": [
+                  {
+                    "venue": "ICT LR 12 LEVEL 2C", 
+                    "day": "T-TH", 
+                    "time": "11.30 - 12.50 AM"
+                  }
+                ]
               }
             }, 
             "title": "SOFTWARE ENGINEERING"
@@ -1128,33 +1891,65 @@
             "sections": {
               "1": {
                 "lecturer": "ASSOC.PROF NORMAZIAH BINTI ABDUL AZIZ", 
-                "venue": "ICT TEACH LAB 4 LEVEL 3C", 
-                "day": "M-W", 
-                "time": "8.30 - 9.50 AM"
+                "schedules": [
+                  {
+                    "venue": "ICT ACM-ICPC LAB TL-C4-02", 
+                    "day": "M-W", 
+                    "time": "8.30 - 9.50 AM"
+                  }
+                ]
               }
             }, 
             "title": "COMPUTER FORENSIC"
           }, 
-          "CSC 4803": {
+          "INFO 3501": {
             "credit": "3", 
             "sections": {
               "1": {
-                "lecturer": "IBRAHIM A ABDURRAZAQ", 
-                "venue": "ICT LR 2 LEVEL 1D", 
-                "day": "TUE", 
-                "time": "3.30 - 6.20 PM"
+                "lecturer": "DR. ISHAQ OYEBISI OYEFOLAHAN", 
+                "schedules": [
+                  {
+                    "venue": "ICT LR 13 LEVEL 2D", 
+                    "day": "M-W", 
+                    "time": "8.30 - 9.50 AM"
+                  }
+                ]
+              }, 
+              "3": {
+                "lecturer": "DR. ISHAQ OYEBISI OYEFOLAHAN", 
+                "schedules": [
+                  {
+                    "venue": "ICT LR 14A LEVEL 2D", 
+                    "day": "T-TH", 
+                    "time": "10 - 11.20 AM"
+                  }
+                ]
+              }, 
+              "2": {
+                "lecturer": "DR. ISHAQ OYEBISI OYEFOLAHAN", 
+                "schedules": [
+                  {
+                    "venue": "ICT LR 13 LEVEL 2D", 
+                    "day": "M-W", 
+                    "time": "11.30 - 12.50 AM"
+                  }
+                ]
               }
             }, 
-            "title": "IMAGE PROCESSING"
+            "title": "PROJECT MANAGEMENT IN IT"
           }, 
           "CSC 3402": {
             "credit": "3", 
             "sections": {
               "1": {
                 "lecturer": "PROFESSOR DR. ABDUL WAHAB BIN ABDUL RAHMAN", 
-                "venue": "ICT LR 19 LEVEL 4C", 
-                "day": "M-W", 
-                "time": "3.30 - 4.50 PM"
+                "schedules": [
+                  {
+                    "venue": "ICT LR 19 LEVEL 4C", 
+                    "day": "M-W", 
+                    "time": "2 - 3.20 PM"
+                  }
+                ]
               }
             }, 
             "title": "COMPUTER ARCHITECTURE & ASSEMBLY LANGUAGE"
@@ -1163,10 +1958,19 @@
             "credit": "3", 
             "sections": {
               "1": {
-                "lecturer": "DR. FARRUH SHAHIDI", 
-                "venue": "ICT LR 3 LEVEL 1C", 
-                "day": "T-TH", 
-                "time": "11.30 - 12.50 AM"
+                "lecturer": "AKEEM OLOWOLAYEMO", 
+                "schedules": [
+                  {
+                    "venue": "ICT LR 3 LEVEL 1C", 
+                    "day": "T-TH", 
+                    "time": "11.30 - 12.50 AM"
+                  }, 
+                  {
+                    "venue": "ICT LR 3 LEVEL 1C", 
+                    "day": "TUE", 
+                    "time": "5 - 6.50 PM"
+                  }
+                ]
               }
             }, 
             "title": "INTRODUCTION TO MATHEMATICAL STATISTICS"
@@ -1175,16 +1979,34 @@
             "credit": "3", 
             "sections": {
               "1": {
-                "lecturer": "DR. RIZAL BIN MOHD. NOR", 
-                "venue": "ICT LR 4 LEVEL 1C", 
-                "day": "M-W", 
-                "time": "8.30 - 9.50 AM"
+                "lecturer": "DR. ZULKEFLI BIN MUHAMMED YUSOF", 
+                "schedules": [
+                  {
+                    "venue": "ICT LR 3 LEVEL 1C", 
+                    "day": "T-TH", 
+                    "time": "8.30 - 9.50 AM"
+                  }
+                ]
+              }, 
+              "3": {
+                "lecturer": "DR. ZULKEFLI BIN MUHAMMED YUSOF", 
+                "schedules": [
+                  {
+                    "venue": "ICT LR 11 LEVEL 2C", 
+                    "day": "T-TH", 
+                    "time": "2 - 3.20 PM"
+                  }
+                ]
               }, 
               "2": {
-                "lecturer": "DR. RIZAL BIN MOHD. NOR", 
-                "venue": "ICT LR 4 LEVEL 1C", 
-                "day": "M-W", 
-                "time": "11.30 - 12.50 AM"
+                "lecturer": "DR. ZULKEFLI BIN MUHAMMED YUSOF", 
+                "schedules": [
+                  {
+                    "venue": "ICT LR 11 LEVEL 2C", 
+                    "day": "T-TH", 
+                    "time": "11.30 - 12.50 AM"
+                  }
+                ]
               }
             }, 
             "title": "OPERATING  SYSTEM"
@@ -1194,9 +2016,13 @@
             "sections": {
               "1": {
                 "lecturer": "PROFESSOR DR. ABDUL WAHAB BIN ABDUL RAHMAN", 
-                "venue": "ICT LR 19 LEVEL 4C", 
-                "day": "M-W", 
-                "time": "8.30 - 9.50 AM"
+                "schedules": [
+                  {
+                    "venue": "ICT LR 19 LEVEL 4C", 
+                    "day": "M-W", 
+                    "time": "8.30 - 9.50 AM"
+                  }
+                ]
               }
             }, 
             "title": "DIGITAL SYSTEMS FUNDAMENTAL"
@@ -1205,34 +2031,64 @@
             "credit": "3", 
             "sections": {
               "1": {
-                "lecturer": "SITI ROHIMI BT. HAMEDON", 
-                "venue": "ICT LR 13 LEVEL 2D", 
-                "day": "M-W", 
-                "time": "10 - 11.20 AM"
+                "lecturer": "DR. SUHAILA BINTI SAMSURI", 
+                "schedules": [
+                  {
+                    "venue": "ICT LR 13 LEVEL 2D", 
+                    "day": "M-W", 
+                    "time": "10 - 11.20 AM"
+                  }
+                ]
               }, 
               "3": {
-                "lecturer": "SITI ROHIMI BT. HAMEDON", 
-                "venue": "ICT LR 13 LEVEL 2D", 
-                "day": "T-TH", 
-                "time": "3.30 - 4.50 PM"
+                "lecturer": "AZLAN BIN MOHAMED ZAIN", 
+                "schedules": [
+                  {
+                    "venue": "ICT LR 13 LEVEL 2D", 
+                    "day": "M-W", 
+                    "time": "3.30 - 4.50 PM"
+                  }
+                ]
               }, 
               "2": {
-                "lecturer": "SITI ROHIMI BT. HAMEDON", 
-                "venue": "ICT LR 13 LEVEL 2D", 
-                "day": "M-W", 
-                "time": "2 - 3.20 PM"
+                "lecturer": "AZLAN BIN MOHAMED ZAIN", 
+                "schedules": [
+                  {
+                    "venue": "ICT LR 13 LEVEL 2D", 
+                    "day": "M-W", 
+                    "time": "2 - 3.20 PM"
+                  }
+                ]
               }, 
               "5": {
-                "lecturer": "AZLAN BIN MOHAMED ZAIN", 
-                "venue": "ICT LT 2 LEVEL 4D", 
-                "day": "M-W", 
-                "time": "5 - 6.20 PM"
+                "lecturer": "WAFAA KHAZAAL SHAMS", 
+                "schedules": [
+                  {
+                    "venue": "ICT LR 13 LEVEL 2D", 
+                    "day": "T-TH", 
+                    "time": "10 - 11.20 AM"
+                  }
+                ]
               }, 
               "4": {
-                "lecturer": "DR. MOHAMED RAZI MOHAMED JALALDEEN", 
-                "venue": "ICT LR 14 LEVEL 2D", 
-                "day": "T-TH", 
-                "time": "11.30 - 12.50 AM"
+                "lecturer": "WAFAA KHAZAAL SHAMS", 
+                "schedules": [
+                  {
+                    "venue": "ICT LR 13 LEVEL 2D", 
+                    "day": "T-TH", 
+                    "time": "8.30 - 9.50 AM"
+                  }
+                ]
+              }, 
+              "6": {
+                "lecturer": "MARINI OTHMAN", 
+                "schedules": [
+                  {
+                    "venue": "ICT LR 13 LEVEL 2D", 
+                    "day": "T-TH", 
+                    "time": "2 - 3.20 PM"
+                  }
+                ]
               }
             }, 
             "title": "INFORMATION TECHNOLOGY"
@@ -1241,16 +2097,14 @@
             "credit": "3", 
             "sections": {
               "1": {
-                "lecturer": "MANSUR ALIYU", 
-                "venue": "ICT LT 2 LEVEL 4D", 
-                "day": "T-TH", 
-                "time": "3.30 - 4.50 PM"
-              }, 
-              "2": {
-                "lecturer": "TO BE DETERMINED", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "DR. AKRAM M Z M KHEDHER", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }
             }, 
             "title": "INTRODUCTION TO COMPUTER NETWORKING (NON - ICT)"
@@ -1259,112 +2113,246 @@
             "credit": "3", 
             "sections": {
               "11": {
-                "lecturer": "DR. NOOR AZIZAH BT. MOHAMADALI", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "DR. MOHD. IZZUDDIN BIN MOHD. TAMRIN", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "10": {
-                "lecturer": "PROFESSOR DR. ASADULLAH SHAH", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "DR. AZNAN ZUHID BIN SAIDIN", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "13": {
-                "lecturer": "MRS. NOOR AZIAN BT. MOHAMAD ALI", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "DR. AHMAD FATZILAH BIN MISMAN", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "12": {
-                "lecturer": "AHMAD FATZILAH BIN MISMAN", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "PROFESSOR DR. ASADULLAH SHAH", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
+              }, 
+              "15": {
+                "lecturer": "MRS. NOOR AZIAN BT. MOHAMAD ALI", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
+              }, 
+              "14": {
+                "lecturer": "ASSOC.PROF.DR. MURNI BT. MAHMUD", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "1": {
-                "lecturer": "DR. AKRAM M Z M KHEDHER", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "MARINI OTHMAN", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "3": {
-                "lecturer": "JAMALUDIN BIN IBRAHIM", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "DR. MOHD. SYARQAWY BIN HAMZAH", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "2": {
-                "lecturer": "DR. LILI MARZIANA BT. ABDULLAH", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "DR. MOHAMED RAZI MOHAMED JALALDEEN", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "5": {
-                "lecturer": "DR. ZAINATUL SHIMA ABDULLAH", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "DR. AKRAM M Z M KHEDHER", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "4": {
-                "lecturer": "DR. ISHAQ OYEBISI OYEFOLAHAN", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "ASSOC.PROF.DR. MIRA KARTIWI", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "7": {
-                "lecturer": "DR. AZNAN ZUHID BIN SAIDIN", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "DR. ISHAQ OYEBISI OYEFOLAHAN", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "6": {
-                "lecturer": "ASSOC.PROF.DR. ABD. RAHMAN BIN AHLAN", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "DR. SHUHAILI BT. TALIB", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "9": {
-                "lecturer": "DR. MOHD. IZZUDDIN BIN MOHD. TAMRIN", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "ASSOC.PROF.DR. ABD. RAHMAN BIN AHLAN", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }, 
               "8": {
-                "lecturer": "DR. MIRA KARTIWI", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "lecturer": "DR. ZAINATUL SHIMA ABDULLAH", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": null, 
+                    "time": " -  "
+                  }
+                ]
               }
             }, 
             "title": "FINAL YEAR PROJECT II"
           }, 
-          "CSC 4604": {
+          "INFO 2301": {
             "credit": "3", 
             "sections": {
               "1": {
-                "lecturer": "ASSOC.PROF.DR. IMAD FAKHRI TAHA ALSHAIKHLI", 
-                "venue": "ICT TEACH LAB 4 LEVEL 3C", 
-                "day": "T-TH", 
-                "time": "2 - 3.20 PM"
+                "lecturer": "DR. AHMAD FATZILAH BIN MISMAN", 
+                "schedules": [
+                  {
+                    "venue": "ICT TEACH LAB 5 LEVEL 3C", 
+                    "day": "M-W", 
+                    "time": "10 - 11.20 AM"
+                  }, 
+                  {
+                    "venue": "ICT TEACH LAB 5 LEVEL 3C", 
+                    "day": "MON", 
+                    "time": "5 - 6.50 PM"
+                  }
+                ]
+              }, 
+              "3": {
+                "lecturer": "DR. AHMAD FATZILAH BIN MISMAN", 
+                "schedules": [
+                  {
+                    "venue": "ICT TEACH LAB 5 LEVEL 3C", 
+                    "day": "T-TH", 
+                    "time": "2 - 3.20 PM"
+                  }, 
+                  {
+                    "venue": "ICT TEACH LAB 5 LEVEL 3C", 
+                    "day": "MON", 
+                    "time": "5 - 5.50 PM"
+                  }, 
+                  {
+                    "venue": "ICT TEACH LAB 5 LEVEL 3C", 
+                    "day": "MON", 
+                    "time": "5 - 5.50 PM"
+                  }
+                ]
+              }, 
+              "2": {
+                "lecturer": "DR. AHMAD FATZILAH BIN MISMAN", 
+                "schedules": [
+                  {
+                    "venue": "ICT TEACH LAB 5 LEVEL 3C", 
+                    "day": "M-W", 
+                    "time": "11.30 - 12.50 AM"
+                  }, 
+                  {
+                    "venue": "ICT TEACH LAB 5 LEVEL 3C", 
+                    "day": "TUE", 
+                    "time": "5 - 6.50 PM"
+                  }
+                ]
               }
             }, 
-            "title": "CRYPTOGRAPHY"
+            "title": "WEB PROGRAMMING I"
           }, 
           "INFO 3401": {
             "credit": "3", 
             "sections": {
               "1": {
-                "lecturer": "DR. SOFIANIZA BT. ABD. MALIK", 
-                "venue": "ICT LR 1 LEVEL 1C", 
-                "day": "M-W", 
-                "time": "10 - 11.20 AM"
+                "lecturer": "MARINI OTHMAN", 
+                "schedules": [
+                  {
+                    "venue": "ICT HCI LAB LEVEL 4C", 
+                    "day": "M-W", 
+                    "time": "10 - 11.20 AM"
+                  }
+                ]
+              }, 
+              "3": {
+                "lecturer": "MARINI OTHMAN", 
+                "schedules": [
+                  {
+                    "venue": "ICT HCI LAB LEVEL 4C", 
+                    "day": "T-TH", 
+                    "time": "10 - 11.20 AM"
+                  }
+                ]
               }, 
               "2": {
-                "lecturer": "DR. SOFIANIZA BT. ABD. MALIK", 
-                "venue": "ICT LR 1 LEVEL 1C", 
-                "day": "M-W", 
-                "time": "2 - 3.20 PM"
+                "lecturer": "MARINI OTHMAN", 
+                "schedules": [
+                  {
+                    "venue": "ICT HCI LAB LEVEL 4C", 
+                    "day": "M-W", 
+                    "time": "2 - 3.20 PM"
+                  }
+                ]
               }
             }, 
             "title": "HUMAN COMPUTER INTERACTION"
@@ -1373,16 +2361,24 @@
             "credit": "3", 
             "sections": {
               "1": {
-                "lecturer": "DR. MOHD. IZZUDDIN BIN MOHD. TAMRIN", 
-                "venue": "ICT LR 2 LEVEL 1D", 
-                "day": "T-TH", 
-                "time": "10 - 11.20 AM"
+                "lecturer": "DR. ADAMU ABUBAKAR IBRAHIM", 
+                "schedules": [
+                  {
+                    "venue": "ICT LR 2 LEVEL 1D", 
+                    "day": "M-W", 
+                    "time": "10 - 11.20 AM"
+                  }
+                ]
               }, 
               "2": {
-                "lecturer": "DR. MOHD. IZZUDDIN BIN MOHD. TAMRIN", 
-                "venue": "ICT LR 2 LEVEL 1D", 
-                "day": "T-TH", 
-                "time": "11.30 - 12.50 AM"
+                "lecturer": "DR. ADAMU ABUBAKAR IBRAHIM", 
+                "schedules": [
+                  {
+                    "venue": "ICT LR 4 LEVEL 1C", 
+                    "day": "T-TH", 
+                    "time": "11.30 - 12.50 AM"
+                  }
+                ]
               }
             }, 
             "title": "INFORMATION RETRIEVAL TECHNOLOGIES"
@@ -1392,21 +2388,55 @@
             "sections": {
               "1": {
                 "lecturer": "DR. AL-SAKIB KHAN PATHAN", 
-                "venue": "ICT TEACH LAB 4 LEVEL 3C", 
-                "day": "M-W", 
-                "time": "10 - 11.20 AM"
+                "schedules": [
+                  {
+                    "venue": "ICT TEACH LAB 3 LEVEL 3C", 
+                    "day": "M-W", 
+                    "time": "10 - 11.20 AM"
+                  }, 
+                  {
+                    "venue": "ICT TUTOR 2 TL-D5-02", 
+                    "day": "WED", 
+                    "time": "5 - 6.50 PM"
+                  }
+                ]
               }
             }, 
             "title": "NETWORKS & SYSTEM ADMINISTRATION"
+          }, 
+          "CSC 4309": {
+            "credit": "3", 
+            "sections": {
+              "1": {
+                "lecturer": "SURIANI BT. SULAIMAN", 
+                "schedules": [
+                  {
+                    "venue": "ICT TEACH LAB 4 LEVEL 3C", 
+                    "day": "M-W", 
+                    "time": "11.30 - 12.50 AM"
+                  }
+                ]
+              }
+            }, 
+            "title": "NATURAL LANGUAGE PROCESSING"
           }, 
           "CSC 4205": {
             "credit": "3", 
             "sections": {
               "1": {
                 "lecturer": "DR. AL-SAKIB KHAN PATHAN", 
-                "venue": "ICT TEACH LAB 4 LEVEL 3C", 
-                "day": "M-W", 
-                "time": "11.30 - 12.50 PM"
+                "schedules": [
+                  {
+                    "venue": "ICT TEACH LAB 5 LEVEL 3C", 
+                    "day": "M-W", 
+                    "time": "2 - 3.20 PM"
+                  }, 
+                  {
+                    "venue": "ICT TEACH LAB 5 LEVEL 3C", 
+                    "day": "WED", 
+                    "time": "5 - 6.50 PM"
+                  }
+                ]
               }
             }, 
             "title": "NETWORK PROGRAMMING"
@@ -1416,9 +2446,13 @@
             "sections": {
               "1": {
                 "lecturer": "DR. AL-SAKIB KHAN PATHAN", 
-                "venue": "ICT LR 12 LEVEL 2C", 
-                "day": "T-TH", 
-                "time": "10 - 11.20 AM"
+                "schedules": [
+                  {
+                    "venue": "ICT LR 1 LEVEL 1C", 
+                    "day": "T-TH", 
+                    "time": "3.30 - 4.50 PM"
+                  }
+                ]
               }
             }, 
             "title": "WIRELESS COMMUNICATION"
@@ -1428,9 +2462,18 @@
             "sections": {
               "1": {
                 "lecturer": "DR. M.M. HAFIZUR RAHMAN", 
-                "venue": "ICT LR 4 LEVEL 1C", 
-                "day": "T-TH", 
-                "time": "8.30 - 9.50 AM"
+                "schedules": [
+                  {
+                    "venue": "ICT LR 3 LEVEL 1C", 
+                    "day": "M-W", 
+                    "time": "3.30 - 4.50 PM"
+                  }, 
+                  {
+                    "venue": "ICT LR 3 LEVEL 1C", 
+                    "day": "WED", 
+                    "time": "5 - 6.50 PM"
+                  }
+                ]
               }
             }, 
             "title": "SIGNALS AND SYSTEMS"
@@ -1440,9 +2483,23 @@
             "sections": {
               "1": {
                 "lecturer": "DR. AMELIA RITAHANI BT. ISMAIL", 
-                "venue": "ICT LR 2 LEVEL 1D", 
-                "day": "M-W", 
-                "time": "11.30 - 12.50 AM"
+                "schedules": [
+                  {
+                    "venue": "ICT LR 4 LEVEL 1C", 
+                    "day": "M-W", 
+                    "time": "2 - 3.20 PM"
+                  }, 
+                  {
+                    "venue": "ICT LR 4 LEVEL 1C", 
+                    "day": "WED", 
+                    "time": "5 - 6.50 PM"
+                  }, 
+                  {
+                    "venue": "ICT LR 4 LEVEL 1C", 
+                    "day": "WED", 
+                    "time": "5 - 6.50 PM"
+                  }
+                ]
               }
             }, 
             "title": "ARTIFICIAL NEURAL NETWORK"
@@ -1451,16 +2508,24 @@
             "credit": "3", 
             "sections": {
               "1": {
-                "lecturer": "ZULKEFLI BIN MUHAMMED YUSOF", 
-                "venue": "ICT LR 1 LEVEL 1C", 
-                "day": "T-TH", 
-                "time": "11.30 - 12.50 AM"
+                "lecturer": "DR. MOHD. IZZUDDIN BIN MOHD. TAMRIN", 
+                "schedules": [
+                  {
+                    "venue": "ICT CISCO LAB LEVEL 4C", 
+                    "day": "T-TH", 
+                    "time": "11.30 - 12.50 AM"
+                  }
+                ]
               }, 
               "2": {
-                "lecturer": "ZULKEFLI BIN MUHAMMED YUSOF", 
-                "venue": "ICT LR 1 LEVEL 1C", 
-                "day": "T-TH", 
-                "time": "3.30 - 4.50 PM"
+                "lecturer": "DR. MOHD. IZZUDDIN BIN MOHD. TAMRIN", 
+                "schedules": [
+                  {
+                    "venue": "ICT CISCO LAB LEVEL 4C", 
+                    "day": "T-TH", 
+                    "time": "3.30 - 4.50 PM"
+                  }
+                ]
               }
             }, 
             "title": "DATA COMMUNICATION IN BUSINESS"
@@ -1470,27 +2535,83 @@
             "sections": {
               "1": {
                 "lecturer": "TO BE DETERMINED", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": "FRI", 
+                    "time": "9 - 12 AM"
+                  }
+                ]
               }, 
               "3": {
                 "lecturer": "TO BE DETERMINED", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": "FRI", 
+                    "time": "9 - 12 AM"
+                  }
+                ]
               }, 
               "2": {
                 "lecturer": "TO BE DETERMINED", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": "FRI", 
+                    "time": "2.30 - 5.30 PM"
+                  }
+                ]
+              }, 
+              "5": {
+                "lecturer": "TO BE DETERMINED", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": "FRI", 
+                    "time": "9 - 12 AM"
+                  }
+                ]
               }, 
               "4": {
                 "lecturer": "TO BE DETERMINED", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": "FRI", 
+                    "time": "2.30 - 5.30 PM"
+                  }
+                ]
+              }, 
+              "7": {
+                "lecturer": "TO BE DETERMINED", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": "FRI", 
+                    "time": "9 - 12 AM"
+                  }
+                ]
+              }, 
+              "6": {
+                "lecturer": "TO BE DETERMINED", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": "FRI", 
+                    "time": "2.30 - 5.30 PM"
+                  }
+                ]
+              }, 
+              "8": {
+                "lecturer": "TO BE DETERMINED", 
+                "schedules": [
+                  {
+                    "venue": "-", 
+                    "day": "FRI", 
+                    "time": "2.30 - 5.30 PM"
+                  }
+                ]
               }
             }, 
             "title": "LIBRARY SKILLS FOR ICT"
@@ -1499,584 +2620,31 @@
             "credit": "3", 
             "sections": {
               "1": {
-                "lecturer": "MRS. SUHAILA BINTI SAMSURI", 
-                "venue": "ICT LR 1 LEVEL 1C", 
-                "day": "T-TH", 
-                "time": "10 - 11.20 AM"
-              }, 
-              "3": {
-                "lecturer": "MRS. SUHAILA BINTI SAMSURI", 
-                "venue": "ICT LR 1 LEVEL 1C", 
-                "day": "T-TH", 
-                "time": "2 - 3.20 PM"
+                "lecturer": "DR. SHUHAILI BT. TALIB", 
+                "schedules": [
+                  {
+                    "venue": "ICT LR 1 LEVEL 1C", 
+                    "day": "T-TH", 
+                    "time": "10 - 11.20 AM"
+                  }
+                ]
               }, 
               "2": {
-                "lecturer": "MRS. SUHAILA BINTI SAMSURI", 
-                "venue": "ICT LR 4 LEVEL 1C", 
-                "day": "T-TH", 
-                "time": "11.30 - 12.50 AM"
+                "lecturer": "DR. SHUHAILI BT. TALIB", 
+                "schedules": [
+                  {
+                    "venue": "ICT LR 1 LEVEL 1C", 
+                    "day": "T-TH", 
+                    "time": "11.30 - 12.50 AM"
+                  }
+                ]
               }
             }, 
             "title": "INFORMATION SECURITY"
-          }
-        } 
-      }, 
-      ">=": {
-        "KICT": {
-          "INFO 6220": {
-            "credit": "3", 
-            "sections": {
-              "1": {
-                "lecturer": "PROFESSOR DR. HUSNAYATI BT HUSSIN", 
-                "venue": "-", 
-                "day": "THUR", 
-                "time": "2.00 - 5.00 PM"
-              }
-            }, 
-            "title": "E-COMMERCE STRATEGY & DEVELOPMENT"
-          }, 
-          "CCSM 6301": {
-            "credit": "2", 
-            "sections": {
-              "1": {
-                "lecturer": "TO BE DETERMINED", 
-                "venue": "-", 
-                "day": "SAT-SUN", 
-                "time": "9.00 - 18.00 AM"
-              }
-            }, 
-            "title": "RISK MANAGEMENT"
-          }, 
-          "INFO 8999": {
-            "credit": "0", 
-            "sections": {
-              "1": {
-                "lecturer": "INDEPENDENT STUDY", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
-              }
-            }, 
-            "title": "THESIS"
-          }, 
-          "INFO 6130": {
-            "credit": "3", 
-            "sections": {
-              "1": {
-                "lecturer": "DR. LILI MARZIANA BT. ABDULLAH", 
-                "venue": "-", 
-                "day": "WED", 
-                "time": "3.00 - 6.00 PM"
-              }
-            }, 
-            "title": "PROJECT & CHANGE MANAGEMENT"
-          }, 
-          "CCSM 6202": {
-            "credit": "3", 
-            "sections": {
-              "1": {
-                "lecturer": "ASSOC.PROF.DR. MAISARAH BT ALI", 
-                "venue": "-", 
-                "day": "SAT-SUN", 
-                "time": "9.00 - 18.00 AM"
-              }
-            }, 
-            "title": "BUILDING AND FACILITY MANAGEMENT"
-          }, 
-          "INFO 6010": {
-            "credit": "3", 
-            "sections": {
-              "1": {
-                "lecturer": "ASSOC.PROF.DR. MOHAMAD FAUZAN BIN NOORDIN", 
-                "venue": "ICT LR 3 LEVEL 1C", 
-                "day": "MON", 
-                "time": "5.30 - 8.30 PM"
-              }
-            }, 
-            "title": "ISLAMIC WORLDVIEW, IT AND SOCIETY"
-          }, 
-          "INFO 6114": {
-            "credit": "4", 
-            "sections": {
-              "1": {
-                "lecturer": "DR. MIRA KARTIWI", 
-                "venue": "ICT LR 3 LEVEL 1C", 
-                "day": "TUE", 
-                "time": "5.30 - 8.30 PM"
-              }
-            }, 
-            "title": "DATA MANAGEMENT"
-          }, 
-          "LISC 6181": {
-            "credit": "3", 
-            "sections": {
-              "1": {
-                "lecturer": "PROFESSOR AHMAD BAKERI ABU BAKAR", 
-                "venue": "KICT LAB BIBLIO", 
-                "day": "TUE", 
-                "time": "5.30 - 8.30 PM"
-              }
-            }, 
-            "title": "BIBLIOMETRICS"
-          }, 
-          "LISC 6180": {
-            "credit": "3", 
-            "sections": {
-              "2": {
-                "lecturer": "ASSOC.PROF.DR. ROSLINA BT. OTHMAN", 
-                "venue": "KICT LAB BIBLIO", 
-                "day": "TUE", 
-                "time": "9.30 - 12.30 AM"
-              }
-            }, 
-            "title": "INFORMATION STORAGE AND RETRIEVAL"
-          }, 
-          "LISC 6998": {
-            "credit": "12", 
-            "sections": {
-              "1": {
-                "lecturer": "INDEPENDENT STUDY", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
-              }
-            }, 
-            "title": "DISSERTATION"
-          }, 
-          "LISC 6994": {
-            "credit": "0", 
-            "sections": {
-              "1": {
-                "lecturer": "INDEPENDENT STUDY", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
-              }
-            }, 
-            "title": "RESEARCH PROPOSAL"
-          }, 
-          "INFO 6150": {
-            "credit": "3", 
-            "sections": {
-              "1": {
-                "lecturer": "PROFESSOR DR. MOHD. ADAM BIN SUHAIMI", 
-                "venue": "ICT LR 3 LEVEL 1C", 
-                "day": "THUR", 
-                "time": "5.30 - 8.30 PM"
-              }
-            }, 
-            "title": "IT POLICY AND STRATEGY"
-          }, 
-          "LISC 6997": {
-            "credit": "3", 
-            "sections": {
-              "1": {
-                "lecturer": "DR. BASRI BIN HASSAN", 
-                "venue": "KICT LAB BIBLIO", 
-                "day": "WED", 
-                "time": "2.30 - 5.30 PM"
-              }
-            }, 
-            "title": "DIRECTED RESEARCH PRACTICUM"
-          }, 
-          "LISC 6040": {
-            "credit": "3", 
-            "sections": {
-              "1": {
-                "lecturer": "DR. BASRI BIN HASSAN", 
-                "venue": "KICT LAB BIBLIO", 
-                "day": "THUR", 
-                "time": "5.30 - 8.30 PM"
-              }
-            }, 
-            "title": "INFORMATION SOURCES & SERVICES"
-          }, 
-          "CSC 6994": {
-            "credit": "0", 
-            "sections": {
-              "1": {
-                "lecturer": "INDEPENDENT STUDY", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
-              }
-            }, 
-            "title": "RESEARCH PROPOSAL"
-          }, 
-          "LISC 6450": {
-            "credit": "3", 
-            "sections": {
-              "1": {
-                "lecturer": "NOOR HASRUL NIZAN BIN MOHAMMAD NOOR", 
-                "venue": "KICT LAB BIBLIO", 
-                "day": "WED", 
-                "time": "5.30 - 8.30 PM"
-              }
-            }, 
-            "title": "APPLICATION OF INFO. TECHNOLOGY IN LIBRARY"
-          }, 
-          "CSC 6999": {
-            "credit": "0", 
-            "sections": {
-              "1": {
-                "lecturer": "INDEPENDENT STUDY", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
-              }
-            }, 
-            "title": "THESIS"
-          }, 
-          "INFO 8994": {
-            "credit": "0", 
-            "sections": {
-              "1": {
-                "lecturer": "INDEPENDENT STUDY", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
-              }
-            }, 
-            "title": "THESIS PROPOSAL"
-          }, 
-          "LISC 7920": {
-            "credit": "3", 
-            "sections": {
-              "1": {
-                "lecturer": "PROFESSOR AHMAD BAKERI ABU BAKAR", 
-                "venue": "KICT LAB BIBLIO", 
-                "day": "THUR", 
-                "time": "9.30 - 12.30 AM"
-              }
-            }, 
-            "title": "SURVEY RESEARCH METHOD IN LIBRARY&INFO SC."
-          }, 
-          "LISC 6121": {
-            "credit": "3", 
-            "sections": {
-              "1": {
-                "lecturer": "SARIFAH ABDULLAH", 
-                "venue": "-", 
-                "day": "MON", 
-                "time": "5.30 - 8.30 PM"
-              }
-            }, 
-            "title": "INFORMATION ANALYSIS & ORGANIZATION II"
-          }, 
-          "CCSM 6101": {
-            "credit": "3", 
-            "sections": {
-              "1": {
-                "lecturer": "JAMALUDIN BIN IBRAHIM", 
-                "venue": "-", 
-                "day": "SAT-SUN", 
-                "time": "9.00 - 18.00 AM"
-              }
-            }, 
-            "title": "BUSINESS CONTINUITY & DISASTER RECOVERY"
-          }, 
-          "CCSM 6102": {
-            "credit": "3", 
-            "sections": {
-              "1": {
-                "lecturer": "ASSOC.PROF.DR. ABD. RAHMAN BIN AHLAN", 
-                "venue": "-", 
-                "day": "SAT-SUN", 
-                "time": "9.00 - 18.00 AM"
-              }
-            }, 
-            "title": "PHYSICAL PROTECTIVE SECURITY"
-          }, 
-          "CCSM 6103": {
-            "credit": "3", 
-            "sections": {
-              "1": {
-                "lecturer": "TO BE DETERMINED", 
-                "venue": "-", 
-                "day": "SAT-SUN", 
-                "time": "9.00 - 18.00 AM"
-              }
-            }, 
-            "title": "INFORMATION SECURITY GOVERNANCE"
-          }, 
-          "LISC 7390": {
-            "credit": "3", 
-            "sections": {
-              "1": {
-                "lecturer": "ASSOC.PROF.DR. ROSLINA BT. OTHMAN", 
-                "venue": "KICT LAB BIBLIO", 
-                "day": "MON", 
-                "time": "9.30 - 12.30 AM"
-              }
-            }, 
-            "title": "SEMINAR IN ORGANIZATION OF INFORMATION RESOUR"
-          }, 
-          "LISC 8999": {
-            "credit": "60", 
-            "sections": {
-              "1": {
-                "lecturer": "INDEPENDENT STUDY", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
-              }
-            }, 
-            "title": "THESIS"
-          }, 
-          "INFO 6994": {
-            "credit": "0", 
-            "sections": {
-              "1": {
-                "lecturer": "INDEPENDENT STUDY", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
-              }
-            }, 
-            "title": "RESEARCH PROPOSAL"
-          }, 
-          "LISC 6900": {
-            "credit": "3", 
-            "sections": {
-              "1": {
-                "lecturer": "PROFESSOR AHMAD BAKERI ABU BAKAR", 
-                "venue": "-", 
-                "day": "WED", 
-                "time": "5.30 - 8.30 PM"
-              }
-            }, 
-            "title": "RESEARCH METHODS IN LIB. & INFO.SCIENCE"
-          }, 
-          "INFO 6230": {
-            "credit": "3", 
-            "sections": {
-              "1": {
-                "lecturer": "JAMALUDIN BIN IBRAHIM", 
-                "venue": "ICT LR 1 LEVEL 1C", 
-                "day": "MON", 
-                "time": "5.30 - 8.30 PM"
-              }
-            }, 
-            "title": "INFORMATION SECURITY STRATEGY & POLICY"
-          }, 
-          "INFO 6270": {
-            "credit": "3", 
-            "sections": {
-              "1": {
-                "lecturer": "DR. SOFIANIZA BT. ABD. MALIK", 
-                "venue": "ICT LR 4 LEVEL 1C", 
-                "day": "WED", 
-                "time": "5.30 - 8.30 PM"
-              }
-            }, 
-            "title": "ADVANCED HUMAN COMPUTER INTERACTION"
-          }, 
-          "INFO 6998": {
-            "credit": "12", 
-            "sections": {
-              "1": {
-                "lecturer": "INDEPENDENT STUDY", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
-              }
-            }, 
-            "title": "DISSERTATION"
-          }, 
-          "INFO 6210": {
-            "credit": "3", 
-            "sections": {
-              "1": {
-                "lecturer": "DR. ISHAQ OYEBISI OYEFOLAHAN", 
-                "venue": "ICT LR 1 LEVEL 1C", 
-                "day": "TUE", 
-                "time": "5.30 - 8.30 PM"
-              }
-            }, 
-            "title": "KNOWLEDGE MANAGEMENT"
-          }, 
-          "INFO 6250": {
-            "credit": "3", 
-            "sections": {
-              "1": {
-                "lecturer": "DR. ISHAQ OYEBISI OYEFOLAHAN", 
-                "venue": "ICT LR 4 LEVEL 1C", 
-                "day": "MON", 
-                "time": "5.30 - 8.30 PM"
-              }
-            }, 
-            "title": "MOBILE COMMUNICATION"
-          }, 
-          "LISC 6070": {
-            "credit": "3", 
-            "sections": {
-              "1": {
-                "lecturer": "DR. WAN ALI @ WAN YUSOFF BIN WAN MAMAT", 
-                "venue": "LAB LISC 2C", 
-                "day": "FRI", 
-                "time": "5.30 - 8.30 PM"
-              }
-            }, 
-            "title": "MANAGEMENT OF INFORMATION INSTITUTIONS"
-          }, 
-          "INFO 6164": {
-            "credit": "4", 
-            "sections": {
-              "1": {
-                "lecturer": "ASSOC.PROF.DR. ABD. RAHMAN BIN AHLAN", 
-                "venue": "ICT LR 1 LEVEL 1C", 
-                "day": "FRI", 
-                "time": "5.30 - 8.30 PM"
-              }
-            }, 
-            "title": "ENTERPRISE INTEGRATION"
-          }, 
-          "LISC 6191": {
-            "credit": "3", 
-            "sections": {
-              "1": {
-                "lecturer": "DR. WAN ALI @ WAN YUSOFF BIN WAN MAMAT", 
-                "venue": "LAB LISC 2C", 
-                "day": "THUR", 
-                "time": "2.30 - 5.30 PM"
-              }
-            }, 
-            "title": "MANAGEMENT OF ISLAMIC MANUSCRIPT COLLECTIO"
-          }, 
-          "LISC 8998": {
-            "credit": "36", 
-            "sections": {
-              "1": {
-                "lecturer": "INDEPENDENT STUDY", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
-              }
-            }, 
-            "title": "DISSERTATION"
-          }, 
-          "CCSM 5201": {
-            "credit": "3", 
-            "sections": {
-              "1": {
-                "lecturer": "INDEPENDENT STUDY", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
-              }
-            }, 
-            "title": "SECURITY PERSONNEL MANAGEMENT"
-          }, 
-          "CCSM 5301": {
-            "credit": "2", 
-            "sections": {
-              "1": {
-                "lecturer": "INDEPENDENT STUDY", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
-              }
-            }, 
-            "title": "SECURITY RISK MANAGEMENT"
-          }, 
-          "LISC 8994": {
-            "credit": "0", 
-            "sections": {
-              "1": {
-                "lecturer": "INDEPENDENT STUDY", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
-              }
-            }, 
-            "title": "RESEARCH PROPOSAL"
-          }, 
-          "LISC 7995": {
-            "credit": "0", 
-            "sections": {
-              "1": {
-                "lecturer": "TO BE DETERMINED", 
-                "venue": "-", 
-                "day": null, 
-                "time": "0 - 0 0"
-              }
-            }, 
-            "title": "COMPREHENSIVE EXAMINATION"
-          }, 
-          "LISC 7810": {
-            "credit": "3", 
-            "sections": {
-              "1": {
-                "lecturer": "PROFESSOR AHMAD BAKERI ABU BAKAR", 
-                "venue": "-", 
-                "day": "MON", 
-                "time": "2.30 - 5.30 PM"
-              }
-            }, 
-            "title": "STRATEGIC PLANNING FOR INFORMATION PROFESSION"
-          }, 
-          "INFO 6900": {
-            "credit": "3", 
-            "sections": {
-              "1": {
-                "lecturer": "PROFESSOR DR. ABDUL WAHAB BIN ABDUL RAHMAN", 
-                "venue": "ICT LR 19 LEVEL 4C", 
-                "day": "WED", 
-                "time": "5.30 - 8.30 PM"
-              }
-            }, 
-            "title": "RESEARCH METHODOLOGY FOR IT"
-          }, 
-          "CSC 8994": {
-            "credit": "0", 
-            "sections": {
-              "1": {
-                "lecturer": "INDEPENDENT STUDY", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
-              }
-            }, 
-            "title": "RESEARCH PROPOSAL"
-          }, 
-          "CCSM 5103": {
-            "credit": "3", 
-            "sections": {
-              "1": {
-                "lecturer": "INDEPENDENT STUDY", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
-              }
-            }, 
-            "title": "SECURITY IN GOVERNMENT"
-          }, 
-          "CSC 8999": {
-            "credit": "0", 
-            "sections": {
-              "1": {
-                "lecturer": "INDEPENDENT STUDY", 
-                "venue": "-", 
-                "day": null, 
-                "time": " -  "
-              }
-            }, 
-            "title": "THESIS"
-          }, 
-          "LISC 7380": {
-            "credit": "3", 
-            "sections": {
-              "1": {
-                "lecturer": "ASSOC.PROF.DR. ROSLINA BT. OTHMAN", 
-                "venue": "LAB LISC 2C", 
-                "day": "WED", 
-                "time": "2.30 - 5.30 PM"
-              }
-            }, 
-            "title": "ORGANIZATION OF ISLAMIC INFORMATION"
           }
         }
       }
     } 
   }
 }
+

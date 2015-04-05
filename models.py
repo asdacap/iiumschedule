@@ -31,6 +31,8 @@ import logging
 
 from bootstrap import db,app
 DBBase=db.Model
+
+# To make things easy
 class CMethods(object):
 
     @classmethod
@@ -46,7 +48,7 @@ class CMethods(object):
         return db.session.query(cls)
 
 
-
+# Where the schedule store
 class SavedSchedule(DBBase,CMethods):
     __tablename__='savedschedules'
 
@@ -76,6 +78,7 @@ class SavedSchedule(DBBase,CMethods):
         self.data=json.dumps(obj)
 
 
+# The error they report goes here.
 class ErrorLog(DBBase,CMethods):
     __tablename__='errorlogs'
 
@@ -86,6 +89,7 @@ class ErrorLog(DBBase,CMethods):
     additionalinfo=Column(Text)
     created_at=Column(DateTime)
 
+# The subject data
 class SubjectData(DBBase,CMethods):
     __tablename__='subjectdatas'
     __table_args__= (
@@ -108,6 +112,7 @@ class SubjectData(DBBase,CMethods):
         except sqlalchemy.orm.exc.NoResultFound:
             return None
 
+# The subject data for the subject
 class SectionData(DBBase,CMethods):
     __tablename__='sectiondatas'
     __table_args__= (
@@ -118,9 +123,6 @@ class SectionData(DBBase,CMethods):
     subject_id=Column(Integer,ForeignKey('subjectdatas.id'))
     sectionno = Column(Integer)
     lecturer=Column(String(200))
-    venue=Column(String(200))
-    day=Column(String(200))
-    time=Column(String(200))
 
     subject=relationship(SubjectData,backref=backref('sections',cascade="all, delete-orphan"))
 
@@ -134,7 +136,20 @@ class SectionData(DBBase,CMethods):
         except sqlalchemy.orm.exc.NoResultFound:
             return None
 
+# The schedule data for the subject
+class SectionScheduleData(DBBase,CMethods):
+    __tablename__='sectionscheduledatas'
 
+    id = Column(Integer, primary_key=True)
+    section_id=Column(Integer,ForeignKey('sectiondatas.id'))
+    venue=Column(String(200))
+    day=Column(String(200))
+    time=Column(String(200))
+
+    section=relationship(SectionData,backref=backref('schedules',cascade="all, delete-orphan"))
+
+
+# Themes data goes here
 class Theme(DBBase,CMethods):
     __tablename__='themes'
 

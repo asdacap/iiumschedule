@@ -92,7 +92,7 @@ class ModelTestCase(IIUMScheduleTestCase):
             admincontroller.update_subject_data_bulk(obj,"2013/2014")
 
             assert models.SubjectData.get_subject_data("CSC 4902","2013/2014",1)!=None
-            assert models.SectionData.get_section_data("INFO 4501","2013/2014",1,2).lecturer=="ASSOC.PROF.DR. MOHAMAD FAUZAN BIN NOORDIN"
+            assert models.SectionData.get_section_data("INFO 4501","2013/2014",1,2).lecturer=="PROFESSOR DR. MOHAMAD FAUZAN BIN NOORDIN"
 
     def testCleanSchedule(self):
 

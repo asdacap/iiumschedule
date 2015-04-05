@@ -27,7 +27,7 @@ import staticsettings
 import sqlalchemy.orm.exc
 import os
 from flask import g
-from models import SubjectData,SectionData
+from models import SubjectData,SectionData,SectionScheduleData
 
 logging.config.dictConfig({
     'version':1,
@@ -103,30 +103,36 @@ with bootstrap.app.app_context():
             section=data['section']
             try:
                 sdata=SectionData.query.filter(SectionData.subject==obj).filter(SectionData.sectionno==section).one()
-                if(sdata.lecturer==data['lecturer'] and
-                    sdata.venue==data['venue'] and
-                    sdata.day==data['day'] and
-                    sdata.time==data['time']):
-                    pass
-                else:
-                    sdata.lecturer=data['lecturer']
-                    sdata.venue=data['venue']
-                    sdata.day=data['day']
-                    sdata.time=data['time']
-                    sdata.put()
-                    logging.info("Update subject %s section %s"%(data['code'],data['section']))
+                sdata.lecturer=data['lecturer']
+                sdata.schedules = [] # Remove it
+
+                for sched in data['schedules']:
+                  newsched = SectionScheduleData()
+                  newsched.venue = sched['venue']
+                  newsched.day = sched['day']
+                  newsched.time = sched['time']
+                  sdata.schedules.append(newsched)
+
+                sdata.put()
+
+                logging.info("Update subject %s section %s"%(data['code'],data['section']))
             except sqlalchemy.orm.exc.NoResultFound, e:
                 sdata=SectionData()
                 sdata.subject=obj
                 sdata.sectionno=section
                 sdata.lecturer=data['lecturer']
-                sdata.venue=data['venue']
-                sdata.day=data['day']
-                sdata.time=data['time']
+                sdata.schedules = [] # Remove it
+
+                for sched in data['schedules']:
+                  newsched = SectionScheduleData()
+                  newsched.venue = sched['venue']
+                  newsched.day = sched['day']
+                  newsched.time = sched['time']
+                  sdata.schedules.append(newsched)
+
                 sdata.put()
                 logging.info("Add subject %s section %s"%(data['code'],data['section']))
 
         obj=schedulescraper.fetch_schedule_data_callback(session,callback)
-
         logging.info("Done update")
 

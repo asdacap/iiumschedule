@@ -384,8 +384,8 @@
                                         <tr ng-repeat="v in csections | filter:secsearch" ng-class="smglobal.has_collide(v)?'bg-warning':''">
                                             <td>{{v.section}}</td>
                                             <td>{{v.lecturer}}</td>
-                                            <td>{{v.day}} {{v.time}}</td>
-                                            <td>{{v.venue}}</td>
+                                            <td>{{v.schedule[0].day}} {{v.schedule[0].time}}</td>
+                                            <td>{{v.schedule[0].venue}}</td>
                                             <td class="text-center" ng-mouseenter="smglobal.cur_hover_section=v;" ng-mouseleave="smglobal.cur_hover_section=undefined;">
                                                 <div ng-show="!smglobal.section_added(v.section_id)">
                                                     <div ng-show="!smglobal.has_collide(v)">

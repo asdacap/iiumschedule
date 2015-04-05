@@ -55,10 +55,8 @@ def fetch_schedule_data(session):
             }
 
         result[sem][stype][kuly][rowdata['code']]['sections'][rowdata['section']]={
-            'day':rowdata['day'],
-            'time':rowdata['time'],
-            'venue':rowdata['venue'],
             'lecturer':rowdata['lecturer'],
+            'schedules':rowdata['schedules']
         }
 
     metas=fetch_schedule_data_callback(session,callback)
@@ -144,16 +142,24 @@ def fetch_schedule_data_callback(session,callback):
 
         for row in trs:
             tds=row.find_all('td')
+
             rowdata={
                 'code':tds[0].string,
                 'section':tds[1].string,
                 'title':tds[2].string,
                 'credit':tds[3].string,
-                'day':tds[5].string,
-                'time':tds[6].string,
-                'venue':tds[7].string,
                 'lecturer':tds[8].string,
+                'schedules': []
             }
+
+            scheduletrs=tds[4].find_all('tr')
+            for tr in scheduletrs:
+                tdss = tr.find_all('td')
+                rowdata['schedules'].append({
+                    'day': tdss[0].string,
+                    'time': tdss[1].string,
+                    'venue': tdss[2].string
+                })
 
             callback(sems[0],ctypes[0],kulys[0],rowdata)
 

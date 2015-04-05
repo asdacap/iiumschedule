@@ -72,9 +72,11 @@ def fetchsection():
 		'subject_id':x.subject_id,
 		'sectionno':x.sectionno,
 		'lecturer':x.lecturer,
-		'venue':x.venue,
-		'day':x.day,
-		'time':x.time,
+    'schedule':[{
+        'venue':y.venue,
+        'day':y.day,
+        'time':y.time,
+      } for y in x.schedules]
 	} for x in finalres]
 	return json.dumps(finalres,cls=AlchemyEncoder)
 

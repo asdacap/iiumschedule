@@ -92,110 +92,114 @@ angular.module('smaker',['ngAnimate','pasvaz.bindonce'])
             section:section.sectionno,
             title:subject.title,
             lecturer:section.lecturer,
+
+            /*
             venue:section.venue,
             time:section.time,
             day:section.day,
+            */
+
             schedule:[]
         };
 
-        //small venue is the first word in venue
-        var small=section.venue.split(' ');
-        obj.smallvenue=small[0];
 
-        //Next is parsing it. Partially copied from scheduleformatter2.js
+        _.each(section.schedule,function(sched){
+            //Next is parsing it. Partially copied from scheduleformatter2.js
 
-        var rtimes=/^([0-9\.]+)\s*-\s*([0-9\.]+)\s*(AM|PM)$/.exec(section.time);
-        var starttime=1;
-        var endtime=2;
-        if(!rtimes || rtimes.length!=4){
-            if(section.time==' -  '){
-                console.log("WARNING:Unfortunately this section's schedule is not available yet. Please select another section,");
+            var rtimes=/^([0-9\.]+)\s*-\s*([0-9\.]+)\s*(AM|PM)$/.exec(sched.time);
+            var starttime=1;
+            var endtime=2;
+            if(!rtimes || rtimes.length!=4){
+                if(sched.time==' -  '){
+                    console.log("WARNING:Unfortunately this section's schedule is not available yet. Please select another section,");
+                }else{
+                    console.log('WARNING:Error: unable to identify the format for the time '+sched.time+'. Please be patient while we try to fix this issue');
+                }
+                return obj;
             }else{
-                console.log('WARNING:Error: unable to identify the format for the time '+section.time+'. Please be patient while we try to fix this issue');
+
+                starttime = parseFloat(rtimes[1], 10);
+
+                var parseendtime=/^\D*([0-9\.]+)\D*$/.exec(rtimes[2]);
+                if(!parseendtime){
+                    console.log("Missing end time. Lets just say it use 1 hour.");
+                    endtime = starttime+1;
+                }else{
+                    endtime = parseFloat(parseendtime[1], 10);
+                }
+
+                if(rtimes[3]=="PM" && starttime<12 && endtime<12){ starttime=starttime+12;
+                    endtime=endtime+12; 
+                } 
+
+                obj.starttime=starttime;
+                obj.endtime=endtime;
+
             }
-            return obj;
-        }else{
 
-            starttime = parseFloat(rtimes[1], 10);
+            var rawday=sched.day;
 
-            var parseendtime=/^\D*([0-9\.]+)\D*$/.exec(rtimes[2]);
-            if(!parseendtime){
-                console.log("Missing end time. Lets just say it use 1 hour.");
-                endtime = starttime+1;
+            var days=[];
+            function make_long(d){
+                if(d=='M')return "MON";
+                if(d=='T')return "TUE";
+                if(d=='W')return "WED";
+                if(d=='TH')return "THUR";
+                if(d=='F')return "FRI";
+                if(d=='SN')return "SUN";
+                if(d=='S')return "SAT";
+                throw "Unknown day ->"+d;
+            }
+
+            if(/\s*(MON|TUE|WED|THUR|FRI|SAT|SUN)\s*/.exec(rawday)){
+                days.push(rawday);
+            }else if(/\s*(MON|TUE|WED|THUR|FRI|SAT|SUN)-(MON|TUE|WED|THUR|FRI|SAT|SUN)\s*/.exec(rawday)){
+                var execed=/\s*(MON|TUE|WED|THUR|FRI|SAT|SUN)-(MON|TUE|WED|THUR|FRI|SAT|SUN)\s*/.exec(rawday);
+                days.push(execed[1]);
+                days.push(execed[2]);
+            }else if(/\s*(M|TH|W|T|F|SN|S)\s*-\s*(M|TH|W|T|F|SN|S)\s*-\s*(M|TH|W|T|F|SN|S)\s*/.exec(rawday)){
+                var execed=/\s*(M|TH|W|T|F|SN|S)\s*-\s*(M|TH|W|T|F|SN|S)\s*-\s*(M|TH|W|T|F|SN|S)\s*/.exec(rawday);
+                days.push(make_long( execed[1] ));
+                days.push(make_long( execed[2] ));
+                days.push(make_long( execed[3] ));
+            }else if(/\s*(M|TH|W|T|F|SN|S)\s*-\s*(M|TH|W|T|F|SN|S)\s*/.exec(rawday)){
+                var execed=/\s*(M|TH|W|T|F|SN|S)\s*-\s*(M|TH|W|T|F|SN|S)\s*/.exec(rawday);
+                days.push(make_long( execed[1] ));
+                days.push(make_long( execed[2] ));
+            }else if(rawday=="TWF"){
+                days.push('TUE');
+                days.push('WED');
+                days.push('FRI');
+            }else if("MTWTHF".indexOf(rawday)!=-1){
+                var idx="MTWTHF".indexOf(rawday);
+                var length=rawday.length;
+                if(rawday.indexOf("TH")!=-1){
+                    length--;
+                }
+                if(rawday=="F"){
+                    idx-=1;
+                }
+                var dayidx=["MON","TUE","WED","THUR","FRI"];
+                var i2=idx;
+                while(i2<idx+length){
+                    days.push(dayidx[i2]);
+                    i2++;
+                }
             }else{
-                endtime = parseFloat(parseendtime[1], 10);
+                console.log( "Unknown day format ->"+rawday+" please be patient as we resolve this issue.");
+                return false;
             }
 
-            if(rtimes[3]=="PM" && starttime<12 && endtime<12){ starttime=starttime+12;
-                endtime=endtime+12; 
-            } 
-
-            obj.starttime=starttime;
-            obj.endtime=endtime;
-
-        }
-
-        var rawday=section.day;
-
-        var days=[];
-        function make_long(d){
-            if(d=='M')return "MON";
-            if(d=='T')return "TUE";
-            if(d=='W')return "WED";
-            if(d=='TH')return "THUR";
-            if(d=='F')return "FRI";
-            if(d=='SN')return "SUN";
-            if(d=='S')return "SAT";
-            throw "Unknown day ->"+d;
-        }
-
-        if(/\s*(MON|TUE|WED|THUR|FRI|SAT|SUN)\s*/.exec(rawday)){
-            days.push(rawday);
-        }else if(/\s*(MON|TUE|WED|THUR|FRI|SAT|SUN)-(MON|TUE|WED|THUR|FRI|SAT|SUN)\s*/.exec(rawday)){
-            var execed=/\s*(MON|TUE|WED|THUR|FRI|SAT|SUN)-(MON|TUE|WED|THUR|FRI|SAT|SUN)\s*/.exec(rawday);
-            days.push(execed[1]);
-            days.push(execed[2]);
-        }else if(/\s*(M|TH|W|T|F|SN|S)\s*-\s*(M|TH|W|T|F|SN|S)\s*-\s*(M|TH|W|T|F|SN|S)\s*/.exec(rawday)){
-            var execed=/\s*(M|TH|W|T|F|SN|S)\s*-\s*(M|TH|W|T|F|SN|S)\s*-\s*(M|TH|W|T|F|SN|S)\s*/.exec(rawday);
-            days.push(make_long( execed[1] ));
-            days.push(make_long( execed[2] ));
-            days.push(make_long( execed[3] ));
-        }else if(/\s*(M|TH|W|T|F|SN|S)\s*-\s*(M|TH|W|T|F|SN|S)\s*/.exec(rawday)){
-            var execed=/\s*(M|TH|W|T|F|SN|S)\s*-\s*(M|TH|W|T|F|SN|S)\s*/.exec(rawday);
-            days.push(make_long( execed[1] ));
-            days.push(make_long( execed[2] ));
-        }else if(rawday=="TWF"){
-            days.push('TUE');
-            days.push('WED');
-            days.push('FRI');
-        }else if("MTWTHF".indexOf(rawday)!=-1){
-            var idx="MTWTHF".indexOf(rawday);
-            var length=rawday.length;
-            if(rawday.indexOf("TH")!=-1){
-                length--;
-            }
-            if(rawday=="F"){
-                idx-=1;
-            }
-            var dayidx=["MON","TUE","WED","THUR","FRI"];
-            var i2=idx;
-            while(i2<idx+length){
-                days.push(dayidx[i2]);
-                i2++;
-            }
-        }else{
-            console.log( "Unknown day format ->"+rawday+" please be patient as we resolve this issue.");
-            return obj;
-        }
-
-        _.each(days,function(day){
-            var newschedule = {
-                day : day,
-                start : starttime,
-                end : endtime,
-                venue : obj.venue
-            };
-            obj.schedule.push(newschedule);
+            _.each(days,function(day){
+                var newschedule = {
+                    day : day,
+                    start : starttime,
+                    end : endtime,
+                    smallvenue: sched.venue.split(' ')[0],
+                    venue : sched.venue
+                };
+                obj.schedule.push(newschedule);
+            });
         });
 
         return obj;
