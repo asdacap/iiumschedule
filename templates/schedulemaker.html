@@ -303,7 +303,7 @@
                                         <td>{{x.schedule[0].lecturer}}</td>
                                         <td>{{x.schedule[0].day}} {{x.schedule[0].time}}</td>
                                         <td>{{x.schedule[0].venue}}</td>
-                                        <td><a rowspan="{{ x.schedule.length }}" class="btn btn-danger glyphicon glyphicon-remove btn-sm" ng-click="smglobal.remove_section(x.section_id)"></a></td>
+                                        <td rowspan="{{ x.schedule.length }}" ><a class="btn btn-danger glyphicon glyphicon-remove btn-sm" ng-click="smglobal.remove_section(x.section_id)"></a></td>
                                     </tr>
                                     <tr ng-repeat-end ng-repeat="sched in x.schedule" ng-hide="$first">
                                         <td>{{sched.lecturer}}</td>
