@@ -145,6 +145,7 @@ class SectionScheduleData(DBBase,CMethods):
     venue=Column(String(200))
     day=Column(String(200))
     time=Column(String(200))
+    lecturer=Column(String(200))
 
     section=relationship(SectionData,backref=backref('schedules',cascade="all, delete-orphan"))
 

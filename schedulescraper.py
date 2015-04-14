@@ -158,7 +158,8 @@ def fetch_schedule_data_callback(session,callback):
                 rowdata['schedules'].append({
                     'day': tdss[0].string,
                     'time': tdss[1].string,
-                    'venue': tdss[2].string
+                    'venue': tdss[2].string,
+                    'lecturer': tdss[3].string
                 })
 
             callback(sems[0],ctypes[0],kulys[0],rowdata)

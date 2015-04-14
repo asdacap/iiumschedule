@@ -74,77 +74,6 @@ def create_db():
     db.create_all()
     return "Done"
 
-def callback(sem,stype,kuly,data):
-    if(stype=='<'):
-        stype='UG'
-    if(stype=='>='):
-        stype='PG'
-    code=data['code']
-
-    obj=SubjectData.get_subject_data(code,session,sem)
-    if(obj!=None):
-        if(obj.coursetype==stype and
-            obj.title==data['title'] and
-            obj.credit==float(data['credit']) and
-            obj.kuliyyah==kuly and
-            obj.session==session and
-            obj.semester==int(sem)):
-            pass
-        else:
-            obj.coursetype=stype
-            obj.title=data['title']
-            obj.credit=float(data['credit'])
-            obj.kuliyyah=kuly
-            obj.session=session
-            obj.semester=sem
-            obj.put()
-            logging.info("Update subject %s"%obj.code)
-    else:
-        obj=SubjectData()
-        obj.code=code
-        obj.coursetype=stype
-        obj.title=data['title']
-        obj.credit=float(data['credit'])
-        obj.kuliyyah=kuly
-        obj.session=session
-        obj.semester=sem
-        obj.put()
-        logging.info("Insert subject %s"%obj.code)
-
-    section=data['section']
-    try:
-        sdata=SectionData.query.filter(SectionData.subject==obj).filter(SectionData.sectionno==section).one()
-        sdata.lecturer=data['lecturer']
-        sdata.schedules = [] # Remove it
-
-        for sched in data['schedules']:
-          newsched = SectionScheduleData()
-          newsched.venue = sched['venue']
-          newsched.day = sched['day']
-          newsched.time = sched['time']
-          sdata.schedules.append(newsched)
-
-        sdata.put()
-
-        logging.info("Update subject %s section %s"%(data['code'],data['section']))
-    except sqlalchemy.orm.exc.NoResultFound, e:
-        sdata=SectionData()
-        sdata.subject=obj
-        sdata.sectionno=section
-        sdata.lecturer=data['lecturer']
-        sdata.schedules = [] # Remove it
-
-        for sched in data['schedules']:
-          newsched = SectionScheduleData()
-          newsched.venue = sched['venue']
-          newsched.day = sched['day']
-          newsched.time = sched['time']
-          sdata.schedules.append(newsched)
-
-        sdata.put()
-        logging.info("Add subject %s section %s"%(data['code'],data['section']))
-
-
 def update_subject_data(session,sem,stype,kuly,code,data):
     update=False
     insert=False
@@ -194,11 +123,12 @@ def update_subject_data(session,sem,stype,kuly,code,data):
               newsched.venue = sched['venue']
               newsched.day = sched['day']
               newsched.time = sched['time']
+              newsched.lecturer = sched['lecturer']
               sdata.schedules.append(newsched)
 
             sdata.put()
 
-            logging.info("Update subject %s section %s"%(val['code'],val['section']))
+            logging.info("Update subject %s section %s"%(code,section))
         except sqlalchemy.orm.exc.NoResultFound, e:
             sdata=SectionData()
             sdata.subject=obj
@@ -211,6 +141,7 @@ def update_subject_data(session,sem,stype,kuly,code,data):
               newsched.venue = sched['venue']
               newsched.day = sched['day']
               newsched.time = sched['time']
+              newsched.lecturer = sched['lecturer']
               sdata.schedules.append(newsched)
 
     logging.info("On subject %s using %s. %s section updated, %s section added. "%(code,update and 'update' or ( insert and 'add' or 'nothing'),sectionupdated,sectionadded) )

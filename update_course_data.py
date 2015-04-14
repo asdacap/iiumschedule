@@ -111,6 +111,7 @@ with bootstrap.app.app_context():
                   newsched.venue = sched['venue']
                   newsched.day = sched['day']
                   newsched.time = sched['time']
+                  newsched.lecturer = sched['lecturer']
                   sdata.schedules.append(newsched)
 
                 sdata.put()
@@ -128,6 +129,7 @@ with bootstrap.app.app_context():
                   newsched.venue = sched['venue']
                   newsched.day = sched['day']
                   newsched.time = sched['time']
+                  newsched.lecturer = sched['lecturer']
                   sdata.schedules.append(newsched)
 
                 sdata.put()
