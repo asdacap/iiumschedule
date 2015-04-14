@@ -285,7 +285,7 @@
                     </div>
                     <div>
                         <small>
-                            <table class="table table-striped table-collapsed">
+                            <table class="table table-bordered table-collapsed">
                                 <thead>
                                     <tr>
                                         <th>Code - <span title="Section">Sec</span></th>
@@ -323,7 +323,7 @@
                                 </thead>
                             </table>
                         </small>
-                        <a class="mouse-pointer btn btn-default" ng-click="smglobal.mode='generator'">Schedula Generator</a>
+                        <a class="mouse-pointer btn btn-default" ng-click="smglobal.mode='generator'">Schedule Generator</a>
                         <a class="mouse-pointer btn btn-default" ng-click="smglobal.mode='formatterform'">Schedule Formatter</a>
 
                         <br /><strong style="margin-top:10px;display:block;" class="text-warning">Warning: this application does NOT automatically enroll you on a course. You will still need to register you course separately.</strong>
@@ -515,12 +515,17 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr ng-repeat="x in result">
-                                                <td>{{x.section}}</td>
-                                                <td title="{{x.title}}">{{x.code}}</td>
-                                                <td>{{x.lecturer}}</td>
-                                                <td>{{x.day}} {{x.time}}</td>
-                                                <td>{{x.venue}}</td>
+                                            <tr ng-repeat-start="x in result">
+                                                <td rowspan="{{ x.schedule.length }}">{{x.section}}</td>
+                                                <td rowspan="{{ x.schedule.length }}" title="{{x.title}}">{{x.code}}</td>
+                                                <td>{{x.schedule[0].lecturer}}</td>
+                                                <td>{{x.schedule[0].day}} {{x.schedule[0].time}}</td>
+                                                <td>{{x.schedule[0].venue}}</td>
+                                            </tr>
+                                            <tr ng-repeat-end ng-repeat="y in x.schedule" ng-hide="$first">
+                                                <td>{{y.lecturer}}</td>
+                                                <td>{{y.day}} {{y.time}}</td>
+                                                <td>{{y.venue}}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -570,7 +575,7 @@
 
                         <h4>Preview</h4>
                         <div formatted-schedule schedule="schedule"></div>
-                        <table class="table table-striped table-collapsed">
+                        <table class="table table-bordered table-collapsed">
                             <thead>
                                 <tr>
                                     <th>Code</th>
@@ -581,12 +586,17 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="x in smglobal.schedule">
-                                    <td>{{x.code}}</td>
-                                    <td>{{x.section}}</td>
-                                    <td>{{x.lecturer}}</td>
-                                    <td>{{x.day}} {{x.time}}</td>
-                                    <td>{{x.venue}}</td>
+                                <tr ng-repeat-start="x in smglobal.schedule">
+                                    <td title="{{x.title}}" rowspan="{{ x.schedule.length }}">{{x.code}} - {{x.section}}</td>
+                                    <td rowspan="{{ x.schedule.length }}">{{x.credithour}}</td>
+                                    <td>{{x.schedule[0].lecturer}}</td>
+                                    <td>{{x.schedule[0].day}} {{x.schedule[0].time}}</td>
+                                    <td>{{x.schedule[0].venue}}</td>
+                                </tr>
+                                <tr ng-repeat-end ng-repeat="sched in x.schedule" ng-hide="$first">
+                                    <td>{{sched.lecturer}}</td>
+                                    <td>{{sched.day}} {{x.schedule[0].time}}</td>
+                                    <td>{{sched.venue}}</td>
                                 </tr>
                             </tbody>
                         </table>

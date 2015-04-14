@@ -683,7 +683,7 @@ angular.module('smaker',['ngAnimate','pasvaz.bindonce'])
                     return false;
                 }
                 return _.find(arr,function(c){
-                    return smglobal.check_collide(c,it);
+                    return smglobal.check_collide(c,it,true);
                 });
             }
 
