@@ -295,8 +295,8 @@ angular.module('smaker',['ngAnimate','pasvaz.bindonce'])
 }]).controller('startform',['$scope','$http','smglobal','$timeout','$q','$rootScope',function($scope,$http,smglobal,$timeout,$q,$rootScope){
 
     $scope.available_sessions=[
-        "2013/2014",
-        "2014/2015"
+        "2014/2015",
+        "2015/2016"
     ];
     $scope.available_student_type={ug:'undergraduate',pg:"postgraduate"};
     $scope.session='2014/2015';
