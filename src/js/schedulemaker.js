@@ -56,10 +56,20 @@ angular.module('smaker',['ngAnimate','pasvaz.bindonce'])
         gobj.add_section(section,subject);
     };
 
-    //This check if the section's schedule collide with each other
-    gobj.check_collide=function(section1,section2){
+    //This check if the section's schedule collide with each other. Set tutorial to false so that it will not consider tutorial.
+    gobj.check_collide=function(section1,section2,tutorial){
+        if(tutorial === undefined){
+            tutorial = false;
+        }
+
         return _.find(section1.schedule,function(s1){
+            if(tutorial === false && s1.lecturer == 'TUTOR'){
+                return false;
+            }
             return _.find(section2.schedule,function(s2){
+                if(tutorial === false && s2.lecturer == 'TUTOR'){
+                    return false;
+                }
                 if(s1.day==s2.day &&
                     ( (s1.end <= s2.end && s1.end > s2.start) || (s1.start >= s2.start && s1.start < s2.end) )
                 ){
@@ -71,10 +81,10 @@ angular.module('smaker',['ngAnimate','pasvaz.bindonce'])
     };
 
     //Check if the section collide with anything in current schedule except with itself
-    gobj.has_collide=function(section){
+    gobj.has_collide=function(section,tutorial){
         return _.find(gobj.schedule,function(c){
             if(c.section_id!=section.section_id){
-                if(gobj.check_collide(c,section)){
+                if(gobj.check_collide(c,section,tutorial)){
                     return true;
                 }
             }
@@ -193,10 +203,12 @@ angular.module('smaker',['ngAnimate','pasvaz.bindonce'])
             _.each(days,function(day){
                 var newschedule = {
                     day : day,
+                    time : sched.time,
                     start : starttime,
                     end : endtime,
                     smallvenue: sched.venue.split(' ')[0],
-                    venue : sched.venue
+                    venue : sched.venue,
+                    lecturer : sched.lecturer
                 };
                 obj.schedule.push(newschedule);
             });
@@ -248,6 +260,7 @@ angular.module('smaker',['ngAnimate','pasvaz.bindonce'])
 .controller('schedulemaker',['smglobal','$scope','$http',function(smglobal,$scope,$http){
 
     $scope.smglobal=smglobal;
+    $scope._ = _;
 
     $scope.alert=function(t){
         console.log('This is alert '+t);
@@ -270,6 +283,10 @@ angular.module('smaker',['ngAnimate','pasvaz.bindonce'])
             code:_.pluck(smglobal.schedule,'code').join(','),
             section:_.pluck(smglobal.schedule,'section').join(','),
         });
+    };
+
+    $scope.isTutorial = function(schedule){
+        return schedule.lecturer == 'TUTOR';
     };
 
     $scope.$watchCollection('smglobal.schedule',resyncschedule);

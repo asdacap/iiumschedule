@@ -148,9 +148,10 @@ def fetch_schedule_data_callback(session,callback):
                 'section':tds[1].string,
                 'title':tds[2].string,
                 'credit':tds[3].string,
-                'lecturer':tds[8].string,
                 'schedules': []
             }
+
+            lecturer = '-'
 
             scheduletrs=tds[4].find_all('tr')
             for tr in scheduletrs:
@@ -161,6 +162,11 @@ def fetch_schedule_data_callback(session,callback):
                     'venue': tdss[2].string,
                     'lecturer': tdss[3].string
                 })
+
+                if lecturer == 'TUTOR' or lecturer == '-':
+                  lecturer = tdss[3].string
+
+            rowdata['lecturer'] = lecturer
 
             callback(sems[0],ctypes[0],kulys[0],rowdata)
 

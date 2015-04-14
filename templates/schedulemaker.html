@@ -297,13 +297,18 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="x in smglobal.schedule">
-                                        <td title="{{x.title}}">{{x.code}} - {{x.section}}</td>
-                                        <td>{{x.credithour}}</td>
-                                        <td>{{x.lecturer}}</td>
-                                        <td>{{x.day}} {{x.time}}</td>
-                                        <td>{{x.venue}}</td>
-                                        <td><a class="btn btn-danger glyphicon glyphicon-remove btn-sm" ng-click="smglobal.remove_section(x.section_id)"></a></td>
+                                    <tr ng-repeat-start="x in smglobal.schedule">
+                                        <td title="{{x.title}}" rowspan="{{ x.schedule.length }}">{{x.code}} - {{x.section}}</td>
+                                        <td rowspan="{{ x.schedule.length }}">{{x.credithour}}</td>
+                                        <td>{{x.schedule[0].lecturer}}</td>
+                                        <td>{{x.schedule[0].day}} {{x.schedule[0].time}}</td>
+                                        <td>{{x.schedule[0].venue}}</td>
+                                        <td><a rowspan="{{ x.schedule.length }}" class="btn btn-danger glyphicon glyphicon-remove btn-sm" ng-click="smglobal.remove_section(x.section_id)"></a></td>
+                                    </tr>
+                                    <tr ng-repeat-end ng-repeat="sched in x.schedule" ng-hide="$first">
+                                        <td>{{sched.lecturer}}</td>
+                                        <td>{{sched.day}} {{x.schedule[0].time}}</td>
+                                        <td>{{sched.venue}}</td>
                                     </tr>
                                 </tbody>
                                 <thead>
@@ -381,28 +386,42 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="v in csections | filter:secsearch" ng-class="smglobal.has_collide(v)?'bg-warning':''">
-                                            <td>{{v.section}}</td>
-                                            <td>{{v.lecturer}}</td>
-                                            <td>{{v.schedule[0].day}} {{v.schedule[0].time}}</td>
-                                            <td>{{v.schedule[0].venue}}</td>
-                                            <td class="text-center" ng-mouseenter="smglobal.cur_hover_section=v;" ng-mouseleave="smglobal.cur_hover_section=undefined;">
+                                        <tr ng-repeat-start="v in csections | filter:secsearch" ng-class="smglobal.has_collide(v)?'bg-warning':''">
+                                            <td rowspan="{{ v.schedule.length }}">{{v.section}}</td>
+                                            <td rowspan="{{ v.schedule.length }}">{{v.lecturer}}</td>
+                                            <td ng-show="isTutorial(v.schedule[0])" class="text-warning" title="Tutorial">{{v.schedule[0].day}} {{v.schedule[0].time}}</td>
+                                            <td ng-show="isTutorial(v.schedule[0])" class="text-warning" title="Tutorial">{{v.schedule[0].venue}}</td>
+                                            <td ng-hide="isTutorial(v.schedule[0])" >{{v.schedule[0].day}} {{v.schedule[0].time}}</td>
+                                            <td ng-hide="isTutorial(v.schedule[0])" >{{v.schedule[0].venue}}</td>
+                                            <td rowspan="{{ v.schedule.length }}" class="text-center" ng-mouseenter="smglobal.cur_hover_section=v;" ng-mouseleave="smglobal.cur_hover_section=undefined;">
                                                 <div ng-show="!smglobal.section_added(v.section_id)">
-                                                    <div ng-show="!smglobal.has_collide(v)">
+                                                    <div ng-show="!smglobal.has_collide(v,false)">
                                                         <a class="btn btn-default" ng-click="smglobal.replace_section(v,selected_subject)" ng-show="smglobal.subject_added(selected_subject.code)">Replace</a>
                                                         <a class="btn btn-default" ng-click="smglobal.add_section(v)" ng-show="!smglobal.subject_added(selected_subject.code)">Add</a>
                                                     </div>
-                                                    <div ng-show="smglobal.has_collide(v)">
+                                                    <div ng-show="smglobal.has_collide(v,false)">
                                                         <small>
-                                                            Collide with {{smglobal.has_collide(v).code}} section {{smglobal.has_collide(v).section}}
+                                                            Collide with {{smglobal.has_collide(v,false).code}} section {{smglobal.has_collide(v,false).section}}
                                                         </small>
                                                     </div>
                                                 </div>
                                                 <div ng-show="smglobal.section_added(v.section_id)">
                                                     <i class="glyphicon glyphicon-ok" ng-show="smglobal.section_added(v.section_id)"></i>
                                                 </div>
+                                                <div ng-show="!smglobal.has_collide(v,false) && smglobal.has_collide(v,true)">
+                                                    <small>
+                                                        Tutorial collide with {{smglobal.has_collide(v,true).code}} section {{smglobal.has_collide(v,true).section}}
+                                                    </small>
+                                                </div>
                                             </td>
                                         </tr>
+                                        <tr ng-repeat-end ng-repeat="sched in v.schedule" ng-hide="$first" ng-class="smglobal.has_collide(v)?'bg-warning':''">
+                                            <td ng-show="isTutorial(sched)" class="text-warning" title="Tutorial">{{sched.day}} {{v.schedule[0].time}}</td>
+                                            <td ng-show="isTutorial(sched)" class="text-warning" title="Tutorial">{{sched.venue}}</td>
+                                            <td ng-hide="isTutorial(sched)" >{{sched.day}} {{v.schedule[0].time}}</td>
+                                            <td ng-hide="isTutorial(sched)" >{{sched.venue}}</td>
+                                        </tr>
+
                                     </tbody>
                                 </table>
 
