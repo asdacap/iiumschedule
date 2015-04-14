@@ -498,6 +498,12 @@ angular.module('smaker',['ngAnimate','pasvaz.bindonce'])
                 var actualstarthour=8;
                 var actualendhour=20;
 
+                _.each(coursearray,function(course){
+                  _.each(course.schedule,function(schedule){
+                    actualendhour = Math.max(actualendhour, Math.floor(schedule.end));
+                  });
+                });
+
                 var startfminute=actualstarthour*12;
                 var endfminute=actualendhour*12;
 
