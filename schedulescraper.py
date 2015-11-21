@@ -27,6 +27,7 @@ import logging
 import gc
 from datetime import datetime
 from urlparse import urlparse,parse_qsl
+from socket import error as SocketError
 
 import staticsettings
 SOURCE_URL=staticsettings.SCRAPER_SOURCE_URL
@@ -97,6 +98,9 @@ def fetch_schedule_data_callback(session,callback):
     #a queue that is used to not use recursion and improve memory usage
     fetchqueue=[]
 
+    # retry count will decrease until can't retry anymore
+    retry_count = 50
+
     #A function that scan table html
     def scan_it(kulys,sems,ctypes,view=50,):
         param=extraparams.copy()
@@ -127,9 +131,13 @@ def fetch_schedule_data_callback(session,callback):
             scheduletable=BeautifulSoup(request.read())
             request.close()
             fetched.append(theurl)
-        except urllib2.URLError,e:
-            logging.info("Error fetching. Trying again")
-            fetchqueue.append((kulys,sems,ctypes,view),)
+        except (SocketError,urllib2.URLError) as e:
+            if retry_count > 0:
+                logging.info("Error fetching. Trying again")
+                fetchqueue.append((kulys,sems,ctypes,view),)
+                retry_count = retry_count-1
+            else:
+                logging.info("Error fetching. Retry count exceeded")
             return
 
 
