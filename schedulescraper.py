@@ -99,7 +99,8 @@ def fetch_schedule_data_callback(session,callback):
     fetchqueue=[]
 
     # retry count will decrease until can't retry anymore
-    outvar = { 'retry_count' : 50 }
+    retry_count = {}
+    MAX_RETRY_COUNT = 5
 
     #A function that scan table html
     def scan_it(kulys,sems,ctypes,view=50,):
@@ -132,12 +133,14 @@ def fetch_schedule_data_callback(session,callback):
             request.close()
             fetched.append(theurl)
         except (SocketError,urllib2.URLError) as e:
-            if outvar['retry_count'] > 0:
+            if theurl not in retry_count:
+                retry_count[theurl] = 0
+            if retry_count[theurl] >= MAX_RETRY_COUNT:
+                logging.info("Error fetching. Retry count exceeded")
+            else:
                 logging.info("Error fetching. Trying again")
                 fetchqueue.append((kulys,sems,ctypes,view),)
-                outvar['retry_count'] = outvar['retry_count']-1
-            else:
-                logging.info("Error fetching. Retry count exceeded")
+                retry_count[theurl] = retry_count[theurl]+1
             return
 
 
