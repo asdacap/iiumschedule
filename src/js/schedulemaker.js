@@ -299,7 +299,7 @@ angular.module('smaker',['ngAnimate','pasvaz.bindonce'])
         "2015/2016"
     ];
     $scope.available_student_type={ug:'undergraduate',pg:"postgraduate"};
-    $scope.session='2014/2015';
+    $scope.session='2015/2016';
     $scope.student_type='ug';
     $scope.semester=1;
 
