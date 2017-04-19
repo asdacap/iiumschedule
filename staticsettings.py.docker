@@ -22,7 +22,7 @@ along with Automatic IIUM Schedule Formatter.  If not, see <http://www.gnu.org/l
 import os
 import os.path
 
-DB_CONN='postgresql://iiumschedule:iiumschedule@localhost/iiumschedule'
+DB_CONN='postgresql://postgres@db/postgres'
 RECAPTCHA_PUBLIC_KEY=""
 RECAPTCHA_KEY=""
 DEBUG=False
@@ -40,4 +40,4 @@ DEFAULTDATA=open(os.path.join(os.path.dirname(__file__),'defaultdata.json')).rea
 SCRAPER_SOURCE_URL='http://albiruni.iium.edu.my/myapps/StudentOnline/schedule1.php' # use this instead
 
 # What session it will attempt to fetch section data.
-SESSIONS_STILL_UPDATE=['2014/2015']
+SESSIONS_STILL_UPDATE=['2015/2016', '2016/2017', '2017/2018']

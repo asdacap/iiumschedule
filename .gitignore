@@ -6,3 +6,5 @@ output.json
 course_data_updater.log
 staticsettings.py
 node_modules
+.vscode/
+log/

@@ -20,6 +20,7 @@ from flask import Flask, render_template, request, g, jsonify
 from bootstrap import app,db
 from models import SubjectData,SectionData
 import json
+import staticsettings
 @app.route('/schedulemaker/fetch_subject/')
 def fetchsubject():
 	if(set(['session','semester','coursetype']).issubset(request.args.keys()) and [x for x in ['session','semester','coursetype'] if request.args.get(x)!='' ]):
@@ -84,11 +85,14 @@ def fetchsection():
 @app.route('/schedulemaker/')
 def schedulemaker():
         query=False
+	available_sessions = staticsettings.SESSIONS_STILL_UPDATE
 	if(set(['ses','sem','st','code','section']).issubset(request.args.keys()) and [x for x in ['ses','sem','st','code','section'] if request.args.get(x)!='' ]):
             query={}
             for x in ['ses','sem','st','code','section']:
                 query[x]=request.args.get(x)
-        return render_template('schedulemaker.html',query=json.dumps(query))
+        return render_template('schedulemaker.html',
+			query = json.dumps(query),
+			available_sessions = json.dumps(available_sessions))
 
 @app.route('/maker/')
 def schedulemaker_manual():

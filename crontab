@@ -1,0 +1,1 @@
+0 0 * * 0 root python /app/update_course_data.py >> /app/log/cron.log 2>&1

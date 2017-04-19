@@ -1,6 +1,6 @@
 
 module.exports = function(grunt) {
-    
+
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         uglify: {
@@ -34,6 +34,7 @@ module.exports = function(grunt) {
             options: {
                 shadow: true,
                 loopfunc: true,
+                reporterOutput: "",
             },
             all: ['Gruntfile.js','src/*.js','src/js/*.js',]
         },

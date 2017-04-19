@@ -27,5 +27,5 @@ from staticsettings import DEBUG
 bootstrap.app.debug=DEBUG
 
 if(__name__=='__main__'):
-    bootstrap.app.run(debug=True)
+    bootstrap.app.run(host='0.0.0.0')
 

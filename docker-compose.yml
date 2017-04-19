@@ -1,0 +1,20 @@
+version: '2'
+services:
+  main:
+    build: .
+    ports:
+      - "3070:5000"
+    volumes:
+      - log:/app/log/
+  cron:
+    build: .
+    volumes:
+      - log:/app/log/
+    command: start-cron
+  db:
+    image: postgres:9
+    volumes:
+      - database_data:/var/lib/postgresql/data
+volumes:
+  database_data:
+  log:

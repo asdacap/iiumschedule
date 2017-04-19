@@ -139,8 +139,8 @@ angular.module('smaker',['ngAnimate','pasvaz.bindonce'])
                 }
 
                 if(rtimes[3]=="PM" && starttime<12 && endtime<12){ starttime=starttime+12;
-                    endtime=endtime+12; 
-                } 
+                    endtime=endtime+12;
+                }
 
                 obj.starttime=starttime;
                 obj.endtime=endtime;
@@ -294,10 +294,7 @@ angular.module('smaker',['ngAnimate','pasvaz.bindonce'])
 
 }]).controller('startform',['$scope','$http','smglobal','$timeout','$q','$rootScope',function($scope,$http,smglobal,$timeout,$q,$rootScope){
 
-    $scope.available_sessions=[
-        "2014/2015",
-        "2015/2016"
-    ];
+    $scope.available_sessions=AVAILABLE_SESSIONS;
     $scope.available_student_type={ug:'undergraduate',pg:"postgraduate"};
     $scope.session='2015/2016';
     $scope.student_type='ug';
@@ -493,7 +490,7 @@ angular.module('smaker',['ngAnimate','pasvaz.bindonce'])
                 $(element).html(_.template($(scope.template).html())(cdata));
             }
 
-            //This will cause the schedule display to redraw everytime the schedule change 
+            //This will cause the schedule display to redraw everytime the schedule change
             scope.$watch('schedule',redraw);
 
             //convert data gathered from crs into data that can be used by template

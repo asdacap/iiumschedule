@@ -35,9 +35,11 @@ app.config['SQLALCHEMY_DATABASE_URI']=DB_CONN
 app.config['SECRET_KEY']=SESSION_SECRET
 
 db = SQLAlchemy(app)
+import models
+db.create_all()
 
 import logging
-hdlr = logging.FileHandler(os.path.dirname(os.path.realpath(__file__))+'/iiumschedule.log')
+hdlr = logging.FileHandler(os.path.dirname(os.path.realpath(__file__))+'/log/iiumschedule.log')
 formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
 hdlr.setFormatter(formatter)
 app.logger.addHandler(hdlr)
