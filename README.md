@@ -19,7 +19,7 @@ This recently new addition is a single web page application that helps student t
 
 IIUM Course Schedule Scraper
 ----------------------------
-The schedule maker need section data from IIUM server. The schedule formatter also need the section data in order to show the lecturers name in course information table. The section data need to be obtained somehow. This component do exactly that. It basically scrape from http://itdportal.iium.edu.my/student/schedule1.php, format it, then save it into database. Student who have project which include IIUM section data may find this usefull. For more information, see schedulescraper.py
+The schedule maker need section data from IIUM server. The schedule formatter also need the section data in order to show the lecturers name in course information table. The section data need to be obtained somehow. This component do exactly that. It basically scrape from http://albiruni.iium.edu.my/myapps/StudentOnline/schedule1.php, format it, then save it into database. Student who have project which include IIUM section data may find this usefull. For more information, see schedulescraper.py
 
 Hosting
 -------
