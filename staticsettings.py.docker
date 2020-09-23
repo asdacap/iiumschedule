@@ -26,7 +26,7 @@ DB_CONN='postgresql://postgres@db/postgres'
 RECAPTCHA_PUBLIC_KEY=""
 RECAPTCHA_KEY=""
 DEBUG=False
-SESSION_SECRET='lkjadskncaoswljca'
+SESSION_SECRET='anythingsecret'
 
 # username/password for /admin endpoint
 LOGIN_USERNAME='admin'
