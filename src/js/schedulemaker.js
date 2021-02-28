@@ -71,7 +71,7 @@ angular.module('smaker',['ngAnimate','pasvaz.bindonce'])
                     return false;
                 }
                 if(s1.day==s2.day &&
-                    ( (s1.end <= s2.end && s1.end > s2.start) || (s1.start >= s2.start && s1.start < s2.end) )
+                    ( (s1.start <= s2.start && s2.start < s1.end) || (s2.start <= s1.start && s1.start < s2.end) )
                 ){
                     return true;
                 }
