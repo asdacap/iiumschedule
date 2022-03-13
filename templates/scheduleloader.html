@@ -82,7 +82,7 @@ body,#messagediv table,#maindiv>div,#previewiframe{
       if(!window.location.origin){
           window.location.origin=window.location.protocol + "//" + window.location.host;
       }
-      $.get(window.location.origin+"/scheduleloader?ctoken={{token}}&test=1",function(reply){
+      $.get(window.location.origin+"/scheduleloader/?ctoken={{token}}&test=1",function(reply){
     	if(reply=="true"){
     	    $("#loadingdiv").slideUp(1000);
     	    $("#messagediv").slideDown(1000);
