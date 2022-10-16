@@ -40,4 +40,4 @@ DEFAULTDATA=open(os.path.join(os.path.dirname(__file__),'defaultdata.json')).rea
 SCRAPER_SOURCE_URL='http://albiruni.iium.edu.my/myapps/StudentOnline/schedule1.php' # use this instead
 
 # What session it will attempt to fetch section data.
-SESSIONS_STILL_UPDATE=['2019/2020', '2020/2021', '2021/2022']
+SESSIONS_STILL_UPDATE=['2020/2021', '2021/2022', '2022/2023']
